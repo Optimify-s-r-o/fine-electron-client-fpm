@@ -1,0 +1,131 @@
+{
+  "name": "fine-electron-client-fpm",
+  "main": "public/electron.js",
+  "homepage": "./",
+  "productName": "Fine Project Manager",
+  "description": "Fine Project Manager",
+  "version": "0.0.1",
+  "private": true,
+  "dependencies": {
+    "@testing-library/jest-dom": "^5.16.2",
+    "@testing-library/react": "^12.1.4",
+    "@testing-library/user-event": "^13.5.0",
+    "react": "^17.0.2",
+    "react-dom": "^17.0.2",
+    "react-scripts": "5.0.0",
+    "web-vitals": "^2.1.4"
+  },
+  "devDependencies": {
+    "concurrently": "^7.0.0",
+    "electron": "^17.1.2",
+    "electron-builder": "^22.14.13",
+    "electron-devtools-installer": "^3.2.0",
+    "electron-is-dev": "^2.0.0",
+    "env-cmd": "^10.1.0",
+    "wait-on": "^6.0.1"
+  },
+  "scripts": {
+    "start": "env-cmd -f .env.prod react-scripts start",
+    "start:local": "env-cmd -f .env.local react-scripts start",
+    "build": "env-cmd -f .env.prod react-scripts build",
+    "build:dev": "env-cmd -f .env.dev react-scripts build",
+    "build:prod": "env-cmd -f .env.prod react-scripts build",
+    "test": "react-scripts test",
+    "eject": "react-scripts eject",
+    "dev": "concurrently -k \"npm start\" \"npm:electron\"",
+    "electron": "wait-on tcp:3000 && electron .",
+    "release": "npm run build:prod && electron-builder build --win -p always",
+    "release:dev": "npm run build:dev && electron-builder build --win -p always"
+  },
+  "build": {
+    "artifactName": "${productName}-Setup-${version}.${ext}",
+    "appId": "org.common.tpm",
+    "copyright": "Copyright © 2018-2022 Optimify s.r.o.",
+    "files": [
+      "build/**/*",
+      "node_modules/**/*",
+      "./public/**/*"
+    ],
+    "dmg": {
+      "contents": [
+        {
+          "x": 130,
+          "y": 220
+        },
+        {
+          "x": 410,
+          "y": 220,
+          "type": "link",
+          "path": "/Applications"
+        }
+      ]
+    },
+    "publish": [
+      {
+        "provider": "github",
+        "owner": "Optimify-s-r-o",
+        "repo": "fine-project-manager",
+        "releaseType": "draft"
+      }
+    ],
+    "win": {
+      "artifactName": "Fine Project Manager Setup ${version}.${ext}",
+      "target": [
+        {
+          "target": "nsis",
+          "arch": [
+            "x64",
+            "ia32"
+          ]
+        }
+      ],
+      "publish": [
+        "github"
+      ],
+      "icon": "./public/icon.ico"
+    },
+    "nsis": {
+      "artifactName": "${productName}-Setup-${version}.${ext}",
+      "include": "resources/installer-prod.nsh",
+      "warningsAsErrors": false,
+      "shortcutName": "Truss Project Manager",
+      "oneClick": false,
+      "perMachine": true,
+      "allowElevation": true,
+      "allowToChangeInstallationDirectory": true,
+      "createDesktopShortcut": true,
+      "deleteAppDataOnUninstall": true,
+      "createStartMenuShortcut": true
+    },
+    "directories": {
+      "buildResources": "public"
+    }
+  },
+  "eslintConfig": {
+    "extends": [
+      "react-app",
+      "react-app/jest"
+    ]
+  },
+  "browserslist": {
+    "production": [
+      ">0.2%",
+      "not dead",
+      "not op_mini all"
+    ],
+    "development": [
+      "last 1 chrome version",
+      "last 1 firefox version",
+      "last 1 safari version"
+    ]
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/Optimify-s-r-o/fine-electron-client-fpm"
+  },
+  "author": {
+    "name": "Optimify s.r.o.",
+    "email": "dev@optimify.cz",
+    "url": "https://optimify.cz"
+  }
+}

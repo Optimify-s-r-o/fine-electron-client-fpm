@@ -2,13 +2,6 @@ import styled from "styled-components";
 import {Center, Column, SpaceBetween} from "constants/globalStyles";
 import {Link as ReactRouterLink} from "react-router-dom";
 
-export const FineWrapper = styled(Center)``
-
-export const Fine = styled.img`
-  max-width: 100px;
-  height: auto;
-`
-
 export const Wrapper = styled(Center)`
   background-color: rgb(243, 241, 241);
   min-height: 100vh;
@@ -56,7 +49,7 @@ export const LanguageWrapper = styled(Column)`
   top: 50px;
 `
 
-export const Language = styled(Center)<{active: boolean}>`
+export const Language = styled(Center)<{active: number}>`
   width: 60px;
   height: 50px;
   
@@ -80,7 +73,7 @@ export const Language = styled(Center)<{active: boolean}>`
 }
 `
 
-export const Link = styled(ReactRouterLink)<{active: boolean}>`
+export const Link = styled(ReactRouterLink)<{active: number}>`
 	position: relative;
 	display: block;
 	border-radius: 3px 3px 0 0;

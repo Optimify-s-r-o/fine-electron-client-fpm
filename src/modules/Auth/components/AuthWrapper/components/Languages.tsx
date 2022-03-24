@@ -10,7 +10,7 @@ export const Languages = () => {
     }
 
     return (<S.LanguageWrapper>
-        <S.Language active={i18n.language==="cs"} onClick={()=>changeLanguage('cs')}>
+        <S.Language active={i18n.language==="cs" ? 1 : 0} onClick={()=>changeLanguage('cs')}>
             <ReactCountryFlag
                 countryCode="CZ"
                 svg
@@ -19,7 +19,7 @@ export const Languages = () => {
                 }}
             />
         </S.Language>
-        <S.Language  active={i18n.language==="en"} onClick={()=>changeLanguage('en')}>
+        <S.Language  active={i18n.language==="en" ? 1 : 0} onClick={()=>changeLanguage('en')}>
             <ReactCountryFlag
                 countryCode="GB"
                 svg

@@ -22,6 +22,7 @@ export const Title = styled.h1`
   font-size: 2.5em;
   color: ${props => props.theme.text.primary};
   font-weight: 500;
+  margin-top: 0;
 `;
 
 export const ExternalLink = styled.span`

@@ -12,6 +12,8 @@ declare module "*.png" {
 
 export interface IElectronAPI {
     openWebBrowser: (url:string) => Promise<void>,
+    on: (eventName, callback) => any;
+    invoke: (eventName) => Promise<any>;
 }
 
 declare global {

@@ -1,5 +1,5 @@
 const path = require('path')
-const { app, BrowserWindow } = require('electron')
+const { app, BrowserWindow, ipcMain} = require('electron')
 const isDev = require("electron-is-dev");
 const { default: installExtension, REACT_DEVELOPER_TOOLS } = require('electron-devtools-installer');
 
@@ -8,7 +8,6 @@ function createWindow () {
         icon: __dirname + '/favicon.ico',
         'minWidth': 900,
         'minHeight': 1000,
-        'autoHideMenuBar': true,
         'webPreferences': {
             preload: path.join(__dirname, 'preload.js')
         }
@@ -20,6 +19,7 @@ function createWindow () {
             : `file://${path.join(__dirname, "../build/index.html")}`
     );
 
+    win.setMenuBarVisibility(false);
 }
 
 app.whenReady().then(async ()=>{
@@ -39,3 +39,6 @@ app.on('activate', () => {
     }
 })
 
+ipcMain.handle('APP_VERSION', async (event, ...args) => {
+    return app.getVersion()
+});

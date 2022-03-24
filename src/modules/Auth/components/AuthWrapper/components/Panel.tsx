@@ -16,7 +16,7 @@ export const Panel = () => {
             <>
                 <S.Link
                     to={RoutesPath.SIGN_IN_CLOUD}
-                    active={!!matchPath(pathname, RoutesPath.SIGN_IN_CLOUD)}
+                    active={!!matchPath(pathname, RoutesPath.SIGN_IN_CLOUD) ? 1 : 0}
                 >
                     <FontAwesomeIcon icon={faCloud}/>
                     <Enviroment>
@@ -25,7 +25,7 @@ export const Panel = () => {
                 </S.Link>
                 <S.Link
                     to={RoutesPath.SIGN_IN_LOCAL}
-                    active={!!matchPath(pathname, RoutesPath.SIGN_IN_LOCAL)}
+                    active={!!matchPath(pathname, RoutesPath.SIGN_IN_LOCAL) ? 1 : 0}
                 >
                     <FontAwesomeIcon icon={faServer}/>
                     <Enviroment>

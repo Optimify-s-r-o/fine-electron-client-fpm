@@ -1,7 +1,7 @@
 import {AuthWrapper} from "../../components/AuthWrapper";
 import * as S from "../../styled";
 import {ExternalLink} from "../../styled";
-import {ColumnTextInput} from "../../../../components/Form/Input/ColumnTextInput";
+import {TextInput} from "../../../../components/Form/Input/Text/TextInput";
 import {Link} from "../../../../components/Link";
 import {createRoute} from "../../../../utils/createRoute";
 import {RoutesPath} from "../../../../constants/routes";
@@ -10,6 +10,7 @@ import {Button} from "../../../../components/Form/Button";
 import {useTranslation} from "react-i18next";
 import {UseFormHandleSubmit, UseFormRegister} from "react-hook-form";
 import {SignInInput} from "../index";
+import {PasswordInput} from "../../../../components/Form/Input/Password";
 
 export const SinInForm = ({
                               onSubmit, handleSubmit, register
@@ -32,10 +33,10 @@ export const SinInForm = ({
             </S.CreateNewUserWrapper>
 
             <S.Form onSubmit={handleSubmit(onSubmit)}>
-                <ColumnTextInput name={"server"} register={register} title={t("form:input.server")}/>
-                <ColumnTextInput name={"email"} register={register} title={t("form:input.email")}/>
-                <ColumnTextInput name={"password"} register={register} title={t("form:input.password")}
-                                 rightNode={<Link to={createRoute(RoutesPath.RESET_PASSWORD)}
+                <TextInput name={"server"} register={register} title={t("form:input.server")}/>
+                <TextInput name={"email"} register={register} title={t("form:input.email")}/>
+                <PasswordInput name={"password"} register={register} title={t("form:input.password")}
+                           rightNode={<Link to={createRoute(RoutesPath.RESET_PASSWORD)}
                                                   title={t("auth:signIn.forgotPassword")}/>}/>
                 <RowEnd><Button loading={false} withMargin>{t("form:button.signIn")}</Button></RowEnd>
             </S.Form>

@@ -1,13 +1,16 @@
+const path = require('path')
 const { app, BrowserWindow } = require('electron')
 const isDev = require("electron-is-dev");
-const devtools = require("electron-devtools-installer");
+const { default: installExtension, REACT_DEVELOPER_TOOLS } = require('electron-devtools-installer');
 
 function createWindow () {
     const win = new BrowserWindow({
-        width: 800,
-        height: 600,
-        webPreferences: {
-            nodeIntegration: true
+        icon: __dirname + '/favicon.ico',
+        'minWidth': 900,
+        'minHeight': 1000,
+        'autoHideMenuBar': true,
+        'webPreferences': {
+            preload: path.join(__dirname, 'preload.js')
         }
     })
 
@@ -17,11 +20,12 @@ function createWindow () {
             : `file://${path.join(__dirname, "../build/index.html")}`
     );
 
-    const installExtension = devtools.default;
-    const REACT_DEVELOPER_TOOLS = devtools.REACT_DEVELOPER_TOOLS;
 }
 
-app.whenReady().then(createWindow)
+app.whenReady().then(async ()=>{
+    createWindow();
+    await installExtension(REACT_DEVELOPER_TOOLS);
+})
 
 app.on('window-all-closed', () => {
     if (process.platform !== 'darwin') {

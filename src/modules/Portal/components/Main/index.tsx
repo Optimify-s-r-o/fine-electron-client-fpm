@@ -4,10 +4,10 @@ import * as S from "./styled";
 export const Main = () => {
     return (
         <S.Wrapper>
-            <section>
+            <S.MainSection>
                 <Tabs/>
                 Main
-            </section>
+            </S.MainSection>
         </S.Wrapper>
     )
 }

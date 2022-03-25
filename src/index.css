@@ -14,3 +14,16 @@ code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
   monospace;
 }
+
+.sortable-item {
+  pointer-events: auto !important;
+}
+
+.sortable-container > .sortable-item:hover {
+  cursor: grab;
+}
+
+body > .sortable-item:hover {
+  cursor: grabbing;
+  background-color: #eeeeee;
+}

@@ -7,11 +7,11 @@ import {darkTheme, lightTheme} from "./constants/theme";
 import {ThemeProvider} from "styled-components";
 import './translations/i18n';
 
-ReactDOM.render(<React.StrictMode>
+ReactDOM.render(
     <BrowserRouter>
         <ThemeProvider theme={true ?  lightTheme : darkTheme}>
         <App/>
         </ThemeProvider>
     </BrowserRouter>
-</React.StrictMode>, document.getElementById('root'));
+, document.getElementById('root'));
 

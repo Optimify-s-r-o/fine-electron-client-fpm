@@ -80,7 +80,7 @@ export const ResizablePanel = ({children, initialSize, direction, minSize, maxSi
                 element.removeEventListener("mousedown", mouseDown);
             }
         };
-    }, []);
+    }, [afterResize, direction, maxSize, minSize, styleKey]);
 
     return (
         <Wrapper direction={direction}>

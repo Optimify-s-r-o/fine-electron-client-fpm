@@ -63,38 +63,13 @@ const Icon = styled.div<{ isActive?: boolean }>`
     font-size: 20px;
     color: ${(props) => props.theme.panel.default};
   }
-
-  &:hover {
-    &:before {
-      content: '';
-      position: absolute;
-      background-color: ${props => props.theme.panel.hover};
-      width: 8px;
-      height: 30px;
-      border-radius: 5px;
-      top: 9px;
-      bottom: 0;
-      left: -3px;
-    }
-  }
-
+  
   &:hover svg {
     color: ${(props) => props.theme.panel.hover};
   }
 
 
   ${(props) => props.isActive && `
-      &:before{
-          content: '';
-          position: absolute;
-          background-color: ${props.theme.panel.hover};
-          width: 8px;
-          height: 30px;
-          border-radius: 5px;
-          top: 9px;
-          bottom: 0;
-          left: -3px;
-    }
     
       svg {
           color: ${props.theme.panel.hover};

@@ -10,7 +10,6 @@ import {
     faDatabase,
     faFolder,
     faFolderPlus,
-    faFolderTree,
     faHomeLgAlt,
     faSuitcase,
     faUserPlus,

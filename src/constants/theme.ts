@@ -80,6 +80,9 @@ export const lightTheme = {
 		default: "rgb(153, 153, 153)",
 		hover: "#008033",
 	},
+	sortablePanel: {
+		default: "#f8f8f8",
+	},
 	navigation: {
 		hover: "#f7f7f7",
 	},

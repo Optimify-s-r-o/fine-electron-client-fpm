@@ -1,5 +1,5 @@
 const path = require('path')
-const { app, BrowserWindow, ipcMain} = require('electron')
+const { app, BrowserWindow, ipcMain, screen} = require('electron')
 const isDev = require("electron-is-dev");
 const { default: installExtension, REACT_DEVELOPER_TOOLS } = require('electron-devtools-installer');
 
@@ -11,7 +11,7 @@ function createWindow () {
         'webPreferences': {
             preload: path.join(__dirname, 'preload.js')
         }
-    })
+    });
 
     win.loadURL(
         isDev
@@ -29,16 +29,21 @@ app.whenReady().then(async ()=>{
 
 app.on('window-all-closed', () => {
     if (process.platform !== 'darwin') {
-        app.quit()
+        app.quit();
     }
 })
 
 app.on('activate', () => {
     if (BrowserWindow.getAllWindows().length === 0) {
-        createWindow()
+        createWindow();
     }
 })
 
 ipcMain.handle('APP_VERSION', async (event, ...args) => {
-    return app.getVersion()
+    return app.getVersion();
+});
+
+ipcMain.handle('MAXIMIZE_WINDOW', async (event, ...args) => {
+    const browserWindow = BrowserWindow.fromWebContents(event.sender);
+    browserWindow.maximize();
 });

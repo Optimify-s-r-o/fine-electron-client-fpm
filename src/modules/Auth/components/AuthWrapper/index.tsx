@@ -1,7 +1,6 @@
 import * as S from "./styled";
 import {PoweredBy} from "components/PoweredBy";
-import {ReactNode, useEffect, useState} from "react";
-import fine from "../assets/fine.png";
+import {ReactNode, useState} from "react";
 import {useTranslation} from "react-i18next";
 import {Panel} from "./components/Panel";
 import {Languages} from "./components/Languages";
@@ -15,7 +14,7 @@ export const AuthWrapper = ({children}: { children: ReactNode }) => {
     useEffectAsync( async () => {
            const appVersion = await window.API.invoke("APP_VERSION");
            setVersion(appVersion)
-    }, [] );
+    });
     return (
         <S.Wrapper>
             <S.Border>

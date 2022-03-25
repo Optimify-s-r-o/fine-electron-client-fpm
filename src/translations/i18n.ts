@@ -4,17 +4,20 @@ import detector from "i18next-browser-languagedetector";
 import cs_auth from './dictionary/cs/auth.json';
 import cs_common from './dictionary/cs/common.json';
 import cs_form from './dictionary/cs/form.json';
+import cs_portal from './dictionary/cs/portal.json';
 
 const resources = {
     cs: {
         auth: cs_auth,
         common: cs_common,
         form: cs_form,
+        portal: cs_portal,
     },
     en: {
         auth: cs_auth,
         common: cs_common,
         form: cs_form,
+        portal: cs_portal,
     }
 };
 

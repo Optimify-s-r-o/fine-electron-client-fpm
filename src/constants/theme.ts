@@ -73,6 +73,15 @@ export const lightTheme = {
 		white: "#fff",
 		orange: "#F47b20",
 	},
+	border: {
+		default: "#eeeeee",
+	},
+	panel:{
+		icon: "rgb(153, 153, 153)",
+	},
+	navigation: {
+		hover: "#f7f7f7",
+	},
 	background: {
 		environment: {
 			default: "#f1f1f1",
@@ -108,7 +117,7 @@ export const lightTheme = {
 			content: "#fff",
 			contentSecondary: "#fcfcfc",
 			menu: "#f6f6f6",
-			secondaryMenu: "#f9f9f9",
+			secondaryMenu: "#f8f8f8",
 			darker: "#ccc",
 			lightGray: "#e4e4e45c",
 			primary: {

@@ -77,7 +77,8 @@ export const lightTheme = {
 		default: "#eeeeee",
 	},
 	panel:{
-		icon: "rgb(153, 153, 153)",
+		default: "rgb(153, 153, 153)",
+		hover: "#008033",
 	},
 	navigation: {
 		hover: "#f7f7f7",

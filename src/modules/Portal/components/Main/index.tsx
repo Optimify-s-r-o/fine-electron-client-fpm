@@ -1,10 +1,13 @@
+import {Tabs} from "./components/Tabs";
+import * as S from "./styled";
+
 export const Main = () => {
     return (
-        <main>
+        <S.Wrapper>
             <section>
+                <Tabs/>
                 Main
             </section>
-        </main>
+        </S.Wrapper>
     )
-
 }

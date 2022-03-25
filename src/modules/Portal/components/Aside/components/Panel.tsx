@@ -1,31 +1,30 @@
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import styled from "styled-components";
 import ReactTooltip from "react-tooltip";
+import {IconDefinition} from "@fortawesome/pro-duotone-svg-icons";
 
-export const Panel = ({sections}: { sections: any }) => {
-    return (
-        <div>
+export type PanelItem = {
+    icon: IconDefinition, tooltip: string; isActive: boolean; callback: () => void;
+}
+
+export const Panel = ({sections}: { sections: PanelItem[] }) => {
+    return (<div>
             <Sections>
                 <ReactTooltip/>
-                {sections?.map((section: any, key: number) => {
-                    return (
-                        <SectionWrapper
+                {sections.map((item: PanelItem, key: number) => {
+                    return (<SectionWrapper
                             key={key}
-                            onClick={(e: React.MouseEvent<HTMLElement>) => {
-                                section.callback(e);
-                            }}
+                            onClick={() => item.callback()}
                         >
-                            <Icon>
-                                <p data-tip={section.tooltip}>
-                                    <FontAwesomeIcon icon={section.icon}/>
+                            <Icon isActive={item.isActive}>
+                                <p data-tip={item.tooltip}>
+                                    <FontAwesomeIcon icon={item.icon}/>
                                 </p>
                             </Icon>
-                        </SectionWrapper>
-                    );
+                        </SectionWrapper>);
                 })}
             </Sections>
-        </div>
-    )
+        </div>)
 }
 
 
@@ -34,7 +33,7 @@ const Sections = styled.div`
   flex-direction: column;
   width: 48px;
 
-  height: calc(100vh - 30px);
+  height: calc(100vh - 32px);
 
   background-color: ${(props) => props.theme.colors.background.secondaryMenu};
   border-right: 1px solid ${(props) => props.theme.border.default};
@@ -48,7 +47,7 @@ const SectionWrapper = styled.div`
 
 `
 
-const Icon = styled.div`
+const Icon = styled.div<{ isActive?: boolean }>`
   position: absolute;
 
   display: flex;
@@ -62,7 +61,45 @@ const Icon = styled.div`
 
   svg {
     font-size: 20px;
-    color: ${(props) => props.theme.panel.icon};
+    color: ${(props) => props.theme.panel.default};
   }
-  
+
+  &:hover {
+    &:before {
+      content: '';
+      position: absolute;
+      background-color: ${props => props.theme.panel.hover};
+      width: 8px;
+      height: 30px;
+      border-radius: 5px;
+      top: 9px;
+      bottom: 0;
+      left: -3px;
+    }
+  }
+
+  &:hover svg {
+    color: ${(props) => props.theme.panel.hover};
+  }
+
+
+  ${(props) => props.isActive && `
+      &:before{
+          content: '';
+          position: absolute;
+          background-color: ${props.theme.panel.hover};
+          width: 8px;
+          height: 30px;
+          border-radius: 5px;
+          top: 9px;
+          bottom: 0;
+          left: -3px;
+    }
+    
+      svg {
+          color: ${props.theme.panel.hover};
+      }
+         `
+    }
+
 `;

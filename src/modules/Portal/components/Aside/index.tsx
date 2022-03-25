@@ -1,15 +1,7 @@
 import {Row} from "constants/globalStyles";
 import {Panel} from "./components/Panel";
 import {Tree} from "./components/Tree";
-import {
-    faBookUser,
-    faCog,
-    faFolderPlus,
-    faFolderTree,
-    faSearch,
-    faSuitcase,
-    faUserPlus, faUsers,
-} from "@fortawesome/pro-duotone-svg-icons";
+import {faBookUser, faCog, faSearch, faUsers,} from "@fortawesome/pro-duotone-svg-icons";
 import {useTranslation} from "react-i18next";
 import {faFolders} from "@fortawesome/pro-duotone-svg-icons/faFolders";
 
@@ -22,27 +14,37 @@ export const Aside = () => {
                     {
                         icon: faSearch,
                         tooltip: t("portal:menu.search"),
-                        isActive: false
+                        isActive: true,
+                        callback: () => {
+                        }
                     },
                     {
                         icon: faFolders,
                         tooltip: t("portal:menu.listOfProjects"),
-                        isActive: true
+                        isActive: false,
+                        callback: () => {
+                        }
                     },
                     {
                         icon: faBookUser,
                         tooltip: t("portal:menu.listOfCustomers"),
-                        isActive: true
+                        isActive: false,
+                        callback: () => {
+                        }
                     },
                     {
                         icon: faUsers,
                         tooltip: t("portal:menu.listOfUsers"),
-                        isActive: true
+                        isActive: false,
+                        callback: () => {
+                        }
                     },
                     {
                         icon: faCog,
                         tooltip: t("portal:menu.settings"),
-                        isActive: true
+                        isActive: false,
+                        callback: () => {
+                        }
                     },
                 ]}/>
                 <Tree/>

@@ -13,7 +13,6 @@ export const Column = styled.div`
 
 export const Row = styled(Flex)`
   flex-direction: row;
-  align-items: center;
 `;
 
 export const ColumnStart = styled(Flex)`

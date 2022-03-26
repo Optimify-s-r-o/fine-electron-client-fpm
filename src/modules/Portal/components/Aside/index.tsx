@@ -4,12 +4,13 @@ import {Tree} from "./components/Tree";
 import {faBookUser, faCog, faSearch, faUsers,} from "@fortawesome/pro-duotone-svg-icons";
 import {useTranslation} from "react-i18next";
 import {faFolders} from "@fortawesome/pro-duotone-svg-icons/faFolders";
+import styled from "styled-components";
 
 export const Aside = () => {
     const {t} = useTranslation(['portal']);
     return (
         <aside>
-            <Row>
+            <RowWrapper>
                 <Panel sections={[
                     {
                         icon: faSearch,
@@ -48,7 +49,11 @@ export const Aside = () => {
                     },
                 ]}/>
                 <Tree/>
-            </Row>
+            </RowWrapper>
         </aside>
     )
 }
+
+const RowWrapper = styled(Row)`
+  height: 100%;
+`

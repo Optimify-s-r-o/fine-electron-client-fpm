@@ -5,7 +5,9 @@
 		"server": "Lokální server"
 	},
 	"button": {
-		"signIn": "Přihlásit se"
+		"signIn": "Přihlásit se",
+		"save": "Uložiz změny",
+		"createProject": "Vytvořit projekt"
 	}
 
 }

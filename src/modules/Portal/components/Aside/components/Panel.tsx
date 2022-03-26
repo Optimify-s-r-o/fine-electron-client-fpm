@@ -8,7 +8,7 @@ export type PanelItem = {
 }
 
 export const Panel = ({sections}: { sections: PanelItem[] }) => {
-    return (<div>
+    return (
             <Sections>
                 <ReactTooltip/>
                 {sections.map((item: PanelItem, key: number) => {
@@ -24,7 +24,7 @@ export const Panel = ({sections}: { sections: PanelItem[] }) => {
                         </SectionWrapper>);
                 })}
             </Sections>
-        </div>)
+        )
 }
 
 
@@ -33,7 +33,7 @@ const Sections = styled.div`
   flex-direction: column;
   width: 48px;
 
-  height: calc(100vh - 32px);
+  height: 100%;
 
   background-color: ${(props) => props.theme.colors.background.secondaryMenu};
   border-right: 1px solid ${(props) => props.theme.border.default};

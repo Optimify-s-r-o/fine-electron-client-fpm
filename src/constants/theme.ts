@@ -66,6 +66,15 @@ export interface Theme {
 }
 
 export const lightTheme = {
+	common: {
+		content: "#fff",
+		contentSecondary: "#fcfcfc",
+		menu: "#f6f6f6",
+		secondaryMenu: "#f8f8f8",
+		darker: "#ccc",
+		lightGray: "#e4e4e45c",
+		contentText: "#000",
+	},
 	text: {
 		primary: "#008033",
 		gray: "#696969",
@@ -82,6 +91,16 @@ export const lightTheme = {
 	},
 	sortablePanel: {
 		default: "#f8f8f8",
+	},
+	header: {
+		default: "rgba(211,211,211,0.59)",
+		color: "#5b5b5b"
+	},
+	footer: {
+		default: "#f8f8f8"
+	},
+	main:{
+		default: "rgb(252, 252, 252)"
 	},
 	navigation: {
 		hover: "#f7f7f7",
@@ -159,6 +178,7 @@ export const lightTheme = {
 	boxShadowSharpActive:
 		"0 2px 16px 1px rgba(0, 0, 0, 0.2), 0px 2px 12px -1px rgba(0,0,0,0.75)",
 };
+
 
 export const darkTheme = {
 	text: {

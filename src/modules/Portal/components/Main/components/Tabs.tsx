@@ -38,7 +38,7 @@ export const Tabs = () => {
 const Wrapper = styled(Row)`
   background-color: ${(props) => props.theme.sortablePanel.default};
 
-  height: 30px;
+  height: 3%;
   width: 100%;
 `
 
@@ -83,7 +83,7 @@ const Tab = styled(SpaceBetween)`
     cursor: pointer;
   }
 
-  svg:hover {
+  svg:nth-child(2):hover {
     color: #000;
     border-radius: 10px;
     background-color: #e3e3e3;

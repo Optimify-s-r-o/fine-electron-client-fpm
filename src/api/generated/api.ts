@@ -171,6 +171,12 @@ export interface JobCreateRequest {
      */
     'application'?: string | null;
     /**
+     * Extension of file in case job is openable  If job is not openable in any programm, value is null
+     * @type {string}
+     * @memberof JobCreateRequest
+     */
+    'applicationFileExtension'?: string | null;
+    /**
      * Attributes of job
      * @type {Array<JobAttributeDto>}
      * @memberof JobCreateRequest
@@ -249,6 +255,12 @@ export interface JobDto {
      * @memberof JobDto
      */
     'isOpenable'?: boolean;
+    /**
+     * Extension of file in case job is openable  If job is not openable in any programm, value is null
+     * @type {string}
+     * @memberof JobDto
+     */
+    'applicationFileExtension'?: string | null;
     /**
      * Attributes of job
      * @type {Array<JobAttributeDto>}
@@ -353,6 +365,12 @@ export interface JobUpdateRequest {
      * @memberof JobUpdateRequest
      */
     'description'?: string | null;
+    /**
+     * Extension of file in case job is openable  If job is not openable in any programm, value is null
+     * @type {string}
+     * @memberof JobUpdateRequest
+     */
+    'applicationFileExtension'?: string | null;
     /**
      * Project id attribute
      * @type {string}
@@ -542,19 +560,70 @@ export interface SignInRequest {
 /**
  * Request for uploading attachment file
  * @export
- * @interface UploadProjectAttachementRequest
+ * @interface UploadJobAttachmentRequest
  */
-export interface UploadProjectAttachementRequest {
+export interface UploadJobAttachmentRequest {
     /**
      * Entity id
      * @type {string}
-     * @memberof UploadProjectAttachementRequest
+     * @memberof UploadJobAttachmentRequest
+     */
+    'jobId'?: string;
+    /**
+     * Name of file, including extension, in http encoded format
+     * @type {string}
+     * @memberof UploadJobAttachmentRequest
+     */
+    'fileName'?: string | null;
+}
+/**
+ * Request for uploading runnable file
+ * @export
+ * @interface UploadJobOpenableFileRequest
+ */
+export interface UploadJobOpenableFileRequest {
+    /**
+     * Entity id
+     * @type {string}
+     * @memberof UploadJobOpenableFileRequest
+     */
+    'jobId'?: string;
+}
+/**
+ * Request for uploading attachment file
+ * @export
+ * @interface UploadJobPreviewRequest
+ */
+export interface UploadJobPreviewRequest {
+    /**
+     * Entity id
+     * @type {string}
+     * @memberof UploadJobPreviewRequest
+     */
+    'jobId'?: string;
+    /**
+     * Name of file, including extension, in http encoded format
+     * @type {string}
+     * @memberof UploadJobPreviewRequest
+     */
+    'fileName'?: string | null;
+}
+/**
+ * Request for uploading attachment file
+ * @export
+ * @interface UploadProjectAttachmentRequest
+ */
+export interface UploadProjectAttachmentRequest {
+    /**
+     * Entity id
+     * @type {string}
+     * @memberof UploadProjectAttachmentRequest
      */
     'projectId'?: string;
     /**
      * Name of file, including extension, in http encoded format
      * @type {string}
-     * @memberof UploadProjectAttachementRequest
+     * @memberof UploadProjectAttachmentRequest
      */
     'fileName'?: string | null;
 }
@@ -731,6 +800,84 @@ export const JobsApiAxiosParamCreator = function (configuration?: Configuration)
         },
         /**
          * 
+         * @summary Get links for all attachments saved under job
+         * @param {string} id 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        fineProjectManagerApiJobsIdAttachmentsGet: async (id: string, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
+            // verify required parameter 'id' is not null or undefined
+            assertParamExists('fineProjectManagerApiJobsIdAttachmentsGet', 'id', id)
+            const localVarPath = `/fine-project-manager/api/jobs/{id}/attachments`
+                .replace(`{${"id"}}`, encodeURIComponent(String(id)));
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+
+            const localVarRequestOptions = { method: 'GET', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+
+            // authentication Bearer required
+            await setApiKeyToObject(localVarHeaderParameter, "Authorization", configuration)
+
+
+    
+            setSearchParams(localVarUrlObj, localVarQueryParameter);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+
+            return {
+                url: toPathString(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
+        /**
+         * 
+         * @summary Delete specific attachment file under job
+         * @param {string} id 
+         * @param {string} key 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        fineProjectManagerApiJobsIdAttachmentsKeyDelete: async (id: string, key: string, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
+            // verify required parameter 'id' is not null or undefined
+            assertParamExists('fineProjectManagerApiJobsIdAttachmentsKeyDelete', 'id', id)
+            // verify required parameter 'key' is not null or undefined
+            assertParamExists('fineProjectManagerApiJobsIdAttachmentsKeyDelete', 'key', key)
+            const localVarPath = `/fine-project-manager/api/jobs/{id}/attachments/{key}`
+                .replace(`{${"id"}}`, encodeURIComponent(String(id)))
+                .replace(`{${"key"}}`, encodeURIComponent(String(key)));
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+
+            const localVarRequestOptions = { method: 'DELETE', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+
+            // authentication Bearer required
+            await setApiKeyToObject(localVarHeaderParameter, "Authorization", configuration)
+
+
+    
+            setSearchParams(localVarUrlObj, localVarQueryParameter);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+
+            return {
+                url: toPathString(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
+        /**
+         * 
          * @summary Delete entity with given id.  Throw error if entity not exists
          * @param {string} id Entity id
          * @param {*} [options] Override http request option.
@@ -786,6 +933,158 @@ export const JobsApiAxiosParamCreator = function (configuration?: Configuration)
             }
 
             const localVarRequestOptions = { method: 'GET', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+
+            // authentication Bearer required
+            await setApiKeyToObject(localVarHeaderParameter, "Authorization", configuration)
+
+
+    
+            setSearchParams(localVarUrlObj, localVarQueryParameter);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+
+            return {
+                url: toPathString(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
+        /**
+         * 
+         * @summary Delete job openable file
+         * @param {string} id 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        fineProjectManagerApiJobsIdOpenableFileDelete: async (id: string, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
+            // verify required parameter 'id' is not null or undefined
+            assertParamExists('fineProjectManagerApiJobsIdOpenableFileDelete', 'id', id)
+            const localVarPath = `/fine-project-manager/api/jobs/{id}/openable-file`
+                .replace(`{${"id"}}`, encodeURIComponent(String(id)));
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+
+            const localVarRequestOptions = { method: 'DELETE', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+
+            // authentication Bearer required
+            await setApiKeyToObject(localVarHeaderParameter, "Authorization", configuration)
+
+
+    
+            setSearchParams(localVarUrlObj, localVarQueryParameter);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+
+            return {
+                url: toPathString(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
+        /**
+         * 
+         * @summary Get links for all attachments saved under project
+         * @param {string} id 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        fineProjectManagerApiJobsIdOpenableFileGet: async (id: string, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
+            // verify required parameter 'id' is not null or undefined
+            assertParamExists('fineProjectManagerApiJobsIdOpenableFileGet', 'id', id)
+            const localVarPath = `/fine-project-manager/api/jobs/{id}/openable-file`
+                .replace(`{${"id"}}`, encodeURIComponent(String(id)));
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+
+            const localVarRequestOptions = { method: 'GET', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+
+            // authentication Bearer required
+            await setApiKeyToObject(localVarHeaderParameter, "Authorization", configuration)
+
+
+    
+            setSearchParams(localVarUrlObj, localVarQueryParameter);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+
+            return {
+                url: toPathString(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
+        /**
+         * 
+         * @summary Get links for all previews saved under job
+         * @param {string} id 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        fineProjectManagerApiJobsIdPreviewsGet: async (id: string, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
+            // verify required parameter 'id' is not null or undefined
+            assertParamExists('fineProjectManagerApiJobsIdPreviewsGet', 'id', id)
+            const localVarPath = `/fine-project-manager/api/jobs/{id}/previews`
+                .replace(`{${"id"}}`, encodeURIComponent(String(id)));
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+
+            const localVarRequestOptions = { method: 'GET', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+
+            // authentication Bearer required
+            await setApiKeyToObject(localVarHeaderParameter, "Authorization", configuration)
+
+
+    
+            setSearchParams(localVarUrlObj, localVarQueryParameter);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+
+            return {
+                url: toPathString(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
+        /**
+         * 
+         * @summary Delete specific preview file under job
+         * @param {string} id 
+         * @param {string} key 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        fineProjectManagerApiJobsIdPreviewsKeyDelete: async (id: string, key: string, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
+            // verify required parameter 'id' is not null or undefined
+            assertParamExists('fineProjectManagerApiJobsIdPreviewsKeyDelete', 'id', id)
+            // verify required parameter 'key' is not null or undefined
+            assertParamExists('fineProjectManagerApiJobsIdPreviewsKeyDelete', 'key', key)
+            const localVarPath = `/fine-project-manager/api/jobs/{id}/previews/{key}`
+                .replace(`{${"id"}}`, encodeURIComponent(String(id)))
+                .replace(`{${"key"}}`, encodeURIComponent(String(key)));
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+
+            const localVarRequestOptions = { method: 'DELETE', ...baseOptions, ...options};
             const localVarHeaderParameter = {} as any;
             const localVarQueryParameter = {} as any;
 
@@ -877,6 +1176,117 @@ export const JobsApiAxiosParamCreator = function (configuration?: Configuration)
                 options: localVarRequestOptions,
             };
         },
+        /**
+         * 
+         * @summary Get link for uploading new attachment
+         * @param {UploadJobAttachmentRequest} [uploadJobAttachmentRequest] 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        fineProjectManagerApiJobsUploadAttachmentPost: async (uploadJobAttachmentRequest?: UploadJobAttachmentRequest, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
+            const localVarPath = `/fine-project-manager/api/jobs/upload-attachment`;
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+
+            const localVarRequestOptions = { method: 'POST', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+
+            // authentication Bearer required
+            await setApiKeyToObject(localVarHeaderParameter, "Authorization", configuration)
+
+
+    
+            localVarHeaderParameter['Content-Type'] = 'application/json';
+
+            setSearchParams(localVarUrlObj, localVarQueryParameter);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+            localVarRequestOptions.data = serializeDataIfNeeded(uploadJobAttachmentRequest, localVarRequestOptions, configuration)
+
+            return {
+                url: toPathString(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
+        /**
+         * 
+         * @summary Get link for uploading openable file
+         * @param {UploadJobOpenableFileRequest} [uploadJobOpenableFileRequest] 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        fineProjectManagerApiJobsUploadOpenableFilePost: async (uploadJobOpenableFileRequest?: UploadJobOpenableFileRequest, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
+            const localVarPath = `/fine-project-manager/api/jobs/upload-openable-file`;
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+
+            const localVarRequestOptions = { method: 'POST', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+
+            // authentication Bearer required
+            await setApiKeyToObject(localVarHeaderParameter, "Authorization", configuration)
+
+
+    
+            localVarHeaderParameter['Content-Type'] = 'application/json';
+
+            setSearchParams(localVarUrlObj, localVarQueryParameter);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+            localVarRequestOptions.data = serializeDataIfNeeded(uploadJobOpenableFileRequest, localVarRequestOptions, configuration)
+
+            return {
+                url: toPathString(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
+        /**
+         * 
+         * @summary Get link for uploading new preview
+         * @param {UploadJobPreviewRequest} [uploadJobPreviewRequest] 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        fineProjectManagerApiJobsUploadPreviewPost: async (uploadJobPreviewRequest?: UploadJobPreviewRequest, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
+            const localVarPath = `/fine-project-manager/api/jobs/upload-preview`;
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+
+            const localVarRequestOptions = { method: 'POST', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+
+            // authentication Bearer required
+            await setApiKeyToObject(localVarHeaderParameter, "Authorization", configuration)
+
+
+    
+            localVarHeaderParameter['Content-Type'] = 'application/json';
+
+            setSearchParams(localVarUrlObj, localVarQueryParameter);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+            localVarRequestOptions.data = serializeDataIfNeeded(uploadJobPreviewRequest, localVarRequestOptions, configuration)
+
+            return {
+                url: toPathString(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
     }
 };
 
@@ -903,6 +1313,29 @@ export const JobsApiFp = function(configuration?: Configuration) {
         },
         /**
          * 
+         * @summary Get links for all attachments saved under job
+         * @param {string} id 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async fineProjectManagerApiJobsIdAttachmentsGet(id: string, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<FileLinksResponse>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.fineProjectManagerApiJobsIdAttachmentsGet(id, options);
+            return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
+        },
+        /**
+         * 
+         * @summary Delete specific attachment file under job
+         * @param {string} id 
+         * @param {string} key 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async fineProjectManagerApiJobsIdAttachmentsKeyDelete(id: string, key: string, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<FileLinksResponse>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.fineProjectManagerApiJobsIdAttachmentsKeyDelete(id, key, options);
+            return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
+        },
+        /**
+         * 
          * @summary Delete entity with given id.  Throw error if entity not exists
          * @param {string} id Entity id
          * @param {*} [options] Override http request option.
@@ -925,6 +1358,51 @@ export const JobsApiFp = function(configuration?: Configuration) {
         },
         /**
          * 
+         * @summary Delete job openable file
+         * @param {string} id 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async fineProjectManagerApiJobsIdOpenableFileDelete(id: string, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<void>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.fineProjectManagerApiJobsIdOpenableFileDelete(id, options);
+            return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
+        },
+        /**
+         * 
+         * @summary Get links for all attachments saved under project
+         * @param {string} id 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async fineProjectManagerApiJobsIdOpenableFileGet(id: string, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<FileOperationResponse>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.fineProjectManagerApiJobsIdOpenableFileGet(id, options);
+            return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
+        },
+        /**
+         * 
+         * @summary Get links for all previews saved under job
+         * @param {string} id 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async fineProjectManagerApiJobsIdPreviewsGet(id: string, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<FileLinksResponse>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.fineProjectManagerApiJobsIdPreviewsGet(id, options);
+            return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
+        },
+        /**
+         * 
+         * @summary Delete specific preview file under job
+         * @param {string} id 
+         * @param {string} key 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async fineProjectManagerApiJobsIdPreviewsKeyDelete(id: string, key: string, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<FileLinksResponse>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.fineProjectManagerApiJobsIdPreviewsKeyDelete(id, key, options);
+            return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
+        },
+        /**
+         * 
          * @summary Create new entity
          * @param {JobCreateRequest} [jobCreateRequest] New entity data
          * @param {*} [options] Override http request option.
@@ -943,6 +1421,39 @@ export const JobsApiFp = function(configuration?: Configuration) {
          */
         async fineProjectManagerApiJobsPut(jobUpdateRequest?: JobUpdateRequest, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<JobDto>> {
             const localVarAxiosArgs = await localVarAxiosParamCreator.fineProjectManagerApiJobsPut(jobUpdateRequest, options);
+            return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
+        },
+        /**
+         * 
+         * @summary Get link for uploading new attachment
+         * @param {UploadJobAttachmentRequest} [uploadJobAttachmentRequest] 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async fineProjectManagerApiJobsUploadAttachmentPost(uploadJobAttachmentRequest?: UploadJobAttachmentRequest, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<FileOperationResponse>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.fineProjectManagerApiJobsUploadAttachmentPost(uploadJobAttachmentRequest, options);
+            return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
+        },
+        /**
+         * 
+         * @summary Get link for uploading openable file
+         * @param {UploadJobOpenableFileRequest} [uploadJobOpenableFileRequest] 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async fineProjectManagerApiJobsUploadOpenableFilePost(uploadJobOpenableFileRequest?: UploadJobOpenableFileRequest, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<FileOperationResponse>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.fineProjectManagerApiJobsUploadOpenableFilePost(uploadJobOpenableFileRequest, options);
+            return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
+        },
+        /**
+         * 
+         * @summary Get link for uploading new preview
+         * @param {UploadJobPreviewRequest} [uploadJobPreviewRequest] 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async fineProjectManagerApiJobsUploadPreviewPost(uploadJobPreviewRequest?: UploadJobPreviewRequest, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<FileOperationResponse>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.fineProjectManagerApiJobsUploadPreviewPost(uploadJobPreviewRequest, options);
             return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
         },
     }
@@ -970,6 +1481,27 @@ export const JobsApiFactory = function (configuration?: Configuration, basePath?
         },
         /**
          * 
+         * @summary Get links for all attachments saved under job
+         * @param {string} id 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        fineProjectManagerApiJobsIdAttachmentsGet(id: string, options?: any): AxiosPromise<FileLinksResponse> {
+            return localVarFp.fineProjectManagerApiJobsIdAttachmentsGet(id, options).then((request) => request(axios, basePath));
+        },
+        /**
+         * 
+         * @summary Delete specific attachment file under job
+         * @param {string} id 
+         * @param {string} key 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        fineProjectManagerApiJobsIdAttachmentsKeyDelete(id: string, key: string, options?: any): AxiosPromise<FileLinksResponse> {
+            return localVarFp.fineProjectManagerApiJobsIdAttachmentsKeyDelete(id, key, options).then((request) => request(axios, basePath));
+        },
+        /**
+         * 
          * @summary Delete entity with given id.  Throw error if entity not exists
          * @param {string} id Entity id
          * @param {*} [options] Override http request option.
@@ -990,6 +1522,47 @@ export const JobsApiFactory = function (configuration?: Configuration, basePath?
         },
         /**
          * 
+         * @summary Delete job openable file
+         * @param {string} id 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        fineProjectManagerApiJobsIdOpenableFileDelete(id: string, options?: any): AxiosPromise<void> {
+            return localVarFp.fineProjectManagerApiJobsIdOpenableFileDelete(id, options).then((request) => request(axios, basePath));
+        },
+        /**
+         * 
+         * @summary Get links for all attachments saved under project
+         * @param {string} id 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        fineProjectManagerApiJobsIdOpenableFileGet(id: string, options?: any): AxiosPromise<FileOperationResponse> {
+            return localVarFp.fineProjectManagerApiJobsIdOpenableFileGet(id, options).then((request) => request(axios, basePath));
+        },
+        /**
+         * 
+         * @summary Get links for all previews saved under job
+         * @param {string} id 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        fineProjectManagerApiJobsIdPreviewsGet(id: string, options?: any): AxiosPromise<FileLinksResponse> {
+            return localVarFp.fineProjectManagerApiJobsIdPreviewsGet(id, options).then((request) => request(axios, basePath));
+        },
+        /**
+         * 
+         * @summary Delete specific preview file under job
+         * @param {string} id 
+         * @param {string} key 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        fineProjectManagerApiJobsIdPreviewsKeyDelete(id: string, key: string, options?: any): AxiosPromise<FileLinksResponse> {
+            return localVarFp.fineProjectManagerApiJobsIdPreviewsKeyDelete(id, key, options).then((request) => request(axios, basePath));
+        },
+        /**
+         * 
          * @summary Create new entity
          * @param {JobCreateRequest} [jobCreateRequest] New entity data
          * @param {*} [options] Override http request option.
@@ -1007,6 +1580,36 @@ export const JobsApiFactory = function (configuration?: Configuration, basePath?
          */
         fineProjectManagerApiJobsPut(jobUpdateRequest?: JobUpdateRequest, options?: any): AxiosPromise<JobDto> {
             return localVarFp.fineProjectManagerApiJobsPut(jobUpdateRequest, options).then((request) => request(axios, basePath));
+        },
+        /**
+         * 
+         * @summary Get link for uploading new attachment
+         * @param {UploadJobAttachmentRequest} [uploadJobAttachmentRequest] 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        fineProjectManagerApiJobsUploadAttachmentPost(uploadJobAttachmentRequest?: UploadJobAttachmentRequest, options?: any): AxiosPromise<FileOperationResponse> {
+            return localVarFp.fineProjectManagerApiJobsUploadAttachmentPost(uploadJobAttachmentRequest, options).then((request) => request(axios, basePath));
+        },
+        /**
+         * 
+         * @summary Get link for uploading openable file
+         * @param {UploadJobOpenableFileRequest} [uploadJobOpenableFileRequest] 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        fineProjectManagerApiJobsUploadOpenableFilePost(uploadJobOpenableFileRequest?: UploadJobOpenableFileRequest, options?: any): AxiosPromise<FileOperationResponse> {
+            return localVarFp.fineProjectManagerApiJobsUploadOpenableFilePost(uploadJobOpenableFileRequest, options).then((request) => request(axios, basePath));
+        },
+        /**
+         * 
+         * @summary Get link for uploading new preview
+         * @param {UploadJobPreviewRequest} [uploadJobPreviewRequest] 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        fineProjectManagerApiJobsUploadPreviewPost(uploadJobPreviewRequest?: UploadJobPreviewRequest, options?: any): AxiosPromise<FileOperationResponse> {
+            return localVarFp.fineProjectManagerApiJobsUploadPreviewPost(uploadJobPreviewRequest, options).then((request) => request(axios, basePath));
         },
     };
 };
@@ -1035,6 +1638,31 @@ export class JobsApi extends BaseAPI {
 
     /**
      * 
+     * @summary Get links for all attachments saved under job
+     * @param {string} id 
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof JobsApi
+     */
+    public fineProjectManagerApiJobsIdAttachmentsGet(id: string, options?: AxiosRequestConfig) {
+        return JobsApiFp(this.configuration).fineProjectManagerApiJobsIdAttachmentsGet(id, options).then((request) => request(this.axios, this.basePath));
+    }
+
+    /**
+     * 
+     * @summary Delete specific attachment file under job
+     * @param {string} id 
+     * @param {string} key 
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof JobsApi
+     */
+    public fineProjectManagerApiJobsIdAttachmentsKeyDelete(id: string, key: string, options?: AxiosRequestConfig) {
+        return JobsApiFp(this.configuration).fineProjectManagerApiJobsIdAttachmentsKeyDelete(id, key, options).then((request) => request(this.axios, this.basePath));
+    }
+
+    /**
+     * 
      * @summary Delete entity with given id.  Throw error if entity not exists
      * @param {string} id Entity id
      * @param {*} [options] Override http request option.
@@ -1059,6 +1687,55 @@ export class JobsApi extends BaseAPI {
 
     /**
      * 
+     * @summary Delete job openable file
+     * @param {string} id 
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof JobsApi
+     */
+    public fineProjectManagerApiJobsIdOpenableFileDelete(id: string, options?: AxiosRequestConfig) {
+        return JobsApiFp(this.configuration).fineProjectManagerApiJobsIdOpenableFileDelete(id, options).then((request) => request(this.axios, this.basePath));
+    }
+
+    /**
+     * 
+     * @summary Get links for all attachments saved under project
+     * @param {string} id 
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof JobsApi
+     */
+    public fineProjectManagerApiJobsIdOpenableFileGet(id: string, options?: AxiosRequestConfig) {
+        return JobsApiFp(this.configuration).fineProjectManagerApiJobsIdOpenableFileGet(id, options).then((request) => request(this.axios, this.basePath));
+    }
+
+    /**
+     * 
+     * @summary Get links for all previews saved under job
+     * @param {string} id 
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof JobsApi
+     */
+    public fineProjectManagerApiJobsIdPreviewsGet(id: string, options?: AxiosRequestConfig) {
+        return JobsApiFp(this.configuration).fineProjectManagerApiJobsIdPreviewsGet(id, options).then((request) => request(this.axios, this.basePath));
+    }
+
+    /**
+     * 
+     * @summary Delete specific preview file under job
+     * @param {string} id 
+     * @param {string} key 
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof JobsApi
+     */
+    public fineProjectManagerApiJobsIdPreviewsKeyDelete(id: string, key: string, options?: AxiosRequestConfig) {
+        return JobsApiFp(this.configuration).fineProjectManagerApiJobsIdPreviewsKeyDelete(id, key, options).then((request) => request(this.axios, this.basePath));
+    }
+
+    /**
+     * 
      * @summary Create new entity
      * @param {JobCreateRequest} [jobCreateRequest] New entity data
      * @param {*} [options] Override http request option.
@@ -1079,6 +1756,42 @@ export class JobsApi extends BaseAPI {
      */
     public fineProjectManagerApiJobsPut(jobUpdateRequest?: JobUpdateRequest, options?: AxiosRequestConfig) {
         return JobsApiFp(this.configuration).fineProjectManagerApiJobsPut(jobUpdateRequest, options).then((request) => request(this.axios, this.basePath));
+    }
+
+    /**
+     * 
+     * @summary Get link for uploading new attachment
+     * @param {UploadJobAttachmentRequest} [uploadJobAttachmentRequest] 
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof JobsApi
+     */
+    public fineProjectManagerApiJobsUploadAttachmentPost(uploadJobAttachmentRequest?: UploadJobAttachmentRequest, options?: AxiosRequestConfig) {
+        return JobsApiFp(this.configuration).fineProjectManagerApiJobsUploadAttachmentPost(uploadJobAttachmentRequest, options).then((request) => request(this.axios, this.basePath));
+    }
+
+    /**
+     * 
+     * @summary Get link for uploading openable file
+     * @param {UploadJobOpenableFileRequest} [uploadJobOpenableFileRequest] 
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof JobsApi
+     */
+    public fineProjectManagerApiJobsUploadOpenableFilePost(uploadJobOpenableFileRequest?: UploadJobOpenableFileRequest, options?: AxiosRequestConfig) {
+        return JobsApiFp(this.configuration).fineProjectManagerApiJobsUploadOpenableFilePost(uploadJobOpenableFileRequest, options).then((request) => request(this.axios, this.basePath));
+    }
+
+    /**
+     * 
+     * @summary Get link for uploading new preview
+     * @param {UploadJobPreviewRequest} [uploadJobPreviewRequest] 
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof JobsApi
+     */
+    public fineProjectManagerApiJobsUploadPreviewPost(uploadJobPreviewRequest?: UploadJobPreviewRequest, options?: AxiosRequestConfig) {
+        return JobsApiFp(this.configuration).fineProjectManagerApiJobsUploadPreviewPost(uploadJobPreviewRequest, options).then((request) => request(this.axios, this.basePath));
     }
 }
 
@@ -1371,11 +2084,11 @@ export const ProjectsApiAxiosParamCreator = function (configuration?: Configurat
         /**
          * 
          * @summary Get link for uploading new attachment
-         * @param {UploadProjectAttachementRequest} [uploadProjectAttachementRequest] 
+         * @param {UploadProjectAttachmentRequest} [uploadProjectAttachmentRequest] 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        fineProjectManagerApiProjectsUploadAttachmentPost: async (uploadProjectAttachementRequest?: UploadProjectAttachementRequest, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
+        fineProjectManagerApiProjectsUploadAttachmentPost: async (uploadProjectAttachmentRequest?: UploadProjectAttachmentRequest, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
             const localVarPath = `/fine-project-manager/api/projects/upload-attachment`;
             // use dummy base URL string because the URL constructor only accepts absolute URLs.
             const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
@@ -1398,7 +2111,7 @@ export const ProjectsApiAxiosParamCreator = function (configuration?: Configurat
             setSearchParams(localVarUrlObj, localVarQueryParameter);
             let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
             localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
-            localVarRequestOptions.data = serializeDataIfNeeded(uploadProjectAttachementRequest, localVarRequestOptions, configuration)
+            localVarRequestOptions.data = serializeDataIfNeeded(uploadProjectAttachmentRequest, localVarRequestOptions, configuration)
 
             return {
                 url: toPathString(localVarUrlObj),
@@ -1499,12 +2212,12 @@ export const ProjectsApiFp = function(configuration?: Configuration) {
         /**
          * 
          * @summary Get link for uploading new attachment
-         * @param {UploadProjectAttachementRequest} [uploadProjectAttachementRequest] 
+         * @param {UploadProjectAttachmentRequest} [uploadProjectAttachmentRequest] 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async fineProjectManagerApiProjectsUploadAttachmentPost(uploadProjectAttachementRequest?: UploadProjectAttachementRequest, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<FileOperationResponse>> {
-            const localVarAxiosArgs = await localVarAxiosParamCreator.fineProjectManagerApiProjectsUploadAttachmentPost(uploadProjectAttachementRequest, options);
+        async fineProjectManagerApiProjectsUploadAttachmentPost(uploadProjectAttachmentRequest?: UploadProjectAttachmentRequest, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<FileOperationResponse>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.fineProjectManagerApiProjectsUploadAttachmentPost(uploadProjectAttachmentRequest, options);
             return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
         },
     }
@@ -1594,12 +2307,12 @@ export const ProjectsApiFactory = function (configuration?: Configuration, baseP
         /**
          * 
          * @summary Get link for uploading new attachment
-         * @param {UploadProjectAttachementRequest} [uploadProjectAttachementRequest] 
+         * @param {UploadProjectAttachmentRequest} [uploadProjectAttachmentRequest] 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        fineProjectManagerApiProjectsUploadAttachmentPost(uploadProjectAttachementRequest?: UploadProjectAttachementRequest, options?: any): AxiosPromise<FileOperationResponse> {
-            return localVarFp.fineProjectManagerApiProjectsUploadAttachmentPost(uploadProjectAttachementRequest, options).then((request) => request(axios, basePath));
+        fineProjectManagerApiProjectsUploadAttachmentPost(uploadProjectAttachmentRequest?: UploadProjectAttachmentRequest, options?: any): AxiosPromise<FileOperationResponse> {
+            return localVarFp.fineProjectManagerApiProjectsUploadAttachmentPost(uploadProjectAttachmentRequest, options).then((request) => request(axios, basePath));
         },
     };
 };
@@ -1702,13 +2415,13 @@ export class ProjectsApi extends BaseAPI {
     /**
      * 
      * @summary Get link for uploading new attachment
-     * @param {UploadProjectAttachementRequest} [uploadProjectAttachementRequest] 
+     * @param {UploadProjectAttachmentRequest} [uploadProjectAttachmentRequest] 
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      * @memberof ProjectsApi
      */
-    public fineProjectManagerApiProjectsUploadAttachmentPost(uploadProjectAttachementRequest?: UploadProjectAttachementRequest, options?: AxiosRequestConfig) {
-        return ProjectsApiFp(this.configuration).fineProjectManagerApiProjectsUploadAttachmentPost(uploadProjectAttachementRequest, options).then((request) => request(this.axios, this.basePath));
+    public fineProjectManagerApiProjectsUploadAttachmentPost(uploadProjectAttachmentRequest?: UploadProjectAttachmentRequest, options?: AxiosRequestConfig) {
+        return ProjectsApiFp(this.configuration).fineProjectManagerApiProjectsUploadAttachmentPost(uploadProjectAttachmentRequest, options).then((request) => request(this.axios, this.basePath));
     }
 }
 

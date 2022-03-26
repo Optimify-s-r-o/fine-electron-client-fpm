@@ -4,7 +4,7 @@ import {Link as ReactRouterLink} from "react-router-dom";
 
 export const Wrapper = styled(Center)`
   background-color: rgb(243, 241, 241);
-  min-height: 100vh;
+  width: 100%;
 `
 
 export const Content = styled(Column)`

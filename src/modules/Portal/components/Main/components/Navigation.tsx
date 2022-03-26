@@ -24,7 +24,7 @@ export const Navigation = ({items, title}: {
             {items?.map((item: NavigationItem, key: number) => {
                 return (
                     <Link to={item.path} key={key}>
-                        <NavigationItem
+                        <Item
                             active={item.active ? 1 : 0}
                             isAction={item.isAction}
                         >
@@ -34,7 +34,7 @@ export const Navigation = ({items, title}: {
                                 ""
                             )}
                             {item.text}
-                        </NavigationItem>
+                        </Item>
                     </Link>
                 );
             })}
@@ -48,7 +48,7 @@ const Title = styled.div`
   color: ${(props) => props.theme.common.content};
 `;
 
-const NavigationItem = styled.div<{ active: number; isAction?: boolean }>`
+const Item = styled.div<{ active: number; isAction?: boolean }>`
   padding: ${(props) => (props.active ? "10px" : "8px")} 24px ${(props) => (props.active ? "10px" : "")};
 
   background-color: ${(props) =>
@@ -108,7 +108,7 @@ const NavigationWrapper = styled.div`
   > a {
     text-decoration: none;
 
-    &:nth-child(even) ${NavigationItem} {
+    &:nth-child(even) ${Item} {
       background-color: ${(props) => props.theme.colors.background.secondaryMenu};
     }
   }

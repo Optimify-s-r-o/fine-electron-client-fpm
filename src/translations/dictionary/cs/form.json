@@ -8,6 +8,13 @@
 		"signIn": "Přihlásit se",
 		"save": "Uložiz změny",
 		"createProject": "Vytvořit projekt"
+	},
+	"validation": {
+		"required": "Toto pole je povinné.",
+		"maxLength": "Maximálně {{count}} znaků.",
+		"minLength": "Minimálně {{count}} znaků.",
+		"extraMinLength": "Minimálně {{count}} znaky.",
+		"invalidEmail": "E-mail není validní.",
+		"number": "Nevalidní číselný znak"
 	}
-
 }

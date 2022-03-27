@@ -6,6 +6,9 @@ import {useApi} from "../../../utils/hooks/useApi";
 import {Configuration, SignInRequest, SignInResponse} from "../../../api/generated";
 import API from "../../../utils/api";
 import {setBearerAuthToObject} from "../../../api/generated/common";
+import { yupResolver } from "@hookform/resolvers/yup";
+import * as Yup from "yup";
+import {useTranslation} from "react-i18next";
 
 export type SignInInput = {
     email: string;
@@ -15,12 +18,21 @@ export type SignInInput = {
 
 const SignInLocal = () => {
     const navigate = useNavigate();
-
+    const {t} = useTranslation(['form']);
     const {register, handleSubmit} = useForm<SignInInput>({
         defaultValues: {
             server: process.env.REACT_APP_BACKEND_API
         },
+        resolver: yupResolver(
+            Yup.object().shape({
+                email: Yup.string()
+                    .email(t("form:validation.invalidEmail"))
+                    .required(t("form:validation.required")),
+                server: Yup.string().required(t("form:validation.required")),
+                password: Yup.string().required(t("form:validation.required")),
+            })),
     });
+
 
     const [signIn, {loading}] = useApi<SignInRequest, SignInResponse>();
 

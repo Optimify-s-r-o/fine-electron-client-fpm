@@ -1,11 +1,12 @@
 import { ReactNode, useState } from 'react';
+import { config } from 'utils/api';
 import { useApi } from 'utils/hooks/useApi';
 
 import { SignInRequest, SignInResponse, UserDto } from '../../../api/generated/api';
 import API from '../../../utils/api';
 import { AuthContext } from './AuthContext';
 
-export const AuthProvider = ( children: ReactNode ) => {
+export const AuthProvider = ( { children }: { children: ReactNode; } ) => {
     const [token, setToken] = useState<string | null>( null );
     const [user, setUser] = useState<UserDto | null>( null );
     const [validityEnd, setValidityEnd] = useState<Date | undefined>( undefined );
@@ -26,6 +27,7 @@ export const AuthProvider = ( children: ReactNode ) => {
             return false;
         }
 
+        config.apiKey = 'Bearer ' + result.token;
         setToken( result.token as string );
         setUser( result.user as UserDto );
         setValidityEnd( new Date( result.expiration as string ) );
@@ -38,6 +40,7 @@ export const AuthProvider = ( children: ReactNode ) => {
     const SignOut = () => {
         setIsLoading( true );
 
+        config.apiKey = '';
         setToken( null );
         setUser( null );
         setValidityEnd( undefined );

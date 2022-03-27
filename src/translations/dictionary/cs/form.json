@@ -2,7 +2,7 @@
 	"input": {
 		"email": "E-mailová adresa",
 		"password": "Heslo",
-		"server": "Lokální server"
+		"server": "Adresa serveru"
 	},
 	"button": {
 		"signIn": "Přihlásit se",

@@ -6,7 +6,7 @@ export const axiosInstance = axios.create({
 });
 
 export const config = new API.Configuration({
-    basePath: "http://fpm-env.eba-bqfb7ppx.eu-central-1.elasticbeanstalk.com"
+    basePath: process.env.REACT_APP_BACKEND_API
 });
 
 export const RestApi = {

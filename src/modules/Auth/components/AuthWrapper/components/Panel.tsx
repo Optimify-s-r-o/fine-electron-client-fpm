@@ -15,21 +15,12 @@ export const Panel = () => {
         <S.Panel>
             <>
                 <S.Link
-                    to={RoutesPath.SIGN_IN_CLOUD}
-                    active={!!matchPath(pathname, RoutesPath.SIGN_IN_CLOUD) ? 1 : 0}
-                >
-                    <FontAwesomeIcon icon={faCloud}/>
-                    <Enviroment>
-                    {t("auth:environments.cloud")}
-                </Enviroment>
-                </S.Link>
-                <S.Link
-                    to={RoutesPath.SIGN_IN_LOCAL}
-                    active={!!matchPath(pathname, RoutesPath.SIGN_IN_LOCAL) ? 1 : 0}
+                    to={RoutesPath.SIGN_IN}
+                    active={!!matchPath(pathname, RoutesPath.SIGN_IN) ? 1 : 0}
                 >
                     <FontAwesomeIcon icon={faServer}/>
                     <Enviroment>
-                    {t("auth:environments.local")}
+                    {t("auth:button.signIn")}
                 </Enviroment>
                 </S.Link>
             </>

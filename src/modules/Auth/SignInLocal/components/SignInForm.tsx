@@ -13,8 +13,8 @@ import {SignInInput} from "../index";
 import {PasswordInput} from "../../../../components/Form/Input/Password";
 
 export const SinInForm = ({
-                              onSubmit, handleSubmit, register
-                          }: { onSubmit: (data: SignInInput) => void; handleSubmit: UseFormHandleSubmit<SignInInput>, register: UseFormRegister<SignInInput> }) => {
+                              onSubmit, handleSubmit, loading, register
+                          }: { onSubmit: (data: SignInInput) => void; handleSubmit: UseFormHandleSubmit<SignInInput>, loading: boolean; register: UseFormRegister<SignInInput> }) => {
     const {t} = useTranslation(['auth', 'form', 'common']);
 
     const openWebBrowser = async () => {
@@ -22,23 +22,21 @@ export const SinInForm = ({
     }
 
     return (<AuthWrapper>
-            <S.Title>{t("auth:signIn:title")}</S.Title>
+        <S.Title>{t("auth:signIn:title")}</S.Title>
 
-            <S.Welcome>{t("auth:signIn:welcome")}</S.Welcome>
+        <S.CreateNewUserWrapper>
+            <S.CreateNewUserLabel>{t("auth:signIn.createNewUser")}</S.CreateNewUserLabel>
+            <ExternalLink onClick={() => openWebBrowser()}>{t("auth:signIn.newUserInstruction")}</ExternalLink>
 
-            <S.CreateNewUserWrapper>
-                <S.CreateNewUserLabel>{t("auth:signIn.createNewUser")}</S.CreateNewUserLabel>
-                <ExternalLink onClick={() => openWebBrowser()}>{t("auth:signIn.newUserInstruction")}</ExternalLink>
+        </S.CreateNewUserWrapper>
 
-            </S.CreateNewUserWrapper>
-
-            <S.Form onSubmit={handleSubmit(onSubmit)}>
-                <TextInput name={"server"} register={register} title={t("form:input.server")}/>
-                <TextInput name={"email"} register={register} title={t("form:input.email")}/>
-                <PasswordInput name={"password"} register={register} title={t("form:input.password")}
+        <S.Form onSubmit={handleSubmit(onSubmit)}>
+            <TextInput name={"server"} register={register} title={t("form:input.server")} isDisabled={true}/>
+            <TextInput name={"email"} register={register} title={t("form:input.email")}/>
+            <PasswordInput name={"password"} register={register} title={t("form:input.password")}
                            rightNode={<Link to={createRoute(RoutesPath.RESET_PASSWORD)}
-                                                  title={t("auth:signIn.forgotPassword")}/>}/>
-                <RowEnd><Button loading={false} withMargin>{t("form:button.signIn")}</Button></RowEnd>
-            </S.Form>
-        </AuthWrapper>)
+                                            title={t("auth:signIn.forgotPassword")}/>}/>
+            <RowEnd><Button loading={loading} withMargin>{t("form:button.signIn")}</Button></RowEnd>
+        </S.Form>
+    </AuthWrapper>)
 }

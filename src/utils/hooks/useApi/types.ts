@@ -1,3 +1,6 @@
+import {UserDto} from "../../../api/generated";
+import { AxiosResponse } from 'axios';
+
 export interface BaseMutationOptions<
   TData = any,
 > {
@@ -31,5 +34,7 @@ export interface MutationResult<TData = any> {
 }
 
 export type MutationTuple<
-  TData,
-> = [(options?: any) => any, MutationResult<TData>];
+  TInputData,
+    TResponseData,
+> = [
+    (mutate: ()=> any) => Promise<TResponseData>, MutationResult<TResponseData>];

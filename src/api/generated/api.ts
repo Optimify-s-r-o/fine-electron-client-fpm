@@ -22,6 +22,62 @@ import { DUMMY_BASE_URL, assertParamExists, setApiKeyToObject, setBasicAuthToObj
 import { BASE_PATH, COLLECTION_FORMATS, RequestArgs, BaseAPI, RequiredError } from './base';
 
 /**
+ * 
+ * @export
+ * @interface ClientErrorData
+ */
+export interface ClientErrorData {
+    /**
+     * 
+     * @type {string}
+     * @memberof ClientErrorData
+     */
+    'link'?: string | null;
+    /**
+     * 
+     * @type {string}
+     * @memberof ClientErrorData
+     */
+    'title'?: string | null;
+}
+/**
+ * 
+ * @export
+ * @interface ClientExceptionPublicModel
+ */
+export interface ClientExceptionPublicModel {
+    /**
+     * 
+     * @type {string}
+     * @memberof ClientExceptionPublicModel
+     */
+    'identifier'?: string | null;
+    /**
+     * 
+     * @type {string}
+     * @memberof ClientExceptionPublicModel
+     */
+    'genericMessage'?: string | null;
+    /**
+     * 
+     * @type {{ [key: string]: string; }}
+     * @memberof ClientExceptionPublicModel
+     */
+    'values'?: { [key: string]: string; } | null;
+    /**
+     * 
+     * @type {string}
+     * @memberof ClientExceptionPublicModel
+     */
+    'timestamp'?: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof ClientExceptionPublicModel
+     */
+    'fullMessage'?: string | null;
+}
+/**
  * Model that includes lins to files saved under specified entity
  * @export
  * @interface FileLinksResponse
@@ -556,6 +612,37 @@ export interface SignInRequest {
      * @memberof SignInRequest
      */
     'password'?: string | null;
+}
+/**
+ * 
+ * @export
+ * @interface SignInResponse
+ */
+export interface SignInResponse {
+    /**
+     * 
+     * @type {string}
+     * @memberof SignInResponse
+     */
+    'token'?: string | null;
+    /**
+     * 
+     * @type {string}
+     * @memberof SignInResponse
+     */
+    'expiration'?: string | null;
+    /**
+     * 
+     * @type {UserDto}
+     * @memberof SignInResponse
+     */
+    'user'?: UserDto;
+    /**
+     * 
+     * @type {boolean}
+     * @memberof SignInResponse
+     */
+    'isAuthenticated': boolean;
 }
 /**
  * Request for uploading attachment file
@@ -1408,7 +1495,7 @@ export const JobsApiFp = function(configuration?: Configuration) {
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async fineProjectManagerApiJobsPost(jobCreateRequest?: JobCreateRequest, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<JobDto>> {
+        async fineProjectManagerApiJobsPost(jobCreateRequest?: JobCreateRequest, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<void>> {
             const localVarAxiosArgs = await localVarAxiosParamCreator.fineProjectManagerApiJobsPost(jobCreateRequest, options);
             return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
         },
@@ -1568,7 +1655,7 @@ export const JobsApiFactory = function (configuration?: Configuration, basePath?
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        fineProjectManagerApiJobsPost(jobCreateRequest?: JobCreateRequest, options?: any): AxiosPromise<JobDto> {
+        fineProjectManagerApiJobsPost(jobCreateRequest?: JobCreateRequest, options?: any): AxiosPromise<void> {
             return localVarFp.fineProjectManagerApiJobsPost(jobCreateRequest, options).then((request) => request(axios, basePath));
         },
         /**
@@ -2194,7 +2281,7 @@ export const ProjectsApiFp = function(configuration?: Configuration) {
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async fineProjectManagerApiProjectsPost(projectCreateRequest?: ProjectCreateRequest, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<ProjectDto>> {
+        async fineProjectManagerApiProjectsPost(projectCreateRequest?: ProjectCreateRequest, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<void>> {
             const localVarAxiosArgs = await localVarAxiosParamCreator.fineProjectManagerApiProjectsPost(projectCreateRequest, options);
             return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
         },
@@ -2291,7 +2378,7 @@ export const ProjectsApiFactory = function (configuration?: Configuration, baseP
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        fineProjectManagerApiProjectsPost(projectCreateRequest?: ProjectCreateRequest, options?: any): AxiosPromise<ProjectDto> {
+        fineProjectManagerApiProjectsPost(projectCreateRequest?: ProjectCreateRequest, options?: any): AxiosPromise<void> {
             return localVarFp.fineProjectManagerApiProjectsPost(projectCreateRequest, options).then((request) => request(axios, basePath));
         },
         /**
@@ -2534,7 +2621,7 @@ export const UsersApiFp = function(configuration?: Configuration) {
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async fineProjectManagerApiUsersSignInPost(signInRequest?: SignInRequest, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<UserDto>> {
+        async fineProjectManagerApiUsersSignInPost(signInRequest?: SignInRequest, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<SignInResponse>> {
             const localVarAxiosArgs = await localVarAxiosParamCreator.fineProjectManagerApiUsersSignInPost(signInRequest, options);
             return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
         },
@@ -2565,7 +2652,7 @@ export const UsersApiFactory = function (configuration?: Configuration, basePath
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        fineProjectManagerApiUsersSignInPost(signInRequest?: SignInRequest, options?: any): AxiosPromise<UserDto> {
+        fineProjectManagerApiUsersSignInPost(signInRequest?: SignInRequest, options?: any): AxiosPromise<SignInResponse> {
             return localVarFp.fineProjectManagerApiUsersSignInPost(signInRequest, options).then((request) => request(axios, basePath));
         },
     };

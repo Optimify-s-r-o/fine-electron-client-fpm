@@ -1,17 +1,19 @@
+import './index.css';
+import './translations/i18n';
+
 import React from 'react';
 import ReactDOM from 'react-dom';
-import './index.css';
+import { BrowserRouter } from 'react-router-dom';
+import { ThemeProvider } from 'styled-components';
+
 import App from './App';
-import { BrowserRouter } from "react-router-dom";
-import {darkTheme, lightTheme} from "./constants/theme";
-import {ThemeProvider} from "styled-components";
-import './translations/i18n';
+import { darkTheme, lightTheme } from './constants/theme';
 
 ReactDOM.render(
     <BrowserRouter>
-        <ThemeProvider theme={true ?  lightTheme : darkTheme}>
-        <App/>
+        <ThemeProvider theme={true ? lightTheme : darkTheme}>
+            <App />
         </ThemeProvider>
     </BrowserRouter>
-, document.getElementById('root'));
+    , document.getElementById( 'root' ) );
 

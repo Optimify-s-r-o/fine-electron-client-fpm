@@ -4,30 +4,18 @@ import * as S from "../styled";
 import {ErrorMessage} from "../ErrorMessage";
 
 export const TextInput = ({
-                              errors,
-                              isDisabled,
-                              name,
-                              register,
-                              rightNode,
-                              title
+                              errors, isDisabled, name, register, rightNode, tabIndex, title
                           }: {
-    errors?: FieldErrors<any>;
-    isDisabled?: boolean;
-    name: string;
-    register: UseFormRegister<any>;
-    rightNode?: ReactNode;
-    title?: string;
+    errors?: FieldErrors<any>; isDisabled?: boolean; name: string; register: UseFormRegister<any>; rightNode?: ReactNode; tabIndex?: number; title?: string;
 }) => {
-    return (
-        <S.Column>
+    return (<S.Column>
             <S.Wrapper>
                 <S.Title>{title}</S.Title>
                 {rightNode && <S.RightNode>{rightNode}</S.RightNode>}
             </S.Wrapper>
-            <S.Input {...register(name)} type={"text"} disabled={isDisabled}/>
+            <S.Input {...register(name)} type={"text"} disabled={isDisabled} tabIndex={tabIndex}/>
             <ErrorMessage name={name} errors={errors}/>
-        </S.Column>
-    )
+        </S.Column>)
 }
 
 

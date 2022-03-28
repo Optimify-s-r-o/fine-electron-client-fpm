@@ -25,8 +25,10 @@
     "@types/react": "^17.0.40",
     "@types/react-dom": "^17.0.13",
     "array-move": "^4.0.0",
+    "electron-store": "^8.0.1",
     "i18next": "^21.6.14",
     "i18next-browser-languagedetector": "^6.1.4",
+    "keytar": "^7.9.0",
     "react": "^17.0.2",
     "react-country-flag": "^3.0.2",
     "react-dom": "^17.0.2",
@@ -70,7 +72,7 @@
     "release": "npm run build:prod && electron-builder build --win -p always",
     "release:dev": "npm run build:dev && electron-builder build --win -p always",
     "api": "openapi-generator-cli generate -i http://fpm-env.eba-bqfb7ppx.eu-central-1.elasticbeanstalk.com/swagger/v1/swagger.json -g typescript-axios -o ./src/api/generated --additional-properties=elmEnableCustomBasePaths=true",
-    "api:local": "openapi-generator-cli generate -i https://localhost:52437/swagger/v1/swagger.json -g typescript-axios -o ./src/api/generated --additional-properties=elmEnableCustomBasePaths=true"
+    "api:local": "openapi-generator-cli generate -i http://localhost:52438/swagger/v1/swagger.json -g typescript-axios -o ./src/api/generated --additional-properties=elmEnableCustomBasePaths=true"
   },
   "build": {
     "artifactName": "${productName}-Setup-${version}.${ext}",

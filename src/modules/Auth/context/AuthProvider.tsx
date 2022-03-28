@@ -6,8 +6,7 @@ import { SignInRequest, SignInResponse, UserDto } from '../../../api/generated/a
 import API from '../../../utils/api';
 import { AuthContext } from './AuthContext';
 
-// TODO potreba vyresit ztratu tokenu pri refreshi - dej ctrl+R a pak uvidis 401 nad getem nad stromem
-//TODO je tam nejaky problem s loadingem. Kdyz das spatny email + heslo tak se porad toci kolecko, ale koukal jsem a useApi sem pak hodi loading false
+// TODO token do local storage
 export const AuthProvider = ( { children }: { children: ReactNode; } ) => {
     const [token, setToken] = useState<string | null>( null );
     const [user, setUser] = useState<UserDto | null>( null );
@@ -19,24 +18,27 @@ export const AuthProvider = ( { children }: { children: ReactNode; } ) => {
     const SignIn = async ( username: string, password: string ) => {
         setIsLoading( true );
 
-        const result = await signIn( () => API.UsersApi.fineProjectManagerApiUsersSignInPost( {
-            email: username,
-            password: password
-        } ) );
+        try {
+            const result = await signIn( () => API.UsersApi.fineProjectManagerApiUsersSignInPost( {
+                email: username,
+                password: password
+            } ) );
 
-        if ( !result.isAuthenticated ) {
+            console.log( JSON.stringify( result ) );
+
+            config.apiKey = 'Bearer ' + result.token;
+            setToken( result.token as string );
+            setUser( result.user as UserDto );
+            setValidityEnd( new Date( result.expiration as string ) );
+
+            setIsLoading( false );
+            return true;
+        } catch ( e ) {
             setIsLoading( false );
             return false;
         }
 
-        config.apiKey = 'Bearer ' + result.token;
-        setToken( result.token as string );
-        setUser( result.user as UserDto );
-        setValidityEnd( new Date( result.expiration as string ) );
 
-        setIsLoading( false );
-
-        return true;
     };
 
     const SignOut = () => {

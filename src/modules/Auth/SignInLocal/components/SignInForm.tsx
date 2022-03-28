@@ -31,11 +31,11 @@ export const SinInForm = ({
         </S.CreateNewUserWrapper>
 
         <S.Form onSubmit={handleSubmit(onSubmit)}>
-            <TextInput name={"server"} register={register} title={t("form:input.server")} errors={errors}/>
-            <TextInput name={"email"} register={register} title={t("form:input.email")} errors={errors}/>
+            <TextInput name={"server"} register={register} title={t("form:input.server")} errors={errors} tabIndex={1}/>
+            <TextInput name={"email"} register={register} title={t("form:input.email")} errors={errors} tabIndex={2}/>
             <PasswordInput name={"password"} register={register} title={t("form:input.password")} errors={errors}
                            rightNode={<Link to={createRoute(RoutesPath.RESET_PASSWORD)}
-                                            title={t("auth:signIn.forgotPassword")}/>}/>
+                                            title={t("auth:signIn.forgotPassword")}/>} tabIndex={3}/>
             <RowEnd><Button loading={loading} withMargin>{t("form:button.signIn")}</Button></RowEnd>
         </S.Form>
     </AuthWrapper>)

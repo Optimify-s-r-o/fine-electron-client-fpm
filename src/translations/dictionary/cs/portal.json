@@ -2,21 +2,15 @@
 	"menu": {
 		"projects": "Projekty",
 		"createProject": "Nový projekt",
-		"listOfProjects": "Seznam projektů",
 		"customers": "Zákazníci",
 		"createCustomer": "Nový zákazník",
 		"listOfCustomers": "Seznam zákazníků",
 		"users": "Uživatelé",
 		"createUser": "Nový uživatel",
 		"listOfUsers": "Seznam uživatelů",
-		"bin": "Koš",
-		"projectBin": "Koš projektů",
-		"jobBin": "Koš úloh",
 		"settings": "Nastavení",
 		"system": "Systém",
-		"organization": "Organizace",
-		"aboutProgram": "O programu",
-		"backup": "Záloha",
+		"update": "Aktualizace",
 		"search": "Hledat"
 	}
 

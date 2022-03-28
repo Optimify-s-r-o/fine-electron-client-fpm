@@ -4,18 +4,13 @@ import {RoutesPath} from "../../../../constants/routes";
 import {Nav} from "./components/Nav";
 import {
     faBookUser,
-    faBrowser,
-    faBuilding,
+    faCodeCompare,
     faCog,
-    faDatabase,
-    faFolder,
     faFolderPlus,
-    faHomeLgAlt,
     faSuitcase,
     faUserPlus,
     faUsers
 } from "@fortawesome/pro-duotone-svg-icons";
-import {faFolders} from "@fortawesome/pro-duotone-svg-icons/faFolders";
 
 export const Navigation = () => {
     const {t} = useTranslation(['portal']);
@@ -30,12 +25,6 @@ export const Navigation = () => {
                     icon: faFolderPlus,
                     shortcut: "Ctrl + N",
                 },
-                {
-                    path: RoutesPath.LIST_OF_PROJECTS,
-                    text: t("portal:menu.listOfProjects"),
-                    icon: faFolders,
-                    shortcut: "Ctrl + P",
-                }
             ]
         },
         {
@@ -73,23 +62,6 @@ export const Navigation = () => {
             ]
         },
         {
-            menu: t("portal:menu.bin"),
-            submenu: [
-                {
-                    path: RoutesPath.PROJECT_BIN,
-                    text: t("portal:menu.projectBin"),
-                    icon: faFolder,
-                    shortcut: "Ctrl + N",
-                },
-                {
-                    path: RoutesPath.JOB_BIN,
-                    text: t("portal:menu.jobBin"),
-                    icon: faHomeLgAlt,
-                    shortcut: "Ctrl + P",
-                }
-            ]
-        },
-        {
             menu: t("portal:menu.settings"),
             submenu: [
                 {
@@ -99,22 +71,11 @@ export const Navigation = () => {
                     shortcut: "Ctrl + N",
                 },
                 {
-                    path: RoutesPath.ORGANIZATION,
-                    text: t("portal:menu.organization"),
-                    icon: faBuilding,
+                    path: RoutesPath.UPDATE,
+                    text: t("portal:menu.update"),
+                    icon: faCodeCompare,
                     shortcut: "Ctrl + P",
                 },
-                {
-                    path: RoutesPath.ABOUT_PROGRAM,
-                    text: t("portal:menu.aboutProgram"),
-                    icon: faBrowser,
-                    shortcut: "Ctrl + P",
-                }, {
-                    path: RoutesPath.BACKUP,
-                    text: t("portal:menu.backup"),
-                    icon: faDatabase,
-                    shortcut: "Ctrl + P",
-                }
             ]
         }
     ];

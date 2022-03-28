@@ -7,6 +7,7 @@ import * as Yup from 'yup';
 import { RoutesPath } from '../../../constants/routes';
 import { useAuthContext } from '../context/AuthContext';
 import { SinInForm } from './components/SignInForm';
+import {config} from "../../../utils/api";
 
 export type SignInInput = {
     email: string;
@@ -17,6 +18,7 @@ export type SignInInput = {
 const SignInLocal = () => {
     const navigate = useNavigate();
     const { t } = useTranslation( ['form'] );
+
     const { register, handleSubmit } = useForm<SignInInput>( {
         defaultValues: {
             server: process.env.REACT_APP_BACKEND_API
@@ -36,13 +38,14 @@ const SignInLocal = () => {
 
     const onSubmit = async ( data: SignInInput ) => {
         try {
-            var success = await signIn( data.email, data.password );
+            const success = await signIn( data.email, data.password );
 
             if ( success ) {
+                config.basePath = data.server;
 
                 await window.API.invoke( "MAXIMIZE_WINDOW" );
 
-                await navigate( RoutesPath.PORTAL );
+                await navigate( RoutesPath.CREATE_PROJECT );
             }
             else {
                 // TODO invalid username or password

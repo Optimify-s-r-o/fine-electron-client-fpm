@@ -31,7 +31,7 @@ export const SinInForm = ({
         </S.CreateNewUserWrapper>
 
         <S.Form onSubmit={handleSubmit(onSubmit)}>
-            <TextInput name={"server"} register={register} title={t("form:input.server")} isDisabled={true}/>
+            <TextInput name={"server"} register={register} title={t("form:input.server")}/>
             <TextInput name={"email"} register={register} title={t("form:input.email")}/>
             <PasswordInput name={"password"} register={register} title={t("form:input.password")}
                            rightNode={<Link to={createRoute(RoutesPath.RESET_PASSWORD)}

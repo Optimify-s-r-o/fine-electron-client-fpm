@@ -43,7 +43,7 @@ export const SubMenu = styled(Column)`
 
 	display: none;
 
-	top: 30px;
+	top: 29px;
 	left: 1px;
 
 	padding: 2px 0 4px;

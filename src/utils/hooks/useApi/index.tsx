@@ -12,7 +12,7 @@ export const useApi = <TInputData, TResponseData>(): MutationTuple<TInputData, T
 
     const [data, setData] = React.useState<TResponseData | null>(null);
 
-    //TODO Richard
+    //TODO improve logic
     const mutate = async (mutate: ()=> (input: TInputData)=> any) => {
         let response:any = null;
 
@@ -39,6 +39,7 @@ export const useApi = <TInputData, TResponseData>(): MutationTuple<TInputData, T
             console.log(response)
             toast.error("ERROR TODO")
             throw e;
+
         } finally {
             setLoading(false);
         }

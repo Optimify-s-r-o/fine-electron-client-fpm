@@ -14,7 +14,8 @@ export const AuthWrapper = ({children}: { children: ReactNode }) => {
     useEffectAsync( async () => {
            const appVersion = await window.API.invoke("APP_VERSION");
            setVersion(appVersion)
-    });
+    },[]);
+
     return (
         <S.Wrapper>
             <S.Border>

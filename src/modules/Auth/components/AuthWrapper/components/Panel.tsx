@@ -3,7 +3,7 @@ import {RoutesPath} from "../../../../../constants/routes";
 import {matchPath, useLocation} from "react-router-dom";
 import {FontAwesomeIcon} from '@fortawesome/react-fontawesome'
 import {useTranslation} from "react-i18next";
-import {faCloud, faServer} from '@fortawesome/pro-light-svg-icons';
+import {faServer} from '@fortawesome/pro-light-svg-icons';
 import {Enviroment} from "../styled";
 
 export const Panel = () => {

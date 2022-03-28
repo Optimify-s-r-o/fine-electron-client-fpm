@@ -7,7 +7,7 @@ import {Navigation, NavigationItem} from "./Navigation";
 
 export const MainWrapper = ({
                                 actionNode, icon, children, navigation, title, titleNode
-                            }: { actionNode?: ReactNode, icon?: IconDefinition, children: ReactNode, navigation: NavigationItem[], title?: string, titleNode?: ReactNode }) => {
+                            }: { actionNode?: ReactNode, icon?: IconDefinition, children: ReactNode, navigation?: NavigationItem[], title?: string, titleNode?: ReactNode }) => {
     return (<Wrapper>
         <PageHeader>
             <PageTitle>
@@ -21,8 +21,8 @@ export const MainWrapper = ({
                     {actionNode}
                 </PageTitleActions>}
             </PageTitle>
-            <Navigation
-                items={navigation}></Navigation>
+            {navigation && <Navigation
+                items={navigation}></Navigation>}
         </PageHeader>
         {children}
     </Wrapper>)

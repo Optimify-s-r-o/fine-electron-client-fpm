@@ -7,7 +7,9 @@
 	"button": {
 		"signIn": "Přihlásit se",
 		"save": "Uložiz změny",
-		"createProject": "Vytvořit projekt"
+		"createProject": "Vytvořit projekt",
+		"createCustomer": "Vytvořit zákazníka",
+		"createUser": "Vytvořit uživatele"
 	},
 	"validation": {
 		"required": "Toto pole je povinné.",

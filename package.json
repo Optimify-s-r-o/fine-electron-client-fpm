@@ -71,7 +71,7 @@
     "release": "npm run build:prod && electron-builder build --win -p always",
     "release:dev": "npm run build:dev && electron-builder build --win -p always",
     "api": "openapi-generator-cli generate -i http://fpm-env.eba-bqfb7ppx.eu-central-1.elasticbeanstalk.com/swagger/v1/swagger.json -g typescript-axios -o ./src/api/generated --additional-properties=elmEnableCustomBasePaths=true",
-    "api:local": "openapi-generator-cli generate -i https://localhost:52437/swagger/v1/swagger.json -g typescript-axios -o ./src/api/generated --additional-properties=elmEnableCustomBasePaths=true"
+    "api:local": "openapi-generator-cli generate -i http://localhost:52438/swagger/v1/swagger.json -g typescript-axios -o ./src/api/generated --additional-properties=elmEnableCustomBasePaths=true"
   },
   "build": {
     "artifactName": "${productName}-Setup-${version}.${ext}",

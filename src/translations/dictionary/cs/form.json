@@ -19,5 +19,8 @@
 		"extraMinLength": "Minimálně {{count}} znaky.",
 		"invalidEmail": "E-mail není validní.",
 		"number": "Nevalidní číselný znak"
+	},
+	"errors": {
+		"InvalidSignInException": "Chybně zadané heslo nebo e-mail."
 	}
 }

@@ -1,3 +1,5 @@
+import keytar from "keytar";
+
 declare module '*.svg' {
     import React = require('react');
     export const ReactComponent: React.FC<React.SVGProps<SVGSVGElement>>;
@@ -14,6 +16,8 @@ export interface IElectronAPI {
     openWebBrowser: (url:string) => Promise<void>,
     on: (eventName, callback) => any;
     invoke: (eventName) => Promise<any>;
+    keytarSetSecret: (name, secret) => Promise<void>
+    keytarGetSecret: (name) => Promise<string | null>
 }
 
 declare global {

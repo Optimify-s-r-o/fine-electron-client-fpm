@@ -3,10 +3,10 @@ import { toast } from 'react-toastify';
 
 import { ClientExceptionPublicModel } from '../../../api/generated/api';
 import { MutationTuple } from './types';
+import {TFunction, useTranslation} from "react-i18next";
 
-//TODO handle error
-//TODO improve types
 export const useApi = <TInputData, TResponseData>(): MutationTuple<TInputData, TResponseData> => {
+    const {t} = useTranslation(['form']);
 
     const [loading, setLoading] = React.useState<boolean>( false );
 
@@ -14,8 +14,6 @@ export const useApi = <TInputData, TResponseData>(): MutationTuple<TInputData, T
 
     const [data, setData] = React.useState<TResponseData | null>( null );
 
-    //TODO improve logic
-    //opravit loading
     const mutate = async ( mutate: () => ( input: TInputData ) => any ) => {
         let response: any = null;
 
@@ -36,21 +34,14 @@ export const useApi = <TInputData, TResponseData>(): MutationTuple<TInputData, T
             }
 
         } catch ( e: any ) {
-            //TODO ERROR RICHARD
-            if ( e.response?.status === 422 && e.response?.data ) {
-                console.log( e.response.data );
-                const error = e.response.data as ClientExceptionPublicModel;
-                toast.error( `${ error.identifier }: ${ error.genericMessage }` );
-            } else if ( e.response ) {
-                toast.error( e.response );
-            } else {
-                toast.error( "Unknown error. Please check internet connection" );
-            }
-            setLoading( false );
+
+            handleErrors(e.response, t);
             throw e;
 
         } finally {
+
             setLoading( false );
+
         }
     };
 
@@ -63,3 +54,20 @@ export const useApi = <TInputData, TResponseData>(): MutationTuple<TInputData, T
         },
     ];
 };
+
+const handleErrors = (response:any, t: TFunction) => {
+    if ( response?.status === 422 && response?.data ) {
+
+        const error = response.data as ClientExceptionPublicModel;
+        toast.error( t(`form:errors.${ error.identifier }`));
+
+    } else if ( response ) {
+
+        toast.error( response );
+
+    } else {
+
+        toast.error( "Unknown error. Please check internet connection" );
+
+    }
+}

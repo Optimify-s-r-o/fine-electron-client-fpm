@@ -8,6 +8,7 @@ import { RoutesPath } from '../../../constants/routes';
 import { useAuthContext } from '../context/AuthContext';
 import { SinInForm } from './components/SignInForm';
 import {config} from "../../../utils/api";
+import {useEffectAsync} from "../../../utils/useEffectAsync";
 
 export type SignInInput = {
     email: string;
@@ -19,10 +20,7 @@ const SignInLocal = () => {
     const navigate = useNavigate();
     const { t } = useTranslation( ['form'] );
 
-    const { register, handleSubmit, formState: {errors} } = useForm<SignInInput>( {
-        defaultValues: {
-            server: process.env.REACT_APP_BACKEND_API
-        },
+    const { register, handleSubmit, formState: {errors}, setValue } = useForm<SignInInput>( {
         resolver: yupResolver(
             Yup.object().shape( {
                 email: Yup.string()
@@ -33,10 +31,19 @@ const SignInLocal = () => {
             } ) ),
     } );
 
+    useEffectAsync(async ()=>{
+        const email =await window.API.keytarGetSecret("email") || "";
+        const password =await window.API.keytarGetSecret("password") || "";
+        const server =await window.API.keytarGetSecret("server") || process.env.REACT_APP_BACKEND_API;
+        
+        setValue("email", email);
+        setValue("password", password);
+        setValue("server", server || "");
+    },[])
+
     const { signIn, loading } = useAuthContext();
 
     const onSubmit = async ( data: SignInInput ) => {
-        try {
             config.basePath = data.server;
 
             const success = await signIn( data.email, data.password );
@@ -44,18 +51,14 @@ const SignInLocal = () => {
             if ( success ) {
                 //TODO KAREL SETTING
 
+                await window.API.keytarSetSecret( "email", data?.email );
+                await window.API.keytarSetSecret( "password", data?.password );
+                await window.API.keytarSetSecret( "server", data?.server );
 
                 await window.API.invoke( "MAXIMIZE_WINDOW" );
 
                 await navigate( RoutesPath.CREATE_PROJECT );
             }
-            else {
-                // TODO invalid username or password
-            }
-        } catch ( e ) {
-
-        }
-
     };
 
     return (

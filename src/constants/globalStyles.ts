@@ -142,3 +142,7 @@ export const GridItem = styled.div<{ fill?: number; alignSelf?: string; smallerD
 	}
 `;
 
+export const Form = styled.form`
+	flex: 1 1 auto;
+	height: 100%;
+`

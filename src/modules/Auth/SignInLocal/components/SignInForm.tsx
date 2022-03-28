@@ -8,13 +8,13 @@ import {RoutesPath} from "../../../../constants/routes";
 import {RowEnd} from "../../../../constants/globalStyles";
 import {Button} from "../../../../components/Form/Button";
 import {useTranslation} from "react-i18next";
-import {UseFormHandleSubmit, UseFormRegister} from "react-hook-form";
+import {FieldErrors, UseFormHandleSubmit, UseFormRegister} from "react-hook-form";
 import {SignInInput} from "../index";
 import {PasswordInput} from "../../../../components/Form/Input/Password";
 
 export const SinInForm = ({
-                              onSubmit, handleSubmit, loading, register
-                          }: { onSubmit: (data: SignInInput) => void; handleSubmit: UseFormHandleSubmit<SignInInput>, loading: boolean; register: UseFormRegister<SignInInput> }) => {
+                              errors, onSubmit, handleSubmit, loading, register
+                          }: { errors: FieldErrors<SignInInput>, onSubmit: (data: SignInInput) => void; handleSubmit: UseFormHandleSubmit<SignInInput>, loading: boolean; register: UseFormRegister<SignInInput> }) => {
     const {t} = useTranslation(['auth', 'form', 'common']);
 
     const openWebBrowser = async () => {
@@ -31,9 +31,9 @@ export const SinInForm = ({
         </S.CreateNewUserWrapper>
 
         <S.Form onSubmit={handleSubmit(onSubmit)}>
-            <TextInput name={"server"} register={register} title={t("form:input.server")}/>
-            <TextInput name={"email"} register={register} title={t("form:input.email")}/>
-            <PasswordInput name={"password"} register={register} title={t("form:input.password")}
+            <TextInput name={"server"} register={register} title={t("form:input.server")} errors={errors}/>
+            <TextInput name={"email"} register={register} title={t("form:input.email")} errors={errors}/>
+            <PasswordInput name={"password"} register={register} title={t("form:input.password")} errors={errors}
                            rightNode={<Link to={createRoute(RoutesPath.RESET_PASSWORD)}
                                             title={t("auth:signIn.forgotPassword")}/>}/>
             <RowEnd><Button loading={loading} withMargin>{t("form:button.signIn")}</Button></RowEnd>

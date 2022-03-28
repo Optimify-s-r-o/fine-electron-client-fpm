@@ -24,6 +24,18 @@ export const MainContent = styled.div`
   margin-top: 8px;
 `
 
+export const MainFormContent = styled.form`
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  flex: 1 1 auto;
+
+  min-height: 0;
+  overflow: auto;
+
+  margin-top: 8px;
+`
+
 export const ContentWrapper = styled.div`
 	flex: 1 1 auto;
 `;

@@ -2,6 +2,7 @@
 	"input": {
 		"email": "E-mailová adresa",
 		"password": "Heslo",
+		"projectName": "Název projektu",
 		"server": "Adresa serveru"
 	},
 	"button": {

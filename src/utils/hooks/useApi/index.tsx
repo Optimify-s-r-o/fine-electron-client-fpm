@@ -13,6 +13,7 @@ export const useApi = <TInputData, TResponseData>(): MutationTuple<TInputData, T
     const [data, setData] = React.useState<TResponseData | null>(null);
 
     //TODO improve logic
+    //opravit loading
     const mutate = async (mutate: ()=> (input: TInputData)=> any) => {
         let response:any = null;
 
@@ -21,8 +22,6 @@ export const useApi = <TInputData, TResponseData>(): MutationTuple<TInputData, T
             setLoading(true);
 
             response = await mutate();
-
-            console.log(response)
 
             if (response?.status === 200) {
                 setData(response?.data);
@@ -35,9 +34,9 @@ export const useApi = <TInputData, TResponseData>(): MutationTuple<TInputData, T
             }
 
         } catch (e) {
-            console.log(e)
-            console.log(response)
+            //TODO ERROR RICHARD
             toast.error("ERROR TODO")
+            setLoading(false);
             throw e;
 
         } finally {

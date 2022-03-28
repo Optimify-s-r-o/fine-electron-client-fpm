@@ -1,4 +1,4 @@
-import {useEffect, useState} from "react";
+import {useState} from "react";
 import * as S from "../styled";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import {faFolder} from "@fortawesome/pro-solid-svg-icons";

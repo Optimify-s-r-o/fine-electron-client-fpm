@@ -19,7 +19,7 @@ const SignInLocal = () => {
     const navigate = useNavigate();
     const { t } = useTranslation( ['form'] );
 
-    const { register, handleSubmit } = useForm<SignInInput>( {
+    const { register, handleSubmit, formState: {errors} } = useForm<SignInInput>( {
         defaultValues: {
             server: process.env.REACT_APP_BACKEND_API
         },
@@ -33,7 +33,6 @@ const SignInLocal = () => {
             } ) ),
     } );
 
-
     const { signIn, loading } = useAuthContext();
 
     const onSubmit = async ( data: SignInInput ) => {
@@ -41,6 +40,7 @@ const SignInLocal = () => {
             const success = await signIn( data.email, data.password );
 
             if ( success ) {
+                //TODO KAREL SETTING
                 config.basePath = data.server;
 
                 await window.API.invoke( "MAXIMIZE_WINDOW" );
@@ -57,7 +57,7 @@ const SignInLocal = () => {
     };
 
     return (
-        <SinInForm register={register} handleSubmit={handleSubmit} onSubmit={onSubmit} loading={loading} />
+        <SinInForm register={register} handleSubmit={handleSubmit} onSubmit={onSubmit} loading={loading} errors={errors}/>
     );
 };
 

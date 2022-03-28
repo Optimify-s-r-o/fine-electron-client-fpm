@@ -1,57 +1,42 @@
 import {faFolder} from "@fortawesome/pro-light-svg-icons";
-import {RoutesPath} from "../../../../constants/routes";
+import {RoutesPath} from "constants/routes";
 import {faDatabase} from "@fortawesome/pro-solid-svg-icons";
-import * as GS from "constants/globalStyles";
-import {Button} from "../../../../components/Form/Button";
+import {Button} from "components/Form/Button";
 import {useTranslation} from "react-i18next";
 import {MainWrapper} from "../../components/Main/components/MainWrapper";
 import * as S from "../../components/Main/styled";
+import {useForm} from "react-hook-form";
+import {yupResolver} from "@hookform/resolvers/yup/dist/yup";
+import * as Yup from "yup";
+import {CreateProjectForm} from "./components/Form";
+import {ProjectCreateRequest} from "api/generated";
 
 const CreateProject = () => {
     const {t} = useTranslation(['portal', 'form', 'common']);
 
+    const {register, handleSubmit} = useForm<ProjectCreateRequest>({
+        resolver: yupResolver(Yup.object().shape({
+            name: Yup.string()
+                .required(t("form:validation.required")),
+        })),
+    });
+
+    const onSubmit = async (data: ProjectCreateRequest) => {
+        console.log(data);
+    }
+
     return (<MainWrapper
         icon={faFolder}
         title={t("portal:menu.createProject")}
-        actionNode={<div>action</div>}
         navigation={[{
             path: RoutesPath.SYSTEM, active: true, text: "test", icon: faDatabase,
-        },
-        ]}>
-        <S.MainContent>
+        },]}>
+        <S.MainFormContent onSubmit={handleSubmit(onSubmit)}>
             <S.ContentWrapper>
-                <GS.GridRow columns={3}>
-                    <GS.GridItem fill={1}>
-                        <GS.Card>
-                            content
-                            content
-                            content
-                            content
-                            content
-                        </GS.Card>
-                    </GS.GridItem>
-                    <GS.GridItem fill={1}>
-                        <GS.Card>
-                            content
-                            content
-                            content
-                            content
-                            content
-                        </GS.Card>
-                    </GS.GridItem>
-                    <GS.GridItem fill={1}>
-                        <GS.Card>
-                            content
-                            content
-                            content
-                            content
-                            content
-                        </GS.Card>
-                    </GS.GridItem>
-                </GS.GridRow>
+                <CreateProjectForm register={register}/>
             </S.ContentWrapper>
             <S.ButtonsWrapper><Button loading={false}>{t("form:button.createProject")}</Button></S.ButtonsWrapper>
-        </S.MainContent>
+        </S.MainFormContent>
     </MainWrapper>)
 }
 

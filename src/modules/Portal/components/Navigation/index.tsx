@@ -27,7 +27,7 @@ export const Navigation = () => {
                 },
             ]
         },
-        {
+    /*    {
             menu: t("portal:menu.customers"),
             submenu: [
                 {
@@ -43,7 +43,7 @@ export const Navigation = () => {
                     shortcut: "Ctrl + P",
                 }
             ]
-        },
+        },*/
         {
             menu: t("portal:menu.users"),
             submenu: [

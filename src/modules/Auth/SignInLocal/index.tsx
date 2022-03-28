@@ -37,11 +37,13 @@ const SignInLocal = () => {
 
     const onSubmit = async ( data: SignInInput ) => {
         try {
+            config.basePath = data.server;
+
             const success = await signIn( data.email, data.password );
 
             if ( success ) {
                 //TODO KAREL SETTING
-                config.basePath = data.server;
+
 
                 await window.API.invoke( "MAXIMIZE_WINDOW" );
 

@@ -19,24 +19,27 @@ export const AuthProvider = ( { children }: { children: ReactNode; } ) => {
     const SignIn = async ( username: string, password: string ) => {
         setIsLoading( true );
 
-        const result = await signIn( () => API.UsersApi.fineProjectManagerApiUsersSignInPost( {
-            email: username,
-            password: password
-        } ) );
+        try {
+            const result = await signIn( () => API.UsersApi.fineProjectManagerApiUsersSignInPost( {
+                email: username,
+                password: password
+            } ) );
 
-        if ( !result.isAuthenticated ) {
+            console.log( JSON.stringify( result ) );
+
+            config.apiKey = 'Bearer ' + result.token;
+            setToken( result.token as string );
+            setUser( result.user as UserDto );
+            setValidityEnd( new Date( result.expiration as string ) );
+
+            setIsLoading( false );
+            return true;
+        } catch ( e ) {
             setIsLoading( false );
             return false;
         }
 
-        config.apiKey = 'Bearer ' + result.token;
-        setToken( result.token as string );
-        setUser( result.user as UserDto );
-        setValidityEnd( new Date( result.expiration as string ) );
 
-        setIsLoading( false );
-
-        return true;
     };
 
     const SignOut = () => {

@@ -15,7 +15,7 @@ export const AuthProvider = ( { children }: { children: ReactNode; } ) => {
     const [isLoading, setIsLoading] = useState<boolean>( false );
 
     const [signIn, { loading }] = useApi<SignInRequest, SignInResponse>();
-    console.log(loading)
+
     const SignIn = async ( username: string, password: string ) => {
         setIsLoading( true );
 

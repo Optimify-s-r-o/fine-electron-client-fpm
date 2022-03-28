@@ -3,11 +3,9 @@ import {useTranslation} from "react-i18next";
 import {RoutesPath} from "../../../../constants/routes";
 import {Nav} from "./components/Nav";
 import {
-    faBookUser,
     faCodeCompare,
     faCog,
     faFolderPlus,
-    faSuitcase,
     faUserPlus,
     faUsers
 } from "@fortawesome/pro-duotone-svg-icons";

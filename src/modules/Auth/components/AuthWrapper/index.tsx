@@ -4,17 +4,18 @@ import {ReactNode, useState} from "react";
 import {useTranslation} from "react-i18next";
 import {Panel} from "./components/Panel";
 import {Languages} from "./components/Languages";
-import useEffectAsync from "../../../../utils/useEffectAsync";
+import {useEffectAsync} from "../../../../utils/useEffectAsync";
 
 export const AuthWrapper = ({children}: { children: ReactNode }) => {
     const {t} = useTranslation(['auth']);
 
     const [version, setVersion] = useState("0.0.0")
 
-    useEffectAsync( async () => {
-           const appVersion = await window.API.invoke("APP_VERSION");
-           setVersion(appVersion)
-    },[]);
+    useEffectAsync(async () => {
+        const appVersion = await window.API.invoke("APP_VERSION");
+        setVersion(appVersion)
+    }, []);
+
 
     return (
         <S.Wrapper>

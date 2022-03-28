@@ -73,6 +73,7 @@ export const lightTheme = {
 		secondaryMenu: "#f8f8f8",
 		darker: "#ccc",
 		lightGray: "#e4e4e45c",
+		darkGray: "rgba(61,61,61,0.36)",
 		contentText: "#000",
 	},
 	text: {

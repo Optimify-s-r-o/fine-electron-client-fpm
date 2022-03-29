@@ -1,4 +1,4 @@
-import { JobDto, ProjectDtoPaginatedCollection } from 'api/generated/api';
+import { JobDto, ProjectDto, ProjectDtoPaginatedCollection } from 'api/generated/api';
 import { useAuthContext } from 'modules/Auth/context/AuthContext';
 import { useState } from 'react';
 import API from 'utils/api';
@@ -11,7 +11,7 @@ import { TreeContext } from './TreeContext';
 //TODO selected elementy do local storage
 export const TreeProvider = ( { children }: { children: JSX.Element; } ) => {
     const { user, isLogged, loading: userLoading } = useAuthContext();
-    const [getProjects, { data: projectData, loading: projectsLoading }] = useApi<ProjectDtoPaginatedCollection>();
+    const [getProjects, { loading: projectsLoading }] = useApi<ProjectDtoPaginatedCollection>();
     const [getJobs, { loading: jobsLoading }] = useApi<ProjectJobsDto>();
 
     const [jobsData, setJobsData] = useState<JobDto[]>( [] );
@@ -38,10 +38,13 @@ export const TreeProvider = ( { children }: { children: JSX.Element; } ) => {
         previousPageExists: false
     };
 
+    const [projectsData, setProjectsData] = useState<ProjectDtoPaginatedCollection>( emptyProjectTree );
+
     // Fetch project tree during portal startup
     useEffectAsync( async () => {
         if ( isLogged && !userLoading ) {
-            await getProjects( () => API.ProjectsApi.fineProjectManagerApiProjectsGet( filter, sort, page, requestedPageSize ) );
+            const res = await getProjects( () => API.ProjectsApi.fineProjectManagerApiProjectsGet( filter, sort, page, requestedPageSize ) );
+            setProjectsData( res );
         }
     }, [isLogged, user, userLoading] );
 
@@ -68,17 +71,25 @@ export const TreeProvider = ( { children }: { children: JSX.Element; } ) => {
         setSelectedJobId( id );
     };
 
+    const handleNewProject = async ( project: ProjectDto ) => {
+        const newTree = { ...projectsData };
+        newTree.data = [project, ...newTree.data as ProjectDto[]];
+
+        setProjectsData( newTree );
+        setSelectedProjectId( project.id );
+    };
 
     return (
         <TreeContext.Provider value={{
-            projectTree: projectData ? projectData : emptyProjectTree,
+            projectTree: projectsData,
             jobTree: jobsData,
             loadingProjectTree: projectsLoading,
             loadingJobTree: jobsLoading,
             selectProject: selectProject,
             selectJob: selectJob,
             selectedProjectId: selectedProjectId,
-            selectedJobId: selectedJobId
+            selectedJobId: selectedJobId,
+            handleNewProject: handleNewProject
         }}>
             {children}
         </TreeContext.Provider> );

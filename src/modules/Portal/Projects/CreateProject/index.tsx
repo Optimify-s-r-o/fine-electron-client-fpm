@@ -7,24 +7,25 @@ import { RoutesPath } from 'constants/routes';
 import { useEffect, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { useTranslation } from 'react-i18next';
-import { useNavigate } from 'react-router';
 import { toast } from 'react-toastify';
 import API from 'utils/api';
 import { useApi } from 'utils/hooks/useApi';
+import { useEffectAsync } from 'utils/useEffectAsync';
 import * as Yup from 'yup';
 
 import { MainWrapper } from '../../components/Main/components/MainWrapper';
 import * as S from '../../components/Main/styled';
+import { useTreeContext } from '../../context/Tree/TreeContext';
 import { CreateProjectForm } from './components/Form';
 
 //TODO MARA nebo RICHARD
 // Hláška na chybějící název
 const CreateProject = () => {
     const [loading, setLoading] = useState<boolean>( false );
-    const [createdProjectId, setCreatedProjectId] = useState<string | null>( null );
+    const [createdProject, setCreatedProject] = useState<ProjectDto | null>( null );
 
     const { t } = useTranslation( ['portal', 'form', 'common'] );
-    const navigate = useNavigate();
+    const { handleNewProject } = useTreeContext();
 
     const [createProject, { loading: projectLoading }] = useApi<ProjectDto, ProjectCreateRequest>();
 
@@ -41,11 +42,11 @@ const CreateProject = () => {
     }, [projectLoading] );
 
     //Leave page and navigate to new job if request is success
-    useEffect( () => {
-        if ( !loading && createdProjectId ) {
-            navigate( RoutesPath.SYSTEM, { replace: true } ); //TODO RICHARD spravna cesta kam se ma navigovat po vytvoreni projektu
+    useEffectAsync( async () => {
+        if ( !loading && createdProject ) {
+            handleNewProject( createdProject );
         }
-    }, [loading, createdProjectId, navigate] );
+    }, [loading, createdProject] );
 
     const onSubmit = async ( data: ProjectCreateRequest ) => {
 
@@ -59,7 +60,7 @@ const CreateProject = () => {
         // log only if there are files to upload
         toast.info( t( "portal:projects.create.attachmentsInfo" ) );
         toast.info( t( "portal:projects.create.attachmentsDone" ) );
-        setCreatedProjectId( response.id );
+        setCreatedProject( response );
     };
 
     return ( <MainWrapper

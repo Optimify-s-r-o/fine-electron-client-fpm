@@ -68,6 +68,12 @@ export const Navigation = () => {
           shortcut: 'Ctrl + N'
         },
         {
+          path: RoutesPath.LOCAL_APPLICATIONS_SETTINGS,
+          text: t( 'portal:menu.applications' ),
+          icon: faCog,
+          shortcut: 'Ctrl + N'
+        },
+        {
           path: RoutesPath.UPDATE,
           text: t( 'portal:menu.update' ),
           icon: faCodeCompare,

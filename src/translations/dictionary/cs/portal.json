@@ -12,6 +12,10 @@
 		"system": "Systém",
 		"update": "Aktualizace",
 		"search": "Hledat"
+	},
+	"projects": {
+		"tabs": {
+			"newProject": "Vytvořit projekt"
+		}
 	}
-
 }

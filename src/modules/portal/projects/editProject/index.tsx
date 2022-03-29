@@ -59,7 +59,7 @@ const EditProject = () => {
   return (
     <MainWrapper
       icon={faFolder}
-      title={mainData ? mainData.name : ''}
+      title={mainLoading || !mainData ? 'Otvírám projekt...' : mainData.name}
       navigation={[
         {
           path: `${ RoutesPath.PROJECTS }/${ editId }`,

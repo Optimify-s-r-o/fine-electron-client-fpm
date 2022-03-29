@@ -17,4 +17,4 @@ export const TreeContext = createContext<ITreeContextType>( {
     selectProject: () => console.log( 'No valid context' )
 } );
 
-export const useTreeContextType = () => useContext( TreeContext );
+export const useTreeContext = () => useContext( TreeContext );

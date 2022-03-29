@@ -1,5 +1,14 @@
-import { ReactNode } from 'react';
+import { useAuthContext } from 'modules/Auth/context/AuthContext';
+
+import { TreeProvider } from './Tree/TreeProvider';
 
 export const PortalContextProvider = ( { children }: { children: JSX.Element; } ) => {
-    return children;
+    const { isLogged } = useAuthContext();
+    return (
+        isLogged ?
+            <TreeProvider>
+                {children}
+            </TreeProvider >
+            : children
+    );
 };

@@ -13,7 +13,9 @@
     "settings": "Nastavení",
     "system": "Systém",
     "update": "Aktualizace",
-    "search": "Hledat"
+    "search": "Hledat",
+    "admin": "Administrátor",
+    "adminSettings": "Správa aplikací"
   },
   "projects": {
     "tabs": {

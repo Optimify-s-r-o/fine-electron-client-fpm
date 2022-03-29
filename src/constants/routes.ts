@@ -18,5 +18,7 @@ export enum RoutesPath {
   LIST_OF_USERS = '/portal/list-of-users',
 
   SYSTEM = '/portal/system',
-  UPDATE = '/portal/update'
+  UPDATE = '/portal/update',
+
+  ADMIN_APPLICATIONS_SETTINGS = '/portal/admin/applications/applications-settings'
 }

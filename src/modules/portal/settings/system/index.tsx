@@ -4,9 +4,12 @@ import { MainWrapper } from '../../components/main/components/MainWrapper';
 import * as S from '../../components/main/styled';
 import { faCog } from '@fortawesome/pro-duotone-svg-icons';
 import { useEffectAsync } from '../../../../utils/useEffectAsync';
+import { MouseEvent } from 'react';
+import { useExecutableApplicationContext } from '../../context/ExecutableApplications/ExecutableApplicationsContext';
 
 const System = () => {
   const { t } = useTranslation(['portal', 'form', 'common']);
+  const { executeApplication } = useExecutableApplicationContext();
 
   useEffectAsync(async () => {
     const downloadsPath = await window.API.invoke('ELECTRON_STORE_GET', { name: 'downloads' });
@@ -18,13 +21,19 @@ const System = () => {
     console.log(test);
   }, []);
 
+  const triggerApplication = (_event: MouseEvent<HTMLButtonElement>) => {
+    executeApplication();
+  };
+
   return (
     <MainWrapper icon={faCog} title={t('portal:menu.system')}>
       <S.MainContent>
         <S.ContentWrapper>
           <GS.GridRow columns={1}>
             <GS.GridItem fill={1}>
-              <GS.Card>content content content content content</GS.Card>
+              <GS.Card>
+                <button onClick={triggerApplication}>run app</button>
+              </GS.Card>
             </GS.GridItem>
           </GS.GridRow>
         </S.ContentWrapper>

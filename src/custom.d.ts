@@ -1,4 +1,5 @@
 import keytar from 'keytar';
+import { execFile } from 'child_process';
 
 declare module '*.svg' {
   import React = require('react');
@@ -12,7 +13,9 @@ declare module '*.png' {
   export default value;
 }
 
+//TODO improve typing
 export interface IElectronAPI {
+  execFile: (filePath, args) => any;
   openWebBrowser: (url: string) => Promise<void>;
   on: (eventName, callback) => any;
   invoke: (eventName: any, args?: any) => Promise<any>;

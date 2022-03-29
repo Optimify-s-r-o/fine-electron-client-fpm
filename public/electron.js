@@ -3,7 +3,13 @@ const { app, BrowserWindow, ipcMain} = require('electron')
 const isDev = require("electron-is-dev");
 const { default: installExtension, REACT_DEVELOPER_TOOLS } = require('electron-devtools-installer');
 const Store = require('electron-store');
-const store = new Store();
+
+const schema = {
+    downloads: { default: app.getPath('downloads')},
+    documents: { default: app.getPath('documents')},
+};
+
+const store = new Store({schema});
 
 function createWindow () {
     const win = new BrowserWindow({
@@ -50,12 +56,12 @@ ipcMain.handle('MAXIMIZE_WINDOW', async (event, ...args) => {
     browserWindow.maximize();
 });
 
-ipcMain.handle('ELECTRON_STORE_GET', async (event, ...args) => {
-    console.log(args)
-    return store.get(args)
+ipcMain.handle('ELECTRON_STORE_GET', async (event, arg) => {
+    console.log(arg.name)
+    return store.get(arg.name)
 });
 
-ipcMain.handle('ELECTRON_STORE_SET', async (event, ...args) => {
-    console.log(args)
-    store.set(args)
+ipcMain.handle('ELECTRON_STORE_SET', async (event, arg) => {
+    console.log(arg)
+    store.set(arg.name, arg.value)
 });

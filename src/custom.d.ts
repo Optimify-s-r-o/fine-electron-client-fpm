@@ -15,7 +15,7 @@ declare module "*.png" {
 export interface IElectronAPI {
     openWebBrowser: (url:string) => Promise<void>,
     on: (eventName, callback) => any;
-    invoke: (eventName) => Promise<any>;
+    invoke: (eventName:any, args?:any) => Promise<any>;
     keytarSetSecret: (name, secret) => Promise<void>
     keytarGetSecret: (name) => Promise<string | null>
 }

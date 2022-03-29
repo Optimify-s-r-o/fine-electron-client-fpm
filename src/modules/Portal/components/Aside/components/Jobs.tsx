@@ -1,20 +1,29 @@
-import {useState} from "react";
-import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
-import {faHomeAlt} from "@fortawesome/pro-solid-svg-icons";
-import * as S from "../styled";
+import { faCross, faHomeAlt } from '@fortawesome/pro-solid-svg-icons';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { useTreeContext } from 'modules/Portal/context/Tree/TreeContext';
 
+import * as S from '../styled';
+
+//TODO MARA
+// Strankovani tady neexistuje, vsechny operace se provadi s lokalnimi daty1
+// Sort = Nazev/{Name}, Datum/{UpdatedAt} a Typ/{Application, pak Type}
+// Pozor na to, ze muze byt dlouhy nazev, zkracujme ho aby se vesel na jeden radek
 export const Jobs = () => {
-    const [state] = useState<string[]>(['Item 1', 'Item 2', 'Item 3', 'Item 4', 'Item 5', 'Item 6', 'Item 1', 'Item 2', 'Item 3', 'Item 4', 'Item 5', 'Item 6'])
-    return (<S.Wrapper color={"rgba(143, 113, 52, 0.8)"}>
-        {state.map((item, key) => {
-            return (<S.Item key={key}>
-                <S.TitleWrapper>
-                    <FontAwesomeIcon
-                        icon={faHomeAlt}
-                    />
-                    <S.Title>{item}</S.Title>
-                </S.TitleWrapper>
-            </S.Item>)
-        })}
-    </S.Wrapper>)
-}
+    const { jobTree, selectedJobId, selectJob, loadingJobTree } = useTreeContext();
+
+    return ( <S.Wrapper color={"rgba(143, 113, 52, 0.8)"}>
+        {loadingJobTree ? 'loading'
+            : jobTree.map( ( item ) => {
+                return ( <S.Item key={item.id} onClick={() => selectJob( item.id )}>
+                    <S.TitleWrapper>
+                        <FontAwesomeIcon
+                            icon={faHomeAlt}
+                        />
+                        <S.Title>{item.name}</S.Title>
+                        {/* TODO MARA poznat ktery prvek je selectnuty graficky, ted je jen ikona jen pro overeni funkcnosti  */}
+                        {item.id === selectedJobId && <FontAwesomeIcon icon={faCross} />}
+                    </S.TitleWrapper>
+                </S.Item> );
+            } )}
+    </S.Wrapper> );
+};

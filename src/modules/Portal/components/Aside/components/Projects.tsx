@@ -10,11 +10,9 @@ export const Projects = () => {
 
     //TODO MARA
     // je potreba pridat strankovani - tam chybi i UI
-    // napojit
     // pridat routovani
     // umoznit pohyb sipek
-    // udelat to stejny pro joby + UI efekt
-
+    // Pozor na to, ze muze byt dlouhy nazev, zkracujme ho aby se vesel na jeden radek
 
     return ( <S.Wrapper color={"rgb(255 202 108 / 80%)"}>
         {loadingProjectTree ? 'loading'

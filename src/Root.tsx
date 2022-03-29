@@ -8,6 +8,7 @@ import { Toast } from './components/Toast';
 import { RoutesPath } from './constants/routes';
 import { Wrapper } from './modules/Auth/components/AuthWrapper/styled';
 import ApplicationsSettings from './modules/portal/admin/applicationsSettings';
+import LocalApplicationsSettings from './modules/portal/settings/applications';
 
 const SignInLocal = lazy( () => import( 'modules/Auth/signInLocal' ) );
 const ResetPassword = lazy( () => import( 'modules/Auth/resetPassword' ) );
@@ -114,22 +115,32 @@ export const Root = () => {
               </ProtectedRoute>
             }
           />
-          <Route
-            path={RoutesPath.SYSTEM}
-            element={
-              <ProtectedRoute>
-                <System />
-              </ProtectedRoute>
-            }
-          />
-          <Route
-            path={RoutesPath.UPDATE}
-            element={
-              <ProtectedRoute>
-                <Update />
-              </ProtectedRoute>
-            }
-          />
+          <Route path={RoutesPath.SETTINGS}>
+            <Route
+              path={RoutesPath.SYSTEM}
+              element={
+                <ProtectedRoute>
+                  <System />
+                </ProtectedRoute>
+              }
+            />
+            <Route
+              path={RoutesPath.UPDATE}
+              element={
+                <ProtectedRoute>
+                  <Update />
+                </ProtectedRoute>
+              }
+            />
+            <Route
+              path={RoutesPath.LOCAL_APPLICATIONS_SETTINGS}
+              element={
+                <ProtectedRoute>
+                  <LocalApplicationsSettings />
+                </ProtectedRoute>
+              }
+            />
+          </Route>
         </Route>
       </Routes>
       <Toast />

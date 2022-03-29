@@ -1,32 +1,54 @@
+import { faCog } from '@fortawesome/pro-duotone-svg-icons';
+import { faDatabase } from '@fortawesome/pro-light-svg-icons';
 import * as GS from 'constants/globalStyles';
+import { RoutesPath } from 'constants/routes';
+import { MouseEvent } from 'react';
 import { useTranslation } from 'react-i18next';
+
+import { useEffectAsync } from '../../../../utils/useEffectAsync';
 import { MainWrapper } from '../../components/main/components/MainWrapper';
 import * as S from '../../components/main/styled';
-import { faCog } from '@fortawesome/pro-duotone-svg-icons';
-import { useEffectAsync } from '../../../../utils/useEffectAsync';
-import { MouseEvent } from 'react';
 import { useExecutableApplicationContext } from '../../context/ExecutableApplications/ExecutableApplicationsContext';
 
 const System = () => {
-  const { t } = useTranslation(['portal', 'form', 'common']);
+  const { t } = useTranslation( ['portal', 'form', 'common'] );
   const { executeApplication } = useExecutableApplicationContext();
 
-  useEffectAsync(async () => {
-    const downloadsPath = await window.API.invoke('ELECTRON_STORE_GET', { name: 'downloads' });
-    const documentsPath = await window.API.invoke('ELECTRON_STORE_GET', { name: 'documents' });
-    const test = await window.API.invoke('ELECTRON_STORE_GET', { name: 'test' });
-    await window.API.invoke('ELECTRON_STORE_SET', { name: 'test', value: 'C://' });
-    console.log(downloadsPath);
-    console.log(documentsPath);
-    console.log(test);
-  }, []);
+  useEffectAsync( async () => {
+    const downloadsPath = await window.API.invoke( 'ELECTRON_STORE_GET', { name: 'downloads' } );
+    const documentsPath = await window.API.invoke( 'ELECTRON_STORE_GET', { name: 'documents' } );
+    const test = await window.API.invoke( 'ELECTRON_STORE_GET', { name: 'test' } );
+    await window.API.invoke( 'ELECTRON_STORE_SET', { name: 'test', value: 'C://' } );
+    console.log( downloadsPath );
+    console.log( documentsPath );
+    console.log( test );
+  }, [] );
 
-  const triggerApplication = (_event: MouseEvent<HTMLButtonElement>) => {
+  const triggerApplication = ( _event: MouseEvent<HTMLButtonElement> ) => {
     executeApplication();
   };
 
   return (
-    <MainWrapper icon={faCog} title={t('portal:menu.system')}>
+    <MainWrapper icon={faCog} title={t( 'portal:settings.title' )} navigation={[
+      {
+        path: `${ RoutesPath.SYSTEM }`,
+        active: true,
+        text: t( 'portal:settings.tabs.system' ),
+        icon: faDatabase
+      },
+      {
+        path: `${ RoutesPath.LOCAL_APPLICATIONS_SETTINGS }`,
+        active: false,
+        text: t( 'portal:settings.tabs.applicationsSettings' ),
+        icon: faDatabase
+      },
+      {
+        path: `${ RoutesPath.UPDATE }`,
+        active: false,
+        text: t( 'portal:settings.tabs.update' ),
+        icon: faDatabase
+      },
+    ]}>
       <S.MainContent>
         <S.ContentWrapper>
           <GS.GridRow columns={1}>

@@ -11,7 +11,8 @@
     "createUser": "Nový uživatel",
     "listOfUsers": "Seznam uživatelů",
     "settings": "Nastavení",
-    "system": "Systém",
+    "system": "Natavení systému",
+    "applications": "Programy",
     "update": "Aktualizace",
     "search": "Hledat",
     "admin": "Administrátor",
@@ -34,6 +35,14 @@
     "title": "Administrátorské rozhraní",
     "tabs": {
       "applicationsSettings": "Správa aplikací"
+    }
+  },
+  "settings": {
+    "title": "Nastavení",
+    "tabs": {
+      "system": "Nastavení systému",
+      "applicationsSettings": "Cesty k programům",
+      "update": "Aktualizace"
     }
   }
 }

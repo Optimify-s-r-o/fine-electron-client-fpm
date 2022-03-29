@@ -1,5 +1,5 @@
-import styled from "styled-components";
-import {device} from "./theme";
+import styled from 'styled-components';
+import { device } from './theme';
 
 //FLEXBOX COMPONENTS
 export const Flex = styled.div`
@@ -9,8 +9,7 @@ export const Flex = styled.div`
 export const Column = styled.div`
   display: flex;
   flex-direction: column;
-`
-
+`;
 
 export const Row = styled(Flex)`
   flex-direction: row;
@@ -61,88 +60,101 @@ export const Center = styled(Flex)`
   justify-content: center;
 `;
 
-export const Card = styled.div<{ fullSize?: boolean; topMargin?: boolean; noPadding?: number }>`
-	box-sizing: border-box;
+export const Card = styled.div<{
+  fullSize?: boolean;
+  topMargin?: boolean;
+  noPadding?: number;
+}>`
+  box-sizing: border-box;
 
-	height: ${(props) => (props.fullSize ? "100%" : "auto")};
+  height: ${(props) => (props.fullSize ? '100%' : 'auto')};
 
-	margin-top: ${(props) => (props.topMargin ? "16px" : "inherit")};
-	padding: ${(props) => (props.noPadding ? "0px" : "8px 16px")};
+  margin-top: ${(props) => (props.topMargin ? '16px' : 'inherit')};
+  padding: ${(props) => (props.noPadding ? '0px' : '8px 16px')};
 
-	background-color: ${(props) => props.theme.common.content};
-	border-radius: 3px;
-	box-shadow: ${(props) => props.theme.boxShadow};
-	color: ${(props) => props.theme.common.contentText};
+  background-color: ${(props) => props.theme.common.content};
+  border-radius: 3px;
+  box-shadow: ${(props) => props.theme.boxShadow};
+  color: ${(props) => props.theme.common.contentText};
 `;
 
 export const GridRow = styled.div<{ columns: number }>`
-	box-sizing: border-box;
-	display: flex;
-	flex-direction: row;
-	align-items: stretch;
-	justify-content: flex-start;
-	flex-wrap: wrap;
-	color: ${(props) => props.theme.colors.contentText};
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: row;
+  align-items: stretch;
+  justify-content: flex-start;
+  flex-wrap: wrap;
+  color: ${(props) => props.theme.colors.contentText};
 
-	& > * {
-		width: ${(props) => 100 / props.columns}%;
+  & > * {
+    width: ${(props) => 100 / props.columns}%;
 
-		@media ${device.large} {
-			${(props) => (props.columns > 2 ? `width: 50%;` : `width: 100%`)}
-		}
+    @media ${device.large} {
+      ${(props) => (props.columns > 2 ? `width: 50%;` : `width: 100%`)}
+    }
 
-		@media ${device.medium} {
-			${(props) => props.columns > 2 && `width: 100%;`}
-		}
-	}
-	& + & {
-		margin-top: 0;
-	}
+    @media ${device.medium} {
+      ${(props) => props.columns > 2 && `width: 100%;`}
+    }
+  }
+  & + & {
+    margin-top: 0;
+  }
 `;
 
 export const GridColumn = styled.div<{ columns: number }>`
-	box-sizing: border-box;
-	display: flex;
-	flex-direction: column;
-	align-items: stretch;
-	justify-content: flex-start;
-	flex-wrap: wrap;
-	color: ${(props) => props.theme.colors.contentText};
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  justify-content: flex-start;
+  flex-wrap: wrap;
+  color: ${(props) => props.theme.colors.contentText};
 
-	& > * {
-		width: ${(props) => 100 / props.columns}%;
+  & > * {
+    width: ${(props) => 100 / props.columns}%;
 
-		@media ${device.large} {
-			${(props) => (props.columns > 2 ? `width: 50%;` : `width: 100%`)}
-		}
+    @media ${device.large} {
+      ${(props) => (props.columns > 2 ? `width: 50%;` : `width: 100%`)}
+    }
 
-		@media ${device.medium} {
-			${(props) => props.columns > 2 && `width: 100%;`}
-		}
-	}
-	& + & {
-		margin-top: 0;
-	}
+    @media ${device.medium} {
+      ${(props) => props.columns > 2 && `width: 100%;`}
+    }
+  }
+  & + & {
+    margin-top: 0;
+  }
 `;
 
-export const GridItem = styled.div<{ fill?: number; alignSelf?: string; smallerDisplayHide?: boolean; padding?: boolean }>`
-	box-sizing: border-box;
-	padding: 8px;
+export const GridItem = styled.div<{
+  fill?: number;
+  alignSelf?: string;
+  smallerDisplayHide?: boolean;
+  padding?: boolean;
+}>`
+  box-sizing: border-box;
+  padding: 8px;
 
-	${(props) =>
-    props.hasOwnProperty("alignSelf") && `align-self: ${props.alignSelf};`}
+  ${(props) =>
+    props.hasOwnProperty('alignSelf') && `align-self: ${props.alignSelf};`}
 
-	${(props) => props.padding === false && `padding: 0;`}
+  ${(props) => props.padding === false && `padding: 0;`}
 
   ${(props) => props.fill && `flex-grow: 1;`}
 
 
   @media ${device.large} {
-		${(props) => props.smallerDisplayHide && `display: none;`}
-	}
+    ${(props) => props.smallerDisplayHide && `display: none;`}
+  }
 `;
 
 export const Form = styled.form`
-	flex: 1 1 auto;
-	height: 100%;
-`
+  flex: 1 1 auto;
+  height: 100%;
+`;
+
+export const FloatRight = styled.div`
+  float: right;
+`;

@@ -1,26 +1,35 @@
 {
-	"input": {
-		"email": "E-mailová adresa",
-		"password": "Heslo",
-		"projectName": "Název projektu",
-		"server": "Adresa serveru"
-	},
-	"button": {
-		"signIn": "Přihlásit se",
-		"save": "Uložiz změny",
-		"createProject": "Vytvořit projekt",
-		"createCustomer": "Vytvořit zákazníka",
-		"createUser": "Vytvořit uživatele"
-	},
-	"validation": {
-		"required": "Toto pole je povinné.",
-		"maxLength": "Maximálně {{count}} znaků.",
-		"minLength": "Minimálně {{count}} znaků.",
-		"extraMinLength": "Minimálně {{count}} znaky.",
-		"invalidEmail": "E-mail není validní.",
-		"number": "Nevalidní číselný znak"
-	},
-	"errors": {
-		"InvalidSignInException": "Chybně zadané heslo nebo e-mail."
-	}
+  "input": {
+    "email": "E-mailová adresa",
+    "password": "Heslo",
+    "searchPlaceholder": "Hledat...",
+    "projectName": "Název projektu",
+    "projectDescription": "Popis projektu",
+    "server": "Adresa serveru"
+  },
+  "button": {
+    "signIn": "Přihlásit se",
+    "save": "Uložiz změny",
+    "createProject": "Vytvořit projekt",
+    "createCustomer": "Vytvořit zákazníka",
+    "createUser": "Vytvořit uživatele"
+  },
+  "validation": {
+    "required": "Toto pole je povinné.",
+    "maxLength": "Maximálně {{count}} znaků.",
+    "minLength": "Minimálně {{count}} znaků.",
+    "extraMinLength": "Minimálně {{count}} znaky.",
+    "invalidEmail": "E-mail není validní.",
+    "number": "Nevalidní číselný znak"
+  },
+  "errors": {
+    "InvalidSignInException": "Chybně zadané heslo nebo e-mail."
+  },
+  "table": {
+    "fileName": "Název přílohy",
+    "fileExtension": "Formát",
+    "fileAdd": "Přidat přílohy",
+    "noFiles": "Zatím nebyly vloženy žádné přílohy.\nPoužijte tlačítko pod tabulkou nebo zde soubory přetáhněte.",
+    "dropFiles": "Přetáhněte zde soubory, které chcete vložit."
+  }
 }

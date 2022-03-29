@@ -1,27 +1,28 @@
-import styled from "styled-components";
-import {SpaceBetween} from "../../../constants/globalStyles";
+import styled from 'styled-components';
+import { SpaceBetween } from '../../../constants/globalStyles';
 
 export const RightNode = styled.span`
   font-size: 13px;
-`
+`;
 
 export const Wrapper = styled(SpaceBetween)`
   margin-bottom: 5px;
-`
+`;
 
 export const Title = styled.div`
   font-size: 13px;
   color: #727272;
   padding-left: 1px;
-`
+`;
 
 export const Column = styled.div`
   display: flex;
   flex-direction: column;
 
   padding-bottom: 13px;
-`
-export const Input = styled.input`
+`;
+
+const InputStyles = (props: any) => `
   box-sizing: border-box;
 
   width: 100%;
@@ -52,7 +53,18 @@ export const Input = styled.input`
   }
 
   :focus, :active {
-    border: 1px solid ${(props) => props.theme.colors.primary.default};
+    border: 1px solid ${props.theme.colors.primary.default};
   }
+`;
 
-`
+export const Input = styled.input`
+  ${(props) => InputStyles(props)}
+`;
+
+export const TextArea = styled.textarea`
+  ${(props) => InputStyles(props)}
+
+  line-height: 1.5;
+
+  resize: vertical;
+`;

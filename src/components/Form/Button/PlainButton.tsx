@@ -1,16 +1,20 @@
 import styled from 'styled-components';
 import { Loader } from './Loader';
-import { ReactNode } from 'react';
+import { MouseEventHandler, ReactNode } from 'react';
+import { IconDefinition } from '@fortawesome/fontawesome-svg-core';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
 type ButtonLevel = 1 | 2 | 3;
 
-export const Button = ({
+export const PlainButton = ({
   fullWidth = false,
   level = 2,
   loading = false,
   children,
   type = 'submit',
   withMargin = false,
+  icon,
+  onClick,
 }: {
   fullWidth?: boolean;
   loading: boolean;
@@ -18,6 +22,8 @@ export const Button = ({
   children: ReactNode;
   type?: 'button' | 'submit';
   withMargin?: boolean;
+  icon?: IconDefinition;
+  onClick?: MouseEventHandler<HTMLButtonElement>;
 }) => {
   return (
     <ButtonElement
@@ -25,7 +31,10 @@ export const Button = ({
       fullWidth={fullWidth}
       level={level}
       withMargin={withMargin}
+      hasIcon={!!icon}
+      onClick={onClick}
     >
+      {icon && <FontAwesomeIcon icon={icon} />}
       <ChildrenWrapper>{children}</ChildrenWrapper>
       {loading && (
         <LoaderWrapper>
@@ -36,15 +45,15 @@ export const Button = ({
   );
 };
 
-const getPadding = (level: ButtonLevel) => {
+const getPadding = (level: ButtonLevel, hasIcon?: boolean) => {
   switch (level) {
     case 1:
-      return '14px 24px';
+      return '14px 24px 14px ' + (hasIcon ? '51px' : '24px');
     case 2:
-      return '8px 16px';
+      return '8px 16px 8px ' + (hasIcon ? '39px' : '16px');
     case 3:
     default:
-      return '6px 12px';
+      return '6px 12px 6px ' + (hasIcon ? '33px' : '12px');
   }
 };
 
@@ -65,30 +74,25 @@ const ButtonElement = styled.button<{
   fullWidth: boolean;
   level: ButtonLevel;
   withMargin?: boolean;
+  hasIcon?: boolean;
 }>`
   position: relative;
 
   width: ${(props) => (props.fullWidth ? '100%' : 'fit-content')};
   min-width: 150px;
 
-  padding: ${(props) => getPadding(props.level)};
+  padding: ${(props) => getPadding(props.level, props.hasIcon)};
 
-  box-shadow: ${(props) => props.theme.boxShadowSharp};
   border: 0;
   border-radius: 7px;
-  background-color: ${(props) =>
-    props.disabled
-      ? props.theme.colors.background.darker
-      : props.theme.colors.primary.default};
+  background-color: transparent;
   line-height: 20px;
-  color: white;
+  color: ${(props) => props.theme.colors.primary.default};
   font-size: 13px;
   font-weight: 500;
   overflow: hidden;
 
   margin-top: ${(props) => (props.withMargin ? '5px' : 0)};
-
-  transition: all 0.2s ease-in-out;
 
   &:before {
     content: '';
@@ -105,10 +109,10 @@ const ButtonElement = styled.button<{
     transition: all 0.1s ease-out;
   }
 
-  &:hover {
+  &:hover,
+  &:focus {
+    background-color: ${(props) => props.theme.common.lightGray};
     cursor: ${(props) => (props.disabled ? 'normal' : 'pointer')};
-    box-shadow: ${(props) => props.theme.boxShadowSharpHover},
-      inset 0 0 1px 1px ${(props) => props.theme.colors.primary.active};
 
     &:before {
       left: -2px;
@@ -117,13 +121,21 @@ const ButtonElement = styled.button<{
   }
 
   &:focus {
-    outline: 2px solid ${(props) => props.theme.colors.primary.default};
+    outline: 1px solid ${(props) => props.theme.colors.primary.default};
     outline-offset: 2px;
   }
 
   &:active {
     background-color: ${(props) => props.theme.colors.primary.defaultActive};
-    box-shadow: ${(props) => props.theme.boxShadowSharpActive},
-      inset 0 0 1px 1px ${(props) => props.theme.colors.primary.active};
+  }
+
+  > svg {
+    position: absolute;
+
+    left: 16px;
+    top: 10px;
+
+    width: 15px;
+    height: 15px;
   }
 `;

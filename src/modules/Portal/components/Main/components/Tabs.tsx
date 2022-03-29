@@ -54,6 +54,8 @@ export const Tabs = () => {
       onSortEnd={onSortEnd}
       axis={'x'}
       lockAxis={'x'}
+      lockToContainerEdges={true}
+      lockOffset={'0%'}
     />
   );
 };

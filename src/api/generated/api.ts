@@ -207,7 +207,7 @@ export interface JobCreateRequest {
      * @type {string}
      * @memberof JobCreateRequest
      */
-    'name'?: string | null;
+    'name': string;
     /**
      * Description of job
      * @type {string}
@@ -219,7 +219,7 @@ export interface JobCreateRequest {
      * @type {string}
      * @memberof JobCreateRequest
      */
-    'projectId'?: string;
+    'projectId': string;
     /**
      * String represeting application associated with this job.  Null means this job cannot be opened
      * @type {string}
@@ -250,31 +250,31 @@ export interface JobDto {
      * @type {string}
      * @memberof JobDto
      */
-    'createdBy'?: string;
+    'createdBy': string;
     /**
      * Updated by attribute
      * @type {string}
      * @memberof JobDto
      */
-    'updatedBy'?: string;
+    'updatedBy': string;
     /**
      * Entity id
      * @type {string}
      * @memberof JobDto
      */
-    'id'?: string;
+    'id': string;
     /**
      * Created at attribute
      * @type {string}
      * @memberof JobDto
      */
-    'createdAt'?: string;
+    'createdAt': string;
     /**
      * Updated by attribute
      * @type {string}
      * @memberof JobDto
      */
-    'updatedAt'?: string;
+    'updatedAt': string;
     /**
      * Id of job type
      * @type {string}
@@ -286,7 +286,7 @@ export interface JobDto {
      * @type {string}
      * @memberof JobDto
      */
-    'name'?: string | null;
+    'name': string;
     /**
      * Description of job
      * @type {string}
@@ -298,7 +298,7 @@ export interface JobDto {
      * @type {string}
      * @memberof JobDto
      */
-    'projectId'?: string;
+    'projectId': string;
     /**
      * String represeting application associated with this job.  Null means this job cannot be opened
      * @type {string}
@@ -414,7 +414,7 @@ export interface JobUpdateRequest {
      * @type {string}
      * @memberof JobUpdateRequest
      */
-    'name'?: string | null;
+    'name': string;
     /**
      * Description of job
      * @type {string}
@@ -432,7 +432,7 @@ export interface JobUpdateRequest {
      * @type {string}
      * @memberof JobUpdateRequest
      */
-    'projectId'?: string;
+    'projectId': string;
     /**
      * String represeting application associated with this job.  Null means this job cannot be opened
      * @type {string}
@@ -444,7 +444,7 @@ export interface JobUpdateRequest {
      * @type {Array<JobAttributeDto>}
      * @memberof JobUpdateRequest
      */
-    'attributes'?: Array<JobAttributeDto> | null;
+    'attributes': Array<JobAttributeDto>;
 }
 /**
  * Create new project

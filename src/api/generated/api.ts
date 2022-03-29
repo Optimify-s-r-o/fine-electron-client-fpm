@@ -552,6 +552,25 @@ export interface JobDtoPaginatedCollection {
     'previousPageExists'?: boolean;
 }
 /**
+ * 
+ * @export
+ * @interface JobResultInformationDto
+ */
+export interface JobResultInformationDto {
+    /**
+     * Number of openable jobs
+     * @type {number}
+     * @memberof JobResultInformationDto
+     */
+    'openableCount': number;
+    /**
+     * Number of jobs under project
+     * @type {{ [key: string]: number; }}
+     * @memberof JobResultInformationDto
+     */
+    'otherJobs': { [key: string]: number; };
+}
+/**
  * Update job data
  * @export
  * @interface JobUpdateRequest
@@ -789,6 +808,12 @@ export interface ProjectJobsDto {
      * @memberof ProjectJobsDto
      */
     'jobs': Array<JobDto>;
+    /**
+     * 
+     * @type {JobResultInformationDto}
+     * @memberof ProjectJobsDto
+     */
+    'jobInformation': JobResultInformationDto;
 }
 /**
  * Create new project
@@ -2882,6 +2907,7 @@ export const ProjectsApiAxiosParamCreator = function (configuration?: Configurat
         },
         /**
          * 
+         * @summary Load all jobs under selected project
          * @param {string} id 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
@@ -3098,6 +3124,7 @@ export const ProjectsApiFp = function(configuration?: Configuration) {
         },
         /**
          * 
+         * @summary Load all jobs under selected project
          * @param {string} id 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
@@ -3205,6 +3232,7 @@ export const ProjectsApiFactory = function (configuration?: Configuration, baseP
         },
         /**
          * 
+         * @summary Load all jobs under selected project
          * @param {string} id 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
@@ -3318,6 +3346,7 @@ export class ProjectsApi extends BaseAPI {
 
     /**
      * 
+     * @summary Load all jobs under selected project
      * @param {string} id 
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}

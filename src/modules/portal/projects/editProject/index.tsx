@@ -12,7 +12,7 @@ import API from 'utils/api';
 import { useApi } from 'utils/hooks/useApi';
 import * as Yup from 'yup';
 
-import { JobDto, ProjectJobsDto } from '../../../../api/generated/api';
+import { JobDto, JobResultInformationDto, ProjectJobsDto } from '../../../../api/generated/api';
 import { useEffectAsync } from '../../../../utils/useEffectAsync';
 import { MainWrapper } from '../../components/main/components/MainWrapper';
 import * as S from '../../components/main/styled';
@@ -26,6 +26,7 @@ const EditProject = () => {
 
   const [mainData, setMainData] = useState<ProjectDto | null>( null );
   const [jobsData, setJobsData] = useState<JobDto[]>( [] );
+  const [jobsInformation, setJobsInformation] = useState<JobResultInformationDto | null>( null );
 
   const { handleSubmit } = useForm<ProjectCreateRequest>( {
     resolver: yupResolver(
@@ -51,6 +52,7 @@ const EditProject = () => {
     if ( editId ) {
       const res = await getProjectJobs( () => API.ProjectsApi.fineProjectManagerApiProjectsIdJobsGet( editId ) );
       setJobsData( res.jobs );
+      setJobsInformation( res.jobInformation );
     }
   }, [editId] );
 
@@ -86,7 +88,7 @@ const EditProject = () => {
           {
             jobsLoading ? 'loading jobs' :
               <>
-                {/*TODO Karel preklady aplikaci a typu z contextu*/}
+                {/*TODO Karel preklady aplikaci a typu*/}
                 {jobsData.map( e => <div>{`Nazev: ${ e.name } Popis: ${ e.description } Typ: ${ e.type } Aplikace: ${ e.application } Pridano: ${ e.createdAt }`}</div> )}
               </>
           }
@@ -95,7 +97,14 @@ const EditProject = () => {
           <div>Druhe tlacitko je spusteni programu. Ted nebudeme implementovat. Zobrazuj, pokud e.IsOpenable. Ikonu si budu muset tahat z ApplicationsContextu, bude to url na obrazek, zatim tam dej prosim fixne url na nejaky obrazek</div>
           <div>Treti tlacitko vede na stazeni souboru, pridej jenom ikonku a onClickHandler s logem, zbytek si dodelam</div>
           <div>Posledni tlacitko vyvola modal s dotazem na delete, ten prosim udelej, delete tlacitko si implementuju</div>
-
+          <div><br />Cast 3: Jednoduchy vypis</div>
+          {
+            jobsLoading || !jobsInformation ? 'loading jobs' :
+              <>
+                <div>Pocet uloh: {jobsInformation.openableCount}</div>
+                {Object.entries( jobsInformation.otherJobs ).map( e => `${ e[0] }: ${ e[1] }` )}
+              </>
+          }
         </S.ContentWrapper>
         <S.ButtonsWrapper>
           <Button loading={false}>{t( 'form:button.save' )}</Button>

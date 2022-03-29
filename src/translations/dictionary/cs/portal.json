@@ -2,6 +2,8 @@
 	"menu": {
 		"projects": "Projekty",
 		"createProject": "Nový projekt",
+		"editProject": "Editovat projekt",
+		"editJob": "Editovat úlohu",
 		"customers": "Zákazníci",
 		"createCustomer": "Nový zákazník",
 		"listOfCustomers": "Seznam zákazníků",

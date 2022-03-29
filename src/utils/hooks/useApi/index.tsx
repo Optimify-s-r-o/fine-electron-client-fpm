@@ -59,7 +59,7 @@ const handleErrors = (response:any, t: TFunction) => {
     if ( response?.status === 422 && response?.data ) {
 
         const error = response.data as ClientExceptionPublicModel;
-        toast.error( t(`form:errors.${ error.identifier }`));
+        toast.error( t(`form:errors.${ error.identifier }`, response.values));
 
     } else if ( response ) {
 

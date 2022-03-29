@@ -552,7 +552,7 @@ export interface JobDtoPaginatedCollection {
     'previousPageExists'?: boolean;
 }
 /**
- * Update job data
+ * update job data
  * @export
  * @interface JobUpdateRequest
  */
@@ -1253,7 +1253,7 @@ export const ApplicationsApiAxiosParamCreator = function (configuration?: Config
         },
         /**
          * 
-         * @summary Update single entity
+         * @summary update single entity
          * @param {ApplicationUpdateRequest} [applicationUpdateRequest] New entity data
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
@@ -1394,7 +1394,7 @@ export const ApplicationsApiFp = function(configuration?: Configuration) {
         },
         /**
          * 
-         * @summary Update single entity
+         * @summary update single entity
          * @param {ApplicationUpdateRequest} [applicationUpdateRequest] New entity data
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
@@ -1478,7 +1478,7 @@ export const ApplicationsApiFactory = function (configuration?: Configuration, b
         },
         /**
          * 
-         * @summary Update single entity
+         * @summary update single entity
          * @param {ApplicationUpdateRequest} [applicationUpdateRequest] New entity data
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
@@ -1570,7 +1570,7 @@ export class ApplicationsApi extends BaseAPI {
 
     /**
      * 
-     * @summary Update single entity
+     * @summary update single entity
      * @param {ApplicationUpdateRequest} [applicationUpdateRequest] New entity data
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
@@ -1996,7 +1996,7 @@ export const JobsApiAxiosParamCreator = function (configuration?: Configuration)
         },
         /**
          * 
-         * @summary Update single entity
+         * @summary update single entity
          * @param {JobUpdateRequest} [jobUpdateRequest] New entity data
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
@@ -2269,7 +2269,7 @@ export const JobsApiFp = function(configuration?: Configuration) {
         },
         /**
          * 
-         * @summary Update single entity
+         * @summary update single entity
          * @param {JobUpdateRequest} [jobUpdateRequest] New entity data
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
@@ -2428,7 +2428,7 @@ export const JobsApiFactory = function (configuration?: Configuration, basePath?
         },
         /**
          * 
-         * @summary Update single entity
+         * @summary update single entity
          * @param {JobUpdateRequest} [jobUpdateRequest] New entity data
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
@@ -2603,7 +2603,7 @@ export class JobsApi extends BaseAPI {
 
     /**
      * 
-     * @summary Update single entity
+     * @summary update single entity
      * @param {JobUpdateRequest} [jobUpdateRequest] New entity data
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
@@ -2937,7 +2937,7 @@ export const ProjectsApiAxiosParamCreator = function (configuration?: Configurat
         },
         /**
          * 
-         * @summary Update single entity
+         * @summary update single entity
          * @param {ProjectUpdateRequest} [projectUpdateRequest] New entity data
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
@@ -3101,7 +3101,7 @@ export const ProjectsApiFp = function(configuration?: Configuration) {
         },
         /**
          * 
-         * @summary Update single entity
+         * @summary update single entity
          * @param {ProjectUpdateRequest} [projectUpdateRequest] New entity data
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
@@ -3206,7 +3206,7 @@ export const ProjectsApiFactory = function (configuration?: Configuration, baseP
         },
         /**
          * 
-         * @summary Update single entity
+         * @summary update single entity
          * @param {ProjectUpdateRequest} [projectUpdateRequest] New entity data
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
@@ -3323,7 +3323,7 @@ export class ProjectsApi extends BaseAPI {
 
     /**
      * 
-     * @summary Update single entity
+     * @summary update single entity
      * @param {ProjectUpdateRequest} [projectUpdateRequest] New entity data
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}

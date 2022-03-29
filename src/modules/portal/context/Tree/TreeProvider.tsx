@@ -1,6 +1,8 @@
 import { JobDto, ProjectDto, ProjectDtoPaginatedCollection } from 'api/generated/api';
+import { RoutesPath } from 'constants/routes';
 import { useAuthContext } from 'modules/Auth/context/AuthContext';
 import { useState } from 'react';
+import { useNavigate } from 'react-router';
 import API from 'utils/api';
 import { useApi } from 'utils/hooks/useApi';
 import { useEffectAsync } from 'utils/useEffectAsync';
@@ -11,6 +13,8 @@ import { TreeContext } from './TreeContext';
 //TODO selected elementy do local storage
 export const TreeProvider = ( { children }: { children: JSX.Element; } ) => {
     const { user, isLogged, loading: userLoading } = useAuthContext();
+    const navigate = useNavigate();
+
     const [getProjects, { loading: projectsLoading }] = useApi<ProjectDtoPaginatedCollection>();
     const [getJobs, { loading: jobsLoading }] = useApi<ProjectJobsDto>();
 
@@ -63,9 +67,14 @@ export const TreeProvider = ( { children }: { children: JSX.Element; } ) => {
         }
     }, [isLogged, user, userLoading, selectedProjectId] );
 
+    useEffectAsync( async () => {
+        if ( selectedProjectId ) {
+            navigate( `${ RoutesPath.PROJECTS }/${ selectedProjectId }` );
+        }
+    }, [selectedProjectId] );
+
     const selectProject = ( id: string ) => {
         setSelectedProjectId( id );
-        // TODO RICHARD pridat navigaci na projekt pokud se tato hodnota zmeni
     };
 
     const selectJob = ( id: string ) => {

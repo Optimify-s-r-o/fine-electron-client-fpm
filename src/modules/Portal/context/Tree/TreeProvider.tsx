@@ -1,5 +1,5 @@
 import { useAuthContext } from 'modules/Auth/context/AuthContext';
-import { ReactNode, useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 
 import { ProjectDtoPaginatedCollection } from '../../../../api/generated/api';
 import API from '../../../../utils/api';
@@ -35,14 +35,16 @@ export const TreeProvider = ( { children }: { children: JSX.Element; } ) => {
         if ( isLogged && !userLoading ) {
             getProjects( () => API.ProjectsApi.fineProjectManagerApiProjectsGet( filter, sort, page, requestedPageSize ) );
         }
-    }, [user, userLoading] );
+    }, [isLogged, user, userLoading] );
 
     const selectProject = ( id: string ) => {
         setSelectedProjectId( id );
     };
 
+
+
     return (
-        <TreeContext.Provider value={{ projectTree: projectData ? projectData : emptyProjectTree, loadingProjectTree: projectsLoading, selectProject: selectProject }} >
+        <TreeContext.Provider value={{ projectTree: projectData ? projectData : emptyProjectTree, loadingProjectTree: projectsLoading, selectProject: selectProject, selectedProjectId: selectedProjectId }} >
             {children}
         </TreeContext.Provider> );
 };

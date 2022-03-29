@@ -1,4 +1,4 @@
-import { ReactNode, useState } from 'react';
+import { useState } from 'react';
 import { config } from 'utils/api';
 import { useApi } from 'utils/hooks/useApi';
 

@@ -501,12 +501,6 @@ export interface ProjectDto {
      * @memberof ProjectDto
      */
     'name': string;
-    /**
-     * All jobs in this project>
-     * @type {Array<JobDto>}
-     * @memberof ProjectDto
-     */
-    'jobs'?: Array<JobDto> | null;
 }
 /**
  * Standard class used for paginated results
@@ -574,6 +568,55 @@ export interface ProjectDtoPaginatedCollection {
      * @memberof ProjectDtoPaginatedCollection
      */
     'previousPageExists'?: boolean;
+}
+/**
+ * Project with all jobs loaded
+ * @export
+ * @interface ProjectJobsDto
+ */
+export interface ProjectJobsDto {
+    /**
+     * Entity id
+     * @type {string}
+     * @memberof ProjectJobsDto
+     */
+    'id': string;
+    /**
+     * Owner id
+     * @type {string}
+     * @memberof ProjectJobsDto
+     */
+    'createdBy': string;
+    /**
+     * User who last edited
+     * @type {string}
+     * @memberof ProjectJobsDto
+     */
+    'updatedBy': string;
+    /**
+     * Date of creation
+     * @type {string}
+     * @memberof ProjectJobsDto
+     */
+    'createdAt': string;
+    /**
+     * Date of last update
+     * @type {string}
+     * @memberof ProjectJobsDto
+     */
+    'updatedAt': string;
+    /**
+     * Name of the project
+     * @type {string}
+     * @memberof ProjectJobsDto
+     */
+    'name': string;
+    /**
+     * Job collection
+     * @type {Array<JobDto>}
+     * @memberof ProjectJobsDto
+     */
+    'jobs': Array<JobDto>;
 }
 /**
  * Create new project
@@ -2096,6 +2139,42 @@ export const ProjectsApiAxiosParamCreator = function (configuration?: Configurat
         },
         /**
          * 
+         * @param {string} id 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        fineProjectManagerApiProjectsIdJobsGet: async (id: string, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
+            // verify required parameter 'id' is not null or undefined
+            assertParamExists('fineProjectManagerApiProjectsIdJobsGet', 'id', id)
+            const localVarPath = `/fine-project-manager/api/projects/{id}/jobs`
+                .replace(`{${"id"}}`, encodeURIComponent(String(id)));
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+
+            const localVarRequestOptions = { method: 'GET', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+
+            // authentication Bearer required
+            await setApiKeyToObject(localVarHeaderParameter, "Authorization", configuration)
+
+
+    
+            setSearchParams(localVarUrlObj, localVarQueryParameter);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+
+            return {
+                url: toPathString(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
+        /**
+         * 
          * @summary Create new entity
          * @param {ProjectCreateRequest} [projectCreateRequest] New entity data
          * @param {*} [options] Override http request option.
@@ -2276,6 +2355,16 @@ export const ProjectsApiFp = function(configuration?: Configuration) {
         },
         /**
          * 
+         * @param {string} id 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async fineProjectManagerApiProjectsIdJobsGet(id: string, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<ProjectJobsDto>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.fineProjectManagerApiProjectsIdJobsGet(id, options);
+            return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
+        },
+        /**
+         * 
          * @summary Create new entity
          * @param {ProjectCreateRequest} [projectCreateRequest] New entity data
          * @param {*} [options] Override http request option.
@@ -2370,6 +2459,15 @@ export const ProjectsApiFactory = function (configuration?: Configuration, baseP
          */
         fineProjectManagerApiProjectsIdGet(id: string, options?: any): AxiosPromise<ProjectDto> {
             return localVarFp.fineProjectManagerApiProjectsIdGet(id, options).then((request) => request(axios, basePath));
+        },
+        /**
+         * 
+         * @param {string} id 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        fineProjectManagerApiProjectsIdJobsGet(id: string, options?: any): AxiosPromise<ProjectJobsDto> {
+            return localVarFp.fineProjectManagerApiProjectsIdJobsGet(id, options).then((request) => request(axios, basePath));
         },
         /**
          * 
@@ -2473,6 +2571,17 @@ export class ProjectsApi extends BaseAPI {
      */
     public fineProjectManagerApiProjectsIdGet(id: string, options?: AxiosRequestConfig) {
         return ProjectsApiFp(this.configuration).fineProjectManagerApiProjectsIdGet(id, options).then((request) => request(this.axios, this.basePath));
+    }
+
+    /**
+     * 
+     * @param {string} id 
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof ProjectsApi
+     */
+    public fineProjectManagerApiProjectsIdJobsGet(id: string, options?: AxiosRequestConfig) {
+        return ProjectsApiFp(this.configuration).fineProjectManagerApiProjectsIdJobsGet(id, options).then((request) => request(this.axios, this.basePath));
     }
 
     /**

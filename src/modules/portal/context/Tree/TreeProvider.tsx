@@ -11,12 +11,12 @@ import { ProjectJobsDto } from '../../../../api/generated/api';
 import { TreeContext } from './TreeContext';
 
 //TODO selected elementy do local storage
-export const TreeProvider = ( { children }: { children: JSX.Element; } ) => {
-    const { user, isLogged, loading: userLoading } = useAuthContext();
-    const navigate = useNavigate();
+export const TreeProvider = ({ children }: { children: JSX.Element }) => {
+  const { user, isLogged, loading: userLoading } = useAuthContext();
+  const navigate = useNavigate();
 
-    const [getProjects, { loading: projectsLoading }] = useApi<ProjectDtoPaginatedCollection>();
-    const [getJobs, { loading: jobsLoading }] = useApi<ProjectJobsDto>();
+  const [getProjects, { loading: projectsLoading }] = useApi<ProjectDtoPaginatedCollection>();
+  const [getJobs, { loading: jobsLoading }] = useApi<ProjectJobsDto>();
 
   const [jobsData, setJobsData] = useState<JobDto[]>([]);
 
@@ -72,18 +72,19 @@ export const TreeProvider = ( { children }: { children: JSX.Element; } ) => {
 
   const selectProject = (id: string) => {
     setSelectedProjectId(id);
-    // TODO RICHARD pridat navigaci na projekt pokud se tato hodnota zmeni
+    navigate(`${RoutesPath.PROJECTS}/${id}`);
   };
 
-    useEffectAsync( async () => {
-        if ( selectedProjectId ) {
-            navigate( `${ RoutesPath.PROJECTS }/${ selectedProjectId }` );
-        }
-    }, [selectedProjectId] );
+  const selectJob = (id: string) => {
+    setSelectedJobId(id);
+    navigate(`${RoutesPath.JOBS}/${id}`);
+  };
 
-    const selectProject = ( id: string ) => {
-        setSelectedProjectId( id );
-    };
+  useEffectAsync(async () => {
+    if (selectedProjectId) {
+      navigate(`${RoutesPath.PROJECTS}/${selectedProjectId}`);
+    }
+  }, [selectedProjectId]);
 
   // Push project to current tree
   const handleNewProject = async (project: ProjectDto) => {
@@ -106,8 +107,7 @@ export const TreeProvider = ( { children }: { children: JSX.Element; } ) => {
         selectedProjectId: selectedProjectId,
         selectedJobId: selectedJobId,
         handleNewProject: handleNewProject
-      }}
-    >
+      }}>
       {children}
     </TreeContext.Provider>
   );

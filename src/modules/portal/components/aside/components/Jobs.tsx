@@ -14,11 +14,8 @@ import { useNavigate } from 'react-router-dom';
 export const Jobs = () => {
   const { jobTree, selectedJobId, selectJob, loadingJobTree } = useTreeContext();
 
-  const navigate = useNavigate();
-
   const handleSelection = (id: string) => (_event: MouseEvent<HTMLDivElement>) => {
     selectJob(id);
-    navigate(`${RoutesPath.JOBS}/id`);
   };
 
   return (

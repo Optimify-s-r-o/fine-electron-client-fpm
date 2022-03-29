@@ -29,5 +29,11 @@
       "attachmentsInfo": "Nahrávám přílohy",
       "attachmentsDone": "Přílohy zpracovány"
     }
+  },
+  "admin": {
+    "title": "Administrátorské rozhraní",
+    "tabs": {
+      "applicationsSettings": "Správa aplikací"
+    }
   }
 }

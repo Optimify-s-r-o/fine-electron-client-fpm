@@ -7,19 +7,20 @@ import { ProtectedRoute } from './components/ProtectedRoute';
 import { Toast } from './components/Toast';
 import { RoutesPath } from './constants/routes';
 import { Wrapper } from './modules/Auth/components/AuthWrapper/styled';
+import ApplicationsSettings from './modules/portal/admin/applicationsSettings';
 
-const SignInLocal = lazy(() => import('modules/Auth/signInLocal'));
-const ResetPassword = lazy(() => import('modules/Auth/resetPassword'));
-const Portal = lazy(() => import('modules/portal'));
-const CreateProject = lazy(() => import('modules/portal/projects/createProject'));
-const EditProject = lazy(() => import('modules/portal/projects/editProject'));
-const EditJob = lazy(() => import('modules/portal/jobs/editJob'));
-const ListOfCustomers = lazy(() => import('modules/portal/customers/listOfCustomers'));
-const CreateCustomer = lazy(() => import('modules/portal/customers/createCustomer'));
-const CreateUser = lazy(() => import('modules/portal/users/createUser'));
-const ListOfUsers = lazy(() => import('modules/portal/users/listOfUsers'));
-const System = lazy(() => import('modules/portal/settings/system'));
-const Update = lazy(() => import('modules/portal/settings/update'));
+const SignInLocal = lazy( () => import( 'modules/Auth/signInLocal' ) );
+const ResetPassword = lazy( () => import( 'modules/Auth/resetPassword' ) );
+const Portal = lazy( () => import( 'modules/portal' ) );
+const CreateProject = lazy( () => import( 'modules/portal/projects/createProject' ) );
+const EditProject = lazy( () => import( 'modules/portal/projects/editProject' ) );
+const EditJob = lazy( () => import( 'modules/portal/jobs/editJob' ) );
+const ListOfCustomers = lazy( () => import( 'modules/portal/customers/listOfCustomers' ) );
+const CreateCustomer = lazy( () => import( 'modules/portal/customers/createCustomer' ) );
+const CreateUser = lazy( () => import( 'modules/portal/users/createUser' ) );
+const ListOfUsers = lazy( () => import( 'modules/portal/users/listOfUsers' ) );
+const System = lazy( () => import( 'modules/portal/settings/system' ) );
+const Update = lazy( () => import( 'modules/portal/settings/update' ) );
 
 export const Root = () => {
   return (
@@ -35,6 +36,16 @@ export const Root = () => {
             </ProtectedRoute>
           }
         >
+          <Route path={RoutesPath.ADMIN}>
+            <Route
+              path="applications-settings"
+              element={
+                <ProtectedRoute>
+                  <ApplicationsSettings />
+                </ProtectedRoute>
+              }
+            />
+          </Route>
           <Route path={RoutesPath.PROJECTS}>
             <Route
               path="create"

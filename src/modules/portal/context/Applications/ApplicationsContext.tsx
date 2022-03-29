@@ -7,9 +7,9 @@ interface IApplicationsContextType {
   loading: boolean;
 }
 
-export const ApplicationContext = createContext<IApplicationsContextType>({
+export const ApplicationContext = createContext<IApplicationsContextType>( {
   applications: [],
   loading: false
-});
+} );
 
-export const useApplicationContext = () => useContext(ApplicationContext);
+export const useApplicationContext = () => useContext( ApplicationContext );

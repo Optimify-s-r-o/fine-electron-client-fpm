@@ -14,7 +14,7 @@ export const AuthProvider = ( { children }: { children: JSX.Element; } ) => {
     const [isLoading, setIsLoading] = useState<boolean>( false );
     const [isLogged, setIsLogged] = useState<boolean>( user !== null );
 
-    const [signIn, { loading }] = useApi<SignInRequest, SignInResponse>();
+    const [signIn, { loading }] = useApi<SignInResponse, SignInRequest>();
 
     const SignIn = async ( username: string, password: string ) => {
         setIsLoading( true );

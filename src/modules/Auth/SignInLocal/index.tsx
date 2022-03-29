@@ -35,7 +35,7 @@ const SignInLocal = () => {
         const email =await window.API.keytarGetSecret("email") || "";
         const password =await window.API.keytarGetSecret("password") || "";
         const server =await window.API.keytarGetSecret("server") || process.env.REACT_APP_BACKEND_API;
-        
+
         setValue("email", email);
         setValue("password", password);
         setValue("server", server || "");

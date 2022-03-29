@@ -1,16 +1,17 @@
-import { useAuthContext } from 'modules/Auth/context/AuthContext';
-import { useEffect, useState } from 'react';
+import {useAuthContext} from 'modules/Auth/context/AuthContext';
+import {useState} from 'react';
 
-import { ProjectDtoPaginatedCollection } from '../../../../api/generated/api';
-import API from '../../../../utils/api';
-import { useApi } from '../../../../utils/hooks/useApi';
-import { TreeContext } from './TreeContext';
+import {ProjectDtoPaginatedCollection} from 'api/generated/api';
+import API from 'utils/api';
+import {useApi} from 'utils/hooks/useApi';
+import {TreeContext} from './TreeContext';
+import {useEffectAsync} from "utils/useEffectAsync";
 
 //TODO selected elementy do local storage
-export const TreeProvider = ( { children }: { children: JSX.Element; } ) => {
-    const { user, isLogged, loading: userLoading } = useAuthContext();
-    const [getProjects, { data: projectData, loading: projectsLoading }] = useApi<undefined, ProjectDtoPaginatedCollection>();
-    const [selectedProjectId, setSelectedProjectId] = useState<string | null>( null );
+export const TreeProvider = ({children}: { children: JSX.Element; }) => {
+    const {user, isLogged, loading: userLoading} = useAuthContext();
+    const [getProjects, {data: projectData, loading: projectsLoading}] = useApi<ProjectDtoPaginatedCollection>();
+    const [selectedProjectId, setSelectedProjectId] = useState<string | null>(null);
 
     //Todo nastaveni stromu v local storage
     const requestedPageSize = 25;
@@ -31,20 +32,24 @@ export const TreeProvider = ( { children }: { children: JSX.Element; } ) => {
         previousPageExists: false
     };
 
-    useEffect( () => {
-        if ( isLogged && !userLoading ) {
-            getProjects( () => API.ProjectsApi.fineProjectManagerApiProjectsGet( filter, sort, page, requestedPageSize ) );
+    useEffectAsync(async () => {
+        if (isLogged && !userLoading) {
+            await getProjects(() => API.ProjectsApi.fineProjectManagerApiProjectsGet(filter, sort, page, requestedPageSize));
         }
-    }, [isLogged, user, userLoading] );
+    }, [isLogged, user, userLoading]);
 
-    const selectProject = ( id: string ) => {
-        setSelectedProjectId( id );
+    const selectProject = (id: string) => {
+        setSelectedProjectId(id);
     };
 
 
-
     return (
-        <TreeContext.Provider value={{ projectTree: projectData ? projectData : emptyProjectTree, loadingProjectTree: projectsLoading, selectProject: selectProject, selectedProjectId: selectedProjectId }} >
+        <TreeContext.Provider value={{
+            projectTree: projectData ? projectData : emptyProjectTree,
+            loadingProjectTree: projectsLoading,
+            selectProject: selectProject,
+            selectedProjectId: selectedProjectId
+        }}>
             {children}
-        </TreeContext.Provider> );
+        </TreeContext.Provider>);
 };

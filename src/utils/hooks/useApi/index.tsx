@@ -5,7 +5,7 @@ import { ClientExceptionPublicModel } from '../../../api/generated/api';
 import { MutationTuple } from './types';
 import {TFunction, useTranslation} from "react-i18next";
 
-export const useApi = <TInputData, TResponseData>(): MutationTuple<TInputData, TResponseData> => {
+export const useApi = <TResponseData, TInputData = void>(): MutationTuple<TInputData, TResponseData> => {
     const {t} = useTranslation(['form']);
 
     const [loading, setLoading] = React.useState<boolean>( false );

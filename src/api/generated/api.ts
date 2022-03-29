@@ -1183,6 +1183,39 @@ export const ApplicationsApiAxiosParamCreator = function (configuration?: Config
         },
         /**
          * 
+         * @summary Get all applications without using pagination
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        fineProjectManagerApiApplicationsNoPaginationGet: async (options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
+            const localVarPath = `/fine-project-manager/api/applications/no-pagination`;
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+
+            const localVarRequestOptions = { method: 'GET', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+
+            // authentication Bearer required
+            await setApiKeyToObject(localVarHeaderParameter, "Authorization", configuration)
+
+
+    
+            setSearchParams(localVarUrlObj, localVarQueryParameter);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+
+            return {
+                url: toPathString(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
+        /**
+         * 
          * @summary Create new entity
          * @param {ApplicationCreateRequest} [applicationCreateRequest] New entity data
          * @param {*} [options] Override http request option.
@@ -1257,7 +1290,7 @@ export const ApplicationsApiAxiosParamCreator = function (configuration?: Config
         },
         /**
          * 
-         * @summary Get link for uploading new attachment
+         * @summary Get link for uploading new attachment.  WARNING: This request also delete old icon, so don\'t use it if you don\'t plan to upload new icon!
          * @param {UploadApplicationIconRequest} [uploadApplicationIconRequest] 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
@@ -1340,6 +1373,16 @@ export const ApplicationsApiFp = function(configuration?: Configuration) {
         },
         /**
          * 
+         * @summary Get all applications without using pagination
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async fineProjectManagerApiApplicationsNoPaginationGet(options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<ApplicationDtoPaginatedCollection>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.fineProjectManagerApiApplicationsNoPaginationGet(options);
+            return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
+        },
+        /**
+         * 
          * @summary Create new entity
          * @param {ApplicationCreateRequest} [applicationCreateRequest] New entity data
          * @param {*} [options] Override http request option.
@@ -1362,7 +1405,7 @@ export const ApplicationsApiFp = function(configuration?: Configuration) {
         },
         /**
          * 
-         * @summary Get link for uploading new attachment
+         * @summary Get link for uploading new attachment.  WARNING: This request also delete old icon, so don\'t use it if you don\'t plan to upload new icon!
          * @param {UploadApplicationIconRequest} [uploadApplicationIconRequest] 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
@@ -1416,6 +1459,15 @@ export const ApplicationsApiFactory = function (configuration?: Configuration, b
         },
         /**
          * 
+         * @summary Get all applications without using pagination
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        fineProjectManagerApiApplicationsNoPaginationGet(options?: any): AxiosPromise<ApplicationDtoPaginatedCollection> {
+            return localVarFp.fineProjectManagerApiApplicationsNoPaginationGet(options).then((request) => request(axios, basePath));
+        },
+        /**
+         * 
          * @summary Create new entity
          * @param {ApplicationCreateRequest} [applicationCreateRequest] New entity data
          * @param {*} [options] Override http request option.
@@ -1436,7 +1488,7 @@ export const ApplicationsApiFactory = function (configuration?: Configuration, b
         },
         /**
          * 
-         * @summary Get link for uploading new attachment
+         * @summary Get link for uploading new attachment.  WARNING: This request also delete old icon, so don\'t use it if you don\'t plan to upload new icon!
          * @param {UploadApplicationIconRequest} [uploadApplicationIconRequest] 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
@@ -1495,6 +1547,17 @@ export class ApplicationsApi extends BaseAPI {
 
     /**
      * 
+     * @summary Get all applications without using pagination
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof ApplicationsApi
+     */
+    public fineProjectManagerApiApplicationsNoPaginationGet(options?: AxiosRequestConfig) {
+        return ApplicationsApiFp(this.configuration).fineProjectManagerApiApplicationsNoPaginationGet(options).then((request) => request(this.axios, this.basePath));
+    }
+
+    /**
+     * 
      * @summary Create new entity
      * @param {ApplicationCreateRequest} [applicationCreateRequest] New entity data
      * @param {*} [options] Override http request option.
@@ -1519,7 +1582,7 @@ export class ApplicationsApi extends BaseAPI {
 
     /**
      * 
-     * @summary Get link for uploading new attachment
+     * @summary Get link for uploading new attachment.  WARNING: This request also delete old icon, so don\'t use it if you don\'t plan to upload new icon!
      * @param {UploadApplicationIconRequest} [uploadApplicationIconRequest] 
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}

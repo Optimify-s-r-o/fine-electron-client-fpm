@@ -17,7 +17,9 @@
   },
   "projects": {
     "tabs": {
-      "newProject": "Vytvořit projekt"
+      "newProject": "Vytvořit projekt",
+      "editProjectMain": "Základní informace",
+      "editProjectFiles": "Přílohy"
     },
     "create": {
       "creatingInfo": "Vytvářím projekt",

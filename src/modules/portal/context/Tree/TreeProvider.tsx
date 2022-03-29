@@ -79,13 +79,12 @@ export const TreeProvider = ( { children }: { children: JSX.Element; } ) => {
 
   // Deselect project item if location changed outside project scope
   useEffect( () => {
-    console.log( location.pathname );
     if ( !location.pathname.startsWith( RoutesPath.PROJECTS ) && !location.pathname.startsWith( RoutesPath.JOBS ) ) {
       setSelectedProjectId( null );
     }
   }, [location] );
 
-  // Deselect job item if location changed outside project scope
+  // Deselect job item if location changed outside job scope
   useEffect( () => {
     if ( !location.pathname.startsWith( RoutesPath.JOBS ) ) {
       setSelectedJobId( null );

@@ -100,61 +100,61 @@ export interface ApplicationDtoPaginatedCollection {
      * @type {Array<ApplicationDto>}
      * @memberof ApplicationDtoPaginatedCollection
      */
-    'data'?: Array<ApplicationDto> | null;
+    'data': Array<ApplicationDto>;
     /**
      * Page number of result
      * @type {number}
      * @memberof ApplicationDtoPaginatedCollection
      */
-    'page'?: number;
+    'page': number;
     /**
      * True page size
      * @type {number}
      * @memberof ApplicationDtoPaginatedCollection
      */
-    'pageSize'?: number;
+    'pageSize': number;
     /**
      * Requested page size
      * @type {number}
      * @memberof ApplicationDtoPaginatedCollection
      */
-    'requestedPageSize'?: number;
+    'requestedPageSize': number;
     /**
      * Total records that exist
      * @type {number}
      * @memberof ApplicationDtoPaginatedCollection
      */
-    'totalRecords'?: number;
+    'totalRecords': number;
     /**
      * Total number of pages that exist
      * @type {number}
      * @memberof ApplicationDtoPaginatedCollection
      */
-    'totalPages'?: number;
+    'totalPages': number;
     /**
      * Filter used by client
      * @type {string}
      * @memberof ApplicationDtoPaginatedCollection
      */
-    'filter'?: string | null;
+    'filter': string;
     /**
      * Sort used by client
      * @type {string}
      * @memberof ApplicationDtoPaginatedCollection
      */
-    'sort'?: string | null;
+    'sort': string;
     /**
      * Determine whether next page exists
      * @type {boolean}
      * @memberof ApplicationDtoPaginatedCollection
      */
-    'nextPageExists'?: boolean;
+    'nextPageExists': boolean;
     /**
      * Determine whether previous page exists
      * @type {boolean}
      * @memberof ApplicationDtoPaginatedCollection
      */
-    'previousPageExists'?: boolean;
+    'previousPageExists': boolean;
 }
 /**
  * Request for application update.  Icon update is separate request.
@@ -495,61 +495,61 @@ export interface JobDtoPaginatedCollection {
      * @type {Array<JobDto>}
      * @memberof JobDtoPaginatedCollection
      */
-    'data'?: Array<JobDto> | null;
+    'data': Array<JobDto>;
     /**
      * Page number of result
      * @type {number}
      * @memberof JobDtoPaginatedCollection
      */
-    'page'?: number;
+    'page': number;
     /**
      * True page size
      * @type {number}
      * @memberof JobDtoPaginatedCollection
      */
-    'pageSize'?: number;
+    'pageSize': number;
     /**
      * Requested page size
      * @type {number}
      * @memberof JobDtoPaginatedCollection
      */
-    'requestedPageSize'?: number;
+    'requestedPageSize': number;
     /**
      * Total records that exist
      * @type {number}
      * @memberof JobDtoPaginatedCollection
      */
-    'totalRecords'?: number;
+    'totalRecords': number;
     /**
      * Total number of pages that exist
      * @type {number}
      * @memberof JobDtoPaginatedCollection
      */
-    'totalPages'?: number;
+    'totalPages': number;
     /**
      * Filter used by client
      * @type {string}
      * @memberof JobDtoPaginatedCollection
      */
-    'filter'?: string | null;
+    'filter': string;
     /**
      * Sort used by client
      * @type {string}
      * @memberof JobDtoPaginatedCollection
      */
-    'sort'?: string | null;
+    'sort': string;
     /**
      * Determine whether next page exists
      * @type {boolean}
      * @memberof JobDtoPaginatedCollection
      */
-    'nextPageExists'?: boolean;
+    'nextPageExists': boolean;
     /**
      * Determine whether previous page exists
      * @type {boolean}
      * @memberof JobDtoPaginatedCollection
      */
-    'previousPageExists'?: boolean;
+    'previousPageExists': boolean;
 }
 /**
  * 
@@ -704,61 +704,61 @@ export interface ProjectDtoPaginatedCollection {
      * @type {Array<ProjectDto>}
      * @memberof ProjectDtoPaginatedCollection
      */
-    'data'?: Array<ProjectDto> | null;
+    'data': Array<ProjectDto>;
     /**
      * Page number of result
      * @type {number}
      * @memberof ProjectDtoPaginatedCollection
      */
-    'page'?: number;
+    'page': number;
     /**
      * True page size
      * @type {number}
      * @memberof ProjectDtoPaginatedCollection
      */
-    'pageSize'?: number;
+    'pageSize': number;
     /**
      * Requested page size
      * @type {number}
      * @memberof ProjectDtoPaginatedCollection
      */
-    'requestedPageSize'?: number;
+    'requestedPageSize': number;
     /**
      * Total records that exist
      * @type {number}
      * @memberof ProjectDtoPaginatedCollection
      */
-    'totalRecords'?: number;
+    'totalRecords': number;
     /**
      * Total number of pages that exist
      * @type {number}
      * @memberof ProjectDtoPaginatedCollection
      */
-    'totalPages'?: number;
+    'totalPages': number;
     /**
      * Filter used by client
      * @type {string}
      * @memberof ProjectDtoPaginatedCollection
      */
-    'filter'?: string | null;
+    'filter': string;
     /**
      * Sort used by client
      * @type {string}
      * @memberof ProjectDtoPaginatedCollection
      */
-    'sort'?: string | null;
+    'sort': string;
     /**
      * Determine whether next page exists
      * @type {boolean}
      * @memberof ProjectDtoPaginatedCollection
      */
-    'nextPageExists'?: boolean;
+    'nextPageExists': boolean;
     /**
      * Determine whether previous page exists
      * @type {boolean}
      * @memberof ProjectDtoPaginatedCollection
      */
-    'previousPageExists'?: boolean;
+    'previousPageExists': boolean;
 }
 /**
  * Project with all jobs loaded

@@ -1,8 +1,8 @@
 import { JobDto, ProjectDto, ProjectDtoPaginatedCollection } from 'api/generated/api';
 import { RoutesPath } from 'constants/routes';
 import { useAuthContext } from 'modules/Auth/context/AuthContext';
-import { useState } from 'react';
-import { useNavigate } from 'react-router';
+import { useEffect, useState } from 'react';
+import { useLocation, useNavigate } from 'react-router';
 import API from 'utils/api';
 import { useApi } from 'utils/hooks/useApi';
 import { useEffectAsync } from 'utils/useEffectAsync';
@@ -14,6 +14,7 @@ import { TreeContext } from './TreeContext';
 export const TreeProvider = ( { children }: { children: JSX.Element; } ) => {
   const { user, isLogged, loading: userLoading } = useAuthContext();
   const navigate = useNavigate();
+  const location = useLocation();
 
   const [getProjects, { loading: projectsLoading }] = useApi<ProjectDtoPaginatedCollection>();
   const [getJobs, { loading: jobsLoading }] = useApi<ProjectJobsDto>();
@@ -23,7 +24,7 @@ export const TreeProvider = ( { children }: { children: JSX.Element; } ) => {
   const [selectedProjectId, setSelectedProjectId] = useState<string | null>( null );
   const [selectedJobId, setSelectedJobId] = useState<string | null>( null );
 
-  //Todo nastaveni stromu v local storage
+  //Ulozeni nastaveni stromu
   const requestedPageSize = 25;
   const page = 0;
   const filter = '';
@@ -75,6 +76,21 @@ export const TreeProvider = ( { children }: { children: JSX.Element; } ) => {
     setSelectedJobId( null );
     navigate( `${ RoutesPath.PROJECTS }/${ id }` );
   };
+
+  // Deselect project item if location changed outside project scope
+  useEffect( () => {
+    console.log( location.pathname );
+    if ( !location.pathname.startsWith( RoutesPath.PROJECTS ) && !location.pathname.startsWith( RoutesPath.JOBS ) ) {
+      setSelectedProjectId( null );
+    }
+  }, [location] );
+
+  // Deselect job item if location changed outside project scope
+  useEffect( () => {
+    if ( !location.pathname.startsWith( RoutesPath.JOBS ) ) {
+      setSelectedJobId( null );
+    }
+  }, [location] );
 
   const selectJob = ( id: string ) => {
     setSelectedJobId( id );

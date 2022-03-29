@@ -22,6 +22,166 @@ import { DUMMY_BASE_URL, assertParamExists, setApiKeyToObject, setBasicAuthToObj
 import { BASE_PATH, COLLECTION_FORMATS, RequestArgs, BaseAPI, RequiredError } from './base';
 
 /**
+ * Request for creating new application
+ * @export
+ * @interface ApplicationCreateRequest
+ */
+export interface ApplicationCreateRequest {
+    /**
+     * Name of the application
+     * @type {string}
+     * @memberof ApplicationCreateRequest
+     */
+    'name': string;
+    /**
+     * Internal code of the application
+     * @type {string}
+     * @memberof ApplicationCreateRequest
+     */
+    'code': string;
+}
+/**
+ * Public application model
+ * @export
+ * @interface ApplicationDto
+ */
+export interface ApplicationDto {
+    /**
+     * Entity id
+     * @type {string}
+     * @memberof ApplicationDto
+     */
+    'id': string;
+    /**
+     * When was entity created
+     * @type {string}
+     * @memberof ApplicationDto
+     */
+    'createdAt': string;
+    /**
+     * Whem was entity modified
+     * @type {string}
+     * @memberof ApplicationDto
+     */
+    'updatedAt': string;
+    /**
+     * Name of application
+     * @type {string}
+     * @memberof ApplicationDto
+     */
+    'name': string;
+    /**
+     * Code of application
+     * @type {string}
+     * @memberof ApplicationDto
+     */
+    'code': string;
+    /**
+     * Url to icon.  Null if icon not exists.
+     * @type {string}
+     * @memberof ApplicationDto
+     */
+    'icon'?: string | null;
+    /**
+     * Application icon suffix to determine correct format
+     * @type {string}
+     * @memberof ApplicationDto
+     */
+    'applicationIconSuffix'?: string | null;
+}
+/**
+ * Standard class used for paginated results
+ * @export
+ * @interface ApplicationDtoPaginatedCollection
+ */
+export interface ApplicationDtoPaginatedCollection {
+    /**
+     * Data in collection
+     * @type {Array<ApplicationDto>}
+     * @memberof ApplicationDtoPaginatedCollection
+     */
+    'data'?: Array<ApplicationDto> | null;
+    /**
+     * Page number of result
+     * @type {number}
+     * @memberof ApplicationDtoPaginatedCollection
+     */
+    'page'?: number;
+    /**
+     * True page size
+     * @type {number}
+     * @memberof ApplicationDtoPaginatedCollection
+     */
+    'pageSize'?: number;
+    /**
+     * Requested page size
+     * @type {number}
+     * @memberof ApplicationDtoPaginatedCollection
+     */
+    'requestedPageSize'?: number;
+    /**
+     * Total records that exist
+     * @type {number}
+     * @memberof ApplicationDtoPaginatedCollection
+     */
+    'totalRecords'?: number;
+    /**
+     * Total number of pages that exist
+     * @type {number}
+     * @memberof ApplicationDtoPaginatedCollection
+     */
+    'totalPages'?: number;
+    /**
+     * Filter used by client
+     * @type {string}
+     * @memberof ApplicationDtoPaginatedCollection
+     */
+    'filter'?: string | null;
+    /**
+     * Sort used by client
+     * @type {string}
+     * @memberof ApplicationDtoPaginatedCollection
+     */
+    'sort'?: string | null;
+    /**
+     * Determine whether next page exists
+     * @type {boolean}
+     * @memberof ApplicationDtoPaginatedCollection
+     */
+    'nextPageExists'?: boolean;
+    /**
+     * Determine whether previous page exists
+     * @type {boolean}
+     * @memberof ApplicationDtoPaginatedCollection
+     */
+    'previousPageExists'?: boolean;
+}
+/**
+ * Request for application update.  Icon update is separate request.
+ * @export
+ * @interface ApplicationUpdateRequest
+ */
+export interface ApplicationUpdateRequest {
+    /**
+     * Entity id
+     * @type {string}
+     * @memberof ApplicationUpdateRequest
+     */
+    'id': string;
+    /**
+     * Name of the application
+     * @type {string}
+     * @memberof ApplicationUpdateRequest
+     */
+    'name': string;
+    /**
+     * Internal code of the application
+     * @type {string}
+     * @memberof ApplicationUpdateRequest
+     */
+    'code': string;
+}
+/**
  * 
  * @export
  * @interface ClientErrorData
@@ -688,6 +848,25 @@ export interface SignInResponse {
     'isAuthenticated': boolean;
 }
 /**
+ * Request for uploading icon of the application
+ * @export
+ * @interface UploadApplicationIconRequest
+ */
+export interface UploadApplicationIconRequest {
+    /**
+     * Entity id
+     * @type {string}
+     * @memberof UploadApplicationIconRequest
+     */
+    'applicationId'?: string;
+    /**
+     * File format (like \'png\', \'ico\', \'jpg\'...)
+     * @type {string}
+     * @memberof UploadApplicationIconRequest
+     */
+    'suffix'?: string | null;
+}
+/**
  * Request for uploading attachment file
  * @export
  * @interface UploadJobAttachmentRequest
@@ -868,6 +1047,489 @@ export interface UserRoleDto {
      */
     'roleId'?: string;
 }
+
+/**
+ * ApplicationsApi - axios parameter creator
+ * @export
+ */
+export const ApplicationsApiAxiosParamCreator = function (configuration?: Configuration) {
+    return {
+        /**
+         * 
+         * @summary List all entities in paginated collection
+         * @param {string} [query] Search query
+         * @param {string} [sort] Order by
+         * @param {number} [page] Page numver
+         * @param {number} [pageSize] Page size
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        fineProjectManagerApiApplicationsGet: async (query?: string, sort?: string, page?: number, pageSize?: number, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
+            const localVarPath = `/fine-project-manager/api/applications`;
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+
+            const localVarRequestOptions = { method: 'GET', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+
+            // authentication Bearer required
+            await setApiKeyToObject(localVarHeaderParameter, "Authorization", configuration)
+
+            if (query !== undefined) {
+                localVarQueryParameter['query'] = query;
+            }
+
+            if (sort !== undefined) {
+                localVarQueryParameter['sort'] = sort;
+            }
+
+            if (page !== undefined) {
+                localVarQueryParameter['page'] = page;
+            }
+
+            if (pageSize !== undefined) {
+                localVarQueryParameter['pageSize'] = pageSize;
+            }
+
+
+    
+            setSearchParams(localVarUrlObj, localVarQueryParameter);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+
+            return {
+                url: toPathString(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
+        /**
+         * 
+         * @summary Delete entity with given id.  Throw error if entity not exists
+         * @param {string} id Entity id
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        fineProjectManagerApiApplicationsIdDelete: async (id: string, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
+            // verify required parameter 'id' is not null or undefined
+            assertParamExists('fineProjectManagerApiApplicationsIdDelete', 'id', id)
+            const localVarPath = `/fine-project-manager/api/applications/{id}`
+                .replace(`{${"id"}}`, encodeURIComponent(String(id)));
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+
+            const localVarRequestOptions = { method: 'DELETE', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+
+            // authentication Bearer required
+            await setApiKeyToObject(localVarHeaderParameter, "Authorization", configuration)
+
+
+    
+            setSearchParams(localVarUrlObj, localVarQueryParameter);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+
+            return {
+                url: toPathString(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
+        /**
+         * 
+         * @summary Get single entity with given id.  Throw error if entity not exists
+         * @param {string} id Entity id
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        fineProjectManagerApiApplicationsIdGet: async (id: string, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
+            // verify required parameter 'id' is not null or undefined
+            assertParamExists('fineProjectManagerApiApplicationsIdGet', 'id', id)
+            const localVarPath = `/fine-project-manager/api/applications/{id}`
+                .replace(`{${"id"}}`, encodeURIComponent(String(id)));
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+
+            const localVarRequestOptions = { method: 'GET', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+
+            // authentication Bearer required
+            await setApiKeyToObject(localVarHeaderParameter, "Authorization", configuration)
+
+
+    
+            setSearchParams(localVarUrlObj, localVarQueryParameter);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+
+            return {
+                url: toPathString(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
+        /**
+         * 
+         * @summary Create new entity
+         * @param {ApplicationCreateRequest} [applicationCreateRequest] New entity data
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        fineProjectManagerApiApplicationsPost: async (applicationCreateRequest?: ApplicationCreateRequest, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
+            const localVarPath = `/fine-project-manager/api/applications`;
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+
+            const localVarRequestOptions = { method: 'POST', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+
+            // authentication Bearer required
+            await setApiKeyToObject(localVarHeaderParameter, "Authorization", configuration)
+
+
+    
+            localVarHeaderParameter['Content-Type'] = 'application/json';
+
+            setSearchParams(localVarUrlObj, localVarQueryParameter);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+            localVarRequestOptions.data = serializeDataIfNeeded(applicationCreateRequest, localVarRequestOptions, configuration)
+
+            return {
+                url: toPathString(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
+        /**
+         * 
+         * @summary Update single entity
+         * @param {ApplicationUpdateRequest} [applicationUpdateRequest] New entity data
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        fineProjectManagerApiApplicationsPut: async (applicationUpdateRequest?: ApplicationUpdateRequest, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
+            const localVarPath = `/fine-project-manager/api/applications`;
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+
+            const localVarRequestOptions = { method: 'PUT', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+
+            // authentication Bearer required
+            await setApiKeyToObject(localVarHeaderParameter, "Authorization", configuration)
+
+
+    
+            localVarHeaderParameter['Content-Type'] = 'application/json';
+
+            setSearchParams(localVarUrlObj, localVarQueryParameter);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+            localVarRequestOptions.data = serializeDataIfNeeded(applicationUpdateRequest, localVarRequestOptions, configuration)
+
+            return {
+                url: toPathString(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
+        /**
+         * 
+         * @summary Get link for uploading new attachment
+         * @param {UploadApplicationIconRequest} [uploadApplicationIconRequest] 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        fineProjectManagerApiApplicationsUploadIconPost: async (uploadApplicationIconRequest?: UploadApplicationIconRequest, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
+            const localVarPath = `/fine-project-manager/api/applications/upload-icon`;
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+
+            const localVarRequestOptions = { method: 'POST', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+
+            // authentication Bearer required
+            await setApiKeyToObject(localVarHeaderParameter, "Authorization", configuration)
+
+
+    
+            localVarHeaderParameter['Content-Type'] = 'application/json';
+
+            setSearchParams(localVarUrlObj, localVarQueryParameter);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+            localVarRequestOptions.data = serializeDataIfNeeded(uploadApplicationIconRequest, localVarRequestOptions, configuration)
+
+            return {
+                url: toPathString(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
+    }
+};
+
+/**
+ * ApplicationsApi - functional programming interface
+ * @export
+ */
+export const ApplicationsApiFp = function(configuration?: Configuration) {
+    const localVarAxiosParamCreator = ApplicationsApiAxiosParamCreator(configuration)
+    return {
+        /**
+         * 
+         * @summary List all entities in paginated collection
+         * @param {string} [query] Search query
+         * @param {string} [sort] Order by
+         * @param {number} [page] Page numver
+         * @param {number} [pageSize] Page size
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async fineProjectManagerApiApplicationsGet(query?: string, sort?: string, page?: number, pageSize?: number, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<ApplicationDtoPaginatedCollection>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.fineProjectManagerApiApplicationsGet(query, sort, page, pageSize, options);
+            return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
+        },
+        /**
+         * 
+         * @summary Delete entity with given id.  Throw error if entity not exists
+         * @param {string} id Entity id
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async fineProjectManagerApiApplicationsIdDelete(id: string, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<void>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.fineProjectManagerApiApplicationsIdDelete(id, options);
+            return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
+        },
+        /**
+         * 
+         * @summary Get single entity with given id.  Throw error if entity not exists
+         * @param {string} id Entity id
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async fineProjectManagerApiApplicationsIdGet(id: string, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<ApplicationDto>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.fineProjectManagerApiApplicationsIdGet(id, options);
+            return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
+        },
+        /**
+         * 
+         * @summary Create new entity
+         * @param {ApplicationCreateRequest} [applicationCreateRequest] New entity data
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async fineProjectManagerApiApplicationsPost(applicationCreateRequest?: ApplicationCreateRequest, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<void>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.fineProjectManagerApiApplicationsPost(applicationCreateRequest, options);
+            return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
+        },
+        /**
+         * 
+         * @summary Update single entity
+         * @param {ApplicationUpdateRequest} [applicationUpdateRequest] New entity data
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async fineProjectManagerApiApplicationsPut(applicationUpdateRequest?: ApplicationUpdateRequest, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<ApplicationDto>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.fineProjectManagerApiApplicationsPut(applicationUpdateRequest, options);
+            return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
+        },
+        /**
+         * 
+         * @summary Get link for uploading new attachment
+         * @param {UploadApplicationIconRequest} [uploadApplicationIconRequest] 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async fineProjectManagerApiApplicationsUploadIconPost(uploadApplicationIconRequest?: UploadApplicationIconRequest, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<FileOperationResponse>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.fineProjectManagerApiApplicationsUploadIconPost(uploadApplicationIconRequest, options);
+            return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
+        },
+    }
+};
+
+/**
+ * ApplicationsApi - factory interface
+ * @export
+ */
+export const ApplicationsApiFactory = function (configuration?: Configuration, basePath?: string, axios?: AxiosInstance) {
+    const localVarFp = ApplicationsApiFp(configuration)
+    return {
+        /**
+         * 
+         * @summary List all entities in paginated collection
+         * @param {string} [query] Search query
+         * @param {string} [sort] Order by
+         * @param {number} [page] Page numver
+         * @param {number} [pageSize] Page size
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        fineProjectManagerApiApplicationsGet(query?: string, sort?: string, page?: number, pageSize?: number, options?: any): AxiosPromise<ApplicationDtoPaginatedCollection> {
+            return localVarFp.fineProjectManagerApiApplicationsGet(query, sort, page, pageSize, options).then((request) => request(axios, basePath));
+        },
+        /**
+         * 
+         * @summary Delete entity with given id.  Throw error if entity not exists
+         * @param {string} id Entity id
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        fineProjectManagerApiApplicationsIdDelete(id: string, options?: any): AxiosPromise<void> {
+            return localVarFp.fineProjectManagerApiApplicationsIdDelete(id, options).then((request) => request(axios, basePath));
+        },
+        /**
+         * 
+         * @summary Get single entity with given id.  Throw error if entity not exists
+         * @param {string} id Entity id
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        fineProjectManagerApiApplicationsIdGet(id: string, options?: any): AxiosPromise<ApplicationDto> {
+            return localVarFp.fineProjectManagerApiApplicationsIdGet(id, options).then((request) => request(axios, basePath));
+        },
+        /**
+         * 
+         * @summary Create new entity
+         * @param {ApplicationCreateRequest} [applicationCreateRequest] New entity data
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        fineProjectManagerApiApplicationsPost(applicationCreateRequest?: ApplicationCreateRequest, options?: any): AxiosPromise<void> {
+            return localVarFp.fineProjectManagerApiApplicationsPost(applicationCreateRequest, options).then((request) => request(axios, basePath));
+        },
+        /**
+         * 
+         * @summary Update single entity
+         * @param {ApplicationUpdateRequest} [applicationUpdateRequest] New entity data
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        fineProjectManagerApiApplicationsPut(applicationUpdateRequest?: ApplicationUpdateRequest, options?: any): AxiosPromise<ApplicationDto> {
+            return localVarFp.fineProjectManagerApiApplicationsPut(applicationUpdateRequest, options).then((request) => request(axios, basePath));
+        },
+        /**
+         * 
+         * @summary Get link for uploading new attachment
+         * @param {UploadApplicationIconRequest} [uploadApplicationIconRequest] 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        fineProjectManagerApiApplicationsUploadIconPost(uploadApplicationIconRequest?: UploadApplicationIconRequest, options?: any): AxiosPromise<FileOperationResponse> {
+            return localVarFp.fineProjectManagerApiApplicationsUploadIconPost(uploadApplicationIconRequest, options).then((request) => request(axios, basePath));
+        },
+    };
+};
+
+/**
+ * ApplicationsApi - object-oriented interface
+ * @export
+ * @class ApplicationsApi
+ * @extends {BaseAPI}
+ */
+export class ApplicationsApi extends BaseAPI {
+    /**
+     * 
+     * @summary List all entities in paginated collection
+     * @param {string} [query] Search query
+     * @param {string} [sort] Order by
+     * @param {number} [page] Page numver
+     * @param {number} [pageSize] Page size
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof ApplicationsApi
+     */
+    public fineProjectManagerApiApplicationsGet(query?: string, sort?: string, page?: number, pageSize?: number, options?: AxiosRequestConfig) {
+        return ApplicationsApiFp(this.configuration).fineProjectManagerApiApplicationsGet(query, sort, page, pageSize, options).then((request) => request(this.axios, this.basePath));
+    }
+
+    /**
+     * 
+     * @summary Delete entity with given id.  Throw error if entity not exists
+     * @param {string} id Entity id
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof ApplicationsApi
+     */
+    public fineProjectManagerApiApplicationsIdDelete(id: string, options?: AxiosRequestConfig) {
+        return ApplicationsApiFp(this.configuration).fineProjectManagerApiApplicationsIdDelete(id, options).then((request) => request(this.axios, this.basePath));
+    }
+
+    /**
+     * 
+     * @summary Get single entity with given id.  Throw error if entity not exists
+     * @param {string} id Entity id
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof ApplicationsApi
+     */
+    public fineProjectManagerApiApplicationsIdGet(id: string, options?: AxiosRequestConfig) {
+        return ApplicationsApiFp(this.configuration).fineProjectManagerApiApplicationsIdGet(id, options).then((request) => request(this.axios, this.basePath));
+    }
+
+    /**
+     * 
+     * @summary Create new entity
+     * @param {ApplicationCreateRequest} [applicationCreateRequest] New entity data
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof ApplicationsApi
+     */
+    public fineProjectManagerApiApplicationsPost(applicationCreateRequest?: ApplicationCreateRequest, options?: AxiosRequestConfig) {
+        return ApplicationsApiFp(this.configuration).fineProjectManagerApiApplicationsPost(applicationCreateRequest, options).then((request) => request(this.axios, this.basePath));
+    }
+
+    /**
+     * 
+     * @summary Update single entity
+     * @param {ApplicationUpdateRequest} [applicationUpdateRequest] New entity data
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof ApplicationsApi
+     */
+    public fineProjectManagerApiApplicationsPut(applicationUpdateRequest?: ApplicationUpdateRequest, options?: AxiosRequestConfig) {
+        return ApplicationsApiFp(this.configuration).fineProjectManagerApiApplicationsPut(applicationUpdateRequest, options).then((request) => request(this.axios, this.basePath));
+    }
+
+    /**
+     * 
+     * @summary Get link for uploading new attachment
+     * @param {UploadApplicationIconRequest} [uploadApplicationIconRequest] 
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof ApplicationsApi
+     */
+    public fineProjectManagerApiApplicationsUploadIconPost(uploadApplicationIconRequest?: UploadApplicationIconRequest, options?: AxiosRequestConfig) {
+        return ApplicationsApiFp(this.configuration).fineProjectManagerApiApplicationsUploadIconPost(uploadApplicationIconRequest, options).then((request) => request(this.axios, this.basePath));
+    }
+}
+
 
 /**
  * JobsApi - axios parameter creator

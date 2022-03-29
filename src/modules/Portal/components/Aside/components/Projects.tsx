@@ -1,4 +1,4 @@
-import { faAngleRight } from '@fortawesome/pro-light-svg-icons';
+import { faAngleRight, faCross } from '@fortawesome/pro-light-svg-icons';
 import { faFolder } from '@fortawesome/pro-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { useTreeContext } from 'modules/Portal/context/Tree/TreeContext';
@@ -6,9 +6,9 @@ import { useTreeContext } from 'modules/Portal/context/Tree/TreeContext';
 import * as S from '../styled';
 
 export const Projects = () => {
-    const { projectTree, loadingProjectTree } = useTreeContext();
+    const { projectTree, selectedProjectId, selectProject, loadingProjectTree } = useTreeContext();
 
-    //TODO KAREL
+    //TODO MARA
     // je potreba pridat strankovani - tam chybi i UI
     // napojit
     // pridat routovani
@@ -20,13 +20,15 @@ export const Projects = () => {
         {loadingProjectTree ? 'loading'
             :
             projectTree.data?.map( ( item ) => {
-                return ( <S.Item key={item.name}>
+                return ( <S.Item key={item.name} onClick={() => selectProject( item.id )}>
                     <S.TitleWrapper>
                         <FontAwesomeIcon
                             icon={faFolder}
                         />
                         <S.Title>{item.name}</S.Title>
                     </S.TitleWrapper>
+                    {/* TODO MARA poznat ktery prvek je selectnuty graficky, ted je jen ikona jen pro overeni funkcnosti  */}
+                    {item.id === selectedProjectId && <FontAwesomeIcon icon={faCross} />}
                     <FontAwesomeIcon icon={faAngleRight} />
                 </S.Item> );
             } )}

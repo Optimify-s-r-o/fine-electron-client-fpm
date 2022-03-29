@@ -55,6 +55,10 @@ export const RowAlignEnd = styled(Row)`
   align-items: flex-end;
 `;
 
+export const RowAlignCenter = styled(Row)`
+  align-items: center;
+`;
+
 export const Center = styled(Flex)`
   align-items: center;
   justify-content: center;

@@ -9,7 +9,7 @@
   },
   "button": {
     "signIn": "Přihlásit se",
-    "save": "Uložiz změny",
+    "save": "Uložit změny",
     "createProject": "Vytvořit projekt",
     "createCustomer": "Vytvořit zákazníka",
     "createUser": "Vytvořit uživatele"
@@ -30,6 +30,14 @@
     "fileExtension": "Formát",
     "fileAdd": "Přidat přílohy",
     "noFiles": "Zatím nebyly vloženy žádné přílohy.\nPoužijte tlačítko pod tabulkou nebo zde soubory přetáhněte.",
-    "dropFiles": "Přetáhněte zde soubory, které chcete vložit."
+    "dropFiles": "Přetáhněte zde soubory, které chcete vložit.",
+    "programName": "Název programu",
+    "programCode": "Interní kód programu",
+    "programPath": "Cesta ke spustitelnému souboru",
+    "programIcon": "Ikona",
+    "iconAdd": "Přidat ikonu",
+    "iconChange": "Změnit ikonu",
+    "programAdd": "Přidat podporovaný program",
+    "noPrograms": "Zatím nebyly přidány žádné podporované programy.\nPoužijte tlačítko pod tabulkou pro přidání."
   }
 }

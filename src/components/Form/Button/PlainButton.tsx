@@ -32,8 +32,7 @@ export const PlainButton = ({
       level={level}
       withMargin={withMargin}
       hasIcon={!!icon}
-      onClick={onClick}
-    >
+      onClick={onClick}>
       {icon && <FontAwesomeIcon icon={icon} />}
       <ChildrenWrapper>{children}</ChildrenWrapper>
       {loading && (
@@ -133,7 +132,7 @@ const ButtonElement = styled.button<{
     position: absolute;
 
     left: 16px;
-    top: 10px;
+    top: ${(props) => (props.level === 3 ? '8px' : '10px')};
 
     width: 15px;
     height: 15px;

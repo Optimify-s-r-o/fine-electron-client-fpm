@@ -9,7 +9,7 @@ import { CloseButton } from 'components/Form/Button/CloseButton';
 import { faPlus } from '@fortawesome/pro-light-svg-icons';
 import { PlainButton } from 'components/Form/Button/PlainButton';
 import { Input } from 'components/Form/Input/styled';
-import { useRef } from 'react';
+import { ChangeEvent, useRef } from 'react';
 
 export const CreateProjectForm = ({
   register
@@ -85,8 +85,7 @@ export const CreateProjectForm = ({
                   onClick={(e) => {
                     e.preventDefault();
                     fileInputRef.current?.click();
-                  }}
-                >
+                  }}>
                   {t('form:table.fileAdd')}
                 </PlainButton>
                 <input
@@ -97,7 +96,9 @@ export const CreateProjectForm = ({
                   style={{ display: 'none' }}
                   autoComplete={'off'}
                   tabIndex={-1}
-                  // TODO add handler, similiar to table's onFilesDrop handler
+                  onChange={(e: ChangeEvent<HTMLInputElement>) => {
+                    if (e.target.files) addFile(e.target.files[0]);
+                  }}
                 />
               </label>
             </GS.Center>

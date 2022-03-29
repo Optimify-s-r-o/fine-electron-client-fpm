@@ -55,7 +55,7 @@ export const CardTable = <T extends unknown>({
     <>
       {!loading &&
         dataSource?.map((data: any, key: number) => {
-          return <TableRow data={data} tableRowKey={key} columns={columns} />;
+          return <TableRow key={key} data={data} tableRowKey={key} columns={columns} />;
         })}
       {!loading && dataSource?.length === 0 && emptyTableText && (
         <tr>
@@ -170,7 +170,7 @@ const StyledTable = styled.table<{ dropText: string }>`
     font-size: 13px;
 
     overflow: visible;
-    vertical-align: top;
+    vertical-align: middle;
   }
 
   td:last-child {

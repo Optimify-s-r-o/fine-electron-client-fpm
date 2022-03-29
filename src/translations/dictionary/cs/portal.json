@@ -16,6 +16,12 @@
 	"projects": {
 		"tabs": {
 			"newProject": "Vytvořit projekt"
+		},
+		"create": {
+			"creatingInfo": "Vytvářím projekt",
+			"creatingDone": "Projekt vytvořen",
+			"attachmentsInfo": "Nahrávám přílohy",
+			"attachmentsDone": "Přílohy zpracovány"
 		}
 	}
 }

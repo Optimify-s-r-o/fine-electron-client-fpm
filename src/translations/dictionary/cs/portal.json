@@ -35,5 +35,13 @@
     "tabs": {
       "applicationsSettings": "Správa aplikací"
     }
+  },
+  "settings": {
+    "title": "Nastavení",
+    "tabs": {
+      "system": "Nastevení systému",
+      "applicationsSettings": "Cesty k programům",
+      "update": "Aktualizace"
+    }
   }
 }

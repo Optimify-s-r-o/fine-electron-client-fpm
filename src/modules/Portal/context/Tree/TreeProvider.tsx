@@ -65,18 +65,20 @@ export const TreeProvider = ( { children }: { children: JSX.Element; } ) => {
 
     const selectProject = ( id: string ) => {
         setSelectedProjectId( id );
+        // TODO RICHARD pridat navigaci na projekt pokud se tato hodnota zmeni
     };
 
     const selectJob = ( id: string ) => {
         setSelectedJobId( id );
     };
 
+    // Push project to current tree
     const handleNewProject = async ( project: ProjectDto ) => {
         const newTree = { ...projectsData };
         newTree.data = [project, ...newTree.data as ProjectDto[]];
 
         setProjectsData( newTree );
-        setSelectedProjectId( project.id );
+        selectProject( project.id );
     };
 
     return (

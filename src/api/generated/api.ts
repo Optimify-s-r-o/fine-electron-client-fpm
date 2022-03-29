@@ -1021,74 +1021,55 @@ export interface UserDto {
      * @type {string}
      * @memberof UserDto
      */
-    'id'?: string;
+    'id': string;
     /**
      * Date of creation
      * @type {string}
      * @memberof UserDto
      */
-    'createdAt'?: string;
+    'createdAt': string;
     /**
      * Date of last update
      * @type {string}
      * @memberof UserDto
      */
-    'updatedAt'?: string;
+    'updatedAt': string;
     /**
      * User username
      * @type {string}
      * @memberof UserDto
      */
-    'userName'?: string | null;
+    'userName': string;
     /**
      * Normalized username
      * @type {string}
      * @memberof UserDto
      */
-    'normalizedUserName'?: string | null;
+    'normalizedUserName': string;
     /**
      * User email
      * @type {string}
      * @memberof UserDto
      */
-    'email'?: string | null;
+    'email': string;
     /**
      * Normalized email
      * @type {string}
      * @memberof UserDto
      */
-    'normalizedEmail'?: string | null;
+    'normalizedEmail': string;
     /**
      * User phone number
      * @type {string}
      * @memberof UserDto
      */
-    'phoneNumber'?: string | null;
+    'phoneNumber': string;
     /**
      * User roles
-     * @type {Array<UserRoleDto>}
+     * @type {Array<string>}
      * @memberof UserDto
      */
-    'userRoles'?: Array<UserRoleDto> | null;
-}
-/**
- * User role class
- * @export
- * @interface UserRoleDto
- */
-export interface UserRoleDto {
-    /**
-     * Id of associated user
-     * @type {string}
-     * @memberof UserRoleDto
-     */
-    'userId'?: string;
-    /**
-     * Role of associated user
-     * @type {string}
-     * @memberof UserRoleDto
-     */
-    'roleId'?: string;
+    'userRoles': Array<string>;
 }
 
 /**
@@ -3402,6 +3383,43 @@ export const UsersApiAxiosParamCreator = function (configuration?: Configuration
     return {
         /**
          * 
+         * @summary Admin create. This request can be called only if no admin exists.
+         * @param {UserCreateRequest} [userCreateRequest] Get login token
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        fineProjectManagerApiUsersCreateAdminPost: async (userCreateRequest?: UserCreateRequest, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
+            const localVarPath = `/fine-project-manager/api/users/create-admin`;
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+
+            const localVarRequestOptions = { method: 'POST', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+
+            // authentication Bearer required
+            await setApiKeyToObject(localVarHeaderParameter, "Authorization", configuration)
+
+
+    
+            localVarHeaderParameter['Content-Type'] = 'application/json';
+
+            setSearchParams(localVarUrlObj, localVarQueryParameter);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+            localVarRequestOptions.data = serializeDataIfNeeded(userCreateRequest, localVarRequestOptions, configuration)
+
+            return {
+                url: toPathString(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
+        /**
+         * 
          * @summary Register new user
          * @param {UserCreateRequest} [userCreateRequest] New entity data
          * @param {*} [options] Override http request option.
@@ -3486,6 +3504,17 @@ export const UsersApiFp = function(configuration?: Configuration) {
     return {
         /**
          * 
+         * @summary Admin create. This request can be called only if no admin exists.
+         * @param {UserCreateRequest} [userCreateRequest] Get login token
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async fineProjectManagerApiUsersCreateAdminPost(userCreateRequest?: UserCreateRequest, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<SignInResponse>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.fineProjectManagerApiUsersCreateAdminPost(userCreateRequest, options);
+            return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
+        },
+        /**
+         * 
          * @summary Register new user
          * @param {UserCreateRequest} [userCreateRequest] New entity data
          * @param {*} [options] Override http request option.
@@ -3518,6 +3547,16 @@ export const UsersApiFactory = function (configuration?: Configuration, basePath
     return {
         /**
          * 
+         * @summary Admin create. This request can be called only if no admin exists.
+         * @param {UserCreateRequest} [userCreateRequest] Get login token
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        fineProjectManagerApiUsersCreateAdminPost(userCreateRequest?: UserCreateRequest, options?: any): AxiosPromise<SignInResponse> {
+            return localVarFp.fineProjectManagerApiUsersCreateAdminPost(userCreateRequest, options).then((request) => request(axios, basePath));
+        },
+        /**
+         * 
          * @summary Register new user
          * @param {UserCreateRequest} [userCreateRequest] New entity data
          * @param {*} [options] Override http request option.
@@ -3546,6 +3585,18 @@ export const UsersApiFactory = function (configuration?: Configuration, basePath
  * @extends {BaseAPI}
  */
 export class UsersApi extends BaseAPI {
+    /**
+     * 
+     * @summary Admin create. This request can be called only if no admin exists.
+     * @param {UserCreateRequest} [userCreateRequest] Get login token
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof UsersApi
+     */
+    public fineProjectManagerApiUsersCreateAdminPost(userCreateRequest?: UserCreateRequest, options?: AxiosRequestConfig) {
+        return UsersApiFp(this.configuration).fineProjectManagerApiUsersCreateAdminPost(userCreateRequest, options).then((request) => request(this.axios, this.basePath));
+    }
+
     /**
      * 
      * @summary Register new user

@@ -31,7 +31,7 @@ jobs:
         run: npm i
 
       - name: Format
-          run: npm run format
+        run: npm run format
 
       - name: Build Electron release
         run: npm run release

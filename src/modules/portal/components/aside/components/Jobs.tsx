@@ -4,8 +4,6 @@ import { useTreeContext } from 'modules/portal/context/Tree/TreeContext';
 
 import * as S from '../styled';
 import { MouseEvent } from 'react';
-import { RoutesPath } from '../../../../../constants/routes';
-import { useNavigate } from 'react-router-dom';
 
 //TODO MARA
 // Strankovani tady neexistuje, vsechny operace se provadi s lokalnimi daty1

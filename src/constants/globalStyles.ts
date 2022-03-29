@@ -137,8 +137,7 @@ export const GridItem = styled.div<{
   box-sizing: border-box;
   padding: 8px;
 
-  ${(props) =>
-    props.hasOwnProperty('alignSelf') && `align-self: ${props.alignSelf};`}
+  ${(props) => props.hasOwnProperty('alignSelf') && `align-self: ${props.alignSelf};`}
 
   ${(props) => props.padding === false && `padding: 0;`}
 

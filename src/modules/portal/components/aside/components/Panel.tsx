@@ -1,32 +1,33 @@
-import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
-import styled from "styled-components";
-import ReactTooltip from "react-tooltip";
-import {IconDefinition} from "@fortawesome/pro-duotone-svg-icons";
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import styled from 'styled-components';
+import ReactTooltip from 'react-tooltip';
+import { IconDefinition } from '@fortawesome/pro-duotone-svg-icons';
 
 export type PanelItem = {
-    icon: IconDefinition, tooltip: string; isActive: boolean; callback: () => void;
-}
+  icon: IconDefinition;
+  tooltip: string;
+  isActive: boolean;
+  callback: () => void;
+};
 
-export const Panel = ({sections}: { sections: PanelItem[] }) => {
-    return (
-            <Sections>
-                <ReactTooltip/>
-                {sections.map((item: PanelItem, key: number) => {
-                    return (<SectionWrapper
-                            key={key}
-                            onClick={() => item.callback()}
-                        >
-                            <Icon isActive={item.isActive}>
-                                <p data-tip={item.tooltip}>
-                                    <FontAwesomeIcon icon={item.icon}/>
-                                </p>
-                            </Icon>
-                        </SectionWrapper>);
-                })}
-            </Sections>
-        )
-}
-
+export const Panel = ({ sections }: { sections: PanelItem[] }) => {
+  return (
+    <Sections>
+      <ReactTooltip />
+      {sections.map((item: PanelItem, key: number) => {
+        return (
+          <SectionWrapper key={key} onClick={() => item.callback()}>
+            <Icon isActive={item.isActive}>
+              <p data-tip={item.tooltip}>
+                <FontAwesomeIcon icon={item.icon} />
+              </p>
+            </Icon>
+          </SectionWrapper>
+        );
+      })}
+    </Sections>
+  );
+};
 
 const Sections = styled.div`
   display: flex;
@@ -44,8 +45,7 @@ const SectionWrapper = styled.div`
 
   width: 48px;
   height: 44px;
-
-`
+`;
 
 const Icon = styled.div<{ isActive?: boolean }>`
   position: absolute;
@@ -63,18 +63,17 @@ const Icon = styled.div<{ isActive?: boolean }>`
     font-size: 20px;
     color: ${(props) => props.theme.panel.default};
   }
-  
+
   &:hover svg {
     color: ${(props) => props.theme.panel.hover};
   }
 
-
-  ${(props) => props.isActive && `
+  ${(props) =>
+    props.isActive &&
+    `
     
       svg {
           color: ${props.theme.panel.hover};
       }
-         `
-    }
-
+         `}
 `;

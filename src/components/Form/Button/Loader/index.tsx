@@ -1,6 +1,14 @@
 import styled, { keyframes } from 'styled-components';
 
-export const Loader = ({size, color, block}:{size?: number; color?: string; block?: boolean}) => {
+export const Loader = ({
+  size,
+  color,
+  block
+}: {
+  size?: number;
+  color?: string;
+  block?: boolean;
+}) => {
   return (
     <Wrapper
       className="loaderWrapper"
@@ -102,13 +110,13 @@ const LoadingPart = styled.div`
   }
 `;
 
-const Wrapper = styled.div<{block?: boolean; size: number}>`
-  display: ${props => (props.block ? 'block' : 'inline-block')};
+const Wrapper = styled.div<{ block?: boolean; size: number }>`
+  display: ${(props) => (props.block ? 'block' : 'inline-block')};
   position: relative;
-  transform: scale(${props => props.size / 80});
-  top: ${props => -40 * (props.size / 80)}px;
+  transform: scale(${(props) => props.size / 80});
+  top: ${(props) => -40 * (props.size / 80)}px;
 
-  ${props =>
+  ${(props) =>
     props.block &&
     `
   margin: ${props.size / 2}px;
@@ -118,6 +126,6 @@ const Wrapper = styled.div<{block?: boolean; size: number}>`
   `}
 
   ${LoadingPart}:after {
-    background: ${props => props.color};
+    background: ${(props) => props.color};
   }
 `;

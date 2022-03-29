@@ -1,4 +1,4 @@
-import styled from "styled-components";
+import styled from 'styled-components';
 
 export const Wrapper = styled.main`
   display: flex;
@@ -10,7 +10,7 @@ export const Wrapper = styled.main`
 
 export const MainSection = styled.section`
   width: 100%;
-`
+`;
 
 export const MainContent = styled.div`
   display: flex;
@@ -22,7 +22,7 @@ export const MainContent = styled.div`
   overflow: auto;
 
   margin-top: 8px;
-`
+`;
 
 export const MainFormContent = styled.form`
   display: flex;
@@ -34,26 +34,26 @@ export const MainFormContent = styled.form`
   overflow: auto;
 
   margin-top: 8px;
-`
+`;
 
 export const ContentWrapper = styled.div`
-	flex: 1 1 auto;
-    padding: 0 14px;
+  flex: 1 1 auto;
+  padding: 0 14px;
 `;
 
 export const ButtonsWrapper = styled.div`
-	flex: 0 0 auto;
-	align-self: flex-end;
+  flex: 0 0 auto;
+  align-self: flex-end;
 
-	display: flex;
-	justify-content: flex-end;
-	align-items: center;
-	flex-direction: row;
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  flex-direction: row;
 
-	width: 100%;
+  width: 100%;
 
-	padding: 8px 24px;
+  padding: 8px 24px;
 
-    background-color: ${(props) => props.theme.footer.default};
-	border-top: 2px solid ${(props) => props.theme.colors.background.menu};
+  background-color: ${(props) => props.theme.footer.default};
+  border-top: 2px solid ${(props) => props.theme.colors.background.menu};
 `;

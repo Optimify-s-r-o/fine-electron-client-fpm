@@ -10,7 +10,7 @@ export const Button = ({
   loading = false,
   children,
   type = 'submit',
-  withMargin = false,
+  withMargin = false
 }: {
   fullWidth?: boolean;
   loading: boolean;
@@ -20,12 +20,7 @@ export const Button = ({
   withMargin?: boolean;
 }) => {
   return (
-    <ButtonElement
-      type={type}
-      fullWidth={fullWidth}
-      level={level}
-      withMargin={withMargin}
-    >
+    <ButtonElement type={type} fullWidth={fullWidth} level={level} withMargin={withMargin}>
       <ChildrenWrapper>{children}</ChildrenWrapper>
       {loading && (
         <LoaderWrapper>
@@ -77,9 +72,7 @@ const ButtonElement = styled.button<{
   border: 0;
   border-radius: 7px;
   background-color: ${(props) =>
-    props.disabled
-      ? props.theme.colors.background.darker
-      : props.theme.colors.primary.default};
+    props.disabled ? props.theme.colors.background.darker : props.theme.colors.primary.default};
   line-height: 20px;
   color: white;
   font-size: 13px;

@@ -1,9 +1,9 @@
-import {createContext, useContext} from 'react';
+import { createContext, useContext } from 'react';
 
 export const ExecutableApplicationContext = createContext<{
-    loading: boolean;
+  loading: boolean;
 }>({
-    loading: false
+  loading: false
 });
 
 export const useApplicationContext = () => useContext(ExecutableApplicationContext);

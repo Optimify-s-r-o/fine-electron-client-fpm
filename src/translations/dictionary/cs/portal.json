@@ -1,29 +1,29 @@
 {
-	"menu": {
-		"projects": "Projekty",
-		"createProject": "Nový projekt",
-		"editProject": "Editovat projekt",
-		"editJob": "Editovat úlohu",
-		"customers": "Zákazníci",
-		"createCustomer": "Nový zákazník",
-		"listOfCustomers": "Seznam zákazníků",
-		"users": "Uživatelé",
-		"createUser": "Nový uživatel",
-		"listOfUsers": "Seznam uživatelů",
-		"settings": "Nastavení",
-		"system": "Systém",
-		"update": "Aktualizace",
-		"search": "Hledat"
-	},
-	"projects": {
-		"tabs": {
-			"newProject": "Vytvořit projekt"
-		},
-		"create": {
-			"creatingInfo": "Vytvářím projekt",
-			"creatingDone": "Projekt vytvořen",
-			"attachmentsInfo": "Nahrávám přílohy",
-			"attachmentsDone": "Přílohy zpracovány"
-		}
-	}
+  "menu": {
+    "projects": "Projekty",
+    "createProject": "Nový projekt",
+    "editProject": "Editovat projekt",
+    "editJob": "Editovat úlohu",
+    "customers": "Zákazníci",
+    "createCustomer": "Nový zákazník",
+    "listOfCustomers": "Seznam zákazníků",
+    "users": "Uživatelé",
+    "createUser": "Nový uživatel",
+    "listOfUsers": "Seznam uživatelů",
+    "settings": "Nastavení",
+    "system": "Systém",
+    "update": "Aktualizace",
+    "search": "Hledat"
+  },
+  "projects": {
+    "tabs": {
+      "newProject": "Vytvořit projekt"
+    },
+    "create": {
+      "creatingInfo": "Vytvářím projekt",
+      "creatingDone": "Projekt vytvořen",
+      "attachmentsInfo": "Nahrávám přílohy",
+      "attachmentsDone": "Přílohy zpracovány"
+    }
+  }
 }

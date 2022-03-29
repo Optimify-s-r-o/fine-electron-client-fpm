@@ -1,7 +1,6 @@
-import styled from "styled-components";
+import styled from 'styled-components';
 
-export const Wrapper = styled.div`
-`;
+export const Wrapper = styled.div``;
 
 export const Grid = styled.div`
   display: flex;
@@ -16,11 +15,11 @@ export const Grid = styled.div`
 
 export const Powered = styled.span`
   padding-bottom: 0.75em;
-  
+
   color: #ccc;
 
   font-size: 0.74em;
-  
+
   letter-spacing: 6px;
 `;
 

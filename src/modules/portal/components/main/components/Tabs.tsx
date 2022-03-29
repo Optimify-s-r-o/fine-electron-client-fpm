@@ -9,7 +9,7 @@ import { faFolder } from '@fortawesome/pro-solid-svg-icons';
 
 const SortableItem = SortableElement(({ value }: { value: any }) => {
   return (
-    <Tab className='sortable-item'>
+    <Tab className="sortable-item">
       <TitleWrapper>
         <FontAwesomeIcon icon={faFolder} />
         <Title>{value}</Title>
@@ -21,7 +21,7 @@ const SortableItem = SortableElement(({ value }: { value: any }) => {
 
 const SortableList = SortableContainer(({ items }: { items: any }) => {
   return (
-    <Wrapper className='sortable-container'>
+    <Wrapper className="sortable-container">
       {items.map((value: string, index: number) => (
         <SortableItem key={`item-${value}`} index={index} value={value} />
       ))}
@@ -36,15 +36,9 @@ export const Tabs = () => {
     'Item 3',
     'Item 4',
     'Item 5',
-    'Item 6',
+    'Item 6'
   ]);
-  const onSortEnd = ({
-    oldIndex,
-    newIndex,
-  }: {
-    oldIndex: number;
-    newIndex: number;
-  }) => {
+  const onSortEnd = ({ oldIndex, newIndex }: { oldIndex: number; newIndex: number }) => {
     const temp = arrayMoveImmutable(state, oldIndex, newIndex);
     setState(temp);
   };

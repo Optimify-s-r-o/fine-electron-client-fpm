@@ -3,37 +3,40 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { useTreeContext } from 'modules/portal/context/Tree/TreeContext';
 
 import * as S from '../styled';
-import {MouseEvent} from "react";
-import {RoutesPath} from "../../../../../constants/routes";
-import {useNavigate} from "react-router-dom";
+import { MouseEvent } from 'react';
+import { RoutesPath } from '../../../../../constants/routes';
+import { useNavigate } from 'react-router-dom';
 
 //TODO MARA
 // Strankovani tady neexistuje, vsechny operace se provadi s lokalnimi daty1
 // Sort = Nazev/{Name}, Datum/{UpdatedAt} a Typ/{Application, pak Type}
 // Pozor na to, ze muze byt dlouhy nazev, zkracujme ho aby se vesel na jeden radek
 export const Jobs = () => {
-    const { jobTree, selectedJobId, selectJob, loadingJobTree } = useTreeContext();
+  const { jobTree, selectedJobId, selectJob, loadingJobTree } = useTreeContext();
 
-    const navigate = useNavigate();
+  const navigate = useNavigate();
 
-    const handleSelection = (id: string) => (_event: MouseEvent<HTMLDivElement>) => {
-        selectJob(id);
-        navigate(`${RoutesPath.JOBS}/id`)
-    }
+  const handleSelection = (id: string) => (_event: MouseEvent<HTMLDivElement>) => {
+    selectJob(id);
+    navigate(`${RoutesPath.JOBS}/id`);
+  };
 
-    return ( <S.Wrapper color={"rgba(143, 113, 52, 0.8)"}>
-        {loadingJobTree ? 'loading'
-            : jobTree.map( ( item ) => {
-                return ( <S.Item key={item.id} onClick={handleSelection( item.id )}>
-                    <S.TitleWrapper>
-                        <FontAwesomeIcon
-                            icon={faHomeAlt}
-                        />
-                        <S.Title>{item.name}</S.Title>
-                        {/* TODO MARA poznat ktery prvek je selectnuty graficky, ted je jen ikona jen pro overeni funkcnosti  */}
-                        {item.id === selectedJobId && <FontAwesomeIcon icon={faCross} />}
-                    </S.TitleWrapper>
-                </S.Item> );
-            } )}
-    </S.Wrapper> );
+  return (
+    <S.Wrapper color={'rgba(143, 113, 52, 0.8)'}>
+      {loadingJobTree
+        ? 'loading'
+        : jobTree.map((item) => {
+            return (
+              <S.Item key={item.id} onClick={handleSelection(item.id)}>
+                <S.TitleWrapper>
+                  <FontAwesomeIcon icon={faHomeAlt} />
+                  <S.Title>{item.name}</S.Title>
+                  {/* TODO MARA poznat ktery prvek je selectnuty graficky, ted je jen ikona jen pro overeni funkcnosti  */}
+                  {item.id === selectedJobId && <FontAwesomeIcon icon={faCross} />}
+                </S.TitleWrapper>
+              </S.Item>
+            );
+          })}
+    </S.Wrapper>
+  );
 };

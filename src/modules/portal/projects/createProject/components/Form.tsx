@@ -12,7 +12,7 @@ import { Input } from 'components/Form/Input/styled';
 import { useRef } from 'react';
 
 export const CreateProjectForm = ({
-  register,
+  register
 }: {
   register: UseFormRegister<ProjectCreateRequest>;
 }) => {
@@ -30,16 +30,12 @@ export const CreateProjectForm = ({
   return (
     <GS.GridRow columns={2}>
       <GS.GridItem>
-          <TextInput
-            name={'name'}
-            register={register}
-            title={t('form:input.projectName')}
-          />
-          <TextAreaInput
-            name={'description'}
-            register={register}
-            title={t('form:input.projectDescription')}
-          />
+        <TextInput name={'name'} register={register} title={t('form:input.projectName')} />
+        <TextAreaInput
+          name={'description'}
+          register={register}
+          title={t('form:input.projectDescription')}
+        />
       </GS.GridItem>
       <GS.GridItem>
         <CardTable
@@ -47,12 +43,12 @@ export const CreateProjectForm = ({
             {
               title: t('form:table.fileName'),
               render: (t, _r) => <>{t}</>,
-              dataIndex: 'name',
+              dataIndex: 'name'
             },
             {
               title: t('form:table.fileExtension'),
               render: (t, _r) => <>{t}</>,
-              dataIndex: 'format',
+              dataIndex: 'format'
             },
             {
               title: <Input placeholder={t('form:input.searchPlaceholder')} />,
@@ -60,18 +56,18 @@ export const CreateProjectForm = ({
                 <GS.FloatRight>
                   <CloseButton onClick={() => deleteFile(r)} />
                 </GS.FloatRight>
-              ),
-            },
+              )
+            }
           ]}
           dataSource={[
             {
               name: 'Dokumentace.pdf',
-              format: 'pdf',
+              format: 'pdf'
             },
             {
               name: 'Zadani.docx',
-              format: 'docx',
-            },
+              format: 'docx'
+            }
           ]}
           emptyTableText={t('form:table.noFiles')}
           onFilesDrop={(files) =>
@@ -81,11 +77,11 @@ export const CreateProjectForm = ({
           }
           extraRow={
             <GS.Center>
-              <label htmlFor='add-file'>
+              <label htmlFor="add-file">
                 <PlainButton
                   loading={false}
                   icon={faPlus}
-                  type='button'
+                  type="button"
                   onClick={(e) => {
                     e.preventDefault();
                     fileInputRef.current?.click();
@@ -95,8 +91,8 @@ export const CreateProjectForm = ({
                 </PlainButton>
                 <input
                   ref={fileInputRef}
-                  id='add-file'
-                  type='file'
+                  id="add-file"
+                  type="file"
                   multiple
                   style={{ display: 'none' }}
                   autoComplete={'off'}

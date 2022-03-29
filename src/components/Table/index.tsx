@@ -15,15 +15,15 @@ export type Row<T> = {
 
 const TableRow = <T extends unknown>({
   columns,
-  key,
-  data,
+  tableRowKey,
+  data
 }: {
   columns: Row<T>[];
-  key: number;
+  tableRowKey: number;
   data: any;
 }) => {
   return (
-    <tr key={key}>
+    <tr key={tableRowKey}>
       {columns?.map((e: Row<T>, keyColumn: number) => {
         const value = e.dataIndex ? data[e.dataIndex] : '';
         return <td key={keyColumn}>{e.render(value, data)}</td>;
@@ -36,15 +36,14 @@ export const FineTable = <T extends unknown>({
   columns,
   dataSource,
   emptyTableText,
-  loading,
+  loading
 }: {
   columns: Row<T>[];
   dataSource: any;
   emptyTableText?: string;
   loading?: boolean;
 }) => {
-  const linearBackground =
-    'transparent linear-gradient(180deg, #ededed 0%, #fff 100%)';
+  const linearBackground = 'transparent linear-gradient(180deg, #ededed 0%, #fff 100%)';
   return (
     <Container>
       <StyledTable background={linearBackground}>
@@ -53,9 +52,7 @@ export const FineTable = <T extends unknown>({
             {columns?.map((e: Row<T>, key: number) => {
               return (
                 <Th key={key} width={e?.width}>
-                  <Header transparent={!!e?.titleHide}>
-                    {e?.titleHide ? 'XXX' : e?.title}
-                  </Header>
+                  <Header transparent={!!e?.titleHide}>{e?.titleHide ? 'XXX' : e?.title}</Header>
                 </Th>
               );
             })}
@@ -64,7 +61,7 @@ export const FineTable = <T extends unknown>({
         <tbody>
           {!loading &&
             dataSource?.map((data: any, key: number) => {
-              return <TableRow data={data} key={key} columns={columns} />;
+              return <TableRow data={data} tableRowKey={key} columns={columns} />;
             })}
         </tbody>
       </StyledTable>
@@ -100,9 +97,7 @@ const Header = styled.div<{ transparent: boolean }>`
   font-size: 13px;
   padding: 7px 10px;
   color: ${(props) =>
-    props.transparent
-      ? props.theme.common.lightGray
-      : props.theme.common.content};
+    props.transparent ? props.theme.common.lightGray : props.theme.common.content};
   white-space: nowrap;
 `;
 

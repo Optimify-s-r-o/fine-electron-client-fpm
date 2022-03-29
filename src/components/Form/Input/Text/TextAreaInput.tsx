@@ -10,7 +10,7 @@ export const TextAreaInput = ({
   register,
   rightNode,
   tabIndex,
-  title,
+  title
 }: {
   errors?: FieldErrors<any>;
   isDisabled?: boolean;

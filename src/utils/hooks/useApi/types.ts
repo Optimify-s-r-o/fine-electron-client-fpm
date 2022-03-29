@@ -1,18 +1,14 @@
-import {UserDto} from "../../../api/generated";
+import { UserDto } from '../../../api/generated';
 import { AxiosResponse } from 'axios';
 
-export interface BaseMutationOptions<
-  TData = any,
-> {
+export interface BaseMutationOptions<TData = any> {
   notifyOnNetworkStatusChange?: boolean;
   onCompleted?: (data: TData) => void;
   onError?: (error: any) => void;
   ignoreResults?: boolean;
 }
 
-export interface MutationFunctionOptions<
-  TData = any,
-> extends BaseMutationOptions<TData> {
+export interface MutationFunctionOptions<TData = any> extends BaseMutationOptions<TData> {
   mutation?: any;
 }
 
@@ -33,8 +29,7 @@ export interface MutationResult<TData = any> {
   called?: boolean;
 }
 
-export type MutationTuple<
-  TInputData,
-    TResponseData,
-> = [
-    (mutate: ()=> any) => Promise<TResponseData>, MutationResult<TResponseData>];
+export type MutationTuple<TInputData, TResponseData> = [
+  (mutate: () => any) => Promise<TResponseData>,
+  MutationResult<TResponseData>
+];

@@ -17,15 +17,15 @@ export type Row<T> = {
 
 const TableRow = <T extends unknown>({
   columns,
-  key,
-  data,
+  tableRowKey,
+  data
 }: {
   columns: Row<T>[];
-  key: number;
+  tableRowKey: number;
   data: any;
 }) => {
   return (
-    <tr key={key}>
+    <tr key={tableRowKey}>
       {columns?.map((e: Row<T>, keyColumn: number) => {
         const value = e.dataIndex ? data[e.dataIndex] : '';
         return <td key={keyColumn}>{e.render(value, data)}</td>;
@@ -40,7 +40,7 @@ export const CardTable = <T extends unknown>({
   emptyTableText,
   loading,
   extraRow,
-  onFilesDrop,
+  onFilesDrop
 }: {
   columns: Row<T>[];
   dataSource: any;
@@ -55,7 +55,7 @@ export const CardTable = <T extends unknown>({
     <>
       {!loading &&
         dataSource?.map((data: any, key: number) => {
-          return <TableRow data={data} key={key} columns={columns} />;
+          return <TableRow data={data} tableRowKey={key} columns={columns} />;
         })}
       {!loading && dataSource?.length === 0 && emptyTableText && (
         <tr>
@@ -75,9 +75,7 @@ export const CardTable = <T extends unknown>({
             {columns?.map((e: Row<T>, key: number) => {
               return (
                 <Th key={key} width={e?.width}>
-                  <Header transparent={!!e?.titleHide}>
-                    {e?.titleHide ? 'XXX' : e?.title}
-                  </Header>
+                  <Header transparent={!!e?.titleHide}>{e?.titleHide ? 'XXX' : e?.title}</Header>
                 </Th>
               );
             })}
@@ -88,10 +86,7 @@ export const CardTable = <T extends unknown>({
             {({ getRootProps, getInputProps, isDragActive }) => (
               <>
                 <input {...getInputProps()} />
-                <tbody
-                  {...getRootProps()}
-                  className={isDragActive ? 'dragging' : ''}
-                >
+                <tbody {...getRootProps()} className={isDragActive ? 'dragging' : ''}>
                   {body()}
                 </tbody>
               </>

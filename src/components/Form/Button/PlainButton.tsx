@@ -14,7 +14,7 @@ export const PlainButton = ({
   type = 'submit',
   withMargin = false,
   icon,
-  onClick,
+  onClick
 }: {
   fullWidth?: boolean;
   loading: boolean;

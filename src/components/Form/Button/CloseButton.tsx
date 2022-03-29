@@ -3,13 +3,9 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { MouseEventHandler } from 'react';
 import styled from 'styled-components';
 
-export const CloseButton = ({
-  onClick,
-}: {
-  onClick: MouseEventHandler<HTMLButtonElement>;
-}) => {
+export const CloseButton = ({ onClick }: { onClick: MouseEventHandler<HTMLButtonElement> }) => {
   return (
-    <Button onClick={onClick} type='button'>
+    <Button onClick={onClick} type="button">
       <FontAwesomeIcon icon={faTimes} />
     </Button>
   );

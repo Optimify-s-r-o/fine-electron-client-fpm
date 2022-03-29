@@ -9,21 +9,21 @@ interface ITreeContextType {
   loadingJobTree: boolean;
   selectedProjectId: string | null;
   selectedJobId: string | null;
-  selectProject: (id: string) => void;
-  selectJob: (id: string) => void;
-  handleNewProject: (project: ProjectDto) => Promise<void>;
+  selectProject: ( id: string ) => void;
+  selectJob: ( id: string ) => void;
+  handleNewProject: ( project: ProjectDto ) => Promise<void>;
 }
 
-export const TreeContext = createContext<ITreeContextType>({
-  projectTree: {},
+export const TreeContext = createContext<ITreeContextType>( {
+  projectTree: { data: [], page: 0, pageSize: 0, requestedPageSize: 0, filter: '', totalRecords: 0, totalPages: 0, sort: '', nextPageExists: false, previousPageExists: false },
   jobTree: [],
   loadingProjectTree: false,
   loadingJobTree: false,
   selectedProjectId: null,
   selectedJobId: null,
-  selectProject: () => console.log('No valid context'),
-  selectJob: () => console.log('No valid context'),
-  handleNewProject: () => new Promise<void>((e) => 'No valid context')
-});
+  selectProject: () => console.log( 'No valid context' ),
+  selectJob: () => console.log( 'No valid context' ),
+  handleNewProject: () => new Promise<void>( ( e ) => 'No valid context' )
+} );
 
-export const useTreeContext = () => useContext(TreeContext);
+export const useTreeContext = () => useContext( TreeContext );

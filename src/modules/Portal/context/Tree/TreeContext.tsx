@@ -1,22 +1,29 @@
 import { createContext, useContext } from 'react';
 
-import { ProjectDtoPaginatedCollection } from '../../../../api/generated/api';
+import { JobDto, ProjectDtoPaginatedCollection } from '../../../../api/generated/api';
 
 interface ITreeContextType {
     projectTree: ProjectDtoPaginatedCollection;
+    jobTree: JobDto[];
     loadingProjectTree: boolean;
+    loadingJobTree: boolean;
     selectedProjectId: string | null;
-
+    selectedJobId: string | null;
     selectProject: ( id: string ) => void;
+    selectJob: ( id: string ) => void;
 }
 
 
 
 export const TreeContext = createContext<ITreeContextType>( {
     projectTree: {},
+    jobTree: [],
     loadingProjectTree: false,
+    loadingJobTree: false,
     selectedProjectId: null,
-    selectProject: () => console.log( 'No valid context' )
+    selectedJobId: null,
+    selectProject: () => console.log( 'No valid context' ),
+    selectJob: () => console.log( 'No valid context' )
 } );
 
 export const useTreeContext = () => useContext( TreeContext );

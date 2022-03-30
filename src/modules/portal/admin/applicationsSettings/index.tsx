@@ -17,6 +17,8 @@ import { CloseButton } from 'components/Form/Button/CloseButton';
 import { PlainButton } from 'components/Form/Button/PlainButton';
 import styled from 'styled-components';
 import Dropzone from 'react-dropzone';
+import useModal from 'utils/hooks/useModal';
+import { TextInput } from 'components/Form/Input/Text/TextInput';
 
 const IconField = ({
   url,
@@ -61,12 +63,13 @@ const IconField = ({
 const ApplicationsSettings = () => {
   const { t } = useTranslation(['portal', 'form', 'common']);
   const { applications, loading } = useApplicationContext();
+  const modal = useModal();
 
   const onSubmit = async (data: ApplicationCreateRequest) => {
     console.log(data);
   };
 
-  const { handleSubmit } = useForm<ApplicationCreateRequest>({
+  const { register, handleSubmit, resetField } = useForm<ApplicationCreateRequest>({
     resolver: yupResolver(
       Yup.object().shape({
         name: Yup.string().required(t('form:validation.required'))
@@ -140,6 +143,30 @@ const ApplicationsSettings = () => {
                   type="button"
                   onClick={(e) => {
                     e.preventDefault();
+                    modal.showModal({
+                      title: t('form:table.programAdd'),
+                      content: (
+                        <>
+                          <TextInput
+                            register={register}
+                            name="name"
+                            title={t('form:table.programName')}
+                          />
+                        </>
+                      ),
+                      footer: (
+                        <>
+                          <Button loading={false}>{t('form:table.programAdd')}</Button>
+                        </>
+                      ),
+                      onSubmit: handleSubmit(() => {
+                        alert('TODO karel');
+                      }),
+                      onClose: () => {
+                        resetField('name');
+                        return true;
+                      }
+                    });
                   }}>
                   {t('form:table.programAdd')}
                 </PlainButton>

@@ -22,6 +22,56 @@ import { DUMMY_BASE_URL, assertParamExists, setApiKeyToObject, setBasicAuthToObj
 import { BASE_PATH, COLLECTION_FORMATS, RequestArgs, BaseAPI, RequiredError } from './base';
 
 /**
+ * Model for changing password
+ * @export
+ * @interface AdminChangePasswordRequest
+ */
+export interface AdminChangePasswordRequest {
+    /**
+     * User email
+     * @type {string}
+     * @memberof AdminChangePasswordRequest
+     */
+    'userEmail': string;
+    /**
+     * New user password
+     * @type {string}
+     * @memberof AdminChangePasswordRequest
+     */
+    'newPassword': string;
+}
+/**
+ * Model for editing public user information
+ * @export
+ * @interface AdminEditUserRequest
+ */
+export interface AdminEditUserRequest {
+    /**
+     * Old email, used for user identification
+     * @type {string}
+     * @memberof AdminEditUserRequest
+     */
+    'oldEmail': string;
+    /**
+     * New email, can remain the same
+     * @type {string}
+     * @memberof AdminEditUserRequest
+     */
+    'newEmail': string;
+    /**
+     * Phone number
+     * @type {string}
+     * @memberof AdminEditUserRequest
+     */
+    'phoneNumber': string;
+    /**
+     * List of roles
+     * @type {Array<string>}
+     * @memberof AdminEditUserRequest
+     */
+    'roles': Array<string>;
+}
+/**
  * Request for creating new application
  * @export
  * @interface ApplicationCreateRequest
@@ -236,6 +286,38 @@ export interface ClientExceptionPublicModel {
      * @memberof ClientExceptionPublicModel
      */
     'fullMessage'?: string | null;
+}
+/**
+ * Model for user disable
+ * @export
+ * @interface DisableUserRequest
+ */
+export interface DisableUserRequest {
+    /**
+     * Email of user to disable
+     * @type {string}
+     * @memberof DisableUserRequest
+     */
+    'email': string;
+}
+/**
+ * Request for editing user
+ * @export
+ * @interface EditUserRequest
+ */
+export interface EditUserRequest {
+    /**
+     * New email, can remain the same
+     * @type {string}
+     * @memberof EditUserRequest
+     */
+    'email': string;
+    /**
+     * Phone number
+     * @type {string}
+     * @memberof EditUserRequest
+     */
+    'phoneNumber': string;
 }
 /**
  * Model that includes lins to files saved under specified entity
@@ -980,6 +1062,25 @@ export interface UploadProjectAttachmentRequest {
     'fileName'?: string | null;
 }
 /**
+ * Model for changing password
+ * @export
+ * @interface UserChangePasswordRequest
+ */
+export interface UserChangePasswordRequest {
+    /**
+     * Old user password
+     * @type {string}
+     * @memberof UserChangePasswordRequest
+     */
+    'oldPassword': string;
+    /**
+     * New user password
+     * @type {string}
+     * @memberof UserChangePasswordRequest
+     */
+    'newPassword': string;
+}
+/**
  * Create new project
  * @export
  * @interface UserCreateRequest
@@ -1004,11 +1105,17 @@ export interface UserCreateRequest {
      */
     'phoneNumber': string;
     /**
-     * User passowrd. Must be at least 8 chars long
+     * User password. Must be at least 8 chars long
      * @type {string}
      * @memberof UserCreateRequest
      */
     'password': string;
+    /**
+     * Roles of user
+     * @type {Array<string>}
+     * @memberof UserCreateRequest
+     */
+    'userRoles': Array<string>;
 }
 /**
  * Entity representing user in system
@@ -1064,6 +1171,12 @@ export interface UserDto {
      * @memberof UserDto
      */
     'phoneNumber': string;
+    /**
+     * Indicate if user is disabled by admin
+     * @type {boolean}
+     * @memberof UserDto
+     */
+    'isDisabled': boolean;
     /**
      * User roles
      * @type {Array<string>}
@@ -3383,6 +3496,117 @@ export const UsersApiAxiosParamCreator = function (configuration?: Configuration
     return {
         /**
          * 
+         * @summary This request allows admin to create new user
+         * @param {UserCreateRequest} [userCreateRequest] Create user request
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        fineProjectManagerApiUsersAdminCreatePost: async (userCreateRequest?: UserCreateRequest, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
+            const localVarPath = `/fine-project-manager/api/users/admin-create`;
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+
+            const localVarRequestOptions = { method: 'POST', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+
+            // authentication Bearer required
+            await setApiKeyToObject(localVarHeaderParameter, "Authorization", configuration)
+
+
+    
+            localVarHeaderParameter['Content-Type'] = 'application/json';
+
+            setSearchParams(localVarUrlObj, localVarQueryParameter);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+            localVarRequestOptions.data = serializeDataIfNeeded(userCreateRequest, localVarRequestOptions, configuration)
+
+            return {
+                url: toPathString(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
+        /**
+         * 
+         * @summary This request allows admin to set password of other user
+         * @param {AdminChangePasswordRequest} [adminChangePasswordRequest] Change password request
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        fineProjectManagerApiUsersAdminSetPasswordPut: async (adminChangePasswordRequest?: AdminChangePasswordRequest, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
+            const localVarPath = `/fine-project-manager/api/users/admin-set-password`;
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+
+            const localVarRequestOptions = { method: 'PUT', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+
+            // authentication Bearer required
+            await setApiKeyToObject(localVarHeaderParameter, "Authorization", configuration)
+
+
+    
+            localVarHeaderParameter['Content-Type'] = 'application/json';
+
+            setSearchParams(localVarUrlObj, localVarQueryParameter);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+            localVarRequestOptions.data = serializeDataIfNeeded(adminChangePasswordRequest, localVarRequestOptions, configuration)
+
+            return {
+                url: toPathString(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
+        /**
+         * 
+         * @summary This request allows admin to edit other user
+         * @param {AdminEditUserRequest} [adminEditUserRequest] Edit request
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        fineProjectManagerApiUsersAdminUserEditPut: async (adminEditUserRequest?: AdminEditUserRequest, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
+            const localVarPath = `/fine-project-manager/api/users/admin-user-edit`;
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+
+            const localVarRequestOptions = { method: 'PUT', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+
+            // authentication Bearer required
+            await setApiKeyToObject(localVarHeaderParameter, "Authorization", configuration)
+
+
+    
+            localVarHeaderParameter['Content-Type'] = 'application/json';
+
+            setSearchParams(localVarUrlObj, localVarQueryParameter);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+            localVarRequestOptions.data = serializeDataIfNeeded(adminEditUserRequest, localVarRequestOptions, configuration)
+
+            return {
+                url: toPathString(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
+        /**
+         * 
          * @summary Admin create. This request can be called only if no admin exists.
          * @param {UserCreateRequest} [userCreateRequest] Get login token
          * @param {*} [options] Override http request option.
@@ -3412,6 +3636,187 @@ export const UsersApiAxiosParamCreator = function (configuration?: Configuration
             let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
             localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
             localVarRequestOptions.data = serializeDataIfNeeded(userCreateRequest, localVarRequestOptions, configuration)
+
+            return {
+                url: toPathString(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
+        /**
+         * 
+         * @summary Get user with given email
+         * @param {string} email 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        fineProjectManagerApiUsersEmailGet: async (email: string, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
+            // verify required parameter 'email' is not null or undefined
+            assertParamExists('fineProjectManagerApiUsersEmailGet', 'email', email)
+            const localVarPath = `/fine-project-manager/api/users/{email}`
+                .replace(`{${"email"}}`, encodeURIComponent(String(email)));
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+
+            const localVarRequestOptions = { method: 'GET', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+
+            // authentication Bearer required
+            await setApiKeyToObject(localVarHeaderParameter, "Authorization", configuration)
+
+
+    
+            setSearchParams(localVarUrlObj, localVarQueryParameter);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+
+            return {
+                url: toPathString(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
+        /**
+         * 
+         * @summary List all users without pagination
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        fineProjectManagerApiUsersGet: async (options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
+            const localVarPath = `/fine-project-manager/api/users`;
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+
+            const localVarRequestOptions = { method: 'GET', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+
+            // authentication Bearer required
+            await setApiKeyToObject(localVarHeaderParameter, "Authorization", configuration)
+
+
+    
+            setSearchParams(localVarUrlObj, localVarQueryParameter);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+
+            return {
+                url: toPathString(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
+        /**
+         * 
+         * @summary Change password of logged user
+         * @param {UserChangePasswordRequest} [userChangePasswordRequest] Change password request
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        fineProjectManagerApiUsersPasswordPut: async (userChangePasswordRequest?: UserChangePasswordRequest, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
+            const localVarPath = `/fine-project-manager/api/users/password`;
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+
+            const localVarRequestOptions = { method: 'PUT', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+
+            // authentication Bearer required
+            await setApiKeyToObject(localVarHeaderParameter, "Authorization", configuration)
+
+
+    
+            localVarHeaderParameter['Content-Type'] = 'application/json';
+
+            setSearchParams(localVarUrlObj, localVarQueryParameter);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+            localVarRequestOptions.data = serializeDataIfNeeded(userChangePasswordRequest, localVarRequestOptions, configuration)
+
+            return {
+                url: toPathString(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
+        /**
+         * 
+         * @summary Allow admin to efficiently remove user.  Disable user so they cannot log in (delete equivalent, but without data loss)
+         * @param {DisableUserRequest} [disableUserRequest] User to remove
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        fineProjectManagerApiUsersPost: async (disableUserRequest?: DisableUserRequest, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
+            const localVarPath = `/fine-project-manager/api/users`;
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+
+            const localVarRequestOptions = { method: 'POST', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+
+            // authentication Bearer required
+            await setApiKeyToObject(localVarHeaderParameter, "Authorization", configuration)
+
+
+    
+            localVarHeaderParameter['Content-Type'] = 'application/json';
+
+            setSearchParams(localVarUrlObj, localVarQueryParameter);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+            localVarRequestOptions.data = serializeDataIfNeeded(disableUserRequest, localVarRequestOptions, configuration)
+
+            return {
+                url: toPathString(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
+        /**
+         * 
+         * @summary Edit currently logged user
+         * @param {EditUserRequest} [editUserRequest] User to edit
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        fineProjectManagerApiUsersPut: async (editUserRequest?: EditUserRequest, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
+            const localVarPath = `/fine-project-manager/api/users`;
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+
+            const localVarRequestOptions = { method: 'PUT', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+
+            // authentication Bearer required
+            await setApiKeyToObject(localVarHeaderParameter, "Authorization", configuration)
+
+
+    
+            localVarHeaderParameter['Content-Type'] = 'application/json';
+
+            setSearchParams(localVarUrlObj, localVarQueryParameter);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+            localVarRequestOptions.data = serializeDataIfNeeded(editUserRequest, localVarRequestOptions, configuration)
 
             return {
                 url: toPathString(localVarUrlObj),
@@ -3504,13 +3909,100 @@ export const UsersApiFp = function(configuration?: Configuration) {
     return {
         /**
          * 
+         * @summary This request allows admin to create new user
+         * @param {UserCreateRequest} [userCreateRequest] Create user request
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async fineProjectManagerApiUsersAdminCreatePost(userCreateRequest?: UserCreateRequest, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<UserDto>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.fineProjectManagerApiUsersAdminCreatePost(userCreateRequest, options);
+            return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
+        },
+        /**
+         * 
+         * @summary This request allows admin to set password of other user
+         * @param {AdminChangePasswordRequest} [adminChangePasswordRequest] Change password request
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async fineProjectManagerApiUsersAdminSetPasswordPut(adminChangePasswordRequest?: AdminChangePasswordRequest, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<UserDto>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.fineProjectManagerApiUsersAdminSetPasswordPut(adminChangePasswordRequest, options);
+            return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
+        },
+        /**
+         * 
+         * @summary This request allows admin to edit other user
+         * @param {AdminEditUserRequest} [adminEditUserRequest] Edit request
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async fineProjectManagerApiUsersAdminUserEditPut(adminEditUserRequest?: AdminEditUserRequest, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<UserDto>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.fineProjectManagerApiUsersAdminUserEditPut(adminEditUserRequest, options);
+            return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
+        },
+        /**
+         * 
          * @summary Admin create. This request can be called only if no admin exists.
          * @param {UserCreateRequest} [userCreateRequest] Get login token
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async fineProjectManagerApiUsersCreateAdminPost(userCreateRequest?: UserCreateRequest, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<SignInResponse>> {
+        async fineProjectManagerApiUsersCreateAdminPost(userCreateRequest?: UserCreateRequest, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<UserDto>> {
             const localVarAxiosArgs = await localVarAxiosParamCreator.fineProjectManagerApiUsersCreateAdminPost(userCreateRequest, options);
+            return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
+        },
+        /**
+         * 
+         * @summary Get user with given email
+         * @param {string} email 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async fineProjectManagerApiUsersEmailGet(email: string, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<UserDto>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.fineProjectManagerApiUsersEmailGet(email, options);
+            return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
+        },
+        /**
+         * 
+         * @summary List all users without pagination
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async fineProjectManagerApiUsersGet(options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<UserDto>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.fineProjectManagerApiUsersGet(options);
+            return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
+        },
+        /**
+         * 
+         * @summary Change password of logged user
+         * @param {UserChangePasswordRequest} [userChangePasswordRequest] Change password request
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async fineProjectManagerApiUsersPasswordPut(userChangePasswordRequest?: UserChangePasswordRequest, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<UserDto>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.fineProjectManagerApiUsersPasswordPut(userChangePasswordRequest, options);
+            return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
+        },
+        /**
+         * 
+         * @summary Allow admin to efficiently remove user.  Disable user so they cannot log in (delete equivalent, but without data loss)
+         * @param {DisableUserRequest} [disableUserRequest] User to remove
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async fineProjectManagerApiUsersPost(disableUserRequest?: DisableUserRequest, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<UserDto>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.fineProjectManagerApiUsersPost(disableUserRequest, options);
+            return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
+        },
+        /**
+         * 
+         * @summary Edit currently logged user
+         * @param {EditUserRequest} [editUserRequest] User to edit
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async fineProjectManagerApiUsersPut(editUserRequest?: EditUserRequest, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<UserDto>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.fineProjectManagerApiUsersPut(editUserRequest, options);
             return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
         },
         /**
@@ -3547,13 +4039,92 @@ export const UsersApiFactory = function (configuration?: Configuration, basePath
     return {
         /**
          * 
+         * @summary This request allows admin to create new user
+         * @param {UserCreateRequest} [userCreateRequest] Create user request
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        fineProjectManagerApiUsersAdminCreatePost(userCreateRequest?: UserCreateRequest, options?: any): AxiosPromise<UserDto> {
+            return localVarFp.fineProjectManagerApiUsersAdminCreatePost(userCreateRequest, options).then((request) => request(axios, basePath));
+        },
+        /**
+         * 
+         * @summary This request allows admin to set password of other user
+         * @param {AdminChangePasswordRequest} [adminChangePasswordRequest] Change password request
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        fineProjectManagerApiUsersAdminSetPasswordPut(adminChangePasswordRequest?: AdminChangePasswordRequest, options?: any): AxiosPromise<UserDto> {
+            return localVarFp.fineProjectManagerApiUsersAdminSetPasswordPut(adminChangePasswordRequest, options).then((request) => request(axios, basePath));
+        },
+        /**
+         * 
+         * @summary This request allows admin to edit other user
+         * @param {AdminEditUserRequest} [adminEditUserRequest] Edit request
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        fineProjectManagerApiUsersAdminUserEditPut(adminEditUserRequest?: AdminEditUserRequest, options?: any): AxiosPromise<UserDto> {
+            return localVarFp.fineProjectManagerApiUsersAdminUserEditPut(adminEditUserRequest, options).then((request) => request(axios, basePath));
+        },
+        /**
+         * 
          * @summary Admin create. This request can be called only if no admin exists.
          * @param {UserCreateRequest} [userCreateRequest] Get login token
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        fineProjectManagerApiUsersCreateAdminPost(userCreateRequest?: UserCreateRequest, options?: any): AxiosPromise<SignInResponse> {
+        fineProjectManagerApiUsersCreateAdminPost(userCreateRequest?: UserCreateRequest, options?: any): AxiosPromise<UserDto> {
             return localVarFp.fineProjectManagerApiUsersCreateAdminPost(userCreateRequest, options).then((request) => request(axios, basePath));
+        },
+        /**
+         * 
+         * @summary Get user with given email
+         * @param {string} email 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        fineProjectManagerApiUsersEmailGet(email: string, options?: any): AxiosPromise<UserDto> {
+            return localVarFp.fineProjectManagerApiUsersEmailGet(email, options).then((request) => request(axios, basePath));
+        },
+        /**
+         * 
+         * @summary List all users without pagination
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        fineProjectManagerApiUsersGet(options?: any): AxiosPromise<UserDto> {
+            return localVarFp.fineProjectManagerApiUsersGet(options).then((request) => request(axios, basePath));
+        },
+        /**
+         * 
+         * @summary Change password of logged user
+         * @param {UserChangePasswordRequest} [userChangePasswordRequest] Change password request
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        fineProjectManagerApiUsersPasswordPut(userChangePasswordRequest?: UserChangePasswordRequest, options?: any): AxiosPromise<UserDto> {
+            return localVarFp.fineProjectManagerApiUsersPasswordPut(userChangePasswordRequest, options).then((request) => request(axios, basePath));
+        },
+        /**
+         * 
+         * @summary Allow admin to efficiently remove user.  Disable user so they cannot log in (delete equivalent, but without data loss)
+         * @param {DisableUserRequest} [disableUserRequest] User to remove
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        fineProjectManagerApiUsersPost(disableUserRequest?: DisableUserRequest, options?: any): AxiosPromise<UserDto> {
+            return localVarFp.fineProjectManagerApiUsersPost(disableUserRequest, options).then((request) => request(axios, basePath));
+        },
+        /**
+         * 
+         * @summary Edit currently logged user
+         * @param {EditUserRequest} [editUserRequest] User to edit
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        fineProjectManagerApiUsersPut(editUserRequest?: EditUserRequest, options?: any): AxiosPromise<UserDto> {
+            return localVarFp.fineProjectManagerApiUsersPut(editUserRequest, options).then((request) => request(axios, basePath));
         },
         /**
          * 
@@ -3587,6 +4158,42 @@ export const UsersApiFactory = function (configuration?: Configuration, basePath
 export class UsersApi extends BaseAPI {
     /**
      * 
+     * @summary This request allows admin to create new user
+     * @param {UserCreateRequest} [userCreateRequest] Create user request
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof UsersApi
+     */
+    public fineProjectManagerApiUsersAdminCreatePost(userCreateRequest?: UserCreateRequest, options?: AxiosRequestConfig) {
+        return UsersApiFp(this.configuration).fineProjectManagerApiUsersAdminCreatePost(userCreateRequest, options).then((request) => request(this.axios, this.basePath));
+    }
+
+    /**
+     * 
+     * @summary This request allows admin to set password of other user
+     * @param {AdminChangePasswordRequest} [adminChangePasswordRequest] Change password request
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof UsersApi
+     */
+    public fineProjectManagerApiUsersAdminSetPasswordPut(adminChangePasswordRequest?: AdminChangePasswordRequest, options?: AxiosRequestConfig) {
+        return UsersApiFp(this.configuration).fineProjectManagerApiUsersAdminSetPasswordPut(adminChangePasswordRequest, options).then((request) => request(this.axios, this.basePath));
+    }
+
+    /**
+     * 
+     * @summary This request allows admin to edit other user
+     * @param {AdminEditUserRequest} [adminEditUserRequest] Edit request
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof UsersApi
+     */
+    public fineProjectManagerApiUsersAdminUserEditPut(adminEditUserRequest?: AdminEditUserRequest, options?: AxiosRequestConfig) {
+        return UsersApiFp(this.configuration).fineProjectManagerApiUsersAdminUserEditPut(adminEditUserRequest, options).then((request) => request(this.axios, this.basePath));
+    }
+
+    /**
+     * 
      * @summary Admin create. This request can be called only if no admin exists.
      * @param {UserCreateRequest} [userCreateRequest] Get login token
      * @param {*} [options] Override http request option.
@@ -3595,6 +4202,65 @@ export class UsersApi extends BaseAPI {
      */
     public fineProjectManagerApiUsersCreateAdminPost(userCreateRequest?: UserCreateRequest, options?: AxiosRequestConfig) {
         return UsersApiFp(this.configuration).fineProjectManagerApiUsersCreateAdminPost(userCreateRequest, options).then((request) => request(this.axios, this.basePath));
+    }
+
+    /**
+     * 
+     * @summary Get user with given email
+     * @param {string} email 
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof UsersApi
+     */
+    public fineProjectManagerApiUsersEmailGet(email: string, options?: AxiosRequestConfig) {
+        return UsersApiFp(this.configuration).fineProjectManagerApiUsersEmailGet(email, options).then((request) => request(this.axios, this.basePath));
+    }
+
+    /**
+     * 
+     * @summary List all users without pagination
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof UsersApi
+     */
+    public fineProjectManagerApiUsersGet(options?: AxiosRequestConfig) {
+        return UsersApiFp(this.configuration).fineProjectManagerApiUsersGet(options).then((request) => request(this.axios, this.basePath));
+    }
+
+    /**
+     * 
+     * @summary Change password of logged user
+     * @param {UserChangePasswordRequest} [userChangePasswordRequest] Change password request
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof UsersApi
+     */
+    public fineProjectManagerApiUsersPasswordPut(userChangePasswordRequest?: UserChangePasswordRequest, options?: AxiosRequestConfig) {
+        return UsersApiFp(this.configuration).fineProjectManagerApiUsersPasswordPut(userChangePasswordRequest, options).then((request) => request(this.axios, this.basePath));
+    }
+
+    /**
+     * 
+     * @summary Allow admin to efficiently remove user.  Disable user so they cannot log in (delete equivalent, but without data loss)
+     * @param {DisableUserRequest} [disableUserRequest] User to remove
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof UsersApi
+     */
+    public fineProjectManagerApiUsersPost(disableUserRequest?: DisableUserRequest, options?: AxiosRequestConfig) {
+        return UsersApiFp(this.configuration).fineProjectManagerApiUsersPost(disableUserRequest, options).then((request) => request(this.axios, this.basePath));
+    }
+
+    /**
+     * 
+     * @summary Edit currently logged user
+     * @param {EditUserRequest} [editUserRequest] User to edit
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof UsersApi
+     */
+    public fineProjectManagerApiUsersPut(editUserRequest?: EditUserRequest, options?: AxiosRequestConfig) {
+        return UsersApiFp(this.configuration).fineProjectManagerApiUsersPut(editUserRequest, options).then((request) => request(this.axios, this.basePath));
     }
 
     /**

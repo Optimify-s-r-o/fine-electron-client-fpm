@@ -36,8 +36,10 @@ export const Nav = ({ list }: { list: Menu[] }) => {
           <S.Menu
             key={key}
             clicked={clicked ? 'block' : 'none'}
-            onClick={() => setClicked(!clicked)}
-          >
+            onClick={() => {
+              value.customClick && value.customClick();
+              setClicked(!clicked);
+            }}>
             {value.menu}
             {value.submenu && (
               <S.SubMenu>

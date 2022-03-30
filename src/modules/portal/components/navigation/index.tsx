@@ -16,7 +16,7 @@ import { Menu } from './types';
 
 export const Navigation = () => {
   const { t } = useTranslation(['portal']);
-  const { user, loading, isLogged } = useAuthContext();
+  const { user, loading, isLogged, signOut } = useAuthContext();
 
   const [menuItems, setMenuItems] = useState<Menu[]>([
     {
@@ -86,6 +86,10 @@ export const Navigation = () => {
           shortcut: 'Ctrl + P'
         }
       ]
+    },
+    {
+      menu: t('portal:menu.signOut'),
+      customClick: () => signOut()
     }
   ]);
 

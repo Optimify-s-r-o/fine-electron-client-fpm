@@ -27,9 +27,10 @@ const SortableItem = SortableElement(
     return (
       <SortableTab
         className="sortable-item"
+        onClick={() => handleNavigation()}
         active={!!matchPath(pathname, path) ? 1 : 0}
         type={value.type}>
-        <TitleWrapper onClick={() => handleNavigation()}>
+        <TitleWrapper>
           <FontAwesomeIcon icon={value.type === TabType.PROJECT ? faFolder : faHomeAlt} />
           <Title>{value.name}</Title>
         </TitleWrapper>
@@ -67,7 +68,7 @@ export const Tabs = () => {
   };
   return (
     <SortableList
-      distance={1}
+      distance={2}
       items={tabs}
       onSortEnd={onSortEnd}
       removeTab={removeTab}

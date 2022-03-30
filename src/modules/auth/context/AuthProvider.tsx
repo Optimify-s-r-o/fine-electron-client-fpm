@@ -5,86 +5,85 @@ import { useApi } from 'utils/hooks/useApi';
 import { SignInRequest, SignInResponse, UserDto } from '../../../api/generated/api';
 import API from '../../../utils/api';
 import { AuthContext } from './AuthContext';
+import { useNavigate } from 'react-router';
+import { RoutesPath } from '../../../constants/routes';
 
 // TODO token do local storage
-export const AuthProvider = ( { children }: { children: JSX.Element; } ) => {
-  const [token, setToken] = useState<string | null>( null );
-  const [user, setUser] = useState<UserDto | null>( null );
-  const [validityEnd, setValidityEnd] = useState<Date | undefined>( undefined );
-  const [isLoading, setIsLoading] = useState<boolean>( false );
-  const [isLogged, setIsLogged] = useState<boolean>( user !== null );
+export const AuthProvider = ({ children }: { children: JSX.Element }) => {
+  const [token, setToken] = useState<string | null>(null);
+  const [user, setUser] = useState<UserDto | null>(null);
+  const [validityEnd, setValidityEnd] = useState<Date | undefined>(undefined);
+  const [isLoading, setIsLoading] = useState<boolean>(false);
+  const [isLogged, setIsLogged] = useState<boolean>(user !== null);
 
   const [signIn, { loading: signInLoading }] = useApi<SignInResponse, SignInRequest>();
   const [fetchSelf, { loading: fetchLoading }] = useApi<UserDto>();
-  const [loading, setLoading] = useState<boolean>( signInLoading || fetchLoading );
+  const [loading, setLoading] = useState<boolean>(signInLoading || fetchLoading);
 
-  useEffect( () => {
-    setLoading( signInLoading || fetchLoading );
-  }, [signInLoading, fetchLoading] );
+  const navigate = useNavigate();
 
+  useEffect(() => {
+    setLoading(signInLoading || fetchLoading);
+  }, [signInLoading, fetchLoading]);
 
   const IsSavedTokenValid = async () => {
-    const token = await window.API.keytarGetSecret( 'token' );
-    const email = await window.API.keytarGetSecret( 'email' );
+    const token = await window.API.keytarGetSecret('token');
+    const email = await window.API.keytarGetSecret('email');
 
-    if ( token === null || email === null ) return false;
+    if (token === null || email === null) return false;
 
     try {
-      const result = await fetchSelf( () =>
-        API.UsersApi.fineProjectManagerApiUsersEmailGet( email )
-      );
+      const result = await fetchSelf(() => API.UsersApi.fineProjectManagerApiUsersEmailGet(email));
 
-      setUser( result );
+      setUser(result);
 
       return true;
     } catch {
-
-      await window.API.keytarSetSecret( 'token', null );
+      await window.API.keytarSetSecret('token', null);
       return false;
-
     }
-
-
   };
 
-  const SignIn = async ( username: string, password: string ) => {
-    setIsLoading( true );
+  const SignIn = async (username: string, password: string) => {
+    setIsLoading(true);
 
     try {
-      const result = await signIn( () =>
-        API.UsersApi.fineProjectManagerApiUsersSignInPost( {
+      const result = await signIn(() =>
+        API.UsersApi.fineProjectManagerApiUsersSignInPost({
           email: username,
           password: password
-        } )
+        })
       );
 
-      await window.API.keytarSetSecret( 'token', result.token );
+      await window.API.keytarSetSecret('token', result.token);
 
       config.apiKey = 'Bearer ' + result.token;
-      setToken( result.token as string );
-      setUser( result.user as UserDto );
-      setValidityEnd( new Date( result.expiration as string ) );
-      setIsLogged( true );
-      setIsLoading( false );
+      setToken(result.token as string);
+      setUser(result.user as UserDto);
+      setValidityEnd(new Date(result.expiration as string));
+      setIsLogged(true);
+      setIsLoading(false);
 
       return true;
-    } catch ( e ) {
-      setIsLoading( false );
+    } catch (e) {
+      setIsLoading(false);
       return false;
     }
   };
 
   const SignOut = async () => {
-    setIsLoading( true );
+    setIsLoading(true);
 
     config.apiKey = '';
-    setToken( null );
-    setUser( null );
-    setValidityEnd( undefined );
-    await window.API.keytarSetSecret( 'token', null );
-    setIsLogged( false );
+    setToken(null);
+    setUser(null);
+    setValidityEnd(undefined);
+    await window.API.keytarSetSecret('token', null);
+    setIsLogged(false);
 
-    setIsLoading( false );
+    setIsLoading(false);
+
+    navigate(RoutesPath.SIGN_IN);
   };
 
   return (
@@ -98,8 +97,7 @@ export const AuthProvider = ( { children }: { children: JSX.Element; } ) => {
         signIn: SignIn,
         signOut: SignOut,
         loading: loading || isLoading
-      }}
-    >
+      }}>
       {children}
     </AuthContext.Provider>
   );

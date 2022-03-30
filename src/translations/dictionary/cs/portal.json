@@ -16,7 +16,8 @@
     "update": "Aktualizace",
     "search": "Hledat",
     "admin": "Administrátor",
-    "adminSettings": "Správa aplikací"
+    "adminSettings": "Správa aplikací",
+    "signOut": "Odhlásit se"
   },
   "projects": {
     "tabs": {

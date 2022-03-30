@@ -5,6 +5,14 @@ import { useTranslation } from 'react-i18next';
 export const ExecutableApplicationsProvider = ({ children }: { children: JSX.Element }) => {
   const { t } = useTranslation(['portal']);
 
+  const isExecutable = async (applicationId: string) => {
+    const path = await window.API.invoke('ELECTRON_STORE_GET', { name: applicationId });
+
+    if (!path) return false;
+
+    return true;
+  };
+
   const executeApplication = async (applicationId: string) => {
     try {
       toast.info(t('portal:executeApplication.applicationStarting'));
@@ -34,7 +42,8 @@ export const ExecutableApplicationsProvider = ({ children }: { children: JSX.Ele
     <ExecutableApplicationContext.Provider
       value={{
         loading: false,
-        executeApplication
+        executeApplication,
+        isExecutable
       }}>
       {children}
     </ExecutableApplicationContext.Provider>

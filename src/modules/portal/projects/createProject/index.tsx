@@ -9,18 +9,18 @@ import API from 'utils/api';
 import { useApi } from 'utils/hooks/useApi';
 import * as Yup from 'yup';
 
+import { uploadProjectAttachementAsync } from '../../../../utils/file';
 import { MainWrapper } from '../../components/main/components/MainWrapper';
 import * as S from '../../components/main/styled';
 import { useTreeContext } from '../../context/Tree/TreeContext';
 import { CreateProjectForm } from './components/Form';
-import { uploadAsync } from '../../../../utils/file';
 
 export interface ProjectCreateRequestForm extends ProjectCreateRequest {
   files: File[];
 }
 
 const CreateProject = () => {
-  const { t } = useTranslation(['portal', 'form', 'common']);
+  const { t } = useTranslation( ['portal', 'form', 'common'] );
   const { handleNewProject } = useTreeContext();
 
   const [createProject] = useApi<ProjectDto, ProjectCreateRequest>();
@@ -31,54 +31,54 @@ const CreateProject = () => {
     handleSubmit,
     watch,
     formState: { errors, isSubmitting }
-  } = useForm<ProjectCreateRequestForm>({
+  } = useForm<ProjectCreateRequestForm>( {
     resolver: yupResolver(
-      Yup.object().shape({
-        name: Yup.string().required(t('form:validation.required'))
-      })
+      Yup.object().shape( {
+        name: Yup.string().required( t( 'form:validation.required' ) )
+      } )
     ),
     defaultValues: {
       name: '',
       description: '',
       files: []
     }
-  });
+  } );
 
-  const onSubmit = async (data: ProjectCreateRequestForm) => {
+  const onSubmit = async ( data: ProjectCreateRequestForm ) => {
     try {
-      toast.info(t('portal:projects.create.creatingInfo'));
+      toast.info( t( 'portal:projects.create.creatingInfo' ) );
 
-      const response = await createProject(() =>
-        API.ProjectsApi.fineProjectManagerApiProjectsPost({
+      const response = await createProject( () =>
+        API.ProjectsApi.fineProjectManagerApiProjectsPost( {
           name: data.name,
           description: data.description
-        })
+        } )
       );
 
-      toast.success(t('portal:projects.create.creatingDone'));
+      toast.success( t( 'portal:projects.create.creatingDone' ) );
 
-      if (!data.files) return;
+      if ( !data.files ) return;
 
-      toast.info(t('portal:projects.create.attachmentsInfo'));
+      toast.info( t( 'portal:projects.create.attachmentsInfo' ) );
 
-      for (const file of data.files) {
-        await uploadAsync(response.id, file);
+      for ( const file of data.files ) {
+        await uploadProjectAttachementAsync( response.id, file );
       }
 
-      toast.success(t('portal:projects.create.attachmentsDone'));
+      toast.success( t( 'portal:projects.create.attachmentsDone' ) );
 
-      await handleNewProject(response);
-    } catch (e) {}
+      await handleNewProject( response );
+    } catch ( e ) { }
   };
 
   return (
-    <MainWrapper icon={faFolder} title={t('portal:menu.createProject')}>
-      <S.MainFormContent onSubmit={handleSubmit(onSubmit)}>
+    <MainWrapper icon={faFolder} title={t( 'portal:menu.createProject' )}>
+      <S.MainFormContent onSubmit={handleSubmit( onSubmit )}>
         <S.ContentWrapper>
           <CreateProjectForm errors={errors} control={control} register={register} watch={watch} />
         </S.ContentWrapper>
         <S.ButtonsWrapper>
-          <Button loading={isSubmitting}>{t('form:button.createProject')}</Button>
+          <Button loading={isSubmitting}>{t( 'form:button.createProject' )}</Button>
         </S.ButtonsWrapper>
       </S.MainFormContent>
     </MainWrapper>

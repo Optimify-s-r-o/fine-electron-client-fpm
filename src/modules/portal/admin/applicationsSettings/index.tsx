@@ -16,6 +16,7 @@ import { useTranslation } from 'react-i18next';
 import { toast } from 'react-toastify';
 import styled from 'styled-components';
 import API from 'utils/api';
+import { uploadApplicationIconAsync } from 'utils/file';
 import { useApi } from 'utils/hooks/useApi';
 import useModal from 'utils/hooks/useModal';
 import * as Yup from 'yup';
@@ -88,8 +89,17 @@ const ApplicationsSettings = () => {
     shouldUnregister: true
   } );
 
-  const onFileChanged = ( file: File | null, record: any ) => {
-    alert( 'TODO upload file' );
+  const onFileChanged = async ( file: File | null, record: ApplicationDto ) => {
+    if ( file !== null ) {
+      toast.info( t( 'portal:admin.applications.uploadingIcon' ) );
+      const success = await uploadApplicationIconAsync( record.id, file );
+
+      if ( success ) {
+        toast.success( t( 'portal:admin.applications.uploadIconSuccess' ) );
+        refetch();
+      }
+    }
+
   };
 
   const createApplicationHandler = async ( request: ApplicationCreateRequest ) => {

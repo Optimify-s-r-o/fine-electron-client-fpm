@@ -193,19 +193,19 @@ const StyledTable = styled.table<{ dropText: string }>`
     color: ${(props) => props.theme.common.contentText};
 
     tr:first-child td:first-child {
-      border-top-left-radius: 3px;
+      border-top-left-radius: 7px;
     }
 
     tr:first-child td:last-child {
-      border-top-right-radius: 3px;
+      border-top-right-radius: 7px;
     }
 
     tr:last-child td:first-child {
-      border-bottom-left-radius: 3px;
+      border-bottom-left-radius: 7px;
     }
 
     tr:last-child td:last-child {
-      border-bottom-right-radius: 3px;
+      border-bottom-right-radius: 7px;
     }
 
     &.dragging:after {

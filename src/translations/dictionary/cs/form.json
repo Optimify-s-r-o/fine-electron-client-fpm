@@ -36,11 +36,13 @@
     "programName": "Název programu",
     "programCode": "Interní kód programu",
     "programPath": "Cesta ke spustitelnému souboru",
+    "programPathChange": "Změnit cestu",
     "programIcon": "Ikona",
     "iconAdd": "Přidat ikonu",
     "iconChange": "Změnit ikonu",
     "programAdd": "Přidat podporovaný program",
     "programRename": "Přejmenovat podporovaný program",
-    "noPrograms": "Zatím nebyly přidány žádné podporované programy.\nPoužijte tlačítko pod tabulkou pro přidání."
+    "noPrograms": "Zatím nebyly přidány žádné podporované programy.\nPoužijte tlačítko pod tabulkou pro přidání.",
+    "noProgramsUser": "Zatím nebyly přidány žádné podporované programy.\nKontaktujte administrátora pro jejich přidání."
   }
 }

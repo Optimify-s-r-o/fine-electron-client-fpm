@@ -67,14 +67,15 @@ const IconField = ( {
 const ApplicationsSettings = () => {
   const { t } = useTranslation( ['portal', 'form', 'common'] );
   const { applications, loading } = useApplicationContext();
-  const [createApplication] = useApi<ApplicationCreateRequest, ApplicationDto>();
+  const [createApplication, { loading: createLoading }] = useApi<ApplicationCreateRequest, ApplicationDto>();
+  const [deleteApplication, { loading: deleteLoading }] = useApi();
   const modal = useModal();
 
   const onSubmit = async ( data: ApplicationCreateRequest ) => {
     console.log( data );
   };
 
-  const { register, handleSubmit } = useForm<ApplicationCreateRequest>( {
+  const { register, handleSubmit } = useForm<ApplicationDto>( {
     resolver: yupResolver(
       Yup.object().shape( {
         name: Yup.string().required( t( 'form:validation.required' ) )
@@ -87,14 +88,29 @@ const ApplicationsSettings = () => {
     alert( 'TODO upload file' );
   };
 
-  const addNewApplication = async ( request: ApplicationCreateRequest ) => {
+  const createApplicationHandler = async ( request: ApplicationCreateRequest ) => {
     toast.info( t( 'portal:admin.applications.creatingInfo' ) );
 
     try {
-      const response = await createApplication( () =>
+      await createApplication( () =>
         API.ApplicationsApi.fineProjectManagerApiApplicationsPost( request )
       );
       toast.success( t( 'portal:admin.applications.creatingDone' ) );
+
+      return true;
+    } catch {
+      return false;
+    }
+  };
+
+  const deleteApplicationHandler = async ( id: string ) => {
+    toast.info( t( 'portal:admin.applications.deletingInfo' ) );
+
+    try {
+      await deleteApplication( () =>
+        API.ApplicationsApi.fineProjectManagerApiApplicationsIdDelete( id )
+      );
+      toast.success( t( 'portal:admin.applications.deletingDone' ) );
 
       return true;
     } catch {
@@ -171,9 +187,25 @@ const ApplicationsSettings = () => {
               },
               {
                 title: <Input placeholder={t( 'form:input.searchPlaceholder' )} />,
-                render: ( _t: undefined, r: any ) => (
+                render: ( _t: undefined, r: ApplicationDto ) => (
                   <GS.FloatRight>
-                    <CloseButton onClick={() => alert( 'TODO remove record' )} />
+                    <CloseButton onClick={() => modal.showModal( {
+                      title: t( 'form:table.applicationDelete' ),
+                      content: (
+                        <>
+                          {`${ t( 'portal:admin.applications.deleteConfirmationTextPart1' ) } ${ r.name }?${ t( 'portal:admin.applications.deleteConfirmationTextPart2' ) }.`}
+                        </>
+                      ),
+                      footer: (
+                        <>
+                          <PlainButton loading={createLoading} onClick={async () => {
+                            const success = await deleteApplicationHandler( r.id );
+                            if ( success )
+                              modal.closeModal();
+                          }}>{t( 'form:table.confirm' )}</PlainButton>
+                        </>
+                      )
+                    } )} />
                   </GS.FloatRight>
                 )
               }
@@ -205,11 +237,11 @@ const ApplicationsSettings = () => {
                       ),
                       footer: (
                         <>
-                          <Button loading={false}>{t( 'form:table.programAdd' )}</Button>
+                          <Button loading={createLoading}>{t( 'form:table.programAdd' )}</Button>
                         </>
                       ),
                       onSubmit: handleSubmit( async ( request: ApplicationCreateRequest ) => {
-                        const success = await addNewApplication( request );
+                        const success = await createApplicationHandler( request );
                         if ( success )
                           modal.closeModal();
                       } )

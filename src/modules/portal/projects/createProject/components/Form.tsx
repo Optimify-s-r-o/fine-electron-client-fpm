@@ -64,6 +64,7 @@ export const CreateProjectForm = ({
           title={t('form:input.projectName')}
         />
         <TextAreaInput
+          errors={errors}
           name={'description'}
           register={register}
           title={t('form:input.projectDescription')}

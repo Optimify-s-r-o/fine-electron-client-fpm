@@ -12,7 +12,8 @@
     "save": "Uložit změny",
     "createProject": "Vytvořit projekt",
     "createCustomer": "Vytvořit zákazníka",
-    "createUser": "Vytvořit uživatele"
+    "createUser": "Vytvořit uživatele",
+    "deleteJob": "Smazat úlohu"
   },
   "validation": {
     "required": "Toto pole je povinné.",
@@ -47,6 +48,14 @@
     "noPrograms": "Zatím nebyly přidány žádné podporované programy.\nPoužijte tlačítko pod tabulkou pro přidání.",
     "noProgramsUser": "Zatím nebyly přidány žádné podporované programy.\nKontaktujte administrátora pro jejich přidání.",
     "applicationDelete": "Odebrat aplikaci.",
-    "confirm": "Potvrdit"
+    "confirm": "Potvrdit",
+    "jobName": "Název úlohy",
+    "jobDescription": "Popis",
+    "jobType": "Typ",
+    "jobApplication": "Aplikace",
+    "jobAdded": "Přidáno",
+    "jobDeleteHeader": "Smazání úlohy",
+    "jobDeleteContent": "Opravdu si přejete smazat úlohu {{jobName}}?",
+    "noJobs": "V tomto projektu nejsou žádné úlohy."
   }
 }

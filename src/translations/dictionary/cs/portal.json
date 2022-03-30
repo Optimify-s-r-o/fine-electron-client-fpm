@@ -11,7 +11,7 @@
     "createUser": "Nový uživatel",
     "listOfUsers": "Seznam uživatelů",
     "settings": "Nastavení",
-    "system": "Natavení systému",
+    "system": "Nastavení systému",
     "applications": "Programy",
     "update": "Aktualizace",
     "search": "Hledat",
@@ -43,7 +43,9 @@
       "deletingInfo": "Probíhá odebrání aplikace",
       "deletingDone": "Aplikace úspěšně odebrána! Doporučujeme restartovat program.",
       "deleteConfirmationTextPart1": "Opravdu chcete odebrat nastavení aplikace ",
-      "deleteConfirmationTextPart2": " Tato akce znemožní program používat všem uživatelům v systému."
+      "deleteConfirmationTextPart2": " Tato akce znemožní program používat všem uživatelům v systému.",
+      "uploadingIcon": "Nahrávám ikonu",
+      "uploadIconSuccess": "Ikona nahrána úspěšně!"
     }
   },
   "settings": {

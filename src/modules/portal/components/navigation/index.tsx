@@ -1,10 +1,4 @@
-import {
-  faCodeCompare,
-  faCog,
-  faFolderPlus,
-  faUserPlus,
-  faUsers
-} from '@fortawesome/pro-duotone-svg-icons';
+import { faCodeCompare, faCog, faFolderPlus, faUserPlus, faUsers } from '@fortawesome/pro-duotone-svg-icons';
 import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useEffectAsync } from 'utils/useEffectAsync';
@@ -15,16 +9,17 @@ import { Nav } from './components/Nav';
 import { Menu } from './types';
 
 export const Navigation = () => {
-  const { t } = useTranslation(['portal']);
+  const { t } = useTranslation( ['portal'] );
   const { user, loading, isLogged, signOut } = useAuthContext();
 
-  const [menuItems, setMenuItems] = useState<Menu[]>([
+  const [menuItems, setMenuItems] = useState<Menu[]>( [
     {
-      menu: t('portal:menu.projects'),
+      id: 'projects',
+      menu: t( 'portal:menu.projects' ),
       submenu: [
         {
           path: RoutesPath.CREATE_PROJECT,
-          text: t('portal:menu.createProject'),
+          text: t( 'portal:menu.createProject' ),
           icon: faFolderPlus,
           shortcut: 'Ctrl + N'
         }
@@ -48,75 +43,85 @@ export const Navigation = () => {
             ]
         },*/
     {
-      menu: t('portal:menu.users'),
+      id: 'users',
+      menu: t( 'portal:menu.users' ),
       submenu: [
         {
           path: RoutesPath.CREATE_USER,
-          text: t('portal:menu.createUser'),
+          text: t( 'portal:menu.createUser' ),
           icon: faUserPlus,
           shortcut: 'Ctrl + N'
         },
         {
           path: RoutesPath.LIST_OF_USERS,
-          text: t('portal:menu.listOfUsers'),
+          text: t( 'portal:menu.listOfUsers' ),
           icon: faUsers,
           shortcut: 'Ctrl + P'
         }
       ]
     },
     {
-      menu: t('portal:menu.settings'),
+      id: 'settings',
+      menu: t( 'portal:menu.settings' ),
       submenu: [
         {
           path: RoutesPath.SYSTEM,
-          text: t('portal:menu.system'),
+          text: t( 'portal:menu.system' ),
           icon: faCog,
           shortcut: 'Ctrl + N'
         },
         {
           path: RoutesPath.LOCAL_APPLICATIONS_SETTINGS,
-          text: t('portal:menu.applications'),
+          text: t( 'portal:menu.applications' ),
           icon: faCog,
           shortcut: 'Ctrl + N'
         },
         {
           path: RoutesPath.UPDATE,
-          text: t('portal:menu.update'),
+          text: t( 'portal:menu.update' ),
           icon: faCodeCompare,
           shortcut: 'Ctrl + P'
         }
       ]
     },
     {
-      menu: t('portal:menu.signOut'),
+      id: 'signOut',
+      menu: t( 'portal:menu.signOut' ),
       customClick: () => signOut()
     }
-  ]);
+  ] );
 
-  useEffectAsync(() => {
+  useEffectAsync( () => {
     if (
       user &&
       isLogged &&
       !loading &&
-      user.userRoles.some((e) => e === 'ADMIN' || e === 'EXTERNAL_OPERATOR')
+      user.userRoles.some( ( e ) => e === 'ADMIN' || e === 'EXTERNAL_OPERATOR' ) &&
+      !menuItems.some( e => e.id === 'admin' )
     ) {
       const newSettings = [
-        ...menuItems,
+        ...menuItems.filter( e => e.id !== 'signOut' ),
         {
-          menu: t('portal:menu.admin'),
+          id: 'admin',
+          menu: t( 'portal:menu.admin' ),
           submenu: [
             {
               path: RoutesPath.ADMIN_APPLICATIONS_SETTINGS,
-              text: t('portal:menu.adminSettings'),
+              text: t( 'portal:menu.adminSettings' ),
               icon: faCodeCompare,
               shortcut: 'Ctrl + ['
             }
           ]
+        },
+        {
+          id: 'signOut',
+          menu: t( 'portal:menu.signOut' ),
+          customClick: () => signOut()
         }
       ];
-      setMenuItems(newSettings);
+      setMenuItems( newSettings );
     }
-  }, [user, loading, isLogged]);
+  }, [user, loading, isLogged] );
 
   return (
     <header>

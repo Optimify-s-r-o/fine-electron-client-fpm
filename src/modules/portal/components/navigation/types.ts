@@ -1,6 +1,7 @@
 import { RoutesPath } from '../../../../constants/routes';
 
 export type Menu = {
+  id: string;
   menu: string;
   customClick?: () => void;
   submenu?: Submenu[];

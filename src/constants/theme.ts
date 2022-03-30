@@ -124,6 +124,11 @@ export const lightTheme = {
       hover: '#125e4a',
       active: '#0e4738'
     },
+    danger: {
+      default: '#dd0000',
+      hover: '#880000',
+      active: '#660000'
+    },
     contentText: '#000',
     primaryText: {
       default: '#333',

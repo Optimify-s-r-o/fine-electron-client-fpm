@@ -4,7 +4,7 @@ import { MouseEventHandler, ReactNode } from 'react';
 
 type ButtonLevel = 1 | 2 | 3;
 
-export const Button = ({
+export const DeleteButton = ({
   fullWidth = false,
   level = 2,
   loading = false,
@@ -54,7 +54,7 @@ const ChildrenWrapper = styled.div`
   display: inline-block;
 `;
 
-export const LoaderWrapper = styled.div`
+const LoaderWrapper = styled.div`
   display: inline-block;
   position: relative;
   top: -5px;
@@ -78,7 +78,7 @@ const ButtonElement = styled.button<{
   border: 0;
   border-radius: 7px;
   background-color: ${(props) =>
-    props.disabled ? props.theme.colors.background.darker : props.theme.colors.primary.default};
+    props.disabled ? props.theme.colors.background.darker : props.theme.colors.danger.default};
   line-height: 20px;
   color: white;
   font-size: 13px;
@@ -104,7 +104,7 @@ const ButtonElement = styled.button<{
 
   &:hover {
     cursor: ${(props) => (props.disabled ? 'normal' : 'pointer')};
-    box-shadow: inset 0 0 1px 1px ${(props) => props.theme.colors.primary.active};
+    box-shadow: inset 0 0 1px 1px ${(props) => props.theme.colors.danger.hover};
 
     &:before {
       left: -2px;
@@ -113,12 +113,12 @@ const ButtonElement = styled.button<{
   }
 
   &:focus {
-    outline: 2px solid ${(props) => props.theme.colors.primary.default};
+    outline: 2px solid ${(props) => props.theme.colors.danger.hover};
     outline-offset: 2px;
   }
 
   &:active {
     background-color: ${(props) => props.theme.colors.primary.defaultActive};
-    box-shadow: inset 0 0 1px 1px ${(props) => props.theme.colors.primary.active};
+    box-shadow: inset 0 0 1px 1px ${(props) => props.theme.colors.danger.active};
   }
 `;

@@ -12,10 +12,12 @@ interface Modal {
 
 interface UseModalHook {
   showModal: (modal: Modal) => void;
+  closeModal: () => void;
 }
 
 const ModalContext = createContext<UseModalHook>({
-  showModal: () => {}
+  showModal: () => {},
+  closeModal: () => {}
 });
 
 export const ModalProvider = ({ children }: { children: ReactNode }) => {
@@ -26,7 +28,7 @@ export const ModalProvider = ({ children }: { children: ReactNode }) => {
   };
 
   const closeModal = () => {
-    const onClose = modals[modals.length - 1].onClose;
+    const onClose = modals[modals.length - 1]?.onClose;
     if (!onClose || onClose()) setModals(modals.slice(0, -1));
   };
 
@@ -42,7 +44,7 @@ export const ModalProvider = ({ children }: { children: ReactNode }) => {
   );
 
   return (
-    <ModalContext.Provider value={{ showModal }}>
+    <ModalContext.Provider value={{ showModal, closeModal }}>
       {children}
       <ModalContainer show={modals.length > 0}>
         <Overlay onClick={closeModal} />

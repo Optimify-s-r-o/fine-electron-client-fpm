@@ -26,6 +26,8 @@
     "InvalidSignInException": "Chybně zadané heslo nebo e-mail."
   },
   "table": {
+    "loading": "Data se načítají...",
+    "rename": "Přejmenovat",
     "fileName": "Název přílohy",
     "fileExtension": "Formát",
     "fileAdd": "Přidat přílohy",
@@ -38,6 +40,7 @@
     "iconAdd": "Přidat ikonu",
     "iconChange": "Změnit ikonu",
     "programAdd": "Přidat podporovaný program",
+    "programRename": "Přejmenovat podporovaný program",
     "noPrograms": "Zatím nebyly přidány žádné podporované programy.\nPoužijte tlačítko pod tabulkou pro přidání."
   }
 }

@@ -1,4 +1,4 @@
-import { faFolder, faPlus, faRefresh } from '@fortawesome/pro-light-svg-icons';
+import { faFolder, faPencil, faPlus, faRefresh } from '@fortawesome/pro-light-svg-icons';
 import { faDatabase } from '@fortawesome/pro-solid-svg-icons';
 import { yupResolver } from '@hookform/resolvers/yup/dist/yup';
 import { Button } from 'components/Form/Button';
@@ -69,17 +69,52 @@ const ApplicationsSettings = () => {
     console.log(data);
   };
 
-  const { register, handleSubmit, resetField } = useForm<ApplicationCreateRequest>({
+  const { register, handleSubmit } = useForm<ApplicationCreateRequest>({
     resolver: yupResolver(
       Yup.object().shape({
         name: Yup.string().required(t('form:validation.required'))
       })
-    )
+    ),
+    shouldUnregister: true
   });
 
   const onFileChanged = (file: File | null, record: any) => {
     alert('TODO upload file');
   };
+
+  const titleRender = (text: string, _r: any) => (
+    <>
+      {text}
+      <MarginLeft>
+        <PlainButton
+          loading={false}
+          level={3}
+          icon={faPencil}
+          type="button"
+          onClick={() => {
+            modal.showModal({
+              title: t('form:table.programRename'),
+              content: (
+                <>
+                  <TextInput register={register} name="name" title={t('form:table.programName')} />
+                </>
+              ),
+              footer: (
+                <>
+                  <Button loading={false}>{t('form:table.programRename')}</Button>
+                </>
+              ),
+              onSubmit: handleSubmit(() => {
+                alert('TODO karel');
+                modal.closeModal();
+              })
+            });
+          }}>
+          {t('form:table.rename')}
+        </PlainButton>
+      </MarginLeft>
+    </>
+  );
 
   return (
     <MainWrapper
@@ -99,7 +134,7 @@ const ApplicationsSettings = () => {
             columns={[
               {
                 title: t('form:table.programName'),
-                render: (t: string, _r: any) => t,
+                render: titleRender,
                 dataIndex: 'name'
               },
               {
@@ -123,26 +158,15 @@ const ApplicationsSettings = () => {
                 )
               }
             ]}
-            dataSource={[
-              {
-                name: 'Facebook',
-                code: 'c1c6fc98-8359-4a60-8d8a-4e986f2b11ac',
-                icon: 'https://upload.wikimedia.org/wikipedia/commons/f/fb/Facebook_icon_2013.svg'
-              },
-              {
-                name: 'Instagram',
-                code: 'c1c6fc98-8359-4a60-8d8a-4e986f2b11ac'
-              }
-            ]}
-            emptyTableText={t('form:table.noPrograms')}
+            dataSource={applications}
+            emptyTableText={loading ? t('form:table.loading') : t('form:table.noPrograms')}
             extraRow={
               <GS.Center>
                 <PlainButton
                   loading={false}
                   icon={faPlus}
                   type="button"
-                  onClick={(e) => {
-                    e.preventDefault();
+                  onClick={() => {
                     modal.showModal({
                       title: t('form:table.programAdd'),
                       content: (
@@ -161,11 +185,8 @@ const ApplicationsSettings = () => {
                       ),
                       onSubmit: handleSubmit(() => {
                         alert('TODO karel');
-                      }),
-                      onClose: () => {
-                        resetField('name');
-                        return true;
-                      }
+                        modal.closeModal();
+                      })
                     });
                   }}>
                   {t('form:table.programAdd')}
@@ -173,25 +194,6 @@ const ApplicationsSettings = () => {
               </GS.Center>
             }
           />
-          <div>
-            Cast1: Vypsat existujici programy, je to tabulka bez pagination, bude tam jenom par
-            zaznamu
-          </div>
-          <div>
-            Ikony by mely chodit uz primo jako url pro rychlejsi zobrazeni, pokud tam ikona neni,
-            oznac prosim nejak viditelne ze by tam mela jit pridat
-          </div>
-          <div>
-            Zaroven potrevujem aby to misto s ikonou dokazalo nahravat soubory - klasicky drag and
-            drop, nebo na kliknuti
-          </div>
-          <div>
-            {loading
-              ? 'loading main'
-              : applications.map(
-                  (e) => `Nazev programu: ${e.name} Interni kod programu: ${e.code} Icon: ${e.icon}`
-                )}
-          </div>
         </S.ContentWrapper>
         <S.ButtonsWrapper>
           <Button loading={false}>{t('form:button.save')}</Button>
@@ -215,4 +217,8 @@ const DropLabel = styled.label<{ isDragActive: boolean }>`
 
   border-radius: 3px;
   outline: ${(props) => (props.isDragActive ? '2px dashed ' + props.theme.common.darker : 'none')};
+`;
+
+const MarginLeft = styled.span`
+  margin-left: 16px;
 `;

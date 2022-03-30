@@ -2,7 +2,7 @@ import { createContext, useContext } from 'react';
 
 export const ExecutableApplicationContext = createContext<{
   loading: boolean;
-  executeApplication: () => void;
+  executeApplication: (applicationId: string) => void;
 }>({
   loading: false,
   executeApplication: () => console.log('No valid context')

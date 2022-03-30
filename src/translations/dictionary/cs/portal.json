@@ -45,5 +45,10 @@
       "applicationsSettings": "Cesty k programům",
       "update": "Aktualizace"
     }
+  },
+  "executeApplication": {
+    "applicationStarting": "Aplikace se práve spouští.",
+    "missingPath": "Aplikace nemá nastavenou cestu ke spustitelnému programu. Cestu nastavte v sekci 'Nastavení - Cesty k programům'",
+    "applicationFailed": "Aplikace se nepovedlo spustit."
   }
 }

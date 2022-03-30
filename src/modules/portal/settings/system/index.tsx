@@ -5,22 +5,14 @@ import { useEffectAsync } from '../../../../utils/useEffectAsync';
 import * as S from '../../components/main/styled';
 import { useExecutableApplicationContext } from '../../context/ExecutableApplications/ExecutableApplicationsContext';
 import { SettingsWrapper } from '../components/SettingsWrapper';
+import { useApplicationContext } from '../../context/Applications/ApplicationsContext';
 
 const System = () => {
   const { executeApplication } = useExecutableApplicationContext();
+  const { applications } = useApplicationContext();
 
-  useEffectAsync(async () => {
-    const downloadsPath = await window.API.invoke('ELECTRON_STORE_GET', { name: 'downloads' });
-    const documentsPath = await window.API.invoke('ELECTRON_STORE_GET', { name: 'documents' });
-    const test = await window.API.invoke('ELECTRON_STORE_GET', { name: 'test' });
-    await window.API.invoke('ELECTRON_STORE_SET', { name: 'test', value: 'C://' });
-    console.log(downloadsPath);
-    console.log(documentsPath);
-    console.log(test);
-  }, []);
-
-  const triggerApplication = (_event: MouseEvent<HTMLButtonElement>) => {
-    executeApplication();
+  const triggerApplication = (id: string) => (_event: MouseEvent<HTMLButtonElement>) => {
+    executeApplication(id);
   };
 
   return (
@@ -30,7 +22,13 @@ const System = () => {
           <GS.GridRow columns={1}>
             <GS.GridItem fill={1}>
               <GS.Card>
-                <button onClick={triggerApplication}>run app</button>
+                {applications?.map((e) => {
+                  return (
+                    <div>
+                      <button onClick={triggerApplication(e.id)}>{e.name}</button>
+                    </div>
+                  );
+                })}
               </GS.Card>
             </GS.GridItem>
           </GS.GridRow>

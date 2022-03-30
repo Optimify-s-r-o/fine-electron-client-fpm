@@ -88,13 +88,13 @@ const ApplicationsSettings = () => {
   };
 
   const addNewApplication = async ( request: ApplicationCreateRequest ) => {
-    toast.info( t( 'portal:projects.create.creatingInfo' ) );
+    toast.info( t( 'portal:admin.applications.creatingInfo' ) );
 
     try {
       const response = await createApplication( () =>
         API.ApplicationsApi.fineProjectManagerApiApplicationsPost( request )
       );
-      toast.success( t( 'portal:projects.create.creatingDone' ) );
+      toast.success( t( 'portal:admin.applications.creatingDone' ) );
 
       return true;
     } catch {

@@ -5,8 +5,8 @@ import { arrayMoveImmutable } from 'array-move';
 import { useState } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faTimes } from '@fortawesome/pro-light-svg-icons';
-import { faFolder } from '@fortawesome/pro-solid-svg-icons';
-import { Tab, useTabContext } from '../../../context/Tab/TabContext';
+import { faFolder, faHomeAlt } from '@fortawesome/pro-solid-svg-icons';
+import { Tab, TabType, useTabContext } from '../../../context/Tab/TabContext';
 import { useNavigate } from 'react-router';
 import { RoutesPath } from '../../../../../constants/routes';
 import { matchPath, useLocation } from 'react-router-dom';
@@ -15,15 +15,22 @@ const SortableItem = SortableElement(
   ({ value, removeTab }: { value: Tab; removeTab: (tab: Tab) => void }) => {
     const navigate = useNavigate();
     const { pathname } = useLocation();
-    const path = `${RoutesPath.PROJECTS}/${value.id}`;
+
+    const path = `${value.type === TabType.PROJECT ? RoutesPath.PROJECTS : RoutesPath.JOBS}/${
+      value.id
+    }`;
+
     const handleNavigation = () => {
       navigate(path);
     };
 
     return (
-      <SortableTab className="sortable-item" active={!!matchPath(pathname, path) ? 1 : 0}>
+      <SortableTab
+        className="sortable-item"
+        active={!!matchPath(pathname, path) ? 1 : 0}
+        type={value.type}>
         <TitleWrapper onClick={() => handleNavigation()}>
-          <FontAwesomeIcon icon={faFolder} />
+          <FontAwesomeIcon icon={value.type === TabType.PROJECT ? faFolder : faHomeAlt} />
           <Title>{value.name}</Title>
         </TitleWrapper>
         <Icon onClick={() => removeTab(value)}>
@@ -91,7 +98,7 @@ const Title = styled.span`
   margin-bottom: 2px;
 `;
 
-const SortableTab = styled(SpaceBetween)<{ active: number }>`
+const SortableTab = styled(SpaceBetween)<{ active: number; type: TabType }>`
   align-items: center;
 
   min-width: 130px;
@@ -105,7 +112,8 @@ const SortableTab = styled(SpaceBetween)<{ active: number }>`
   border-right: 1px solid #e5e5e5;
 
   div svg {
-    color: rgb(255 202 108 / 80%);
+    color: ${(props) =>
+      props.type === TabType.PROJECT ? 'rgb(255 202 108 / 80%)' : 'rgba(143, 113, 52, 0.8)'};
     width: 14px;
   }
 

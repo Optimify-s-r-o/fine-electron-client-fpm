@@ -3,6 +3,7 @@ import { faDatabase } from '@fortawesome/pro-solid-svg-icons';
 import { yupResolver } from '@hookform/resolvers/yup/dist/yup';
 import { Button } from 'components/Form/Button';
 import { CloseButton } from 'components/Form/Button/CloseButton';
+import { DeleteButton } from 'components/Form/Button/DeleteButton';
 import { PlainButton } from 'components/Form/Button/PlainButton';
 import { Input } from 'components/Form/Input/styled';
 import { TextInput } from 'components/Form/Input/Text/TextInput';
@@ -24,37 +25,37 @@ import { MainWrapper } from '../../components/main/components/MainWrapper';
 import * as S from '../../components/main/styled';
 import { useApplicationContext } from '../../context/Applications/ApplicationsContext';
 
-const IconField = ( {
+const IconField = ({
   url,
   record,
   onFileChanged
 }: {
   url?: string;
   record: any;
-  onFileChanged: ( file: File | null, record: any ) => void;
-} ) => {
-  const { t } = useTranslation( ['form'] );
+  onFileChanged: (file: File | null, record: any) => void;
+}) => {
+  const { t } = useTranslation(['form']);
 
   return (
     <Dropzone
       accept={'image/*'}
-      onDrop={( acceptedFiles: File[] ) => {
-        onFileChanged( acceptedFiles[0], record );
+      onDrop={(acceptedFiles: File[]) => {
+        onFileChanged(acceptedFiles[0], record);
       }}>
-      {( { getRootProps, getInputProps, isDragActive } ) => (
+      {({ getRootProps, getInputProps, isDragActive }) => (
         <>
-          <input {...getInputProps()} multiple={false} id="icon-input" />
+          <input {...getInputProps()} multiple={false} id="icon-input" tabIndex={-1} />
           <DropLabel htmlFor="icon-input" {...getRootProps()} isDragActive={isDragActive}>
             {url ? (
               <GS.RowAlignCenter>
                 <Icon src={url} alt={record.name + ' icon'} />
                 <PlainButton loading={false} icon={faRefresh} type="button" level={3}>
-                  {t( 'form:table.iconChange' )}
+                  {t('form:table.iconChange')}
                 </PlainButton>
               </GS.RowAlignCenter>
             ) : (
               <PlainButton loading={false} icon={faPlus} type="button" level={3}>
-                {t( 'form:table.iconAdd' )}
+                {t('form:table.iconAdd')}
               </PlainButton>
             )}
           </DropLabel>
@@ -65,37 +66,40 @@ const IconField = ( {
 };
 
 const ApplicationsSettings = () => {
-  const { t } = useTranslation( ['portal', 'form', 'common'] );
+  const { t } = useTranslation(['portal', 'form', 'common']);
   const { applications, loading } = useApplicationContext();
-  const [createApplication, { loading: createLoading }] = useApi<ApplicationCreateRequest, ApplicationDto>();
+  const [createApplication, { loading: createLoading }] = useApi<
+    ApplicationCreateRequest,
+    ApplicationDto
+  >();
   const [deleteApplication, { loading: deleteLoading }] = useApi();
   const modal = useModal();
 
-  const onSubmit = async ( data: ApplicationCreateRequest ) => {
-    console.log( data );
+  const onSubmit = async (data: ApplicationCreateRequest) => {
+    console.log(data);
   };
 
-  const { register, handleSubmit } = useForm<ApplicationDto>( {
+  const { register, handleSubmit } = useForm<ApplicationDto>({
     resolver: yupResolver(
-      Yup.object().shape( {
-        name: Yup.string().required( t( 'form:validation.required' ) )
-      } )
+      Yup.object().shape({
+        name: Yup.string().required(t('form:validation.required'))
+      })
     ),
     shouldUnregister: true
-  } );
+  });
 
-  const onFileChanged = ( file: File | null, record: any ) => {
-    alert( 'TODO upload file' );
+  const onFileChanged = (file: File | null, record: any) => {
+    alert('TODO upload file');
   };
 
-  const createApplicationHandler = async ( request: ApplicationCreateRequest ) => {
-    toast.info( t( 'portal:admin.applications.creatingInfo' ) );
+  const createApplicationHandler = async (request: ApplicationCreateRequest) => {
+    toast.info(t('portal:admin.applications.creatingInfo'));
 
     try {
-      await createApplication( () =>
-        API.ApplicationsApi.fineProjectManagerApiApplicationsPost( request )
+      await createApplication(() =>
+        API.ApplicationsApi.fineProjectManagerApiApplicationsPost(request)
       );
-      toast.success( t( 'portal:admin.applications.creatingDone' ) );
+      toast.success(t('portal:admin.applications.creatingDone'));
 
       return true;
     } catch {
@@ -103,14 +107,14 @@ const ApplicationsSettings = () => {
     }
   };
 
-  const deleteApplicationHandler = async ( id: string ) => {
-    toast.info( t( 'portal:admin.applications.deletingInfo' ) );
+  const deleteApplicationHandler = async (id: string) => {
+    toast.info(t('portal:admin.applications.deletingInfo'));
 
     try {
-      await deleteApplication( () =>
-        API.ApplicationsApi.fineProjectManagerApiApplicationsIdDelete( id )
+      await deleteApplication(() =>
+        API.ApplicationsApi.fineProjectManagerApiApplicationsIdDelete(id)
       );
-      toast.success( t( 'portal:admin.applications.deletingDone' ) );
+      toast.success(t('portal:admin.applications.deletingDone'));
 
       return true;
     } catch {
@@ -118,7 +122,7 @@ const ApplicationsSettings = () => {
     }
   };
 
-  const titleRender = ( text: string, _r: any ) => (
+  const titleRender = (text: string, _r: any) => (
     <>
       {text}
       <MarginLeft>
@@ -128,25 +132,25 @@ const ApplicationsSettings = () => {
           icon={faPencil}
           type="button"
           onClick={() => {
-            modal.showModal( {
-              title: t( 'form:table.programRename' ),
+            modal.showModal({
+              title: t('form:table.programRename'),
               content: (
                 <>
-                  <TextInput register={register} name="name" title={t( 'form:table.programName' )} />
+                  <TextInput register={register} name="name" title={t('form:table.programName')} />
                 </>
               ),
               footer: (
                 <>
-                  <Button loading={false}>{t( 'form:table.programRename' )}</Button>
+                  <Button loading={false}>{t('form:table.programRename')}</Button>
                 </>
               ),
-              onSubmit: handleSubmit( () => {
-                alert( 'TODO karel' );
+              onSubmit: handleSubmit(() => {
+                alert('TODO karel');
                 modal.closeModal();
-              } )
-            } );
+              })
+            });
           }}>
-          {t( 'form:table.rename' )}
+          {t('form:table.rename')}
         </PlainButton>
       </MarginLeft>
     </>
@@ -155,63 +159,72 @@ const ApplicationsSettings = () => {
   return (
     <MainWrapper
       icon={faFolder}
-      title={t( 'portal:admin.title' )}
+      title={t('portal:admin.title')}
       navigation={[
         {
           path: RoutesPath.ADMIN_APPLICATIONS_SETTINGS,
           active: true,
-          text: t( 'portal:admin.tabs.applicationsSettings' ),
+          text: t('portal:admin.tabs.applicationsSettings'),
           icon: faDatabase
         }
       ]}>
-      <S.MainFormContent onSubmit={handleSubmit( onSubmit )}>
+      <S.MainFormContent onSubmit={handleSubmit(onSubmit)}>
         <S.ContentWrapper>
           <CardTable
             columns={[
               {
-                title: t( 'form:table.programName' ),
+                title: t('form:table.programName'),
                 render: titleRender,
                 dataIndex: 'name'
               },
               {
-                title: t( 'form:table.programCode' ),
-                render: ( t: string, _r: any ) => t,
+                title: t('form:table.programCode'),
+                render: (t: string, _r: any) => t,
                 dataIndex: 'code'
               },
               {
-                title: t( 'form:table.programIcon' ),
-                render: ( url: string, r: any ) => (
+                title: t('form:table.programIcon'),
+                render: (url: string, r: any) => (
                   <IconField url={url} record={r} onFileChanged={onFileChanged} />
                 ),
                 dataIndex: 'icon'
               },
               {
-                title: <Input placeholder={t( 'form:input.searchPlaceholder' )} />,
-                render: ( _t: undefined, r: ApplicationDto ) => (
+                title: <Input placeholder={t('form:input.searchPlaceholder')} />,
+                render: (_t: undefined, r: ApplicationDto) => (
                   <GS.FloatRight>
-                    <CloseButton onClick={() => modal.showModal( {
-                      title: t( 'form:table.applicationDelete' ),
-                      content: (
-                        <>
-                          {`${ t( 'portal:admin.applications.deleteConfirmationTextPart1' ) } ${ r.name }?${ t( 'portal:admin.applications.deleteConfirmationTextPart2' ) }.`}
-                        </>
-                      ),
-                      footer: (
-                        <>
-                          <PlainButton loading={createLoading} onClick={async () => {
-                            const success = await deleteApplicationHandler( r.id );
-                            if ( success )
-                              modal.closeModal();
-                          }}>{t( 'form:table.confirm' )}</PlainButton>
-                        </>
-                      )
-                    } )} />
+                    <CloseButton
+                      onClick={() =>
+                        modal.showModal({
+                          title: t('form:table.applicationDelete'),
+                          content: (
+                            <>
+                              {`${t('portal:admin.applications.deleteConfirmationTextPart1')} ${
+                                r.name
+                              }?${t('portal:admin.applications.deleteConfirmationTextPart2')}.`}
+                            </>
+                          ),
+                          footer: (
+                            <GS.RowEnd>
+                              <DeleteButton
+                                loading={createLoading}
+                                onClick={async () => {
+                                  const success = await deleteApplicationHandler(r.id);
+                                  if (success) modal.closeModal();
+                                }}>
+                                {t('form:table.confirm')}
+                              </DeleteButton>
+                            </GS.RowEnd>
+                          )
+                        })
+                      }
+                    />
                   </GS.FloatRight>
                 )
               }
             ]}
             dataSource={applications}
-            emptyTableText={loading ? t( 'form:table.loading' ) : t( 'form:table.noPrograms' )}
+            emptyTableText={loading ? t('form:table.loading') : t('form:table.noPrograms')}
             extraRow={
               <GS.Center>
                 <PlainButton
@@ -219,42 +232,41 @@ const ApplicationsSettings = () => {
                   icon={faPlus}
                   type="button"
                   onClick={() => {
-                    modal.showModal( {
-                      title: t( 'form:table.programAdd' ),
+                    modal.showModal({
+                      title: t('form:table.programAdd'),
                       content: (
                         <>
                           <TextInput
                             register={register}
                             name="name"
-                            title={t( 'form:table.programName' )}
+                            title={t('form:table.programName')}
                           />
                           <TextInput
                             register={register}
                             name="code"
-                            title={t( 'form:table.programCode' )}
+                            title={t('form:table.programCode')}
                           />
                         </>
                       ),
                       footer: (
                         <>
-                          <Button loading={createLoading}>{t( 'form:table.programAdd' )}</Button>
+                          <Button loading={createLoading}>{t('form:table.programAdd')}</Button>
                         </>
                       ),
-                      onSubmit: handleSubmit( async ( request: ApplicationCreateRequest ) => {
-                        const success = await createApplicationHandler( request );
-                        if ( success )
-                          modal.closeModal();
-                      } )
-                    } );
+                      onSubmit: handleSubmit(async (request: ApplicationCreateRequest) => {
+                        const success = await createApplicationHandler(request);
+                        if (success) modal.closeModal();
+                      })
+                    });
                   }}>
-                  {t( 'form:table.programAdd' )}
+                  {t('form:table.programAdd')}
                 </PlainButton>
               </GS.Center>
             }
           />
         </S.ContentWrapper>
         <S.ButtonsWrapper>
-          <Button loading={false}>{t( 'form:button.save' )}</Button>
+          <Button loading={false}>{t('form:button.save')}</Button>
         </S.ButtonsWrapper>
       </S.MainFormContent>
     </MainWrapper>
@@ -270,11 +282,11 @@ const Icon = styled.img`
   margin-right: 8px;
 `;
 
-const DropLabel = styled.label<{ isDragActive: boolean; }>`
+const DropLabel = styled.label<{ isDragActive: boolean }>`
   display: inline-block;
 
   border-radius: 3px;
-  outline: ${ ( props ) => ( props.isDragActive ? '2px dashed ' + props.theme.common.darker : 'none' ) };
+  outline: ${(props) => (props.isDragActive ? '2px dashed ' + props.theme.common.darker : 'none')};
 `;
 
 const MarginLeft = styled.span`

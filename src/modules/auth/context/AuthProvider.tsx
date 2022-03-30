@@ -33,6 +33,8 @@ export const AuthProvider = ( { children }: { children: JSX.Element; } ) => {
     if ( token === null || email === null ) return false;
 
     try {
+
+      config.apiKey = 'Bearer ' + token;
       const result = await fetchSelf( () => API.UsersApi.fineProjectManagerApiUsersEmailGet( email ) );
 
       setUser( result );

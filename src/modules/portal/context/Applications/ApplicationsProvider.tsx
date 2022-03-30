@@ -31,12 +31,23 @@ export const ApplicationsProvider = ( { children }: { children: JSX.Element; } )
     setApplications( res.data as ApplicationDto[] );
   };
 
+  const getApplicationIconLink = ( applicationCode: string ) => {
+    if ( applicationLoading ) return null;
+
+    const res = applications.filter( e => e.code === applicationCode );
+
+    if ( res.length === 0 || !res[0].icon ) return null;
+
+    return res[0].icon;
+  };
+
   return (
     <ApplicationContext.Provider
       value={{
         applications: applications,
         loading: applicationLoading,
-        refetch: refetch
+        refetch: refetch,
+        getApplicationIconLink: getApplicationIconLink
       }}>
       {children}
     </ApplicationContext.Provider>

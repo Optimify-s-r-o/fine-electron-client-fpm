@@ -1,5 +1,4 @@
 import axios, { AxiosResponse } from 'axios';
-import React from 'react';
 
 import { FileOperationResponse } from '../api/generated';
 import API from './api';

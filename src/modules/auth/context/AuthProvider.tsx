@@ -29,15 +29,24 @@ export const AuthProvider = ( { children }: { children: JSX.Element; } ) => {
   const IsSavedTokenValid = async () => {
     const token = await window.API.keytarGetSecret( 'token' );
     const email = await window.API.keytarGetSecret( 'email' );
+    const validityEnd = await window.API.keytarGetSecret( 'tokenValidity' );
 
-    if ( token === null || email === null ) return false;
+    if ( token === null || email === null || validityEnd === null ) return false;
+
+    const validityEndDate = new Date( validityEnd );
+
+    if ( validityEndDate <= new Date() ) return false;
 
     try {
 
       config.apiKey = 'Bearer ' + token;
       const result = await fetchSelf( () => API.UsersApi.fineProjectManagerApiUsersEmailGet( email ) );
 
+      setToken( token );
       setUser( result );
+      setValidityEnd( validityEndDate );
+      setIsLogged( true );
+      setIsLoading( false );
 
       return true;
     } catch {
@@ -58,6 +67,7 @@ export const AuthProvider = ( { children }: { children: JSX.Element; } ) => {
       );
 
       await window.API.keytarSetSecret( 'token', result.token );
+      await window.API.keytarSetSecret( 'tokenValidity', result.expiration );
 
       config.apiKey = 'Bearer ' + result.token;
       setToken( result.token as string );
@@ -81,6 +91,7 @@ export const AuthProvider = ( { children }: { children: JSX.Element; } ) => {
     setUser( null );
     setValidityEnd( undefined );
     await window.API.keytarDeleteSecret( 'token' );
+    await window.API.keytarDeleteSecret( 'tokenValidity' );
     setIsLogged( false );
 
     setIsLoading( false );

@@ -31,7 +31,6 @@ const CreateProject = () => {
   const { handleNewProject } = useTreeContext();
 
   const [createProject] = useApi<ProjectDto, ProjectCreateRequest>();
-  const [uploadAttachment] = useApi<FileOperationResponse, UploadProjectAttachmentRequest>();
 
   const {
     control,
@@ -63,26 +62,19 @@ const CreateProject = () => {
         })
       );
 
-      toast.info(t('portal:projects.create.creatingDone'));
-
-      await handleNewProject(response);
+      toast.success(t('portal:projects.create.creatingDone'));
 
       if (!data.files) return;
 
       toast.info(t('portal:projects.create.attachmentsInfo'));
 
       for (const file of data.files) {
-        const linkResponse = await uploadAttachment(() =>
-          API.ProjectsApi.fineProjectManagerApiProjectsUploadAttachmentPost({
-            projectId: response.id,
-            fileName: file.name
-          })
-        );
-
-        if (file && linkResponse.link) uploadAsync(linkResponse.link, file);
+        await uploadAsync(response.id, file);
       }
 
-      toast.info(t('portal:projects.create.attachmentsDone'));
+      toast.success(t('portal:projects.create.attachmentsDone'));
+
+      await handleNewProject(response);
     } catch (e) {}
   };
 

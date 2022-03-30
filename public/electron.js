@@ -3,6 +3,12 @@ const { app, BrowserWindow, ipcMain } = require('electron');
 const isDev = require('electron-is-dev');
 const { default: installExtension, REACT_DEVELOPER_TOOLS } = require('electron-devtools-installer');
 const Store = require('electron-store');
+const { autoUpdater } = require('electron-updater');
+const log = require('electron-log');
+
+autoUpdater.logger = log;
+autoUpdater.logger.transports.file.level = 'info';
+autoUpdater.autoDownload = false;
 
 const schema = {
   downloads: { default: app.getPath('downloads') },
@@ -62,4 +68,38 @@ ipcMain.handle('ELECTRON_STORE_GET', async (event, arg) => {
 ipcMain.handle('ELECTRON_STORE_SET', async (event, arg) => {
   console.log(arg);
   store.set(arg.name, arg.value);
+});
+
+ipcMain.handle('CHECK_FOR_UPDATE', async (event) => {
+  autoUpdater.autoDownload = false;
+
+  if (isDev) return { version: '1.1.1' };
+
+  try {
+    const result = await autoUpdater.checkForUpdates();
+    log.info(result);
+
+    const { updateInfo } = result;
+
+    log.info(updateInfo);
+
+    return updateInfo;
+  } catch (e) {
+    return null;
+  }
+});
+
+ipcMain.handle('DOWNLOAD_UPDATE', async (event) => {
+  if (isDev) return true;
+
+  try {
+    await autoUpdater.downloadUpdate();
+    return true;
+  } catch (e) {
+    return false;
+  }
+});
+
+autoUpdater.on('update-downloaded', (info) => {
+  autoUpdater.quitAndInstall();
 });

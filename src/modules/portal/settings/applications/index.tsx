@@ -1,4 +1,4 @@
-import { faCog, faDatabase, faQuestion } from '@fortawesome/pro-light-svg-icons';
+import { faQuestion } from '@fortawesome/pro-light-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { yupResolver } from '@hookform/resolvers/yup/dist/yup';
 import { ProjectCreateRequest } from 'api/generated';
@@ -7,15 +7,15 @@ import { PlainButton } from 'components/Form/Button/PlainButton';
 import { Input } from 'components/Form/Input/styled';
 import { CardTable } from 'components/Table/CardTable';
 import { Row } from 'constants/globalStyles';
-import { RoutesPath } from 'constants/routes';
 import { useRef } from 'react';
 import { useForm } from 'react-hook-form';
 import { useTranslation } from 'react-i18next';
 import styled from 'styled-components';
 import * as Yup from 'yup';
-import { MainWrapper } from '../../components/main/components/MainWrapper';
+
 import * as S from '../../components/main/styled';
 import { useApplicationContext } from '../../context/Applications/ApplicationsContext';
+import { SettingsWrapper } from '../components/SettingsWrapper';
 
 const PathField = ({
   path,
@@ -75,29 +75,7 @@ const LocalApplicationsSettings = () => {
   };
 
   return (
-    <MainWrapper
-      icon={faCog}
-      title={t('portal:settings.title')}
-      navigation={[
-        {
-          path: RoutesPath.SYSTEM,
-          active: false,
-          text: t('portal:settings.tabs.system'),
-          icon: faDatabase
-        },
-        {
-          path: RoutesPath.LOCAL_APPLICATIONS_SETTINGS,
-          active: true,
-          text: t('portal:settings.tabs.applicationsSettings'),
-          icon: faDatabase
-        },
-        {
-          path: RoutesPath.UPDATE,
-          active: false,
-          text: t('portal:settings.tabs.update'),
-          icon: faDatabase
-        }
-      ]}>
+    <SettingsWrapper>
       <S.MainFormContent onSubmit={handleSubmit(onSubmit)}>
         <S.ContentWrapper>
           <CardTable
@@ -140,7 +118,7 @@ const LocalApplicationsSettings = () => {
           <Button loading={false}>{t('form:button.save')}</Button>
         </S.ButtonsWrapper>
       </S.MainFormContent>
-    </MainWrapper>
+    </SettingsWrapper>
   );
 };
 

@@ -1,6 +1,6 @@
 import { JobDto, ProjectDto, ProjectDtoPaginatedCollection } from 'api/generated/api';
 import { RoutesPath } from 'constants/routes';
-import { useAuthContext } from 'modules/Auth/context/AuthContext';
+import { useAuthContext } from 'modules/auth/context/AuthContext';
 import { useEffect, useState } from 'react';
 import { useLocation, useNavigate } from 'react-router';
 import API from 'utils/api';
@@ -11,7 +11,7 @@ import { ProjectJobsDto } from '../../../../api/generated/api';
 import { TreeContext } from './TreeContext';
 
 //TODO selected elementy do local storage
-export const TreeProvider = ( { children }: { children: JSX.Element; } ) => {
+export const TreeProvider = ({ children }: { children: JSX.Element }) => {
   const { user, isLogged, loading: userLoading } = useAuthContext();
   const navigate = useNavigate();
   const location = useLocation();
@@ -19,10 +19,10 @@ export const TreeProvider = ( { children }: { children: JSX.Element; } ) => {
   const [getProjects, { loading: projectsLoading }] = useApi<ProjectDtoPaginatedCollection>();
   const [getJobs, { loading: jobsLoading }] = useApi<ProjectJobsDto>();
 
-  const [jobsData, setJobsData] = useState<JobDto[]>( [] );
+  const [jobsData, setJobsData] = useState<JobDto[]>([]);
 
-  const [selectedProjectId, setSelectedProjectId] = useState<string | null>( null );
-  const [selectedJobId, setSelectedJobId] = useState<string | null>( null );
+  const [selectedProjectId, setSelectedProjectId] = useState<string | null>(null);
+  const [selectedJobId, setSelectedJobId] = useState<string | null>(null);
 
   //Ulozeni nastaveni stromu
   const requestedPageSize = 25;
@@ -43,66 +43,69 @@ export const TreeProvider = ( { children }: { children: JSX.Element; } ) => {
     previousPageExists: false
   };
 
-  const [projectsData, setProjectsData] = useState<ProjectDtoPaginatedCollection>( emptyProjectTree );
+  const [projectsData, setProjectsData] = useState<ProjectDtoPaginatedCollection>(emptyProjectTree);
 
   // Fetch project tree during portal startup
-  useEffectAsync( async () => {
-    if ( isLogged && !userLoading ) {
-      const res = await getProjects( () =>
-        API.ProjectsApi.fineProjectManagerApiProjectsGet( filter, sort, page, requestedPageSize )
+  useEffectAsync(async () => {
+    if (isLogged && !userLoading) {
+      const res = await getProjects(() =>
+        API.ProjectsApi.fineProjectManagerApiProjectsGet(filter, sort, page, requestedPageSize)
       );
-      setProjectsData( res );
+      setProjectsData(res);
     }
-  }, [isLogged, user, userLoading] );
+  }, [isLogged, user, userLoading]);
 
   // Fetch job tree if project is selected
   // Clear job selection if no project is selected
   // Clear job tree if no project is selected
-  useEffectAsync( async () => {
-    if ( isLogged && !userLoading && selectedProjectId ) {
-      setSelectedJobId( null );
-      const res = await getJobs( () =>
-        API.ProjectsApi.fineProjectManagerApiProjectsIdJobsGet( selectedProjectId )
+  useEffectAsync(async () => {
+    if (isLogged && !userLoading && selectedProjectId) {
+      setSelectedJobId(null);
+      const res = await getJobs(() =>
+        API.ProjectsApi.fineProjectManagerApiProjectsIdJobsGet(selectedProjectId)
       );
-      setJobsData( res.jobs );
+      setJobsData(res.jobs);
     } else {
-      setSelectedJobId( null );
-      setJobsData( [] );
+      setSelectedJobId(null);
+      setJobsData([]);
     }
-  }, [isLogged, user, userLoading, selectedProjectId] );
+  }, [isLogged, user, userLoading, selectedProjectId]);
 
-  const selectProject = ( id: string ) => {
-    setSelectedProjectId( id );
-    setSelectedJobId( null );
-    navigate( `${ RoutesPath.PROJECTS }/${ id }` );
+  const selectProject = (id: string) => {
+    setSelectedProjectId(id);
+    setSelectedJobId(null);
+    navigate(`${RoutesPath.PROJECTS}/${id}`);
   };
 
   // Deselect project item if location changed outside project scope
-  useEffect( () => {
-    if ( !location.pathname.startsWith( RoutesPath.PROJECTS ) && !location.pathname.startsWith( RoutesPath.JOBS ) ) {
-      setSelectedProjectId( null );
+  useEffect(() => {
+    if (
+      !location.pathname.startsWith(RoutesPath.PROJECTS) &&
+      !location.pathname.startsWith(RoutesPath.JOBS)
+    ) {
+      setSelectedProjectId(null);
     }
-  }, [location] );
+  }, [location]);
 
   // Deselect job item if location changed outside job scope
-  useEffect( () => {
-    if ( !location.pathname.startsWith( RoutesPath.JOBS ) ) {
-      setSelectedJobId( null );
+  useEffect(() => {
+    if (!location.pathname.startsWith(RoutesPath.JOBS)) {
+      setSelectedJobId(null);
     }
-  }, [location] );
+  }, [location]);
 
-  const selectJob = ( id: string ) => {
-    setSelectedJobId( id );
-    navigate( `${ RoutesPath.JOBS }/${ id }` );
+  const selectJob = (id: string) => {
+    setSelectedJobId(id);
+    navigate(`${RoutesPath.JOBS}/${id}`);
   };
 
   // Push project to current tree
-  const handleNewProject = async ( project: ProjectDto ) => {
+  const handleNewProject = async (project: ProjectDto) => {
     const newTree = { ...projectsData };
-    newTree.data = [project, ...( newTree.data as ProjectDto[] )];
+    newTree.data = [project, ...(newTree.data as ProjectDto[])];
 
-    setProjectsData( newTree );
-    selectProject( project.id );
+    setProjectsData(newTree);
+    selectProject(project.id);
   };
 
   return (

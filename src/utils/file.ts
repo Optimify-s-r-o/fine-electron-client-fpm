@@ -20,4 +20,22 @@ export const uploadAsync = async (projectId: string, file: File) => {
   });
 };
 
-export const downloadAsync = () => {};
+export const downloadAsync = async (link: string) => {
+  const response = await axios.get(link);
+
+  if (response?.status === 200) return;
+
+  const blob = await response.data.blob();
+
+  const path = await window.API.invoke('ELECTRON_STORE_GET', { name: 'downloads' });
+
+  await saveBlobToFile(blob, path);
+};
+
+const saveBlobToFile = async (blob: Blob, path: string) => {
+  const fs = window.API.fs;
+
+  const fileData = new Int8Array(await blob.arrayBuffer());
+
+  await fs.writeFileSync(path, fileData);
+};

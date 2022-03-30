@@ -1,4 +1,4 @@
-import { useAuthContext } from 'modules/Auth/context/AuthContext';
+import { useAuthContext } from 'modules/auth/context/AuthContext';
 
 import { ApplicationsProvider } from './Applications/ApplicationsProvider';
 import { TreeProvider } from './Tree/TreeProvider';

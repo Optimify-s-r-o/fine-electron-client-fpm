@@ -1,4 +1,4 @@
-import { useAuthContext } from 'modules/Auth/context/AuthContext';
+import { useAuthContext } from 'modules/auth/context/AuthContext';
 import { useState } from 'react';
 import API from 'utils/api';
 import { useApi } from 'utils/hooks/useApi';
@@ -29,8 +29,7 @@ export const ApplicationsProvider = ({ children }: { children: JSX.Element }) =>
       value={{
         applications: applications,
         loading: applicationLoading
-      }}
-    >
+      }}>
       {children}
     </ApplicationContext.Provider>
   );

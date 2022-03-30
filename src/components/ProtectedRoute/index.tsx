@@ -1,5 +1,5 @@
 import { RoutesPath } from 'constants/routes';
-import { useAuthContext } from 'modules/Auth/context/AuthContext';
+import { useAuthContext } from 'modules/auth/context/AuthContext';
 import { useEffect } from 'react';
 import { useNavigate } from 'react-router';
 

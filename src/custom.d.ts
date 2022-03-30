@@ -15,6 +15,7 @@ declare module '*.png' {
 
 //TODO improve typing
 export interface IElectronAPI {
+  fs: any;
   execFile: (filePath, args) => any;
   openWebBrowser: (url: string) => Promise<void>;
   on: (eventName, callback) => any;

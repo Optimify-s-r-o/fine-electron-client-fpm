@@ -10,7 +10,7 @@ import { useTranslation } from 'react-i18next';
 import { useEffectAsync } from 'utils/useEffectAsync';
 
 import { RoutesPath } from '../../../../constants/routes';
-import { useAuthContext } from '../../../Auth/context/AuthContext';
+import { useAuthContext } from '../../../auth/context/AuthContext';
 import { Nav } from './components/Nav';
 import { Menu } from './types';
 

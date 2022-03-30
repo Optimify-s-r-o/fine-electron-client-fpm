@@ -1,19 +1,12 @@
 import { faFolder } from '@fortawesome/pro-light-svg-icons';
 import { yupResolver } from '@hookform/resolvers/yup/dist/yup';
-import {
-  FileOperationResponse,
-  ProjectCreateRequest,
-  ProjectDto,
-  UploadProjectAttachmentRequest
-} from 'api/generated';
+import { ProjectCreateRequest, ProjectDto } from 'api/generated';
 import { Button } from 'components/Form/Button';
-import { useEffect, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { useTranslation } from 'react-i18next';
 import { toast } from 'react-toastify';
 import API from 'utils/api';
 import { useApi } from 'utils/hooks/useApi';
-import { useEffectAsync } from 'utils/useEffectAsync';
 import * as Yup from 'yup';
 
 import { MainWrapper } from '../../components/main/components/MainWrapper';

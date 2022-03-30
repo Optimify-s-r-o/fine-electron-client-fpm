@@ -8,7 +8,7 @@ export type Row<T> = {
   titleHide?: boolean;
   dataIndex?: string;
   key?: string;
-  render: (text: any, record: T) => ReactNode;
+  render: (text: any, record: T, index: number) => ReactNode;
   collapsibleNode?: (record: T) => ReactNode;
   onCollapse?: (record: T) => any;
   collapsible?: boolean;
@@ -28,7 +28,7 @@ const TableRow = <T extends unknown>({
     <tr key={tableRowKey}>
       {columns?.map((e: Row<T>, keyColumn: number) => {
         const value = e.dataIndex ? data[e.dataIndex] : '';
-        return <td key={keyColumn}>{e.render(value, data)}</td>;
+        return <td key={keyColumn}>{e.render(value, data, tableRowKey)}</td>;
       })}
     </tr>
   );

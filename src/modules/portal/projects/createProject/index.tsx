@@ -1,6 +1,11 @@
 import { faFolder } from '@fortawesome/pro-light-svg-icons';
 import { yupResolver } from '@hookform/resolvers/yup/dist/yup';
-import { ProjectCreateRequest, ProjectDto } from 'api/generated';
+import {
+  FileOperationResponse,
+  ProjectCreateRequest,
+  ProjectDto,
+  UploadProjectAttachmentRequest
+} from 'api/generated';
 import { Button } from 'components/Form/Button';
 import { useEffect, useState } from 'react';
 import { useForm } from 'react-hook-form';
@@ -15,62 +20,80 @@ import { MainWrapper } from '../../components/main/components/MainWrapper';
 import * as S from '../../components/main/styled';
 import { useTreeContext } from '../../context/Tree/TreeContext';
 import { CreateProjectForm } from './components/Form';
+import { uploadAsync } from '../../../../utils/file';
 
-//TODO MARA nebo RICHARD
-// Hláška na chybějící název
+export interface ProjectCreateRequestForm extends ProjectCreateRequest {
+  files: File[];
+}
+
 const CreateProject = () => {
-  const [loading, setLoading] = useState<boolean>(false);
-  const [createdProject, setCreatedProject] = useState<ProjectDto | null>(null);
-
   const { t } = useTranslation(['portal', 'form', 'common']);
   const { handleNewProject } = useTreeContext();
 
-  const [createProject, { loading: projectLoading }] = useApi<ProjectDto, ProjectCreateRequest>();
+  const [createProject] = useApi<ProjectDto, ProjectCreateRequest>();
+  const [uploadAttachment] = useApi<FileOperationResponse, UploadProjectAttachmentRequest>();
 
-  const { register, handleSubmit } = useForm<ProjectCreateRequest>({
+  const {
+    control,
+    register,
+    handleSubmit,
+    watch,
+    formState: { errors, isSubmitting }
+  } = useForm<ProjectCreateRequestForm>({
     resolver: yupResolver(
       Yup.object().shape({
         name: Yup.string().required(t('form:validation.required'))
       })
-    )
+    ),
+    defaultValues: {
+      name: '',
+      description: '',
+      files: []
+    }
   });
 
-  //Control loading state
-  useEffect(() => {
-    setLoading(projectLoading);
-  }, [projectLoading]);
+  const onSubmit = async (data: ProjectCreateRequestForm) => {
+    try {
+      toast.info(t('portal:projects.create.creatingInfo'));
 
-  //Leave page and navigate to new job if request is success
-  useEffectAsync(async () => {
-    if (!loading && createdProject) {
-      handleNewProject(createdProject);
-    }
-  }, [loading, createdProject]);
+      const response = await createProject(() =>
+        API.ProjectsApi.fineProjectManagerApiProjectsPost({
+          name: data.name,
+          description: data.description
+        })
+      );
 
-  const onSubmit = async (data: ProjectCreateRequest) => {
-    console.log(data);
-    toast.info(t('portal:projects.create.creatingInfo'));
+      toast.info(t('portal:projects.create.creatingDone'));
 
-    const response = await createProject(() =>
-      API.ProjectsApi.fineProjectManagerApiProjectsPost(data)
-    );
+      await handleNewProject(response);
 
-    toast.info(t('portal:projects.create.creatingDone'));
+      if (!data.files) return;
 
-    // log only if there are files to upload
-    toast.info(t('portal:projects.create.attachmentsInfo'));
-    toast.info(t('portal:projects.create.attachmentsDone'));
-    setCreatedProject(response);
+      toast.info(t('portal:projects.create.attachmentsInfo'));
+
+      for (const file of data.files) {
+        const linkResponse = await uploadAttachment(() =>
+          API.ProjectsApi.fineProjectManagerApiProjectsUploadAttachmentPost({
+            projectId: response.id,
+            fileName: file.name
+          })
+        );
+
+        if (file && linkResponse.link) uploadAsync(linkResponse.link, file);
+      }
+
+      toast.info(t('portal:projects.create.attachmentsDone'));
+    } catch (e) {}
   };
 
   return (
     <MainWrapper icon={faFolder} title={t('portal:menu.createProject')}>
       <S.MainFormContent onSubmit={handleSubmit(onSubmit)}>
         <S.ContentWrapper>
-          <CreateProjectForm register={register} />
+          <CreateProjectForm errors={errors} control={control} register={register} watch={watch} />
         </S.ContentWrapper>
         <S.ButtonsWrapper>
-          <Button loading={loading}>{t('form:button.createProject')}</Button>
+          <Button loading={isSubmitting}>{t('form:button.createProject')}</Button>
         </S.ButtonsWrapper>
       </S.MainFormContent>
     </MainWrapper>

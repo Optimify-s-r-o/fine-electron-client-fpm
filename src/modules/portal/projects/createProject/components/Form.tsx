@@ -1,6 +1,11 @@
 import { useTranslation } from 'react-i18next';
-import { UseFormRegister } from 'react-hook-form';
-import { ProjectCreateRequest } from '../../../../../api/generated';
+import {
+  Control,
+  FieldErrors,
+  useFieldArray,
+  UseFormRegister,
+  UseFormWatch
+} from 'react-hook-form';
 import * as GS from 'constants/globalStyles';
 import { TextInput } from '../../../../../components/Form/Input/Text/TextInput';
 import { TextAreaInput } from 'components/Form/Input/Text/TextAreaInput';
@@ -10,27 +15,54 @@ import { faPlus } from '@fortawesome/pro-light-svg-icons';
 import { PlainButton } from 'components/Form/Button/PlainButton';
 import { Input } from 'components/Form/Input/styled';
 import { ChangeEvent, useRef } from 'react';
+import { ProjectCreateRequestForm } from '../index';
 
 export const CreateProjectForm = ({
-  register
+  errors,
+  control,
+  register,
+  watch
 }: {
-  register: UseFormRegister<ProjectCreateRequest>;
+  errors: FieldErrors<ProjectCreateRequestForm>;
+  register: UseFormRegister<ProjectCreateRequestForm>;
+  control: Control<ProjectCreateRequestForm>;
+  watch: UseFormWatch<ProjectCreateRequestForm>;
 }) => {
   const { t } = useTranslation(['auth', 'form', 'common']);
   const fileInputRef = useRef<HTMLInputElement | null>(null);
 
-  const addFile = (fileToAdd: File) => {
-    alert('TODO add file');
+  const { append, remove } = useFieldArray({
+    control,
+    name: 'files'
+  });
+
+  const addFiles = (files: File[]) => {
+    if (!files) return;
+
+    append(files);
   };
 
-  const deleteFile = (fileToDelete: any) => {
-    alert('TODO delete file');
+  const addFile = (file: File) => {
+    if (!file) return;
+
+    append(file);
+  };
+
+  const deleteFile = (id: number) => {
+    if (!id) return;
+
+    remove(id);
   };
 
   return (
     <GS.GridRow columns={2}>
       <GS.GridItem>
-        <TextInput name={'name'} register={register} title={t('form:input.projectName')} />
+        <TextInput
+          errors={errors}
+          name={'name'}
+          register={register}
+          title={t('form:input.projectName')}
+        />
         <TextAreaInput
           name={'description'}
           register={register}
@@ -48,33 +80,21 @@ export const CreateProjectForm = ({
             {
               title: t('form:table.fileExtension'),
               render: (t, _r) => <>{t}</>,
-              dataIndex: 'format'
+              dataIndex: 'type'
             },
             {
               title: <Input placeholder={t('form:input.searchPlaceholder')} />,
-              render: (_t, r) => (
+              dataIndex: 'id',
+              render: (t, r, index) => (
                 <GS.FloatRight>
-                  <CloseButton onClick={() => deleteFile(r)} />
+                  <CloseButton onClick={() => deleteFile(index)} />
                 </GS.FloatRight>
               )
             }
           ]}
-          dataSource={[
-            {
-              name: 'Dokumentace.pdf',
-              format: 'pdf'
-            },
-            {
-              name: 'Zadani.docx',
-              format: 'docx'
-            }
-          ]}
+          dataSource={watch('files')}
           emptyTableText={t('form:table.noFiles')}
-          onFilesDrop={(files) =>
-            files.forEach((file: File) => {
-              addFile(file);
-            })
-          }
+          onFilesDrop={addFiles}
           extraRow={
             <GS.Center>
               <label htmlFor="add-file">

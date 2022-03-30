@@ -8,7 +8,7 @@ import { Input } from 'components/Form/Input/styled';
 import { CardTable } from 'components/Table/CardTable';
 import { Row } from 'constants/globalStyles';
 import { RoutesPath } from 'constants/routes';
-import { useRef, useState } from 'react';
+import { useRef } from 'react';
 import { useForm } from 'react-hook-form';
 import { useTranslation } from 'react-i18next';
 import styled from 'styled-components';
@@ -21,7 +21,7 @@ const PathField = ({
   path,
   onPathChanged
 }: {
-  path: string;
+  path: string | null;
   onPathChanged: (newPath: string) => void;
 }) => {
   const { t } = useTranslation(['form']);
@@ -39,14 +39,14 @@ const PathField = ({
           if (file) onPathChanged((file as unknown as { path: string }).path);
         }}
       />
-      <Input value={path} readOnly />
+      <Input value={path ?? ''} readOnly placeholder={t('form:table.programPathNotSet')} />
       <MarginLeft>
         <PlainButton
           loading={false}
           onClick={() => {
             pathInputRef.current?.click();
           }}>
-          {t('form:table.programPathChange')}
+          {path ? t('form:table.programPathChange') : t('form:table.programPathAdd')}
         </PlainButton>
       </MarginLeft>
     </Row>
@@ -124,7 +124,7 @@ const LocalApplicationsSettings = () => {
                 title: t('form:table.programPath'),
                 render: (_t: undefined, r: any) => (
                   <PathField
-                    path={'TODO karel'}
+                    path={null}
                     onPathChanged={(newPath) => {
                       onPathChanged(newPath, r);
                     }}

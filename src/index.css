@@ -17,12 +17,8 @@ code {
   pointer-events: auto !important;
 }
 
-.sortable-container > .sortable-item:hover {
-  cursor: grab;
-}
-
 body > .sortable-item:hover {
-  cursor: grabbing;
+  cursor: default;
   background-color: #eeeeee;
 }
 

@@ -45,6 +45,8 @@
     "programAdd": "Přidat podporovaný program",
     "programRename": "Přejmenovat podporovaný program",
     "noPrograms": "Zatím nebyly přidány žádné podporované programy.\nPoužijte tlačítko pod tabulkou pro přidání.",
-    "noProgramsUser": "Zatím nebyly přidány žádné podporované programy.\nKontaktujte administrátora pro jejich přidání."
+    "noProgramsUser": "Zatím nebyly přidány žádné podporované programy.\nKontaktujte administrátora pro jejich přidání.",
+    "applicationDelete": "Odebrat aplikaci.",
+    "confirm": "Potvrdit"
   }
 }

@@ -39,7 +39,11 @@
     },
     "applications": {
       "creatingInfo": "Přidávám novou aplikaci",
-      "creatingDone": "Aplikace přidána úspěšně! Doporučujeme restartovat program."
+      "creatingDone": "Aplikace přidána úspěšně! Doporučujeme nyní restartovat program.",
+      "deletingInfo": "Probíhá odebrání aplikace",
+      "deletingDone": "Aplikace úspěšně odebrána! Doporučujeme restartovat program.",
+      "deleteConfirmationTextPart1": "Opravdu chcete odebrat nastavení aplikace ",
+      "deleteConfirmationTextPart2": " Tato akce znemožní program používat všem uživatelům v systému."
     }
   },
   "settings": {

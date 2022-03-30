@@ -6,46 +6,64 @@ import { useState } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faTimes } from '@fortawesome/pro-light-svg-icons';
 import { faFolder } from '@fortawesome/pro-solid-svg-icons';
+import { Tab, useTabContext } from '../../../context/Tab/TabContext';
+import { useNavigate } from 'react-router';
+import { RoutesPath } from '../../../../../constants/routes';
+import { matchPath, useLocation } from 'react-router-dom';
 
-const SortableItem = SortableElement(({ value }: { value: any }) => {
-  return (
-    <Tab className="sortable-item">
-      <TitleWrapper>
-        <FontAwesomeIcon icon={faFolder} />
-        <Title>{value}</Title>
-      </TitleWrapper>
-      <FontAwesomeIcon icon={faTimes} />
-    </Tab>
-  );
-});
+const SortableItem = SortableElement(
+  ({ value, removeTab }: { value: Tab; removeTab: (tab: Tab) => void }) => {
+    const navigate = useNavigate();
+    const { pathname } = useLocation();
+    const path = `${RoutesPath.PROJECTS}/${value.id}`;
+    const handleNavigation = () => {
+      navigate(path);
+    };
 
-const SortableList = SortableContainer(({ items }: { items: any }) => {
-  return (
-    <Wrapper className="sortable-container">
-      {items.map((value: string, index: number) => (
-        <SortableItem key={`item-${value}`} index={index} value={value} />
-      ))}
-    </Wrapper>
-  );
-});
+    return (
+      <SortableTab className="sortable-item" active={!!matchPath(pathname, path) ? 1 : 0}>
+        <TitleWrapper onClick={() => handleNavigation()}>
+          <FontAwesomeIcon icon={faFolder} />
+          <Title>{value.name}</Title>
+        </TitleWrapper>
+        <Icon onClick={() => removeTab(value)}>
+          <FontAwesomeIcon icon={faTimes} />
+        </Icon>
+      </SortableTab>
+    );
+  }
+);
+
+const SortableList = SortableContainer(
+  ({ items, removeTab }: { items: Tab[]; removeTab: (tab: Tab) => void }) => {
+    return (
+      <Wrapper className="sortable-container">
+        {items.map((value: Tab, index: number) => (
+          <SortableItem
+            key={`item-${value.id}-${index}`}
+            index={index}
+            value={value}
+            removeTab={removeTab}
+          />
+        ))}
+      </Wrapper>
+    );
+  }
+);
 
 export const Tabs = () => {
-  const [state, setState] = useState<string[]>([
-    'Item 1',
-    'Item 2',
-    'Item 3',
-    'Item 4',
-    'Item 5',
-    'Item 6'
-  ]);
+  const { tabs, setTabs, removeTab } = useTabContext();
+
   const onSortEnd = ({ oldIndex, newIndex }: { oldIndex: number; newIndex: number }) => {
-    const temp = arrayMoveImmutable(state, oldIndex, newIndex);
-    setState(temp);
+    const temp = arrayMoveImmutable(tabs, oldIndex, newIndex);
+    setTabs(temp);
   };
   return (
     <SortableList
-      items={state}
+      distance={1}
+      items={tabs}
       onSortEnd={onSortEnd}
+      removeTab={removeTab}
       axis={'x'}
       lockAxis={'x'}
       lockToContainerEdges={true}
@@ -63,22 +81,21 @@ const Wrapper = styled(Row)`
 
 const TitleWrapper = styled(Row)`
   align-items: center;
+  cursor: default;
 `;
 
 const Title = styled.span`
-  margin-left: 3px;
+  margin-left: 5px;
   font-size: 14px;
 
   margin-bottom: 2px;
 `;
 
-const Tab = styled(SpaceBetween)`
+const SortableTab = styled(SpaceBetween)<{ active: number }>`
   align-items: center;
 
-  min-width: 100px;
+  min-width: 130px;
   height: 100%;
-
-  cursor: pointer;
 
   padding: 0 10px;
 
@@ -87,22 +104,31 @@ const Tab = styled(SpaceBetween)`
 
   border-right: 1px solid #e5e5e5;
 
-  svg {
-    width: 12px;
-    height: 12px;
-
-    padding: 2px;
-  }
-
   div svg {
     color: rgb(255 202 108 / 80%);
     width: 14px;
   }
 
-  > svg {
+  > span > svg {
     color: #8a8a8a;
 
     cursor: pointer;
+  }
+
+  ${(props) =>
+    props.active &&
+    `background-color: ${props.theme.common.content};
+`}
+`;
+
+const Icon = styled.span`
+  margin-left: 3px;
+
+  svg {
+    width: 12px;
+    height: 12px;
+
+    padding: 2px;
   }
 
   > svg:hover {

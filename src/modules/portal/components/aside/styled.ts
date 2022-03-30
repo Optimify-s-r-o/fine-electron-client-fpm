@@ -24,7 +24,7 @@ export const Wrapper = styled(Column)<{ color: string }>`
   }
 `;
 
-export const Item = styled(SpaceBetween)`
+export const Item = styled(SpaceBetween)<{ active: number }>`
   align-items: center;
   cursor: pointer;
   width: 100%;
@@ -33,6 +33,8 @@ export const Item = styled(SpaceBetween)`
     background-color: #eae9e9;
     border-radius: 5px;
   }
+
+  ${(props) => props.active && `background-color: #eae9e9;`}
 `;
 
 export const Title = styled.span`

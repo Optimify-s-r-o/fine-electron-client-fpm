@@ -5,6 +5,7 @@ import { PortalContextProvider } from 'modules/portal/context/PortalContextProvi
 import { Root } from 'Root';
 import { ExecutableApplicationsProvider } from './modules/portal/context/ExecutableApplications/ExecutableApplicationsProvider';
 import { ModalProvider } from 'utils/hooks/useModal';
+import { TabProvider } from './modules/portal/context/Tab/TabProvider';
 
 const App = () => {
   return (
@@ -12,7 +13,9 @@ const App = () => {
       <PortalContextProvider>
         <ExecutableApplicationsProvider>
           <ModalProvider>
-            <Root />
+            <TabProvider>
+              <Root />
+            </TabProvider>
           </ModalProvider>
         </ExecutableApplicationsProvider>
       </PortalContextProvider>

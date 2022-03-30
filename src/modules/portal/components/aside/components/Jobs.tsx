@@ -1,4 +1,4 @@
-import { faCross, faHomeAlt } from '@fortawesome/pro-solid-svg-icons';
+import { faHomeAlt } from '@fortawesome/pro-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { useTreeContext } from 'modules/portal/context/Tree/TreeContext';
 
@@ -22,12 +22,13 @@ export const Jobs = () => {
         ? 'loading'
         : jobTree.map((item) => {
             return (
-              <S.Item key={item.id} onClick={handleSelection(item.id)}>
+              <S.Item
+                active={selectedJobId === item.id ? 1 : 0}
+                key={item.id}
+                onClick={handleSelection(item.id)}>
                 <S.TitleWrapper>
                   <FontAwesomeIcon icon={faHomeAlt} />
                   <S.Title>{item.name}</S.Title>
-                  {/* TODO MARA poznat ktery prvek je selectnuty graficky, ted je jen ikona jen pro overeni funkcnosti  */}
-                  {item.id === selectedJobId && <FontAwesomeIcon icon={faCross} />}
                 </S.TitleWrapper>
               </S.Item>
             );

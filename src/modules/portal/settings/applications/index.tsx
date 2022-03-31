@@ -6,7 +6,6 @@ import styled from 'styled-components';
 
 import * as S from '../../components/main/styled';
 import { useApplicationContext } from '../../context/Applications/ApplicationsContext';
-import { SettingsWrapper } from '../components/SettingsWrapper';
 import { PathField } from './components/PathField';
 
 const LocalApplicationsSettings = () => {

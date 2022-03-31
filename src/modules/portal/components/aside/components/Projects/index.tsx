@@ -2,7 +2,7 @@ import { useTreeContext } from 'modules/portal/context/Tree/TreeContext';
 import { ContextMenu, useContextMenu } from 'react-context-menu-hooks';
 import * as S from '../../styled';
 import { ProjectRow } from './Item';
-import { ProjectDto, UserDto } from 'api/generated';
+import { ProjectDto } from 'api/generated';
 import Pagination from '../Pagination';
 import { useRef, useState } from 'react';
 import { projectContextMenuBridge } from './contextMenuBridge';

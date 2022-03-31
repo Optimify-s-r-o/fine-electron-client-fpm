@@ -1,6 +1,5 @@
 import * as GS from 'constants/globalStyles';
 import * as S from '../../components/main/styled';
-import { SettingsWrapper } from '../components/SettingsWrapper';
 import { useState } from 'react';
 import { useEffectAsync } from '../../../../utils/useEffectAsync';
 

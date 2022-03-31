@@ -4,7 +4,6 @@ import { MouseEvent } from 'react';
 import * as S from '../../components/main/styled';
 import { useApplicationContext } from '../../context/Applications/ApplicationsContext';
 import { useExecutableApplicationContext } from '../../context/ExecutableApplications/ExecutableApplicationsContext';
-import { SettingsWrapper } from '../components/SettingsWrapper';
 
 const System = () => {
   const { executeApplication } = useExecutableApplicationContext();

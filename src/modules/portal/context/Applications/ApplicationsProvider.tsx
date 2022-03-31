@@ -31,14 +31,14 @@ export const ApplicationsProvider = ( { children }: { children: JSX.Element; } )
     setApplications( res.data as ApplicationDto[] );
   };
 
-  const getApplicationIconLink = ( applicationCode: string ) => {
+  const getApplicationByCode = ( applicationCode: string ) => {
     if ( applicationLoading ) return null;
 
     const res = applications.filter( e => e.code === applicationCode );
 
     if ( res.length === 0 || !res[0].icon ) return null;
 
-    return res[0].icon;
+    return res[0];
   };
 
   return (
@@ -47,7 +47,7 @@ export const ApplicationsProvider = ( { children }: { children: JSX.Element; } )
         applications: applications,
         loading: applicationLoading,
         refetch: refetch,
-        getApplicationIconLink: getApplicationIconLink
+        getApplicationByCode: getApplicationByCode
       }}>
       {children}
     </ApplicationContext.Provider>

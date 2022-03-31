@@ -41,13 +41,26 @@ export const ApplicationsProvider = ( { children }: { children: JSX.Element; } )
     return res[0];
   };
 
+  const getApplicationExePath = async ( applicationCode: string ) => {
+    const res = await window.API.invoke( 'ELECTRON_STORE_GET', { name: `APPLICATIONEXEPATH-${ applicationCode }` } );
+
+    if ( !res ) return null;
+    return res as string;
+  };
+
+  const setApplicationExePath = async ( exePath: string, applicationCode: string ) => {
+    await window.API.invoke( 'ELECTRON_STORE_SET', { name: `APPLICATIONEXEPATH-${ applicationCode }`, value: exePath } );
+  };
+
   return (
     <ApplicationContext.Provider
       value={{
         applications: applications,
         loading: applicationLoading,
         refetch: refetch,
-        getApplicationByCode: getApplicationByCode
+        getApplicationByCode: getApplicationByCode,
+        getApplicationExePath: getApplicationExePath,
+        setApplicationExePath: setApplicationExePath
       }}>
       {children}
     </ApplicationContext.Provider>

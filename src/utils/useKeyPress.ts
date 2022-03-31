@@ -29,5 +29,5 @@ export const useKeyPress = (
     return () => {
       targetNode?.removeEventListener('keydown', handleKeyPress);
     };
-  }, [node, deps]);
+  }, [node, deps]); // eslint-disable-line react-hooks/exhaustive-deps
 };

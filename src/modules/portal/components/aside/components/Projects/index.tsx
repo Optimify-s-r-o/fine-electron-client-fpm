@@ -4,7 +4,7 @@ import * as S from '../../styled';
 import { ProjectRow } from './Item';
 import { ProjectDto } from 'api/generated';
 import Pagination from '../Pagination';
-import { useEffect, useRef, useState } from 'react';
+import { useRef, useState } from 'react';
 import { projectContextMenuBridge } from './contextMenuBridge';
 import { useKeyPress } from 'utils/useKeyPress';
 import _ from 'lodash';

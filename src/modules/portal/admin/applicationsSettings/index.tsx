@@ -9,6 +9,7 @@ import { Input } from 'components/Form/Input/styled';
 import { TextInput } from 'components/Form/Input/Text/TextInput';
 import { CardTable } from 'components/Table/CardTable';
 import * as GS from 'constants/globalStyles';
+import { Row } from 'constants/globalStyles';
 import { RoutesPath } from 'constants/routes';
 import Dropzone from 'react-dropzone';
 import { useForm } from 'react-hook-form';
@@ -132,8 +133,8 @@ const ApplicationsSettings = () => {
   };
 
   const titleRender = (text: string, _r: any) => (
-    <>
-      {text}
+    <Row>
+      <Title>{text}</Title>
       <MarginLeft>
         <PlainButton
           loading={false}
@@ -162,7 +163,7 @@ const ApplicationsSettings = () => {
           {t('form:table.rename')}
         </PlainButton>
       </MarginLeft>
-    </>
+    </Row>
   );
 
   return (
@@ -184,6 +185,7 @@ const ApplicationsSettings = () => {
               {
                 title: t('form:table.programName'),
                 render: titleRender,
+                width: '300px',
                 dataIndex: 'name'
               },
               {
@@ -303,4 +305,8 @@ const DropLabel = styled.label<{ isDragActive: boolean }>`
 
 const MarginLeft = styled.span`
   margin-left: 16px;
+`;
+
+const Title = styled.div`
+  min-width: 130px;
 `;

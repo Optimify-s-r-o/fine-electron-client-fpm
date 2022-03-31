@@ -1,22 +1,9 @@
 import { useTranslation } from 'react-i18next';
-import {
-  Control,
-  FieldErrors,
-  useFieldArray,
-  UseFormRegister,
-  UseFormWatch
-} from 'react-hook-form';
+import { Control, FieldErrors, UseFormRegister, UseFormWatch } from 'react-hook-form';
 import * as GS from 'constants/globalStyles';
-import { TextInput } from '../../../../../components/Form/Input/Text/TextInput';
-import { TextAreaInput } from 'components/Form/Input/Text/TextAreaInput';
-import { CardTable } from 'components/Table/CardTable';
-import { CloseButton } from 'components/Form/Button/CloseButton';
-import { faPlus } from '@fortawesome/pro-light-svg-icons';
-import { PlainButton } from 'components/Form/Button/PlainButton';
-import { Input } from 'components/Form/Input/styled';
-import { ChangeEvent, useRef } from 'react';
-import { UserCreateRequest } from '../../../../../api/generated';
-import { PasswordInput } from '../../../../../components/Form/Input/Password';
+import { TextInput } from 'components/Form/Input/Text/TextInput';
+import { UserCreateRequest } from 'api/generated';
+import { PasswordInput } from 'components/Form/Input/Password';
 
 export const CreateUserForm = ({
   errors,

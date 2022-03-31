@@ -6,18 +6,18 @@ interface IApplicationsContextType {
   applications: ApplicationDto[];
   loading: boolean;
   refetch: () => Promise<void>;
-  getApplicationByCode: ( applicationCode: string ) => ApplicationDto | null;
-  setApplicationExePath: ( exePath: string, applicationCode: string ) => Promise<void>;
-  getApplicationExePath: ( applicationCode: string ) => Promise<string | null>;
+  getApplicationByCode: (applicationCode: string | null | undefined) => ApplicationDto | null;
+  setApplicationExePath: (exePath: string, applicationCode: string) => Promise<void>;
+  getApplicationExePath: (applicationCode: string) => Promise<string | null>;
 }
 
-export const ApplicationContext = createContext<IApplicationsContextType>( {
+export const ApplicationContext = createContext<IApplicationsContextType>({
   applications: [],
   loading: false,
-  getApplicationByCode: ( applicationCode: string ) => null,
-  refetch: () => new Promise<void>( e => 'no valid context' ),
-  setApplicationExePath: () => new Promise<void>( e => 'no valid context' ),
-  getApplicationExePath: () => new Promise<string>( e => 'no valid context' ),
-} );
+  getApplicationByCode: (applicationCode: string | null | undefined) => null,
+  refetch: () => new Promise<void>((e) => 'no valid context'),
+  setApplicationExePath: () => new Promise<void>((e) => 'no valid context'),
+  getApplicationExePath: () => new Promise<string>((e) => 'no valid context')
+});
 
-export const useApplicationContext = () => useContext( ApplicationContext );
+export const useApplicationContext = () => useContext(ApplicationContext);

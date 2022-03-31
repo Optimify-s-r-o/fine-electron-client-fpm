@@ -6,50 +6,59 @@ import { useEffectAsync } from 'utils/useEffectAsync';
 
 import { ApplicationDto, ApplicationDtoPaginatedCollection } from '../../../../api/generated/api';
 import { ApplicationContext } from './ApplicationsContext';
+import { APPLICATION_EXE_PATH } from '../../../../_types';
 
-export const ApplicationsProvider = ( { children }: { children: JSX.Element; } ) => {
-  const [applications, setApplications] = useState<ApplicationDto[]>( [] );
+export const ApplicationsProvider = ({ children }: { children: JSX.Element }) => {
+  const [applications, setApplications] = useState<ApplicationDto[]>([]);
   const { user, isLogged, loading: userLoading } = useAuthContext();
 
   const [getApplications, { loading: applicationLoading }] =
     useApi<ApplicationDtoPaginatedCollection>();
 
-  // Fetch applications during portal startup
-  useEffectAsync( async () => {
-    if ( isLogged && !userLoading ) {
-      const res = await getApplications( () =>
+  useEffectAsync(async () => {
+    if (isLogged && !userLoading) {
+      const res = await getApplications(() =>
         API.ApplicationsApi.fineProjectManagerApiApplicationsNoPaginationGet()
       );
-      setApplications( res.data as ApplicationDto[] );
+      setApplications(res.data as ApplicationDto[]);
     }
-  }, [isLogged, user, userLoading] );
+  }, [isLogged, user, userLoading]);
 
   const refetch = async () => {
-    const res = await getApplications( () =>
+    const res = await getApplications(() =>
       API.ApplicationsApi.fineProjectManagerApiApplicationsNoPaginationGet()
     );
-    setApplications( res.data as ApplicationDto[] );
+    setApplications(res.data as ApplicationDto[]);
   };
 
-  const getApplicationByCode = ( applicationCode: string ) => {
-    if ( applicationLoading ) return null;
+  const getApplicationByCode = (applicationCode: string | null | undefined) => {
+    if (!applicationCode) return null;
 
-    const res = applications.filter( e => e.code === applicationCode );
+    if (applicationLoading) return null;
 
-    if ( res.length === 0 ) return null;
+    const res = applications.filter((e) => e.code === applicationCode);
+
+    if (res.length === 0) return null;
 
     return res[0];
   };
 
-  const getApplicationExePath = async ( applicationCode: string ) => {
-    const res = await window.API.invoke( 'ELECTRON_STORE_GET', { name: `APPLICATIONEXEPATH-${ applicationCode }` } );
+  const getApplicationExePath = async (applicationCode: string | null) => {
+    if (!applicationCode) return null;
 
-    if ( !res ) return null;
+    const res = await window.API.invoke('ELECTRON_STORE_GET', {
+      name: `${APPLICATION_EXE_PATH}${applicationCode}`
+    });
+
+    if (!res) return null;
     return res as string;
   };
 
-  const setApplicationExePath = async ( exePath: string, applicationCode: string ) => {
-    await window.API.invoke( 'ELECTRON_STORE_SET', { name: `APPLICATIONEXEPATH-${ applicationCode }`, value: exePath } );
+  const setApplicationExePath = async (exePath: string, applicationCode: string) => {
+    await window.API.invoke('ELECTRON_STORE_SET', {
+      name: `${APPLICATION_EXE_PATH}${applicationCode}`,
+      value: exePath
+    });
   };
 
   return (

@@ -7,7 +7,7 @@ import {
 } from '@fortawesome/pro-light-svg-icons';
 import { faDatabase } from '@fortawesome/pro-solid-svg-icons';
 import { yupResolver } from '@hookform/resolvers/yup/dist/yup';
-import { ProjectDto, ProjectUpdateRequest } from 'api/generated';
+import { ApplicationDto, ProjectDto, ProjectUpdateRequest } from 'api/generated';
 import ApplicationIcon from 'components/ApplicationIcon';
 import { Button } from 'components/Form/Button';
 import { DeleteButton } from 'components/Form/Button/DeleteButton';
@@ -32,16 +32,23 @@ import { useEffectAsync } from '../../../../utils/useEffectAsync';
 import { MainWrapper } from '../../components/main/components/MainWrapper';
 import * as S from '../../components/main/styled';
 import { toast } from 'react-toastify';
+import { useExecutableApplicationContext } from '../../context/ExecutableApplications/ExecutableApplicationsContext';
+import { useNavigate } from 'react-router';
+import { DateFormat } from '../../../../components/Moment';
 
 const EditProject = () => {
   const { editId } = useParams();
   const { t } = useTranslation(['portal', 'form', 'common', 'project']);
+
   const modal = useModal();
+  const navigate = useNavigate();
 
   const [getProjectMain, { data: project, loading }] = useApi<ProjectDto>();
   const [getProjectJobs, { data }] = useApi<ProjectJobsDto>();
-  const [saveProject, { loading: saving }] = useApi<ProjectJobsDto>();
+  const [saveProject, { loading: saving }] = useApi<ProjectUpdateRequest>();
+  const [deleteJob] = useApi<any>();
 
+  const { executeApplication } = useExecutableApplicationContext();
   const { getApplicationByCode } = useApplicationContext();
 
   const {
@@ -79,30 +86,35 @@ const EditProject = () => {
     reset({ id: project.id, name: project.name, description: project.description });
   }, [project, reset]);
 
-  const onApplicationOpen = (job: JobDto) => (event: MouseEvent<HTMLButtonElement>) => {
-    // TODO open app
+  const onApplicationOpen =
+    (job: JobDto, app: ApplicationDto | null) => async (_e: MouseEvent<HTMLButtonElement>) => {
+      if (!app?.code) return;
+
+      await executeApplication(job.id, app.code);
+    };
+
+  const onViewJob = (job: JobDto) => (_e: MouseEvent<HTMLButtonElement>) => {
+    navigate(`${RoutesPath.JOBS}/${job.id}`);
   };
 
-  const onViewJob = (job: JobDto) => (event: MouseEvent<HTMLButtonElement>) => {
-    // TODO karel path change
-  };
-
-  const onDownloadJob = (job: JobDto) => (event: MouseEvent<HTMLButtonElement>) => {
+  const onDownloadJob = (job: JobDto) => (_e: MouseEvent<HTMLButtonElement>) => {
     // TODO karel
   };
 
-  const onDeleteJob = (job: JobDto) => (event: MouseEvent<HTMLButtonElement>) => {
+  const deleteProjectJob = (id: string) => async (_e: MouseEvent<HTMLButtonElement>) => {
+    try {
+      modal.closeModal();
+      await deleteJob(() => API.JobsApi.fineProjectManagerApiJobsIdDelete(id));
+    } catch (e) {}
+  };
+
+  const onDeleteJob = (job: JobDto) => (_e: MouseEvent<HTMLButtonElement>) => {
     modal.showModal({
       title: t('form:table.jobDeleteHeader'),
       content: <>{t('form:table.jobDeleteContent', { jobName: job.name })}</>,
       footer: (
         <GS.FloatRight>
-          <DeleteButton
-            loading={false}
-            onClick={() => {
-              // TODO karel
-              modal.closeModal();
-            }}>
+          <DeleteButton loading={false} onClick={deleteProjectJob(job.id)}>
             {t('form:button.deleteJob')}
           </DeleteButton>
         </GS.FloatRight>
@@ -190,7 +202,7 @@ const EditProject = () => {
                       {
                         title: t('form:table.jobApplication'),
                         render: (text: string, record: JobDto) => {
-                          const app = getApplicationByCode(text);
+                          const app = getApplicationByCode(record?.application);
                           return record.isOpenable ? (
                             <GS.GapAlignCenter>
                               {app && <ApplicationIcon application={app} />}
@@ -198,7 +210,7 @@ const EditProject = () => {
                               <IconButton
                                 loading={false}
                                 icon={faArrowUpRightFromSquare}
-                                onClick={onApplicationOpen(record)}
+                                onClick={onApplicationOpen(record, app)}
                                 type="button"
                               />
                             </GS.GapAlignCenter>
@@ -210,7 +222,7 @@ const EditProject = () => {
                       },
                       {
                         title: t('form:table.jobAdded'),
-                        render: (text: string, _r: JobDto) => text,
+                        render: (text: string, _r: JobDto) => <DateFormat date={text} />,
                         dataIndex: 'createdAt'
                       },
                       {

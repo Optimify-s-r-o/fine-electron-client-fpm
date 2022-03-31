@@ -10,8 +10,8 @@ const System = () => {
   const { executeApplication } = useExecutableApplicationContext();
   const { applications } = useApplicationContext();
 
-  const triggerApplication = ( id: string ) => ( _event: MouseEvent<HTMLButtonElement> ) => {
-    executeApplication( id );
+  const triggerApplication = (code: string) => (_event: MouseEvent<HTMLButtonElement>) => {
+    executeApplication('jobId', code);
   };
 
   return (
@@ -21,13 +21,13 @@ const System = () => {
           <GS.GridRow columns={1}>
             <GS.GridItem fill={1}>
               <GS.Card>
-                {applications?.map( ( e ) => {
+                {applications?.map((e) => {
                   return (
                     <div>
-                      <button onClick={triggerApplication( e.id )}>{e.name}</button>
+                      <button onClick={triggerApplication(e.code)}>{e.name}</button>
                     </div>
                   );
-                } )}
+                })}
               </GS.Card>
             </GS.GridItem>
           </GS.GridRow>

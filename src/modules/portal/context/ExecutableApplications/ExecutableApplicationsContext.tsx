@@ -2,11 +2,11 @@ import { createContext, useContext } from 'react';
 
 export const ExecutableApplicationContext = createContext<{
   loading: boolean;
-  executeApplication: (applicationId: string) => void;
-  isExecutable: (applicationId: string) => Promise<boolean>;
+  executeApplication: (jobId: string, applicationCode: string) => Promise<void>;
+  isExecutable: (applicationCode: string) => Promise<boolean>;
 }>({
   loading: false,
-  executeApplication: () => console.log('No valid context'),
+  executeApplication: () => new Promise<void>((e) => 'no valid context'),
   isExecutable: () => Promise.resolve(true)
 });
 

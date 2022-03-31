@@ -1,26 +1,29 @@
 import { ExecutableApplicationContext } from './ExecutableApplicationsContext';
 import { toast } from 'react-toastify';
 import { useTranslation } from 'react-i18next';
+import { APPLICATION_EXE_PATH } from '../../../../_types';
 
 export const ExecutableApplicationsProvider = ({ children }: { children: JSX.Element }) => {
   const { t } = useTranslation(['portal']);
 
-  const isExecutable = async (applicationId: string) => {
-    const path = await window.API.invoke('ELECTRON_STORE_GET', { name: applicationId });
+  const isExecutable = async (applicationCode: string) => {
+    const path = await window.API.invoke('ELECTRON_STORE_GET', {
+      name: `${APPLICATION_EXE_PATH}${applicationCode}`
+    });
 
     if (!path) return false;
 
     return true;
   };
 
-  const executeApplication = async (applicationCode: string) => {
+  const executeApplication = async (jobId: string, applicationCode: string) => {
     try {
       toast.info(t('portal:executeApplication.applicationStarting'));
 
       const token = await window.API.keytarGetSecret('token');
 
       const path = await window.API.invoke('ELECTRON_STORE_GET', {
-        name: `APPLICATIONEXEPATH-${applicationCode}`
+        name: `${APPLICATION_EXE_PATH}${applicationCode}`
       });
 
       if (!path) {

@@ -1,6 +1,6 @@
 import { MouseEvent, useEffect, useRef } from 'react';
-import { useTreeContext } from '../../../../context/Tree/TreeContext';
-import { TabType, useTabContext } from '../../../../context/Tab/TabContext';
+import { useTreeContext } from 'modules/portal/context/Tree/TreeContext';
+import { TabType, useTabContext } from 'modules/portal/context/Tab/TabContext';
 import * as S from '../../styled';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faHomeAlt } from '@fortawesome/pro-solid-svg-icons';
@@ -12,17 +12,17 @@ export const JobRow = ({ job }: { job: JobDto }) => {
   const { addTab } = useTabContext();
 
   useEffect(() => {
+    const handleDoubleClick = () => {
+      selectJob(job.id);
+      addTab({ id: job.id, type: TabType.JOB, name: job.name });
+    };
+
     (itemRef?.current as any)?.addEventListener('dblclick', handleDoubleClick);
 
     return () => {
       (itemRef?.current as any)?.removeEventListener('dblclick', handleDoubleClick);
     };
   }, [itemRef]);
-
-  const handleDoubleClick = () => {
-    selectJob(job.id);
-    addTab({ id: job.id, type: TabType.JOB, name: job.name });
-  };
 
   //TODO MARA
   // je potreba pridat strankovani - tam chybi i UI
@@ -35,11 +35,7 @@ export const JobRow = ({ job }: { job: JobDto }) => {
   };
 
   return (
-    <S.Item
-      ref={itemRef}
-      active={selectedJobId === job.id ? 1 : 0}
-      key={job.id}
-      onClick={handleSelection}>
+    <S.Item ref={itemRef} active={selectedJobId === job.id} key={job.id} onClick={handleSelection}>
       <S.TitleWrapper>
         <FontAwesomeIcon icon={faHomeAlt} />
         <S.Title>{job.name}</S.Title>

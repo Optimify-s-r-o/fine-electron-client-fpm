@@ -12,8 +12,10 @@ export const Jobs = () => {
   const { jobTree, loadingJobTree } = useTreeContext();
 
   return (
-    <S.Wrapper color={'rgba(143, 113, 52, 0.8)'}>
-      {loadingJobTree ? 'loading' : jobTree.map((job: JobDto) => <JobRow job={job} />)}
+    <S.Wrapper color={'rgb(143, 113, 52)'}>
+      <S.Items>
+        {loadingJobTree ? 'loading' : jobTree.map((job: JobDto) => <JobRow job={job} />)}
+      </S.Items>
     </S.Wrapper>
   );
 };

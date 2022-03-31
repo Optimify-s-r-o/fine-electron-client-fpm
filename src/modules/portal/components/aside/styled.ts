@@ -6,11 +6,34 @@ export const TitleWrapper = styled(Row)`
 `;
 
 export const Wrapper = styled(Column)<{ color: string }>`
+  height: 100%;
+
   padding: 4px;
   box-sizing: border-box;
 
-  svg:first-child {
+  div > svg:first-child {
     color: ${(props) => props.color};
+  }
+`;
+
+export const Items = styled.div`
+  flex-grow: 1;
+`;
+
+export const Item = styled(SpaceBetween)<{ active: boolean }>`
+  position: relative;
+
+  align-items: center;
+
+  padding: 0 2px;
+
+  border-radius: 5px;
+
+  cursor: pointer;
+
+  &:hover {
+    background-color: ${(props) => props.theme.common.lightGray};
+    box-shadow: 0 0 0 2px ${(props) => props.theme.common.lightGray};
   }
 
   svg {
@@ -22,19 +45,24 @@ export const Wrapper = styled(Column)<{ color: string }>`
 
     cursor: pointer;
   }
-`;
 
-export const Item = styled(SpaceBetween)<{ active: number }>`
-  align-items: center;
-  cursor: pointer;
-  width: 100%;
+  ${(props) =>
+    props.active &&
+    `
+      z-index: 1;
+      background-color: ${props.theme.colors.primary.default};
+      box-shadow: 0 0 0 2px ${props.theme.colors.primary.default};
+      color: #fff;
 
-  &:hover {
-    background-color: #eae9e9;
-    border-radius: 5px;
-  }
+      &:hover {
+        background-color: ${props.theme.colors.primary.default};
+        box-shadow: 0 0 0 2px ${props.theme.colors.primary.default}, 0 0 1px 1px ${props.theme.colors.primary.active};
+      }
 
-  ${(props) => props.active && `background-color: #eae9e9;`}
+      svg {
+        color: #fff;
+      }
+    `}
 `;
 
 export const Title = styled.span`

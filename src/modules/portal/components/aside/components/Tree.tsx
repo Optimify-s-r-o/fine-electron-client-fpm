@@ -1,4 +1,3 @@
-import React from 'react';
 import { ResizablePanel } from './ResizablePanel';
 import { Projects } from './Projects';
 import { Jobs } from './Jobs';

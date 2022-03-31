@@ -3,6 +3,7 @@ import { Loader } from './Loader';
 import { MouseEventHandler } from 'react';
 import { IconDefinition } from '@fortawesome/fontawesome-svg-core';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { isDisabled } from '@testing-library/user-event/dist/utils';
 
 type ButtonLevel = 1 | 2 | 3;
 
@@ -15,7 +16,8 @@ export const IconButton = ({
   withMargin = false,
   icon,
   onClick,
-  btnStyle = 'plain'
+  btnStyle = 'plain',
+  disabled
 }: {
   loading: boolean;
   level?: ButtonLevel;
@@ -24,6 +26,7 @@ export const IconButton = ({
   icon: IconDefinition;
   onClick?: MouseEventHandler<HTMLButtonElement>;
   btnStyle?: ButtonStyle;
+  disabled?: boolean;
 }) => {
   return (
     <ButtonElement
@@ -32,7 +35,8 @@ export const IconButton = ({
       level={level}
       withMargin={withMargin}
       onClick={onClick}
-      btnStyle={btnStyle}>
+      btnStyle={btnStyle}
+      disabled={disabled}>
       <FontAwesomeIcon icon={icon} />
       {loading && (
         <LoaderWrapper btnStyle={btnStyle}>
@@ -105,23 +109,8 @@ const ButtonElement = styled.button<{
 
   margin-top: ${(props) => (props.withMargin ? '5px' : 0)};
 
-  &:before {
-    content: '';
-    position: absolute;
-    z-index: -1;
-
-    top: -1px;
-    right: 50%;
-    bottom: -1px;
-    left: 50%;
-
-    background-color: rgba(0, 0, 0, 0.1);
-
-    transition: all 0.1s ease-out;
-  }
-
-  &:hover,
-  &:focus {
+  &:hover:not(:disabled),
+  &:focus:not(:disabled) {
     ${(props) =>
       props.btnStyle === 'plain'
         ? `background-color: ${props.theme.common.lightGray};`
@@ -135,11 +124,6 @@ const ButtonElement = styled.button<{
       `}
 
     cursor: ${(props) => (props.disabled ? 'normal' : 'pointer')};
-
-    &:before {
-      left: -2px;
-      right: -2px;
-    }
   }
 
   &:focus {
@@ -152,12 +136,16 @@ const ButtonElement = styled.button<{
     outline-offset: 2px;
   }
 
-  &:active {
+  &:active:not(:disabled) {
     background-color: ${(props) => props.theme.colors.primary.defaultActive};
   }
 
   > svg {
     width: 15px;
     height: 15px;
+  }
+
+  &:disabled {
+    color: ${(props) => props.theme.text.gray};
   }
 `;

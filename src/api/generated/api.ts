@@ -1427,7 +1427,7 @@ export const ApplicationsApiAxiosParamCreator = function (configuration?: Config
         },
         /**
          * 
-         * @summary Get link for uploading new attachment.  WARNING: This request also delete old icon, so don\'t use it if you don\'t plan to upload new icon!
+         * @summary Get link for uploading new icon.  WARNING: This request also delete old icon, so don\'t use it if you don\'t plan to upload new icon!
          * @param {UploadApplicationIconRequest} [uploadApplicationIconRequest] 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
@@ -1542,7 +1542,7 @@ export const ApplicationsApiFp = function(configuration?: Configuration) {
         },
         /**
          * 
-         * @summary Get link for uploading new attachment.  WARNING: This request also delete old icon, so don\'t use it if you don\'t plan to upload new icon!
+         * @summary Get link for uploading new icon.  WARNING: This request also delete old icon, so don\'t use it if you don\'t plan to upload new icon!
          * @param {UploadApplicationIconRequest} [uploadApplicationIconRequest] 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
@@ -1625,7 +1625,7 @@ export const ApplicationsApiFactory = function (configuration?: Configuration, b
         },
         /**
          * 
-         * @summary Get link for uploading new attachment.  WARNING: This request also delete old icon, so don\'t use it if you don\'t plan to upload new icon!
+         * @summary Get link for uploading new icon.  WARNING: This request also delete old icon, so don\'t use it if you don\'t plan to upload new icon!
          * @param {UploadApplicationIconRequest} [uploadApplicationIconRequest] 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
@@ -1719,7 +1719,7 @@ export class ApplicationsApi extends BaseAPI {
 
     /**
      * 
-     * @summary Get link for uploading new attachment.  WARNING: This request also delete old icon, so don\'t use it if you don\'t plan to upload new icon!
+     * @summary Get link for uploading new icon.  WARNING: This request also delete old icon, so don\'t use it if you don\'t plan to upload new icon!
      * @param {UploadApplicationIconRequest} [uploadApplicationIconRequest] 
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
@@ -1981,7 +1981,7 @@ export const JobsApiAxiosParamCreator = function (configuration?: Configuration)
         },
         /**
          * 
-         * @summary Get links for all attachments saved under project
+         * @summary Get link for job openable file
          * @param {string} id 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
@@ -2361,7 +2361,7 @@ export const JobsApiFp = function(configuration?: Configuration) {
         },
         /**
          * 
-         * @summary Get links for all attachments saved under project
+         * @summary Get link for job openable file
          * @param {string} id 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
@@ -2524,7 +2524,7 @@ export const JobsApiFactory = function (configuration?: Configuration, basePath?
         },
         /**
          * 
-         * @summary Get links for all attachments saved under project
+         * @summary Get link for job openable file
          * @param {string} id 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
@@ -2691,7 +2691,7 @@ export class JobsApi extends BaseAPI {
 
     /**
      * 
-     * @summary Get links for all attachments saved under project
+     * @summary Get link for job openable file
      * @param {string} id 
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}

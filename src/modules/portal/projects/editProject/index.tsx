@@ -7,7 +7,7 @@ import {
 } from '@fortawesome/pro-light-svg-icons';
 import { faDatabase } from '@fortawesome/pro-solid-svg-icons';
 import { yupResolver } from '@hookform/resolvers/yup/dist/yup';
-import { ProjectCreateRequest, ProjectDto } from 'api/generated';
+import { ProjectDto, ProjectUpdateRequest } from 'api/generated';
 import ApplicationIcon from 'components/ApplicationIcon';
 import { Button } from 'components/Form/Button';
 import { DeleteButton } from 'components/Form/Button/DeleteButton';
@@ -18,7 +18,7 @@ import { CardTable } from 'components/Table/CardTable';
 import * as GS from 'constants/globalStyles';
 import { RoutesPath } from 'constants/routes';
 import { useApplicationContext } from 'modules/portal/context/Applications/ApplicationsContext';
-import { useEffect, useState } from 'react';
+import { MouseEvent, useEffect } from 'react';
 import { useForm } from 'react-hook-form';
 import { useTranslation } from 'react-i18next';
 import { useParams } from 'react-router-dom';
@@ -27,30 +27,29 @@ import { useApi } from 'utils/hooks/useApi';
 import useModal from 'utils/hooks/useModal';
 import * as Yup from 'yup';
 
-import { JobDto, JobResultInformationDto, ProjectJobsDto } from '../../../../api/generated/api';
+import { JobDto, ProjectJobsDto } from '../../../../api/generated/api';
 import { useEffectAsync } from '../../../../utils/useEffectAsync';
 import { MainWrapper } from '../../components/main/components/MainWrapper';
 import * as S from '../../components/main/styled';
+import { toast } from 'react-toastify';
 
 const EditProject = () => {
   const { editId } = useParams();
-  const { t } = useTranslation(['portal', 'form', 'common']);
+  const { t } = useTranslation(['portal', 'form', 'common', 'project']);
   const modal = useModal();
 
-  const [getProjectMain, { loading: mainLoading }] = useApi<ProjectDto>();
-  const [getProjectJobs /*, { loading: jobsLoading }*/] = useApi<ProjectJobsDto>();
-  const { getApplicationByCode } = useApplicationContext();
+  const [getProjectMain, { data: project, loading }] = useApi<ProjectDto>();
+  const [getProjectJobs, { data }] = useApi<ProjectJobsDto>();
+  const [saveProject, { loading: saving }] = useApi<ProjectJobsDto>();
 
-  const [mainData, setMainData] = useState<ProjectDto | null>(null);
-  const [jobsData, setJobsData] = useState<JobDto[]>([]);
-  const [jobsInformation, setJobsInformation] = useState<JobResultInformationDto | null>(null);
+  const { getApplicationByCode } = useApplicationContext();
 
   const {
     handleSubmit,
     register,
-    setValue,
+    reset,
     formState: { errors }
-  } = useForm<ProjectCreateRequest>({
+  } = useForm<ProjectUpdateRequest>({
     resolver: yupResolver(
       Yup.object().shape({
         name: Yup.string().required(t('form:validation.required'))
@@ -58,48 +57,41 @@ const EditProject = () => {
     )
   });
 
-  const onSubmit = async (data: ProjectCreateRequest) => {
-    console.log(data);
+  const onSubmit = async (data: ProjectUpdateRequest) => {
+    try {
+      await saveProject(() => API.ProjectsApi.fineProjectManagerApiProjectsPut(data));
+      toast.success(t('project:notifications.creatingDone', { name: data.name }));
+    } catch (e) {
+      toast.error(t('project:notifications.failedToSave', { name: data.name }));
+    }
   };
 
-  //Load everything during window open
   useEffectAsync(async () => {
     if (editId) {
-      const res = await getProjectMain(() =>
-        API.ProjectsApi.fineProjectManagerApiProjectsIdGet(editId)
-      );
-      setMainData(res);
-    }
-  }, [editId]);
-
-  useEffectAsync(async () => {
-    if (editId) {
-      const res = await getProjectJobs(() =>
-        API.ProjectsApi.fineProjectManagerApiProjectsIdJobsGet(editId)
-      );
-      setJobsData(res.jobs);
-      setJobsInformation(res.jobInformation);
+      await getProjectMain(() => API.ProjectsApi.fineProjectManagerApiProjectsIdGet(editId));
+      await getProjectJobs(() => API.ProjectsApi.fineProjectManagerApiProjectsIdJobsGet(editId));
     }
   }, [editId]);
 
   useEffect(() => {
-    setValue('name', mainData?.name ?? '');
-    setValue('description', mainData?.description ?? '');
-  }, [mainData, setValue]);
+    if (!project) return;
 
-  const onApplicationOpen = (job: JobDto) => {
+    reset({ id: project.name, name: project.name, description: project.description });
+  }, [project, reset]);
+
+  const onApplicationOpen = (job: JobDto) => (event: MouseEvent<HTMLButtonElement>) => {
     // TODO open app
   };
 
-  const onViewJob = (job: JobDto) => {
+  const onViewJob = (job: JobDto) => (event: MouseEvent<HTMLButtonElement>) => {
     // TODO karel path change
   };
 
-  const onDownloadJob = (job: JobDto) => {
+  const onDownloadJob = (job: JobDto) => (event: MouseEvent<HTMLButtonElement>) => {
     // TODO karel
   };
 
-  const onDeleteJob = (job: JobDto) => {
+  const onDeleteJob = (job: JobDto) => (event: MouseEvent<HTMLButtonElement>) => {
     modal.showModal({
       title: t('form:table.jobDeleteHeader'),
       content: <>{t('form:table.jobDeleteContent', { jobName: job.name })}</>,
@@ -121,7 +113,7 @@ const EditProject = () => {
   return (
     <MainWrapper
       icon={faFolder}
-      title={mainLoading || !mainData ? 'Otvírám projekt...' : mainData.name}
+      title={loading || !project ? t('project:main.opening') : project.name}
       navigation={[
         {
           path: `${RoutesPath.PROJECTS}/${editId}`,
@@ -138,36 +130,34 @@ const EditProject = () => {
       ]}>
       <S.MainFormContent onSubmit={handleSubmit(onSubmit)}>
         <S.ContentWrapper>
-          {mainLoading ? (
+          {loading ? (
             ''
           ) : (
             <>
               <GS.GridRow columns={2}>
                 <GS.GridItem>
-                  <form onSubmit={handleSubmit(onSubmit)}>
-                    <TextInput
-                      errors={errors}
-                      name={'name'}
-                      register={register}
-                      title={t('form:input.projectName')}
-                    />
-                    <TextAreaInput
-                      name={'description'}
-                      register={register}
-                      title={t('form:input.projectDescription')}
-                    />
-                    <Button loading={false}>{t('form:button.save')}</Button>
-                  </form>
+                  <TextInput
+                    errors={errors}
+                    name={'name'}
+                    register={register}
+                    title={t('form:input.projectName')}
+                  />
+                  <TextAreaInput
+                    name={'description'}
+                    register={register}
+                    title={t('form:input.projectDescription')}
+                  />
+                  <Button loading={saving}>{t('form:button.save')}</Button>
                 </GS.GridItem>
                 <GS.GridItem>
-                  <GS.H2>Informace o projektu</GS.H2>
+                  <GS.H2>{t('project:main.aboutProject')}</GS.H2>
                   <GS.KeyValueTable>
                     <tbody>
                       <tr>
-                        <td>Počet úloh</td>
-                        <td>{jobsInformation?.openableCount}</td>
+                        <td>{t('project:main.jobCount')}</td>
+                        <td>{data?.jobInformation?.openableCount}</td>
                       </tr>
-                      {Object.entries(jobsInformation?.otherJobs ?? {}).map((e) => (
+                      {Object.entries(data?.jobInformation?.otherJobs ?? {}).map((e) => (
                         <tr>
                           <td>{e[0]}</td>
                           <td>{e[1]}</td>
@@ -208,9 +198,7 @@ const EditProject = () => {
                               <IconButton
                                 loading={false}
                                 icon={faArrowUpRightFromSquare}
-                                onClick={() => {
-                                  onApplicationOpen(record);
-                                }}
+                                onClick={onApplicationOpen(record)}
                                 type="button"
                               />
                             </GS.GapAlignCenter>
@@ -222,7 +210,7 @@ const EditProject = () => {
                       },
                       {
                         title: t('form:table.jobAdded'),
-                        render: (text: string, record: JobDto) => text,
+                        render: (text: string, _r: JobDto) => text,
                         dataIndex: 'createdAt'
                       },
                       {
@@ -234,25 +222,19 @@ const EditProject = () => {
                                 loading={false}
                                 icon={faArrowRight}
                                 btnStyle="primary"
-                                onClick={() => {
-                                  onViewJob(record);
-                                }}
+                                onClick={onViewJob(record)}
                                 type="button"
                               />
                               <IconButton
                                 loading={false}
                                 icon={faDownload}
-                                onClick={() => {
-                                  onDownloadJob(record);
-                                }}
+                                onClick={onDownloadJob(record)}
                                 type="button"
                               />
                               <IconButton
                                 loading={false}
                                 icon={faTrashCan}
-                                onClick={() => {
-                                  onDeleteJob(record);
-                                }}
+                                onClick={onDeleteJob(record)}
                                 type="button"
                               />
                             </GS.Gap>
@@ -260,7 +242,7 @@ const EditProject = () => {
                         )
                       }
                     ]}
-                    dataSource={jobsData}
+                    dataSource={data?.jobs}
                     emptyTableText={t('form:table.noJobs')}
                   />
                 </GS.GridItem>

@@ -1,0 +1,11 @@
+{
+  "notifications": {
+    "savedSuccessfully": "Projekt {{name}} byl úspěšně uložen.",
+    "failedToSave": "Projekt {{name}} nebylo možné uložit."
+  },
+  "main": {
+    "opening": "Otvírám projekt...",
+    "aboutProject": "Informace o projektu",
+    "jobCount": "Počet úloh"
+  }
+}

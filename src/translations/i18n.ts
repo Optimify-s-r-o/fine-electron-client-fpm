@@ -5,19 +5,22 @@ import cs_auth from './dictionary/cs/auth.json';
 import cs_common from './dictionary/cs/common.json';
 import cs_form from './dictionary/cs/form.json';
 import cs_portal from './dictionary/cs/portal.json';
+import cs_project from './dictionary/cs/project.json';
 
 const resources = {
   cs: {
     auth: cs_auth,
     common: cs_common,
     form: cs_form,
-    portal: cs_portal
+    portal: cs_portal,
+    project: cs_project
   },
   en: {
     auth: cs_auth,
     common: cs_common,
     form: cs_form,
-    portal: cs_portal
+    portal: cs_portal,
+    project: cs_project
   }
 };
 

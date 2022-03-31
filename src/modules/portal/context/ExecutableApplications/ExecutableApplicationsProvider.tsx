@@ -13,11 +13,15 @@ export const ExecutableApplicationsProvider = ({ children }: { children: JSX.Ele
     return true;
   };
 
-  const executeApplication = async (applicationId: string) => {
+  const executeApplication = async (applicationCode: string) => {
     try {
       toast.info(t('portal:executeApplication.applicationStarting'));
 
-      const path = await window.API.invoke('ELECTRON_STORE_GET', { name: applicationId });
+      const token = await window.API.keytarGetSecret('token');
+
+      const path = await window.API.invoke('ELECTRON_STORE_GET', {
+        name: `APPLICATIONEXEPATH-${applicationCode}`
+      });
 
       if (!path) {
         toast.warn(t('portal:executeApplication.missingPath'));
@@ -26,7 +30,7 @@ export const ExecutableApplicationsProvider = ({ children }: { children: JSX.Ele
 
       const { stdout, stderr } = await window.API.execFile(path, [
         '-token',
-        'xxxxxx',
+        token,
         '-projectId',
         'asdas-dasdas-das-dasdas'
       ]);

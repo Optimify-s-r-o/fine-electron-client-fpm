@@ -1,5 +1,3 @@
-import { faQuestion } from '@fortawesome/pro-light-svg-icons';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { ApplicationDto } from 'api/generated';
 import ApplicationIcon from 'components/ApplicationIcon';
 import { CardTable } from 'components/Table/CardTable';

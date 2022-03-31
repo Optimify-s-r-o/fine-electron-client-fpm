@@ -3,7 +3,6 @@ import { Loader } from './Loader';
 import { MouseEventHandler } from 'react';
 import { IconDefinition } from '@fortawesome/fontawesome-svg-core';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { isDisabled } from '@testing-library/user-event/dist/utils';
 
 type ButtonLevel = 1 | 2 | 3;
 

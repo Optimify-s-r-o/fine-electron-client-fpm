@@ -20,12 +20,14 @@ export const ProjectRow = ({ project }: { project: ProjectDto }) => {
       addTab({ id: project.id, type: TabType.PROJECT, name: project.name });
     };
 
-    (itemRef?.current as any)?.addEventListener('dblclick', handleDoubleClick);
+    const item = itemRef?.current as any;
+
+    item?.addEventListener('dblclick', handleDoubleClick);
 
     return () => {
-      (itemRef?.current as any)?.removeEventListener('dblclick', handleDoubleClick);
+      item?.removeEventListener('dblclick', handleDoubleClick);
     };
-  }, [itemRef]);
+  }, [itemRef, addTab, project, selectProject]);
 
   //TODO MARA
   // je potreba pridat strankovani - tam chybi i UI

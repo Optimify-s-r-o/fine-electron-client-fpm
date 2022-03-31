@@ -19,12 +19,14 @@ export const JobRow = ({ job }: { job: JobDto }) => {
       addTab({ id: job.id, type: TabType.JOB, name: job.name });
     };
 
-    (itemRef?.current as any)?.addEventListener('dblclick', handleDoubleClick);
+    const item = itemRef?.current as any;
+
+    item?.addEventListener('dblclick', handleDoubleClick);
 
     return () => {
-      (itemRef?.current as any)?.removeEventListener('dblclick', handleDoubleClick);
+      item?.removeEventListener('dblclick', handleDoubleClick);
     };
-  }, [itemRef]);
+  }, [itemRef, addTab, job, selectJob]);
 
   //TODO MARA
   // je potreba pridat strankovani - tam chybi i UI

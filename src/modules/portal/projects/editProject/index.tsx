@@ -38,7 +38,7 @@ const EditProject = () => {
   const modal = useModal();
 
   const [getProjectMain, { loading: mainLoading }] = useApi<ProjectDto>();
-  const [getProjectJobs, { loading: jobsLoading }] = useApi<ProjectJobsDto>();
+  const [getProjectJobs /*, { loading: jobsLoading }*/] = useApi<ProjectJobsDto>();
   const { getApplicationByCode } = useApplicationContext();
 
   const [mainData, setMainData] = useState<ProjectDto | null>(null);

@@ -15,7 +15,7 @@ export const JobRow = ({ job }: { job: JobDto }) => {
 
   useEffect(() => {
     const handleDoubleClick = () => {
-      selectJob(job.id);
+      selectJob(job);
       addTab({ id: job.id, type: TabType.JOB, name: job.name });
     };
 
@@ -35,7 +35,7 @@ export const JobRow = ({ job }: { job: JobDto }) => {
   // Pozor na to, ze muze byt dlouhy nazev, zkracujme ho aby se vesel na jeden radek
 
   const handleSelection = (_event: MouseEvent<HTMLDivElement>) => {
-    selectJob(job.id);
+    selectJob(job);
   };
 
   return (

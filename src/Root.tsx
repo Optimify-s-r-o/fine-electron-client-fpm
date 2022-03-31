@@ -17,9 +17,11 @@ const CreateProject = lazy(() => import('modules/portal/projects/createProject')
 const EditProject = lazy(() => import('modules/portal/projects/editProject'));
 const EditProjectGeneral = lazy(() => import('modules/portal/projects/editProject/general'));
 const EditProjectAttachments = lazy(
-  () => import('modules/portal/projects/editProject/attachemnts')
+  () => import('modules/portal/projects/editProject/attachments')
 );
 const EditJob = lazy(() => import('modules/portal/jobs/editJob'));
+const EditJobGeneral = lazy(() => import('modules/portal/jobs/editJob/general'));
+const EditJobAttachments = lazy(() => import('modules/portal/jobs/editJob/attachments'));
 const ListOfCustomers = lazy(() => import('modules/portal/customers/listOfCustomers'));
 const CreateCustomer = lazy(() => import('modules/portal/customers/createCustomer'));
 const CreateUser = lazy(() => import('modules/portal/users/createUser'));
@@ -69,7 +71,7 @@ export const Root = () => {
               </ProtectedRoute>
             }>
             <Route
-              path={RoutesPath.EDIT_PROJECT_ATTACHMENT}
+              path={RoutesPath.EDIT_PROJECT_ATTACHMENTS}
               element={
                 <ProtectedRoute>
                   <EditProjectAttachments />
@@ -86,12 +88,26 @@ export const Root = () => {
               }
             />
           </Route>
-          <Route path={RoutesPath.JOBS}>
+          <Route
+            path={RoutesPath.JOBS}
+            element={
+              <ProtectedRoute>
+                <EditJob />
+              </ProtectedRoute>
+            }>
             <Route
-              path=":editId"
+              path={RoutesPath.EDIT_JOB_GENERAL}
               element={
                 <ProtectedRoute>
-                  <EditJob />
+                  <EditJobGeneral />
+                </ProtectedRoute>
+              }
+            />
+            <Route
+              path={RoutesPath.EDIT_JOB_ATTACHMENTS}
+              element={
+                <ProtectedRoute>
+                  <EditJobAttachments />
                 </ProtectedRoute>
               }
             />

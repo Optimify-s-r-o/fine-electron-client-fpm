@@ -1,6 +1,11 @@
 import { createContext, useContext } from 'react';
 
-import { JobDto, ProjectDto, ProjectDtoPaginatedCollection } from '../../../../api/generated/api';
+import {
+  JobDto,
+  ProjectDto,
+  ProjectDtoPaginatedCollection,
+  ProjectJobsDto
+} from '../../../../api/generated/api';
 
 interface ITreeContextType {
   projectTree: ProjectDtoPaginatedCollection;
@@ -10,9 +15,10 @@ interface ITreeContextType {
   selectedProjectId: string | null;
   selectedJobId: string | null;
   selectProject: (project: ProjectDto) => void;
-  selectJob: (id: string) => void;
+  selectJob: (id: JobDto) => void;
   handleNewProject: (project: ProjectDto) => Promise<void>;
-  refetch: () => Promise<ProjectDtoPaginatedCollection>;
+  refetchProjects: () => Promise<ProjectDtoPaginatedCollection | undefined>;
+  refetchJobs: () => Promise<ProjectJobsDto | undefined>;
 }
 
 export const TreeContext = createContext<ITreeContextType>({
@@ -36,7 +42,8 @@ export const TreeContext = createContext<ITreeContextType>({
   selectProject: () => console.log('No valid context'),
   selectJob: () => console.log('No valid context'),
   handleNewProject: () => new Promise<void>((e) => 'No valid context'),
-  refetch: () => new Promise<ProjectDtoPaginatedCollection>((e) => 'No valid context')
+  refetchProjects: () => new Promise<ProjectDtoPaginatedCollection>((e) => 'No valid context'),
+  refetchJobs: () => new Promise<ProjectJobsDto>((e) => 'No valid context')
 });
 
 export const useTreeContext = () => useContext(TreeContext);

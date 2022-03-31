@@ -22,7 +22,7 @@ export const Projects = () => {
 
   const [deleteProject] = useApi<any>();
 
-  const { projectTree, loadingProjectTree, selectProject, selectedProjectId, refetch } =
+  const { projectTree, loadingProjectTree, selectProject, selectedProjectId, refetchProjects } =
     useTreeContext();
   const [page, setPage] = useState(1);
 
@@ -77,7 +77,7 @@ export const Projects = () => {
 
     await deleteProject(() => API.ProjectsApi.fineProjectManagerApiProjectsIdDelete(project.id));
 
-    await refetch();
+    await refetchProjects();
   };
 
   return (

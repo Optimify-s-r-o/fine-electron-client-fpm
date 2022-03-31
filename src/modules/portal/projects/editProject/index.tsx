@@ -28,7 +28,7 @@ const EditProject = () => {
           icon: faDatabase
         },
         {
-          path: `${RoutesPath.PROJECTS}/${editId}/${projectName}/attachments`,
+          path: attachments,
           active: !!matchPath(pathname, attachments),
           text: t('portal:projects.tabs.editProjectFiles'),
           icon: faDatabase

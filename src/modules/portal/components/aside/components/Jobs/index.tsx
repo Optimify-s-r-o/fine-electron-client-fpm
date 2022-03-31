@@ -7,20 +7,28 @@ import { jobContextMenuBridge } from './contextMenuBridge';
 import _ from 'lodash';
 import { useKeyPress } from '../../../../../../utils/keyHandler/useKeyPress';
 import { useRef } from 'react';
+import { useTranslation } from 'react-i18next';
+import { TabType, useTabContext } from '../../../../context/Tab/TabContext';
+import API from '../../../../../../utils/api';
+import { useApi } from '../../../../../../utils/hooks/useApi';
 
 //TODO MARA
 // Strankovani tady neexistuje, vsechny operace se provadi s lokalnimi daty1
 // Sort = Nazev/{Name}, Datum/{UpdatedAt} a Typ/{Application, pak Type}
 // Pozor na to, ze muze byt dlouhy nazev, zkracujme ho aby se vesel na jeden radek
 export const Jobs = () => {
-  const { jobTree, selectJob, selectedJobId, loadingJobTree } = useTreeContext();
+  const { t } = useTranslation(['portal']);
+
+  const { jobTree, selectJob, selectedJobId, loadingJobTree, refetchJobs } = useTreeContext();
   const jobsRef = useRef(null);
   const { job } = useContextMenu(jobContextMenuBridge);
+  const { addTab } = useTabContext();
+  const [deleteJob] = useApi<any>();
 
   const handleDownPressed = () => {
     if (!selectedJobId) {
       const firstJob = _.first(jobTree);
-      firstJob && selectJob(firstJob.id);
+      firstJob && selectJob(firstJob);
       return;
     }
 
@@ -28,7 +36,7 @@ export const Jobs = () => {
 
     const next = jobTree[index + 1];
 
-    if (next) selectJob(next.id);
+    if (next) selectJob(next);
   };
 
   const handleUpPressed = () => {
@@ -36,9 +44,30 @@ export const Jobs = () => {
 
     const previous = jobTree[index - 1];
 
-    if (previous) selectJob(previous.id);
+    if (previous) selectJob(previous);
 
     return;
+  };
+
+  const handleOpen = (e: any) => {
+    if (!job) return;
+
+    selectJob(job);
+  };
+
+  const handleNewTab = (e: any) => {
+    if (!job) return;
+
+    selectJob(job);
+    addTab({ id: job.id, type: TabType.JOB, name: job.name });
+  };
+
+  const handleDelete = async (e: any) => {
+    if (!job) return;
+
+    await deleteJob(() => API.JobsApi.fineProjectManagerApiJobsIdDelete(job.id));
+
+    await refetchJobs();
   };
 
   useKeyPress('ArrowUp', handleUpPressed, jobTree, jobsRef.current);
@@ -50,19 +79,12 @@ export const Jobs = () => {
         {loadingJobTree ? 'loading' : jobTree.map((job: JobDto) => <JobRow job={job} />)}
       </S.Items>
       <ContextMenu bridge={jobContextMenuBridge}>
-        <ContextMenu.Option
-          onClick={() => {
-            // TODO karel: do something with job
-            console.log(job);
-          }}>
-          Jedna položka
+        <ContextMenu.Option onClick={handleOpen}>{t('portal:contextMenu.open')}</ContextMenu.Option>
+        <ContextMenu.Option onClick={handleNewTab}>
+          {t('portal:contextMenu.newTab')}
         </ContextMenu.Option>
-        <ContextMenu.Option
-          onClick={() => {
-            // TODO karel: do something with job
-            console.log(job);
-          }}>
-          Druhá položka
+        <ContextMenu.Option onClick={handleDelete}>
+          {t('portal:contextMenu.delete')}
         </ContextMenu.Option>
       </ContextMenu>
     </S.Wrapper>

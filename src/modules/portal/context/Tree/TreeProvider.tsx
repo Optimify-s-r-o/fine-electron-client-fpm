@@ -48,7 +48,7 @@ export const TreeProvider = ({ children }: { children: JSX.Element }) => {
   // Fetch project tree during portal startup
   useEffectAsync(async () => {
     if (isLogged && !userLoading) {
-      const res = await refetch();
+      const res = await refetchProjects();
       setProjectsData(res);
     }
   }, [isLogged, user, userLoading]);
@@ -59,19 +59,25 @@ export const TreeProvider = ({ children }: { children: JSX.Element }) => {
   useEffectAsync(async () => {
     if (isLogged && !userLoading && selectedProjectId) {
       setSelectedJobId(null);
-      const res = await getJobs(() =>
-        API.ProjectsApi.fineProjectManagerApiProjectsIdJobsGet(selectedProjectId)
-      );
-      setJobsData(res.jobs);
+      const res = await refetchJobs();
+      res?.jobs && setJobsData(res?.jobs);
     } else {
       setSelectedJobId(null);
       setJobsData([]);
     }
   }, [isLogged, user, userLoading, selectedProjectId]);
 
-  const refetch = async () => {
+  const refetchProjects = async () => {
     return await getProjects(() =>
       API.ProjectsApi.fineProjectManagerApiProjectsGet(filter, sort, page, requestedPageSize)
+    );
+  };
+
+  const refetchJobs = async () => {
+    if (!selectedProjectId) return;
+
+    return await getJobs(() =>
+      API.ProjectsApi.fineProjectManagerApiProjectsIdJobsGet(selectedProjectId)
     );
   };
 
@@ -99,9 +105,9 @@ export const TreeProvider = ({ children }: { children: JSX.Element }) => {
     }
   }, [location]);
 
-  const selectJob = (id: string) => {
-    setSelectedJobId(id);
-    navigate(`${RoutesPath.JOBS}/${id}`);
+  const selectJob = (job: JobDto) => {
+    setSelectedJobId(job.id);
+    navigate(`${RoutesPath.JOBS}/${job.id}/${job.name}/general`);
   };
 
   // Push project to current tree
@@ -125,7 +131,8 @@ export const TreeProvider = ({ children }: { children: JSX.Element }) => {
         selectedProjectId: selectedProjectId,
         selectedJobId: selectedJobId,
         handleNewProject: handleNewProject,
-        refetch: refetch
+        refetchProjects: refetchProjects,
+        refetchJobs: refetchJobs
       }}>
       {children}
     </TreeContext.Provider>

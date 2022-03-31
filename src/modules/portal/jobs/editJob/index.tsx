@@ -1,50 +1,40 @@
 import { faFolder } from '@fortawesome/pro-light-svg-icons';
 import { faDatabase } from '@fortawesome/pro-solid-svg-icons';
-import { yupResolver } from '@hookform/resolvers/yup/dist/yup';
-import { JobCreateRequest } from 'api/generated';
-import { Button } from 'components/Form/Button';
 import { RoutesPath } from 'constants/routes';
-import { useForm } from 'react-hook-form';
 import { useTranslation } from 'react-i18next';
-import * as Yup from 'yup';
 
 import { MainWrapper } from '../../components/main/components/MainWrapper';
-import * as S from '../../components/main/styled';
-import { useParams } from 'react-router-dom';
+import { matchPath, Outlet, useLocation, useParams } from 'react-router-dom';
 
 const EditProject = () => {
   const { t } = useTranslation(['portal', 'form', 'common']);
-  const { editId } = useParams();
-  const { handleSubmit } = useForm<JobCreateRequest>({
-    resolver: yupResolver(
-      Yup.object().shape({
-        name: Yup.string().required(t('form:validation.required'))
-      })
-    )
-  });
+  const { jobName, editId } = useParams();
+  const { pathname } = useLocation();
 
-  const onSubmit = async (data: JobCreateRequest) => {
-    console.log(data);
-  };
+  const name = encodeURIComponent(jobName as string);
+
+  const general = `${RoutesPath.JOBS}/${editId}/${name}/general`;
+  const attachments = `${RoutesPath.JOBS}/${editId}/${name}/attachments`;
 
   return (
     <MainWrapper
       icon={faFolder}
-      title={t('portal:menu.editJob')}
+      title={jobName}
       navigation={[
         {
-          path: RoutesPath.SYSTEM,
-          active: true,
-          text: t('portal:menu.editJob'),
+          path: general,
+          active: !!matchPath(pathname, general),
+          text: t('portal:projects.tabs.editProjectMain'),
+          icon: faDatabase
+        },
+        {
+          path: attachments,
+          active: !!matchPath(pathname, attachments),
+          text: t('portal:projects.tabs.editProjectFiles'),
           icon: faDatabase
         }
       ]}>
-      <S.MainFormContent onSubmit={handleSubmit(onSubmit)}>
-        <S.ContentWrapper>TODO EDIT JOB {editId}</S.ContentWrapper>
-        <S.ButtonsWrapper>
-          <Button loading={false}>{t('form:button.save')}</Button>
-        </S.ButtonsWrapper>
-      </S.MainFormContent>
+      <Outlet />
     </MainWrapper>
   );
 };

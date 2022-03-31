@@ -70,5 +70,10 @@
     "applicationStarting": "Aplikace se práve spouští.",
     "missingPath": "Aplikace nemá nastavenou cestu ke spustitelnému programu. Cestu nastavte v sekci 'Nastavení - Cesty k programům'",
     "applicationFailed": "Aplikace se nepovedlo spustit."
+  },
+  "contextMenu": {
+    "open": "Otevřít",
+    "newTab": "Otevřít v novém tabu",
+    "delete": "Smazat"
   }
 }

@@ -12,6 +12,7 @@ interface ITreeContextType {
   selectProject: (project: ProjectDto) => void;
   selectJob: (id: string) => void;
   handleNewProject: (project: ProjectDto) => Promise<void>;
+  refetch: () => Promise<ProjectDtoPaginatedCollection>;
 }
 
 export const TreeContext = createContext<ITreeContextType>({
@@ -34,7 +35,8 @@ export const TreeContext = createContext<ITreeContextType>({
   selectedJobId: null,
   selectProject: () => console.log('No valid context'),
   selectJob: () => console.log('No valid context'),
-  handleNewProject: () => new Promise<void>((e) => 'No valid context')
+  handleNewProject: () => new Promise<void>((e) => 'No valid context'),
+  refetch: () => new Promise<ProjectDtoPaginatedCollection>((e) => 'No valid context')
 });
 
 export const useTreeContext = () => useContext(TreeContext);

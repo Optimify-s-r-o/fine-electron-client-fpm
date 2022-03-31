@@ -2,17 +2,28 @@ import { useTreeContext } from 'modules/portal/context/Tree/TreeContext';
 import { ContextMenu, useContextMenu } from 'react-context-menu-hooks';
 import * as S from '../../styled';
 import { ProjectRow } from './Item';
-import { ProjectDto } from 'api/generated';
+import { ProjectDto, UserDto } from 'api/generated';
 import Pagination from '../Pagination';
 import { useRef, useState } from 'react';
 import { projectContextMenuBridge } from './contextMenuBridge';
 import { useKeyPress } from 'utils/keyHandler/useKeyPress';
 import _ from 'lodash';
+import { useTranslation } from 'react-i18next';
+import { TabType, useTabContext } from '../../../../context/Tab/TabContext';
+import { useApi } from '../../../../../../utils/hooks/useApi';
+import API from '../../../../../../utils/api';
 
 export const Projects = () => {
+  const { t } = useTranslation(['portal']);
+
   const projectsRef = useRef(null);
 
-  const { projectTree, loadingProjectTree, selectProject, selectedProjectId } = useTreeContext();
+  const { addTab } = useTabContext();
+
+  const [deleteProject] = useApi<any>();
+
+  const { projectTree, loadingProjectTree, selectProject, selectedProjectId, refetch } =
+    useTreeContext();
   const [page, setPage] = useState(1);
 
   const handleDownPressed = () => {
@@ -48,6 +59,27 @@ export const Projects = () => {
 
   const { project } = useContextMenu(projectContextMenuBridge);
 
+  const handleOpen = (e: any) => {
+    if (!project) return;
+
+    selectProject(project);
+  };
+
+  const handleNewTab = (e: any) => {
+    if (!project) return;
+
+    selectProject(project);
+    addTab({ id: project.id, type: TabType.PROJECT, name: project.name });
+  };
+
+  const handleDelete = async (e: any) => {
+    if (!project) return;
+
+    await deleteProject(() => API.ProjectsApi.fineProjectManagerApiProjectsIdDelete(project.id));
+
+    await refetch();
+  };
+
   return (
     <S.Wrapper color={'rgb(255, 202, 108)'} ref={projectsRef} tabIndex={0}>
       <S.Items>
@@ -68,12 +100,12 @@ export const Projects = () => {
         }}
       />
       <ContextMenu bridge={projectContextMenuBridge}>
-        <ContextMenu.Option
-          onClick={() => {
-            // TODO karel: do something with project
-            console.log(project);
-          }}>
-          Test
+        <ContextMenu.Option onClick={handleOpen}>{t('portal:contextMenu.open')}</ContextMenu.Option>
+        <ContextMenu.Option onClick={handleNewTab}>
+          {t('portal:contextMenu.newTab')}
+        </ContextMenu.Option>
+        <ContextMenu.Option onClick={handleDelete}>
+          {t('portal:contextMenu.delete')}
         </ContextMenu.Option>
       </ContextMenu>
     </S.Wrapper>

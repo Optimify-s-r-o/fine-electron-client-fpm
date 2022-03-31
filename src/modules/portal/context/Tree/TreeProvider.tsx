@@ -48,9 +48,7 @@ export const TreeProvider = ({ children }: { children: JSX.Element }) => {
   // Fetch project tree during portal startup
   useEffectAsync(async () => {
     if (isLogged && !userLoading) {
-      const res = await getProjects(() =>
-        API.ProjectsApi.fineProjectManagerApiProjectsGet(filter, sort, page, requestedPageSize)
-      );
+      const res = await refetch();
       setProjectsData(res);
     }
   }, [isLogged, user, userLoading]);
@@ -70,6 +68,12 @@ export const TreeProvider = ({ children }: { children: JSX.Element }) => {
       setJobsData([]);
     }
   }, [isLogged, user, userLoading, selectedProjectId]);
+
+  const refetch = async () => {
+    return await getProjects(() =>
+      API.ProjectsApi.fineProjectManagerApiProjectsGet(filter, sort, page, requestedPageSize)
+    );
+  };
 
   const selectProject = (project: ProjectDto) => {
     setSelectedProjectId(project.id);
@@ -120,7 +124,8 @@ export const TreeProvider = ({ children }: { children: JSX.Element }) => {
         selectJob: selectJob,
         selectedProjectId: selectedProjectId,
         selectedJobId: selectedJobId,
-        handleNewProject: handleNewProject
+        handleNewProject: handleNewProject,
+        refetch: refetch
       }}>
       {children}
     </TreeContext.Provider>

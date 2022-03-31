@@ -20,7 +20,7 @@ export const Projects = () => {
 
     if (!selectedProjectId) {
       const firstProject = _.first(data);
-      firstProject && selectProject(firstProject.id);
+      firstProject && selectProject(firstProject);
       return;
     }
 
@@ -28,7 +28,7 @@ export const Projects = () => {
 
     const next = data[index + 1];
 
-    if (next) selectProject(next.id);
+    if (next) selectProject(next);
   };
 
   const handleUpPressed = () => {
@@ -38,7 +38,7 @@ export const Projects = () => {
 
     const previous = data[index - 1];
 
-    if (previous) selectProject(previous.id);
+    if (previous) selectProject(previous);
 
     return;
   };

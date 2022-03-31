@@ -15,6 +15,10 @@ const ResetPassword = lazy(() => import('modules/auth/resetPassword'));
 const Portal = lazy(() => import('modules/portal'));
 const CreateProject = lazy(() => import('modules/portal/projects/createProject'));
 const EditProject = lazy(() => import('modules/portal/projects/editProject'));
+const EditProjectGeneral = lazy(() => import('modules/portal/projects/editProject/general'));
+const EditProjectAttachments = lazy(
+  () => import('modules/portal/projects/editProject/attachemnts')
+);
 const EditJob = lazy(() => import('modules/portal/jobs/editJob'));
 const ListOfCustomers = lazy(() => import('modules/portal/customers/listOfCustomers'));
 const CreateCustomer = lazy(() => import('modules/portal/customers/createCustomer'));
@@ -55,11 +59,28 @@ export const Root = () => {
                 </ProtectedRoute>
               }
             />
+          </Route>
+          <Route
+            path={RoutesPath.EDIT_PROJECT}
+            element={
+              <ProtectedRoute>
+                <EditProject />
+              </ProtectedRoute>
+            }>
             <Route
-              path=":editId"
+              path={RoutesPath.EDIT_PROJECT_ATTACHMENT}
               element={
                 <ProtectedRoute>
-                  <EditProject />
+                  <EditProjectAttachments />
+                </ProtectedRoute>
+              }
+            />
+
+            <Route
+              path={RoutesPath.EDIT_PROJECT_GENERAL}
+              element={
+                <ProtectedRoute>
+                  <EditProjectGeneral />
                 </ProtectedRoute>
               }
             />

@@ -16,7 +16,7 @@ export const ProjectRow = ({ project }: { project: ProjectDto }) => {
 
   useEffect(() => {
     const handleDoubleClick = () => {
-      selectProject(project.id);
+      selectProject(project);
       addTab({ id: project.id, type: TabType.PROJECT, name: project.name });
     };
 
@@ -36,7 +36,7 @@ export const ProjectRow = ({ project }: { project: ProjectDto }) => {
   // Pozor na to, ze muze byt dlouhy nazev, zkracujme ho aby se vesel na jeden radek
 
   const handleSelection = (_event: MouseEvent<HTMLDivElement>) => {
-    selectProject(project.id);
+    selectProject(project);
   };
 
   return (

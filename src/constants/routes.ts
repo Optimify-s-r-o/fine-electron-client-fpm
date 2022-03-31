@@ -6,7 +6,11 @@ export enum RoutesPath {
 
   PROJECTS = '/portal/projects',
   CREATE_PROJECT = '/portal/projects/create',
-  EDIT_PROJECT = '/portal/projects/:editId',
+
+  EDIT_PROJECT = '/portal/projects/:editId/:projectName',
+
+  EDIT_PROJECT_GENERAL = '/portal/projects/:editId/:projectName/general',
+  EDIT_PROJECT_ATTACHMENT = '/portal/projects/:editId/:projectName/attachments',
 
   JOBS = '/portal/jobs',
   EDIT_JOB = '/portal/jobs/:editId',

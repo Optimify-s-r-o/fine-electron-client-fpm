@@ -57,13 +57,20 @@ export const List = () => {
       columns={[
         {
           title: t('form:table.email'),
-          render: (t: string, _r: UserDto) => <>{t}</>,
+          render: (text: string, _r: UserDto) => <>{text}</>,
           dataIndex: 'email'
         },
         {
           title: t('form:table.phone'),
-          render: (t: string, _r: UserDto) => <>{t}</>,
+          render: (text: string, _r: UserDto) => <>{text}</>,
           dataIndex: 'phoneNumber'
+        },
+        {
+          title: t('form:table.state'),
+          render: (text: boolean, _r: UserDto) => (
+            <>{t(text ? 'form:table.inactive' : 'form:table.active')}</>
+          ),
+          dataIndex: 'isDisabled'
         },
         {
           title: <Input placeholder={t('form:input.searchPlaceholder')} />,

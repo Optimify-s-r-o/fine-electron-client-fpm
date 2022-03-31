@@ -29,6 +29,9 @@
     "InvalidSignInException": "Chybně zadané heslo nebo e-mail."
   },
   "table": {
+    "state": "Stav",
+    "active": "Aktivní",
+    "inactive": "Neaktivní",
     "email": "E-mail",
     "phone": "Telefonní číslo",
     "loading": "Data se načítají...",

@@ -1,5 +1,6 @@
 {
   "users": {
-    "deactivatedSuccessfully": "Uživatel byl úspěšně deaktivován"
+    "deactivatedSuccessfully": "Uživatel byl úspěšně deaktivován",
+    "userCreatedSuccessfully": "Uživatel bys úspěšně vytvořen"
   }
 }

@@ -15,25 +15,23 @@ const System = () => {
   };
 
   return (
-    <SettingsWrapper>
-      <S.MainContent>
-        <S.ContentWrapper>
-          <GS.GridRow columns={1}>
-            <GS.GridItem fill={1}>
-              <GS.Card>
-                {applications?.map((e) => {
-                  return (
-                    <div>
-                      <button onClick={triggerApplication(e.code)}>{e.name}</button>
-                    </div>
-                  );
-                })}
-              </GS.Card>
-            </GS.GridItem>
-          </GS.GridRow>
-        </S.ContentWrapper>
-      </S.MainContent>
-    </SettingsWrapper>
+    <S.MainContent>
+      <S.ContentWrapper>
+        <GS.GridRow columns={1}>
+          <GS.GridItem fill={1}>
+            <GS.Card>
+              {applications?.map((e) => {
+                return (
+                  <div>
+                    <button onClick={triggerApplication(e.code)}>{e.name}</button>
+                  </div>
+                );
+              })}
+            </GS.Card>
+          </GS.GridItem>
+        </GS.GridRow>
+      </S.ContentWrapper>
+    </S.MainContent>
   );
 };
 

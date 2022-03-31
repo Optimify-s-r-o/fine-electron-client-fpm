@@ -25,6 +25,7 @@ const CreateCustomer = lazy(() => import('modules/portal/customers/createCustome
 const CreateUser = lazy(() => import('modules/portal/users/createUser'));
 const ListOfUsers = lazy(() => import('modules/portal/users/listOfUsers'));
 const System = lazy(() => import('modules/portal/settings/system'));
+const Settings = lazy(() => import('modules/portal/settings'));
 const Update = lazy(() => import('modules/portal/settings/update'));
 
 export const Root = () => {
@@ -135,7 +136,13 @@ export const Root = () => {
               </ProtectedRoute>
             }
           />
-          <Route path={RoutesPath.SETTINGS}>
+          <Route
+            path={RoutesPath.SETTINGS}
+            element={
+              <ProtectedRoute>
+                <Settings />
+              </ProtectedRoute>
+            }>
             <Route
               path={RoutesPath.SYSTEM}
               element={

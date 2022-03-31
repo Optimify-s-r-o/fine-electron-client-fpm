@@ -47,19 +47,17 @@ const Update = () => {
   };
 
   return (
-    <SettingsWrapper>
-      <S.MainContent>
-        <S.ContentWrapper>
-          <GS.GridRow columns={1}>
-            <GS.GridItem fill={1}>
-              <div>current: {version}</div>
-              <div>latest: {latest}</div>
-              <button onClick={updateApp}>DOWNLOAD UPDATE {latest}</button>
-            </GS.GridItem>
-          </GS.GridRow>
-        </S.ContentWrapper>
-      </S.MainContent>
-    </SettingsWrapper>
+    <S.MainContent>
+      <S.ContentWrapper>
+        <GS.GridRow columns={1}>
+          <GS.GridItem fill={1}>
+            <div>current: {version}</div>
+            <div>latest: {latest}</div>
+            <button onClick={updateApp}>DOWNLOAD UPDATE {latest}</button>
+          </GS.GridItem>
+        </GS.GridRow>
+      </S.ContentWrapper>
+    </S.MainContent>
   );
 };
 

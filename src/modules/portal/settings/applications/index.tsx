@@ -14,34 +14,32 @@ const LocalApplicationsSettings = () => {
   const { applications, loading } = useApplicationContext();
 
   return (
-    <SettingsWrapper>
-      <S.MainContent>
-        <S.ContentWrapper>
-          <CardTable
-            columns={[
-              {
-                title: t('form:table.programName'),
-                render: (text: string, r: ApplicationDto) => (
-                  <>
-                    <NameWrapper>
-                      <ApplicationIcon application={r} />
-                      {text}
-                    </NameWrapper>
-                  </>
-                ),
-                dataIndex: 'name'
-              },
-              {
-                title: t('form:table.programPath'),
-                render: (_t, record: ApplicationDto) => <PathField application={record} />
-              }
-            ]}
-            dataSource={applications}
-            emptyTableText={loading ? t('form:table.loading') : t('form:table.noProgramsUser')}
-          />
-        </S.ContentWrapper>
-      </S.MainContent>
-    </SettingsWrapper>
+    <S.MainContent>
+      <S.ContentWrapper>
+        <CardTable
+          columns={[
+            {
+              title: t('form:table.programName'),
+              render: (text: string, r: ApplicationDto) => (
+                <>
+                  <NameWrapper>
+                    <ApplicationIcon application={r} />
+                    {text}
+                  </NameWrapper>
+                </>
+              ),
+              dataIndex: 'name'
+            },
+            {
+              title: t('form:table.programPath'),
+              render: (_t, record: ApplicationDto) => <PathField application={record} />
+            }
+          ]}
+          dataSource={applications}
+          emptyTableText={loading ? t('form:table.loading') : t('form:table.noProgramsUser')}
+        />
+      </S.ContentWrapper>
+    </S.MainContent>
   );
 };
 

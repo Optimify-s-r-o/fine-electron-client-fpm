@@ -14,7 +14,8 @@
     "createCustomer": "Vytvořit zákazníka",
     "createUser": "Vytvořit uživatele",
     "deleteJob": "Smazat úlohu",
-    "deleteFile": "Smazat soubor"
+    "deleteFile": "Smazat soubor",
+    "deactivateUser": "Deaktivovat uživatele"
   },
   "validation": {
     "required": "Toto pole je povinné.",
@@ -28,6 +29,8 @@
     "InvalidSignInException": "Chybně zadané heslo nebo e-mail."
   },
   "table": {
+    "email": "E-mail",
+    "phone": "Telefonní číslo",
     "loading": "Data se načítají...",
     "rename": "Přejmenovat",
     "fileName": "Název přílohy",
@@ -63,6 +66,10 @@
     "files": {
       "fileDeleteHeader": "Smazání souboru",
       "fileDeleteContent": "Opravdu si přejete smazat soubor \"{{file}}\"?"
+    },
+    "users":{
+      "deleteHeader": "Deaktivace uživatele",
+      "deleteContent": "Opravdu si přejete deaktivovat uživatele \"{{email}}\"?"
     }
   }
 }

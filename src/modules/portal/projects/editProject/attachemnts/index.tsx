@@ -1,6 +1,6 @@
 import * as S from '../../../components/main/styled';
 import { CardTable } from 'components/Table/CardTable';
-import { FileLinksResponse, FileOperationResponse, JobDto } from 'api/generated';
+import { FileLinksResponse, FileOperationResponse } from 'api/generated';
 import { useTranslation } from 'react-i18next';
 import { useApi } from 'utils/hooks/useApi';
 import { useEffectAsync } from 'utils/useEffectAsync';
@@ -8,7 +8,6 @@ import API from 'utils/api';
 import { useParams } from 'react-router-dom';
 import { Input } from 'components/Form/Input/styled';
 import * as GS from 'constants/globalStyles';
-import { CloseButton } from 'components/Form/Button/CloseButton';
 import { PlainButton } from 'components/Form/Button/PlainButton';
 import { faDownload, faPlus, faTrashCan } from '@fortawesome/pro-light-svg-icons';
 import { ChangeEvent, MouseEvent, useRef } from 'react';

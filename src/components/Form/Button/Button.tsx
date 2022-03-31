@@ -14,7 +14,7 @@ export const Button = ({
   onClick
 }: {
   fullWidth?: boolean;
-  loading: boolean;
+  loading?: boolean;
   level?: ButtonLevel;
   children: ReactNode;
   type?: 'button' | 'submit';

@@ -11,12 +11,11 @@ const EditProject = () => {
   const { editId, projectName } = useParams();
   const { pathname } = useLocation();
 
-  const general = `${RoutesPath.PROJECTS}/${editId}/${projectName}/general`;
-  const attachments = `${RoutesPath.PROJECTS}/${editId}/${projectName}/attachments`;
+  const name = encodeURIComponent(projectName as string);
 
-  console.log(pathname);
-  console.log(general);
-  console.log(matchPath(pathname, general));
+  const general = `${RoutesPath.PROJECTS}/${editId}/${name}/general`;
+  const attachments = `${RoutesPath.PROJECTS}/${editId}/${name}/attachments`;
+
   return (
     <MainWrapper
       icon={faFolder}

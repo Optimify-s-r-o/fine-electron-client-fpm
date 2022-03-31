@@ -5,7 +5,7 @@ import { JobDto } from '../../../../../../api/generated';
 import { JobRow } from './Item';
 import { jobContextMenuBridge } from './contextMenuBridge';
 import _ from 'lodash';
-import { useKeyPress } from '../../../../../../utils/useKeyPress';
+import { useKeyPress } from '../../../../../../utils/keyHandler/useKeyPress';
 import { useRef } from 'react';
 
 //TODO MARA

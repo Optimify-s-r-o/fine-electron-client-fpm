@@ -19,19 +19,19 @@ export const Aside = () => {
           sections={[
             {
               icon: faSearch,
-              tooltip: t('portal:menu.search'),
+              tooltip: t('portal:panel.search'),
               isActive: true,
               callback: () => {}
             },
             {
               icon: faFolderPlus,
-              tooltip: t('portal:menu.createProject'),
+              tooltip: t('portal:panel.createProject'),
               isActive: false,
               callback: () => navigate(RoutesPath.CREATE_PROJECT)
             },
             {
               icon: faCog,
-              tooltip: t('portal:menu.system'),
+              tooltip: t('portal:panel.system'),
               isActive: false,
               callback: () => navigate(RoutesPath.SYSTEM)
             }

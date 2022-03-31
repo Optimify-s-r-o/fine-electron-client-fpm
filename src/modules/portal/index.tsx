@@ -3,8 +3,11 @@ import { Main } from './components/main';
 import { Aside } from './components/aside';
 import { Row } from 'constants/globalStyles';
 import styled from 'styled-components';
+import { useShortcutWrapper } from './components/shortcuts';
 
 export const Portal = () => {
+  useShortcutWrapper();
+
   return (
     <Wrapper>
       <Navigation />

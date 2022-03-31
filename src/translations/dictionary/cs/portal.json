@@ -19,6 +19,11 @@
     "adminSettings": "Správa aplikací",
     "signOut": "Odhlásit se"
   },
+  "panel": {
+    "search": "Hledat (Ctrl + F)",
+    "system": "Nastavení systému (Ctrl + J)",
+    "createProject": "Nový projekt (Ctrl + P)"
+  },
   "projects": {
     "tabs": {
       "newProject": "Vytvořit projekt",

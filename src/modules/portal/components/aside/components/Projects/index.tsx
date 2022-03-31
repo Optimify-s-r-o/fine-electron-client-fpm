@@ -6,7 +6,7 @@ import { ProjectDto } from 'api/generated';
 import Pagination from '../Pagination';
 import { useRef, useState } from 'react';
 import { projectContextMenuBridge } from './contextMenuBridge';
-import { useKeyPress } from 'utils/useKeyPress';
+import { useKeyPress } from 'utils/keyHandler/useKeyPress';
 import _ from 'lodash';
 
 export const Projects = () => {

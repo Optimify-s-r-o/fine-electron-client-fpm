@@ -60,7 +60,7 @@ const EditProject = () => {
   const onSubmit = async (data: ProjectUpdateRequest) => {
     try {
       await saveProject(() => API.ProjectsApi.fineProjectManagerApiProjectsPut(data));
-      toast.success(t('project:notifications.creatingDone', { name: data.name }));
+      toast.success(t('project:notifications.savedSuccessfully', { name: data.name }));
     } catch (e) {
       toast.error(t('project:notifications.failedToSave', { name: data.name }));
     }
@@ -76,7 +76,7 @@ const EditProject = () => {
   useEffect(() => {
     if (!project) return;
 
-    reset({ id: project.name, name: project.name, description: project.description });
+    reset({ id: project.id, name: project.name, description: project.description });
   }, [project, reset]);
 
   const onApplicationOpen = (job: JobDto) => (event: MouseEvent<HTMLButtonElement>) => {

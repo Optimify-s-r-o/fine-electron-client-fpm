@@ -8,6 +8,7 @@ import {
 import { faDatabase } from '@fortawesome/pro-solid-svg-icons';
 import { yupResolver } from '@hookform/resolvers/yup/dist/yup';
 import { ProjectCreateRequest, ProjectDto } from 'api/generated';
+import ApplicationIcon from 'components/ApplicationIcon';
 import { Button } from 'components/Form/Button';
 import { DeleteButton } from 'components/Form/Button/DeleteButton';
 import { IconButton } from 'components/Form/Button/IconButton';
@@ -16,6 +17,7 @@ import { TextInput } from 'components/Form/Input/Text/TextInput';
 import { CardTable } from 'components/Table/CardTable';
 import * as GS from 'constants/globalStyles';
 import { RoutesPath } from 'constants/routes';
+import { useApplicationContext } from 'modules/portal/context/Applications/ApplicationsContext';
 import { useEffect, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { useTranslation } from 'react-i18next';
@@ -37,6 +39,7 @@ const EditProject = () => {
 
   const [getProjectMain, { loading: mainLoading }] = useApi<ProjectDto>();
   const [getProjectJobs, { loading: jobsLoading }] = useApi<ProjectJobsDto>();
+  const { getApplicationByCode } = useApplicationContext();
 
   const [mainData, setMainData] = useState<ProjectDto | null>(null);
   const [jobsData, setJobsData] = useState<JobDto[]>([]);
@@ -175,86 +178,93 @@ const EditProject = () => {
                 </GS.GridItem>
               </GS.GridRow>
               <GS.HR />
-              <CardTable
-                columns={[
-                  {
-                    title: t('form:table.jobName'),
-                    render: (text: string, record: JobDto) => text,
-                    dataIndex: 'name'
-                  },
-                  {
-                    title: t('form:table.jobDescription'),
-                    render: (text: string, record: JobDto) => text,
-                    dataIndex: 'description'
-                  },
-                  {
-                    title: t('form:table.jobType'),
-                    render: (text: string, record: JobDto) => text,
-                    dataIndex: 'type'
-                  },
-                  {
-                    title: t('form:table.jobApplication'),
-                    render: (text: string, record: JobDto) =>
-                      record.isOpenable ? (
-                        <GS.GapAlignCenter>
-                          <span>{text}</span>
-                          <IconButton
-                            loading={false}
-                            icon={faArrowUpRightFromSquare}
-                            onClick={() => {
-                              onApplicationOpen(record);
-                            }}
-                            type="button"
-                          />
-                        </GS.GapAlignCenter>
-                      ) : (
-                        <></>
-                      ),
-                    dataIndex: 'application'
-                  },
-                  {
-                    title: t('form:table.jobAdded'),
-                    render: (text: string, record: JobDto) => text,
-                    dataIndex: 'createdAt'
-                  },
-                  {
-                    title: '',
-                    render: (_text: undefined, record: JobDto) => (
-                      <GS.FloatRight>
-                        <GS.Gap>
-                          <IconButton
-                            loading={false}
-                            icon={faArrowRight}
-                            btnStyle="primary"
-                            onClick={() => {
-                              onViewJob(record);
-                            }}
-                            type="button"
-                          />
-                          <IconButton
-                            loading={false}
-                            icon={faDownload}
-                            onClick={() => {
-                              onDownloadJob(record);
-                            }}
-                            type="button"
-                          />
-                          <IconButton
-                            loading={false}
-                            icon={faTrashCan}
-                            onClick={() => {
-                              onDeleteJob(record);
-                            }}
-                            type="button"
-                          />
-                        </GS.Gap>
-                      </GS.FloatRight>
-                    )
-                  }
-                ]}
-                dataSource={jobsData}
-                emptyTableText={t('form:table.noJobs')}
-              />
+              <GS.GridRow columns={1}>
+                <GS.GridItem>
+                  <CardTable
+                    columns={[
+                      {
+                        title: t('form:table.jobName'),
+                        render: (text: string, record: JobDto) => text,
+                        dataIndex: 'name'
+                      },
+                      {
+                        title: t('form:table.jobDescription'),
+                        render: (text: string, record: JobDto) => text,
+                        dataIndex: 'description'
+                      },
+                      {
+                        title: t('form:table.jobType'),
+                        render: (text: string, record: JobDto) => text,
+                        dataIndex: 'type'
+                      },
+                      {
+                        title: t('form:table.jobApplication'),
+                        render: (text: string, record: JobDto) => {
+                          const app = getApplicationByCode(text);
+                          return record.isOpenable ? (
+                            <GS.GapAlignCenter>
+                              {app && <ApplicationIcon application={app} />}
+                              <span>{app ? app.name : text}</span>
+                              <IconButton
+                                loading={false}
+                                icon={faArrowUpRightFromSquare}
+                                onClick={() => {
+                                  onApplicationOpen(record);
+                                }}
+                                type="button"
+                              />
+                            </GS.GapAlignCenter>
+                          ) : (
+                            <></>
+                          );
+                        },
+                        dataIndex: 'application'
+                      },
+                      {
+                        title: t('form:table.jobAdded'),
+                        render: (text: string, record: JobDto) => text,
+                        dataIndex: 'createdAt'
+                      },
+                      {
+                        title: '',
+                        render: (_text: undefined, record: JobDto) => (
+                          <GS.FloatRight>
+                            <GS.Gap>
+                              <IconButton
+                                loading={false}
+                                icon={faArrowRight}
+                                btnStyle="primary"
+                                onClick={() => {
+                                  onViewJob(record);
+                                }}
+                                type="button"
+                              />
+                              <IconButton
+                                loading={false}
+                                icon={faDownload}
+                                onClick={() => {
+                                  onDownloadJob(record);
+                                }}
+                                type="button"
+                              />
+                              <IconButton
+                                loading={false}
+                                icon={faTrashCan}
+                                onClick={() => {
+                                  onDeleteJob(record);
+                                }}
+                                type="button"
+                              />
+                            </GS.Gap>
+                          </GS.FloatRight>
+                        )
+                      }
+                    ]}
+                    dataSource={jobsData}
+                    emptyTableText={t('form:table.noJobs')}
+                  />
+                </GS.GridItem>
+              </GS.GridRow>
             </>
           )}
         </S.ContentWrapper>

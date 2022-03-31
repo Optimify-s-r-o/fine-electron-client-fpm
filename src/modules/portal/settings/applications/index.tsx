@@ -1,6 +1,7 @@
 import { faQuestion } from '@fortawesome/pro-light-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { ApplicationDto } from 'api/generated';
+import ApplicationIcon from 'components/ApplicationIcon';
 import { CardTable } from 'components/Table/CardTable';
 import { useTranslation } from 'react-i18next';
 import styled from 'styled-components';
@@ -25,13 +26,7 @@ const LocalApplicationsSettings = () => {
                 render: (text: string, r: ApplicationDto) => (
                   <>
                     <NameWrapper>
-                      {r.icon ? (
-                        <img src={r.icon} alt={r.name + ' icon'} />
-                      ) : (
-                        <div>
-                          <FontAwesomeIcon icon={faQuestion} />
-                        </div>
-                      )}
+                      <ApplicationIcon application={r} />
                       {text}
                     </NameWrapper>
                   </>
@@ -58,30 +53,5 @@ const NameWrapper = styled.div`
   display: inline-flex;
   align-items: center;
 
-  > img {
-    width: 28px;
-    height: 28px;
-
-    margin-right: 16px;
-  }
-
-  > div {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-
-    width: 28px;
-    height: 28px;
-
-    margin-right: 16px;
-
-    border: 1px solid ${(props) => props.theme.common.darker};
-    border-radius: 3px;
-    color: ${(props) => props.theme.common.darker};
-
-    > svg {
-      width: 21px;
-      height: 21px;
-    }
-  }
+  gap: 16px;
 `;

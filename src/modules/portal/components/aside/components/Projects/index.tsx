@@ -2,19 +2,54 @@ import { useTreeContext } from 'modules/portal/context/Tree/TreeContext';
 import { ContextMenu, useContextMenu } from 'react-context-menu-hooks';
 import * as S from '../../styled';
 import { ProjectRow } from './Item';
-import { ProjectDto } from '../../../../../../api/generated';
+import { ProjectDto } from 'api/generated';
 import Pagination from '../Pagination';
-import { useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { projectContextMenuBridge } from './contextMenuBridge';
+import { useKeyPress } from 'utils/useKeyPress';
+import _ from 'lodash';
 
 export const Projects = () => {
-  const { projectTree, loadingProjectTree } = useTreeContext();
+  const projectsRef = useRef(null);
+
+  const { projectTree, loadingProjectTree, selectProject, selectedProjectId } = useTreeContext();
   const [page, setPage] = useState(1);
+
+  const handleDownPressed = () => {
+    const data = projectTree.data;
+
+    if (!selectedProjectId) {
+      const firstProject = _.first(data);
+      firstProject && selectProject(firstProject.id);
+      return;
+    }
+
+    const index = _.findIndex(data, (e) => e.id === selectedProjectId);
+
+    const next = data[index + 1];
+
+    if (next) selectProject(next.id);
+  };
+
+  const handleUpPressed = () => {
+    const data = projectTree.data;
+
+    const index = _.findIndex(data, (e) => e.id === selectedProjectId);
+
+    const previous = data[index - 1];
+
+    if (previous) selectProject(previous.id);
+
+    return;
+  };
+
+  useKeyPress('ArrowUp', handleUpPressed, projectTree.data, projectsRef.current);
+  useKeyPress('ArrowDown', handleDownPressed, projectTree.data, projectsRef.current);
 
   const { project } = useContextMenu(projectContextMenuBridge);
 
   return (
-    <S.Wrapper color={'rgb(255, 202, 108)'}>
+    <S.Wrapper color={'rgb(255, 202, 108)'} ref={projectsRef} tabIndex={0}>
       <S.Items>
         {loadingProjectTree
           ? 'loading'

@@ -31,6 +31,7 @@
     "i18next": "^21.6.14",
     "i18next-browser-languagedetector": "^6.1.4",
     "keytar": "^7.9.0",
+    "lodash": "^4.17.21",
     "react": "^17.0.2",
     "react-context-menu-hooks": "^0.3.0",
     "react-country-flag": "^3.0.2",

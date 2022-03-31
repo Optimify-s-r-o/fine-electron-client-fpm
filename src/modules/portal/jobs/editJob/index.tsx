@@ -10,10 +10,11 @@ import * as Yup from 'yup';
 
 import { MainWrapper } from '../../components/main/components/MainWrapper';
 import * as S from '../../components/main/styled';
+import { useParams } from 'react-router-dom';
 
 const EditProject = () => {
   const { t } = useTranslation(['portal', 'form', 'common']);
-
+  const { editId } = useParams();
   const { handleSubmit } = useForm<JobCreateRequest>({
     resolver: yupResolver(
       Yup.object().shape({
@@ -37,10 +38,9 @@ const EditProject = () => {
           text: t('portal:menu.editJob'),
           icon: faDatabase
         }
-      ]}
-    >
+      ]}>
       <S.MainFormContent onSubmit={handleSubmit(onSubmit)}>
-        <S.ContentWrapper>TODO EDIT JOB</S.ContentWrapper>
+        <S.ContentWrapper>TODO EDIT JOB {editId}</S.ContentWrapper>
         <S.ButtonsWrapper>
           <Button loading={false}>{t('form:button.save')}</Button>
         </S.ButtonsWrapper>

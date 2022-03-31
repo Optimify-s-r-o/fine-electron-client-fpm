@@ -361,19 +361,61 @@ export interface FileOperationResponse {
      * @type {string}
      * @memberof FileOperationResponse
      */
-    'link'?: string | null;
+    'link': string;
     /**
      * Key to specified file
      * @type {string}
      * @memberof FileOperationResponse
      */
-    'key'?: string | null;
+    'key': string;
     /**
      * Validity of link
      * @type {string}
      * @memberof FileOperationResponse
      */
-    'validUntil'?: string;
+    'validUntil': string;
+    /**
+     * Size of file
+     * @type {number}
+     * @memberof FileOperationResponse
+     */
+    'size': number;
+    /**
+     * Extension
+     * @type {string}
+     * @memberof FileOperationResponse
+     */
+    'extension': string;
+    /**
+     * Full file path
+     * @type {string}
+     * @memberof FileOperationResponse
+     */
+    'fullPath': string;
+    /**
+     * Full file name
+     * @type {string}
+     * @memberof FileOperationResponse
+     */
+    'fullName': string;
+    /**
+     * Content disposition header
+     * @type {string}
+     * @memberof FileOperationResponse
+     */
+    'contentDisposition': string;
+    /**
+     * Content type
+     * @type {string}
+     * @memberof FileOperationResponse
+     */
+    'contentType': string;
+    /**
+     * Date of last modifivation
+     * @type {string}
+     * @memberof FileOperationResponse
+     */
+    'lastModification': string;
 }
 /**
  * Job attribute public model
@@ -417,6 +459,25 @@ export interface JobAttributeDto {
      * @memberof JobAttributeDto
      */
     'decimalsToShow'?: number | null;
+}
+/**
+ * Public model
+ * @export
+ * @interface JobAttributeTranslationDto
+ */
+export interface JobAttributeTranslationDto {
+    /**
+     * Act like primary key
+     * @type {string}
+     * @memberof JobAttributeTranslationDto
+     */
+    'normalizedName'?: string | null;
+    /**
+     * Translation value
+     * @type {string}
+     * @memberof JobAttributeTranslationDto
+     */
+    'translation'?: string | null;
 }
 /**
  * 
@@ -634,7 +695,7 @@ export interface JobDtoPaginatedCollection {
     'previousPageExists': boolean;
 }
 /**
- * 
+ * Quick review of project-job state
  * @export
  * @interface JobResultInformationDto
  */
@@ -651,6 +712,214 @@ export interface JobResultInformationDto {
      * @memberof JobResultInformationDto
      */
     'otherJobs': { [key: string]: number; };
+}
+/**
+ * Request for creating new translation
+ * @export
+ * @interface JobTranslationCreateRequest
+ */
+export interface JobTranslationCreateRequest {
+    /**
+     * Internal identified for job type
+     * @type {string}
+     * @memberof JobTranslationCreateRequest
+     */
+    'type'?: string;
+    /**
+     * Translation string for name
+     * @type {string}
+     * @memberof JobTranslationCreateRequest
+     */
+    'translation'?: string | null;
+    /**
+     * Internal identified for language
+     * @type {string}
+     * @memberof JobTranslationCreateRequest
+     */
+    'language'?: string | null;
+    /**
+     * Attributes to translate
+     * @type {Array<JobAttributeTranslationDto>}
+     * @memberof JobTranslationCreateRequest
+     */
+    'attributes'?: Array<JobAttributeTranslationDto> | null;
+}
+/**
+ * Public model
+ * @export
+ * @interface JobTranslationDto
+ */
+export interface JobTranslationDto {
+    /**
+     * Owner id
+     * @type {string}
+     * @memberof JobTranslationDto
+     */
+    'createdBy'?: string;
+    /**
+     * Owner of last edit id
+     * @type {string}
+     * @memberof JobTranslationDto
+     */
+    'updatedBy'?: string;
+    /**
+     * Entity id
+     * @type {string}
+     * @memberof JobTranslationDto
+     */
+    'id'?: string;
+    /**
+     * Date of creation
+     * @type {string}
+     * @memberof JobTranslationDto
+     */
+    'createdAt'?: string;
+    /**
+     * Date of last update
+     * @type {string}
+     * @memberof JobTranslationDto
+     */
+    'updatedAt'?: string;
+    /**
+     * Type of job, act like primary key, should be unique across the world
+     * @type {string}
+     * @memberof JobTranslationDto
+     */
+    'type'?: string;
+    /**
+     * Translation of name of this job
+     * @type {string}
+     * @memberof JobTranslationDto
+     */
+    'translation'?: string | null;
+    /**
+     * Language that this translation is part of (should be something like \'en-US\')
+     * @type {string}
+     * @memberof JobTranslationDto
+     */
+    'language'?: string | null;
+    /**
+     * Suffix of icon
+     * @type {string}
+     * @memberof JobTranslationDto
+     */
+    'jobTranslationIconSuffix'?: string | null;
+    /**
+     * Icon public link
+     * @type {string}
+     * @memberof JobTranslationDto
+     */
+    'icon'?: string | null;
+    /**
+     * Translations of all attributes
+     * @type {Array<JobAttributeTranslationDto>}
+     * @memberof JobTranslationDto
+     */
+    'attributes'?: Array<JobAttributeTranslationDto> | null;
+}
+/**
+ * Standard class used for paginated results
+ * @export
+ * @interface JobTranslationDtoPaginatedCollection
+ */
+export interface JobTranslationDtoPaginatedCollection {
+    /**
+     * Data in collection
+     * @type {Array<JobTranslationDto>}
+     * @memberof JobTranslationDtoPaginatedCollection
+     */
+    'data': Array<JobTranslationDto>;
+    /**
+     * Page number of result
+     * @type {number}
+     * @memberof JobTranslationDtoPaginatedCollection
+     */
+    'page': number;
+    /**
+     * True page size
+     * @type {number}
+     * @memberof JobTranslationDtoPaginatedCollection
+     */
+    'pageSize': number;
+    /**
+     * Requested page size
+     * @type {number}
+     * @memberof JobTranslationDtoPaginatedCollection
+     */
+    'requestedPageSize': number;
+    /**
+     * Total records that exist
+     * @type {number}
+     * @memberof JobTranslationDtoPaginatedCollection
+     */
+    'totalRecords': number;
+    /**
+     * Total number of pages that exist
+     * @type {number}
+     * @memberof JobTranslationDtoPaginatedCollection
+     */
+    'totalPages': number;
+    /**
+     * Filter used by client
+     * @type {string}
+     * @memberof JobTranslationDtoPaginatedCollection
+     */
+    'filter': string;
+    /**
+     * Sort used by client
+     * @type {string}
+     * @memberof JobTranslationDtoPaginatedCollection
+     */
+    'sort': string;
+    /**
+     * Determine whether next page exists
+     * @type {boolean}
+     * @memberof JobTranslationDtoPaginatedCollection
+     */
+    'nextPageExists': boolean;
+    /**
+     * Determine whether previous page exists
+     * @type {boolean}
+     * @memberof JobTranslationDtoPaginatedCollection
+     */
+    'previousPageExists': boolean;
+}
+/**
+ * Request for application update.  Icon update is separate request.
+ * @export
+ * @interface JobTranslationUpdateRequest
+ */
+export interface JobTranslationUpdateRequest {
+    /**
+     * Entity id
+     * @type {string}
+     * @memberof JobTranslationUpdateRequest
+     */
+    'id': string;
+    /**
+     * Internal identified for job type
+     * @type {string}
+     * @memberof JobTranslationUpdateRequest
+     */
+    'type': string;
+    /**
+     * Translation string for name
+     * @type {string}
+     * @memberof JobTranslationUpdateRequest
+     */
+    'translation': string;
+    /**
+     * Internal identified for language
+     * @type {string}
+     * @memberof JobTranslationUpdateRequest
+     */
+    'language': string;
+    /**
+     * Attributes to translate
+     * @type {Array<JobAttributeTranslationDto>}
+     * @memberof JobTranslationUpdateRequest
+     */
+    'attributes'?: Array<JobAttributeTranslationDto> | null;
 }
 /**
  * Update job data
@@ -774,6 +1043,12 @@ export interface ProjectDto {
      * @memberof ProjectDto
      */
     'description'?: string | null;
+    /**
+     * Determine if project is favorite for logged user
+     * @type {boolean}
+     * @memberof ProjectDto
+     */
+    'isFavorite': boolean;
 }
 /**
  * Standard class used for paginated results
@@ -843,6 +1118,19 @@ export interface ProjectDtoPaginatedCollection {
     'previousPageExists': boolean;
 }
 /**
+ * Public model for marking/unmarking project as favorite
+ * @export
+ * @interface ProjectFavoriteMark
+ */
+export interface ProjectFavoriteMark {
+    /**
+     * Id of project to mark/unmark
+     * @type {string}
+     * @memberof ProjectFavoriteMark
+     */
+    'projectId': string;
+}
+/**
  * Project with all jobs loaded
  * @export
  * @interface ProjectJobsDto
@@ -884,6 +1172,12 @@ export interface ProjectJobsDto {
      * @memberof ProjectJobsDto
      */
     'name': string;
+    /**
+     * Determine if project is favorite for logged user
+     * @type {boolean}
+     * @memberof ProjectJobsDto
+     */
+    'isFavorite': boolean;
     /**
      * Job collection
      * @type {Array<JobDto>}
@@ -942,19 +1236,19 @@ export interface SignInRequest {
     'password'?: string | null;
 }
 /**
- * 
+ * Response for sign in attempt
  * @export
  * @interface SignInResponse
  */
 export interface SignInResponse {
     /**
-     * 
+     * Bearer token
      * @type {string}
      * @memberof SignInResponse
      */
     'token'?: string | null;
     /**
-     * 
+     * Expiration of token
      * @type {string}
      * @memberof SignInResponse
      */
@@ -966,7 +1260,7 @@ export interface SignInResponse {
      */
     'user'?: UserDto;
     /**
-     * 
+     * Determine whether the request was successful
      * @type {boolean}
      * @memberof SignInResponse
      */
@@ -1041,6 +1335,25 @@ export interface UploadJobPreviewRequest {
      * @memberof UploadJobPreviewRequest
      */
     'fileName'?: string | null;
+}
+/**
+ * Request for uploading icon of the job
+ * @export
+ * @interface UploadJobTranslationIconRequest
+ */
+export interface UploadJobTranslationIconRequest {
+    /**
+     * Entity id
+     * @type {string}
+     * @memberof UploadJobTranslationIconRequest
+     */
+    'translationId'?: string;
+    /**
+     * File format (like \'png\', \'ico\', \'jpg\'...)
+     * @type {string}
+     * @memberof UploadJobTranslationIconRequest
+     */
+    'suffix'?: string | null;
 }
 /**
  * Request for uploading attachment file
@@ -1196,7 +1509,7 @@ export const ApplicationsApiAxiosParamCreator = function (configuration?: Config
          * @summary List all entities in paginated collection
          * @param {string} [query] Search query
          * @param {string} [sort] Order by
-         * @param {number} [page] Page numver
+         * @param {number} [page] Page number
          * @param {number} [pageSize] Page size
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
@@ -1477,7 +1790,7 @@ export const ApplicationsApiFp = function(configuration?: Configuration) {
          * @summary List all entities in paginated collection
          * @param {string} [query] Search query
          * @param {string} [sort] Order by
-         * @param {number} [page] Page numver
+         * @param {number} [page] Page number
          * @param {number} [pageSize] Page size
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
@@ -1566,7 +1879,7 @@ export const ApplicationsApiFactory = function (configuration?: Configuration, b
          * @summary List all entities in paginated collection
          * @param {string} [query] Search query
          * @param {string} [sort] Order by
-         * @param {number} [page] Page numver
+         * @param {number} [page] Page number
          * @param {number} [pageSize] Page size
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
@@ -1648,7 +1961,7 @@ export class ApplicationsApi extends BaseAPI {
      * @summary List all entities in paginated collection
      * @param {string} [query] Search query
      * @param {string} [sort] Order by
-     * @param {number} [page] Page numver
+     * @param {number} [page] Page number
      * @param {number} [pageSize] Page size
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
@@ -1732,6 +2045,552 @@ export class ApplicationsApi extends BaseAPI {
 
 
 /**
+ * JobTranslationsApi - axios parameter creator
+ * @export
+ */
+export const JobTranslationsApiAxiosParamCreator = function (configuration?: Configuration) {
+    return {
+        /**
+         * 
+         * @summary List all entities in paginated collection
+         * @param {string} [query] Search query
+         * @param {string} [sort] Order by
+         * @param {number} [page] Page number
+         * @param {number} [pageSize] Page size
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        fineProjectManagerApiJobtranslationsGet: async (query?: string, sort?: string, page?: number, pageSize?: number, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
+            const localVarPath = `/fine-project-manager/api/jobtranslations`;
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+
+            const localVarRequestOptions = { method: 'GET', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+
+            // authentication Bearer required
+            await setApiKeyToObject(localVarHeaderParameter, "Authorization", configuration)
+
+            if (query !== undefined) {
+                localVarQueryParameter['query'] = query;
+            }
+
+            if (sort !== undefined) {
+                localVarQueryParameter['sort'] = sort;
+            }
+
+            if (page !== undefined) {
+                localVarQueryParameter['page'] = page;
+            }
+
+            if (pageSize !== undefined) {
+                localVarQueryParameter['pageSize'] = pageSize;
+            }
+
+
+    
+            setSearchParams(localVarUrlObj, localVarQueryParameter);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+
+            return {
+                url: toPathString(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
+        /**
+         * 
+         * @summary Delete entity with given id.  Throw error if entity not exists
+         * @param {string} id Entity id
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        fineProjectManagerApiJobtranslationsIdDelete: async (id: string, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
+            // verify required parameter 'id' is not null or undefined
+            assertParamExists('fineProjectManagerApiJobtranslationsIdDelete', 'id', id)
+            const localVarPath = `/fine-project-manager/api/jobtranslations/{id}`
+                .replace(`{${"id"}}`, encodeURIComponent(String(id)));
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+
+            const localVarRequestOptions = { method: 'DELETE', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+
+            // authentication Bearer required
+            await setApiKeyToObject(localVarHeaderParameter, "Authorization", configuration)
+
+
+    
+            setSearchParams(localVarUrlObj, localVarQueryParameter);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+
+            return {
+                url: toPathString(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
+        /**
+         * 
+         * @summary Get single entity with given id.  Throw error if entity not exists
+         * @param {string} id Entity id
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        fineProjectManagerApiJobtranslationsIdGet: async (id: string, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
+            // verify required parameter 'id' is not null or undefined
+            assertParamExists('fineProjectManagerApiJobtranslationsIdGet', 'id', id)
+            const localVarPath = `/fine-project-manager/api/jobtranslations/{id}`
+                .replace(`{${"id"}}`, encodeURIComponent(String(id)));
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+
+            const localVarRequestOptions = { method: 'GET', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+
+            // authentication Bearer required
+            await setApiKeyToObject(localVarHeaderParameter, "Authorization", configuration)
+
+
+    
+            setSearchParams(localVarUrlObj, localVarQueryParameter);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+
+            return {
+                url: toPathString(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
+        /**
+         * 
+         * @summary Get all translations without using pagination
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        fineProjectManagerApiJobtranslationsNoPaginationGet: async (options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
+            const localVarPath = `/fine-project-manager/api/jobtranslations/no-pagination`;
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+
+            const localVarRequestOptions = { method: 'GET', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+
+            // authentication Bearer required
+            await setApiKeyToObject(localVarHeaderParameter, "Authorization", configuration)
+
+
+    
+            setSearchParams(localVarUrlObj, localVarQueryParameter);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+
+            return {
+                url: toPathString(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
+        /**
+         * 
+         * @summary Create new entity
+         * @param {JobTranslationCreateRequest} [jobTranslationCreateRequest] New entity data
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        fineProjectManagerApiJobtranslationsPost: async (jobTranslationCreateRequest?: JobTranslationCreateRequest, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
+            const localVarPath = `/fine-project-manager/api/jobtranslations`;
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+
+            const localVarRequestOptions = { method: 'POST', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+
+            // authentication Bearer required
+            await setApiKeyToObject(localVarHeaderParameter, "Authorization", configuration)
+
+
+    
+            localVarHeaderParameter['Content-Type'] = 'application/json';
+
+            setSearchParams(localVarUrlObj, localVarQueryParameter);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+            localVarRequestOptions.data = serializeDataIfNeeded(jobTranslationCreateRequest, localVarRequestOptions, configuration)
+
+            return {
+                url: toPathString(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
+        /**
+         * 
+         * @summary Update single entity
+         * @param {JobTranslationUpdateRequest} [jobTranslationUpdateRequest] New entity data
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        fineProjectManagerApiJobtranslationsPut: async (jobTranslationUpdateRequest?: JobTranslationUpdateRequest, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
+            const localVarPath = `/fine-project-manager/api/jobtranslations`;
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+
+            const localVarRequestOptions = { method: 'PUT', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+
+            // authentication Bearer required
+            await setApiKeyToObject(localVarHeaderParameter, "Authorization", configuration)
+
+
+    
+            localVarHeaderParameter['Content-Type'] = 'application/json';
+
+            setSearchParams(localVarUrlObj, localVarQueryParameter);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+            localVarRequestOptions.data = serializeDataIfNeeded(jobTranslationUpdateRequest, localVarRequestOptions, configuration)
+
+            return {
+                url: toPathString(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
+        /**
+         * 
+         * @summary Get link for uploading new icon.  WARNING: This request also delete old icon, so don\'t use it if you don\'t plan to upload new icon!
+         * @param {UploadJobTranslationIconRequest} [uploadJobTranslationIconRequest] 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        fineProjectManagerApiJobtranslationsUploadIconPost: async (uploadJobTranslationIconRequest?: UploadJobTranslationIconRequest, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
+            const localVarPath = `/fine-project-manager/api/jobtranslations/upload-icon`;
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+
+            const localVarRequestOptions = { method: 'POST', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+
+            // authentication Bearer required
+            await setApiKeyToObject(localVarHeaderParameter, "Authorization", configuration)
+
+
+    
+            localVarHeaderParameter['Content-Type'] = 'application/json';
+
+            setSearchParams(localVarUrlObj, localVarQueryParameter);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+            localVarRequestOptions.data = serializeDataIfNeeded(uploadJobTranslationIconRequest, localVarRequestOptions, configuration)
+
+            return {
+                url: toPathString(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
+    }
+};
+
+/**
+ * JobTranslationsApi - functional programming interface
+ * @export
+ */
+export const JobTranslationsApiFp = function(configuration?: Configuration) {
+    const localVarAxiosParamCreator = JobTranslationsApiAxiosParamCreator(configuration)
+    return {
+        /**
+         * 
+         * @summary List all entities in paginated collection
+         * @param {string} [query] Search query
+         * @param {string} [sort] Order by
+         * @param {number} [page] Page number
+         * @param {number} [pageSize] Page size
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async fineProjectManagerApiJobtranslationsGet(query?: string, sort?: string, page?: number, pageSize?: number, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<JobTranslationDtoPaginatedCollection>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.fineProjectManagerApiJobtranslationsGet(query, sort, page, pageSize, options);
+            return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
+        },
+        /**
+         * 
+         * @summary Delete entity with given id.  Throw error if entity not exists
+         * @param {string} id Entity id
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async fineProjectManagerApiJobtranslationsIdDelete(id: string, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<void>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.fineProjectManagerApiJobtranslationsIdDelete(id, options);
+            return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
+        },
+        /**
+         * 
+         * @summary Get single entity with given id.  Throw error if entity not exists
+         * @param {string} id Entity id
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async fineProjectManagerApiJobtranslationsIdGet(id: string, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<JobTranslationDto>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.fineProjectManagerApiJobtranslationsIdGet(id, options);
+            return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
+        },
+        /**
+         * 
+         * @summary Get all translations without using pagination
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async fineProjectManagerApiJobtranslationsNoPaginationGet(options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<JobTranslationDtoPaginatedCollection>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.fineProjectManagerApiJobtranslationsNoPaginationGet(options);
+            return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
+        },
+        /**
+         * 
+         * @summary Create new entity
+         * @param {JobTranslationCreateRequest} [jobTranslationCreateRequest] New entity data
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async fineProjectManagerApiJobtranslationsPost(jobTranslationCreateRequest?: JobTranslationCreateRequest, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<void>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.fineProjectManagerApiJobtranslationsPost(jobTranslationCreateRequest, options);
+            return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
+        },
+        /**
+         * 
+         * @summary Update single entity
+         * @param {JobTranslationUpdateRequest} [jobTranslationUpdateRequest] New entity data
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async fineProjectManagerApiJobtranslationsPut(jobTranslationUpdateRequest?: JobTranslationUpdateRequest, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<JobTranslationDto>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.fineProjectManagerApiJobtranslationsPut(jobTranslationUpdateRequest, options);
+            return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
+        },
+        /**
+         * 
+         * @summary Get link for uploading new icon.  WARNING: This request also delete old icon, so don\'t use it if you don\'t plan to upload new icon!
+         * @param {UploadJobTranslationIconRequest} [uploadJobTranslationIconRequest] 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async fineProjectManagerApiJobtranslationsUploadIconPost(uploadJobTranslationIconRequest?: UploadJobTranslationIconRequest, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<FileOperationResponse>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.fineProjectManagerApiJobtranslationsUploadIconPost(uploadJobTranslationIconRequest, options);
+            return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
+        },
+    }
+};
+
+/**
+ * JobTranslationsApi - factory interface
+ * @export
+ */
+export const JobTranslationsApiFactory = function (configuration?: Configuration, basePath?: string, axios?: AxiosInstance) {
+    const localVarFp = JobTranslationsApiFp(configuration)
+    return {
+        /**
+         * 
+         * @summary List all entities in paginated collection
+         * @param {string} [query] Search query
+         * @param {string} [sort] Order by
+         * @param {number} [page] Page number
+         * @param {number} [pageSize] Page size
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        fineProjectManagerApiJobtranslationsGet(query?: string, sort?: string, page?: number, pageSize?: number, options?: any): AxiosPromise<JobTranslationDtoPaginatedCollection> {
+            return localVarFp.fineProjectManagerApiJobtranslationsGet(query, sort, page, pageSize, options).then((request) => request(axios, basePath));
+        },
+        /**
+         * 
+         * @summary Delete entity with given id.  Throw error if entity not exists
+         * @param {string} id Entity id
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        fineProjectManagerApiJobtranslationsIdDelete(id: string, options?: any): AxiosPromise<void> {
+            return localVarFp.fineProjectManagerApiJobtranslationsIdDelete(id, options).then((request) => request(axios, basePath));
+        },
+        /**
+         * 
+         * @summary Get single entity with given id.  Throw error if entity not exists
+         * @param {string} id Entity id
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        fineProjectManagerApiJobtranslationsIdGet(id: string, options?: any): AxiosPromise<JobTranslationDto> {
+            return localVarFp.fineProjectManagerApiJobtranslationsIdGet(id, options).then((request) => request(axios, basePath));
+        },
+        /**
+         * 
+         * @summary Get all translations without using pagination
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        fineProjectManagerApiJobtranslationsNoPaginationGet(options?: any): AxiosPromise<JobTranslationDtoPaginatedCollection> {
+            return localVarFp.fineProjectManagerApiJobtranslationsNoPaginationGet(options).then((request) => request(axios, basePath));
+        },
+        /**
+         * 
+         * @summary Create new entity
+         * @param {JobTranslationCreateRequest} [jobTranslationCreateRequest] New entity data
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        fineProjectManagerApiJobtranslationsPost(jobTranslationCreateRequest?: JobTranslationCreateRequest, options?: any): AxiosPromise<void> {
+            return localVarFp.fineProjectManagerApiJobtranslationsPost(jobTranslationCreateRequest, options).then((request) => request(axios, basePath));
+        },
+        /**
+         * 
+         * @summary Update single entity
+         * @param {JobTranslationUpdateRequest} [jobTranslationUpdateRequest] New entity data
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        fineProjectManagerApiJobtranslationsPut(jobTranslationUpdateRequest?: JobTranslationUpdateRequest, options?: any): AxiosPromise<JobTranslationDto> {
+            return localVarFp.fineProjectManagerApiJobtranslationsPut(jobTranslationUpdateRequest, options).then((request) => request(axios, basePath));
+        },
+        /**
+         * 
+         * @summary Get link for uploading new icon.  WARNING: This request also delete old icon, so don\'t use it if you don\'t plan to upload new icon!
+         * @param {UploadJobTranslationIconRequest} [uploadJobTranslationIconRequest] 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        fineProjectManagerApiJobtranslationsUploadIconPost(uploadJobTranslationIconRequest?: UploadJobTranslationIconRequest, options?: any): AxiosPromise<FileOperationResponse> {
+            return localVarFp.fineProjectManagerApiJobtranslationsUploadIconPost(uploadJobTranslationIconRequest, options).then((request) => request(axios, basePath));
+        },
+    };
+};
+
+/**
+ * JobTranslationsApi - object-oriented interface
+ * @export
+ * @class JobTranslationsApi
+ * @extends {BaseAPI}
+ */
+export class JobTranslationsApi extends BaseAPI {
+    /**
+     * 
+     * @summary List all entities in paginated collection
+     * @param {string} [query] Search query
+     * @param {string} [sort] Order by
+     * @param {number} [page] Page number
+     * @param {number} [pageSize] Page size
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof JobTranslationsApi
+     */
+    public fineProjectManagerApiJobtranslationsGet(query?: string, sort?: string, page?: number, pageSize?: number, options?: AxiosRequestConfig) {
+        return JobTranslationsApiFp(this.configuration).fineProjectManagerApiJobtranslationsGet(query, sort, page, pageSize, options).then((request) => request(this.axios, this.basePath));
+    }
+
+    /**
+     * 
+     * @summary Delete entity with given id.  Throw error if entity not exists
+     * @param {string} id Entity id
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof JobTranslationsApi
+     */
+    public fineProjectManagerApiJobtranslationsIdDelete(id: string, options?: AxiosRequestConfig) {
+        return JobTranslationsApiFp(this.configuration).fineProjectManagerApiJobtranslationsIdDelete(id, options).then((request) => request(this.axios, this.basePath));
+    }
+
+    /**
+     * 
+     * @summary Get single entity with given id.  Throw error if entity not exists
+     * @param {string} id Entity id
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof JobTranslationsApi
+     */
+    public fineProjectManagerApiJobtranslationsIdGet(id: string, options?: AxiosRequestConfig) {
+        return JobTranslationsApiFp(this.configuration).fineProjectManagerApiJobtranslationsIdGet(id, options).then((request) => request(this.axios, this.basePath));
+    }
+
+    /**
+     * 
+     * @summary Get all translations without using pagination
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof JobTranslationsApi
+     */
+    public fineProjectManagerApiJobtranslationsNoPaginationGet(options?: AxiosRequestConfig) {
+        return JobTranslationsApiFp(this.configuration).fineProjectManagerApiJobtranslationsNoPaginationGet(options).then((request) => request(this.axios, this.basePath));
+    }
+
+    /**
+     * 
+     * @summary Create new entity
+     * @param {JobTranslationCreateRequest} [jobTranslationCreateRequest] New entity data
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof JobTranslationsApi
+     */
+    public fineProjectManagerApiJobtranslationsPost(jobTranslationCreateRequest?: JobTranslationCreateRequest, options?: AxiosRequestConfig) {
+        return JobTranslationsApiFp(this.configuration).fineProjectManagerApiJobtranslationsPost(jobTranslationCreateRequest, options).then((request) => request(this.axios, this.basePath));
+    }
+
+    /**
+     * 
+     * @summary Update single entity
+     * @param {JobTranslationUpdateRequest} [jobTranslationUpdateRequest] New entity data
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof JobTranslationsApi
+     */
+    public fineProjectManagerApiJobtranslationsPut(jobTranslationUpdateRequest?: JobTranslationUpdateRequest, options?: AxiosRequestConfig) {
+        return JobTranslationsApiFp(this.configuration).fineProjectManagerApiJobtranslationsPut(jobTranslationUpdateRequest, options).then((request) => request(this.axios, this.basePath));
+    }
+
+    /**
+     * 
+     * @summary Get link for uploading new icon.  WARNING: This request also delete old icon, so don\'t use it if you don\'t plan to upload new icon!
+     * @param {UploadJobTranslationIconRequest} [uploadJobTranslationIconRequest] 
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof JobTranslationsApi
+     */
+    public fineProjectManagerApiJobtranslationsUploadIconPost(uploadJobTranslationIconRequest?: UploadJobTranslationIconRequest, options?: AxiosRequestConfig) {
+        return JobTranslationsApiFp(this.configuration).fineProjectManagerApiJobtranslationsUploadIconPost(uploadJobTranslationIconRequest, options).then((request) => request(this.axios, this.basePath));
+    }
+}
+
+
+/**
  * JobsApi - axios parameter creator
  * @export
  */
@@ -1742,7 +2601,7 @@ export const JobsApiAxiosParamCreator = function (configuration?: Configuration)
          * @summary List all entities in paginated collection
          * @param {string} [query] Search query
          * @param {string} [sort] Order by
-         * @param {number} [page] Page numver
+         * @param {number} [page] Page number
          * @param {number} [pageSize] Page size
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
@@ -2294,7 +3153,7 @@ export const JobsApiFp = function(configuration?: Configuration) {
          * @summary List all entities in paginated collection
          * @param {string} [query] Search query
          * @param {string} [sort] Order by
-         * @param {number} [page] Page numver
+         * @param {number} [page] Page number
          * @param {number} [pageSize] Page size
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
@@ -2463,7 +3322,7 @@ export const JobsApiFactory = function (configuration?: Configuration, basePath?
          * @summary List all entities in paginated collection
          * @param {string} [query] Search query
          * @param {string} [sort] Order by
-         * @param {number} [page] Page numver
+         * @param {number} [page] Page number
          * @param {number} [pageSize] Page size
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
@@ -2618,7 +3477,7 @@ export class JobsApi extends BaseAPI {
      * @summary List all entities in paginated collection
      * @param {string} [query] Search query
      * @param {string} [sort] Order by
-     * @param {number} [page] Page numver
+     * @param {number} [page] Page number
      * @param {number} [pageSize] Page size
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
@@ -2799,7 +3658,7 @@ export const ProjectsApiAxiosParamCreator = function (configuration?: Configurat
          * @summary List all entities in paginated collection
          * @param {string} [query] Search query
          * @param {string} [sort] Order by
-         * @param {number} [page] Page numver
+         * @param {number} [page] Page number
          * @param {number} [pageSize] Page size
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
@@ -3038,6 +3897,43 @@ export const ProjectsApiAxiosParamCreator = function (configuration?: Configurat
         },
         /**
          * 
+         * @summary Mark as favorite. Expect optimistic UI, so it doesn\'t return any error with exception of bad id
+         * @param {ProjectFavoriteMark} [projectFavoriteMark] 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        fineProjectManagerApiProjectsMarkFavoritePost: async (projectFavoriteMark?: ProjectFavoriteMark, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
+            const localVarPath = `/fine-project-manager/api/projects/mark-favorite`;
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+
+            const localVarRequestOptions = { method: 'POST', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+
+            // authentication Bearer required
+            await setApiKeyToObject(localVarHeaderParameter, "Authorization", configuration)
+
+
+    
+            localVarHeaderParameter['Content-Type'] = 'application/json';
+
+            setSearchParams(localVarUrlObj, localVarQueryParameter);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+            localVarRequestOptions.data = serializeDataIfNeeded(projectFavoriteMark, localVarRequestOptions, configuration)
+
+            return {
+                url: toPathString(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
+        /**
+         * 
          * @summary Create new entity
          * @param {ProjectCreateRequest} [projectCreateRequest] New entity data
          * @param {*} [options] Override http request option.
@@ -3112,6 +4008,43 @@ export const ProjectsApiAxiosParamCreator = function (configuration?: Configurat
         },
         /**
          * 
+         * @summary Unmark as favorite. Expect optimistic UI, so it doesn\'t return any error with exception of bad id
+         * @param {ProjectFavoriteMark} [projectFavoriteMark] 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        fineProjectManagerApiProjectsUnmarkFavoritePost: async (projectFavoriteMark?: ProjectFavoriteMark, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
+            const localVarPath = `/fine-project-manager/api/projects/unmark-favorite`;
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+
+            const localVarRequestOptions = { method: 'POST', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+
+            // authentication Bearer required
+            await setApiKeyToObject(localVarHeaderParameter, "Authorization", configuration)
+
+
+    
+            localVarHeaderParameter['Content-Type'] = 'application/json';
+
+            setSearchParams(localVarUrlObj, localVarQueryParameter);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+            localVarRequestOptions.data = serializeDataIfNeeded(projectFavoriteMark, localVarRequestOptions, configuration)
+
+            return {
+                url: toPathString(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
+        /**
+         * 
          * @summary Get link for uploading new attachment
          * @param {UploadProjectAttachmentRequest} [uploadProjectAttachmentRequest] 
          * @param {*} [options] Override http request option.
@@ -3162,7 +4095,7 @@ export const ProjectsApiFp = function(configuration?: Configuration) {
          * @summary List all entities in paginated collection
          * @param {string} [query] Search query
          * @param {string} [sort] Order by
-         * @param {number} [page] Page numver
+         * @param {number} [page] Page number
          * @param {number} [pageSize] Page size
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
@@ -3229,6 +4162,17 @@ export const ProjectsApiFp = function(configuration?: Configuration) {
         },
         /**
          * 
+         * @summary Mark as favorite. Expect optimistic UI, so it doesn\'t return any error with exception of bad id
+         * @param {ProjectFavoriteMark} [projectFavoriteMark] 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async fineProjectManagerApiProjectsMarkFavoritePost(projectFavoriteMark?: ProjectFavoriteMark, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<FileLinksResponse>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.fineProjectManagerApiProjectsMarkFavoritePost(projectFavoriteMark, options);
+            return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
+        },
+        /**
+         * 
          * @summary Create new entity
          * @param {ProjectCreateRequest} [projectCreateRequest] New entity data
          * @param {*} [options] Override http request option.
@@ -3247,6 +4191,17 @@ export const ProjectsApiFp = function(configuration?: Configuration) {
          */
         async fineProjectManagerApiProjectsPut(projectUpdateRequest?: ProjectUpdateRequest, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<ProjectDto>> {
             const localVarAxiosArgs = await localVarAxiosParamCreator.fineProjectManagerApiProjectsPut(projectUpdateRequest, options);
+            return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
+        },
+        /**
+         * 
+         * @summary Unmark as favorite. Expect optimistic UI, so it doesn\'t return any error with exception of bad id
+         * @param {ProjectFavoriteMark} [projectFavoriteMark] 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async fineProjectManagerApiProjectsUnmarkFavoritePost(projectFavoriteMark?: ProjectFavoriteMark, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<FileLinksResponse>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.fineProjectManagerApiProjectsUnmarkFavoritePost(projectFavoriteMark, options);
             return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
         },
         /**
@@ -3275,7 +4230,7 @@ export const ProjectsApiFactory = function (configuration?: Configuration, baseP
          * @summary List all entities in paginated collection
          * @param {string} [query] Search query
          * @param {string} [sort] Order by
-         * @param {number} [page] Page numver
+         * @param {number} [page] Page number
          * @param {number} [pageSize] Page size
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
@@ -3336,6 +4291,16 @@ export const ProjectsApiFactory = function (configuration?: Configuration, baseP
         },
         /**
          * 
+         * @summary Mark as favorite. Expect optimistic UI, so it doesn\'t return any error with exception of bad id
+         * @param {ProjectFavoriteMark} [projectFavoriteMark] 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        fineProjectManagerApiProjectsMarkFavoritePost(projectFavoriteMark?: ProjectFavoriteMark, options?: any): AxiosPromise<FileLinksResponse> {
+            return localVarFp.fineProjectManagerApiProjectsMarkFavoritePost(projectFavoriteMark, options).then((request) => request(axios, basePath));
+        },
+        /**
+         * 
          * @summary Create new entity
          * @param {ProjectCreateRequest} [projectCreateRequest] New entity data
          * @param {*} [options] Override http request option.
@@ -3353,6 +4318,16 @@ export const ProjectsApiFactory = function (configuration?: Configuration, baseP
          */
         fineProjectManagerApiProjectsPut(projectUpdateRequest?: ProjectUpdateRequest, options?: any): AxiosPromise<ProjectDto> {
             return localVarFp.fineProjectManagerApiProjectsPut(projectUpdateRequest, options).then((request) => request(axios, basePath));
+        },
+        /**
+         * 
+         * @summary Unmark as favorite. Expect optimistic UI, so it doesn\'t return any error with exception of bad id
+         * @param {ProjectFavoriteMark} [projectFavoriteMark] 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        fineProjectManagerApiProjectsUnmarkFavoritePost(projectFavoriteMark?: ProjectFavoriteMark, options?: any): AxiosPromise<FileLinksResponse> {
+            return localVarFp.fineProjectManagerApiProjectsUnmarkFavoritePost(projectFavoriteMark, options).then((request) => request(axios, basePath));
         },
         /**
          * 
@@ -3379,7 +4354,7 @@ export class ProjectsApi extends BaseAPI {
      * @summary List all entities in paginated collection
      * @param {string} [query] Search query
      * @param {string} [sort] Order by
-     * @param {number} [page] Page numver
+     * @param {number} [page] Page number
      * @param {number} [pageSize] Page size
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
@@ -3452,6 +4427,18 @@ export class ProjectsApi extends BaseAPI {
 
     /**
      * 
+     * @summary Mark as favorite. Expect optimistic UI, so it doesn\'t return any error with exception of bad id
+     * @param {ProjectFavoriteMark} [projectFavoriteMark] 
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof ProjectsApi
+     */
+    public fineProjectManagerApiProjectsMarkFavoritePost(projectFavoriteMark?: ProjectFavoriteMark, options?: AxiosRequestConfig) {
+        return ProjectsApiFp(this.configuration).fineProjectManagerApiProjectsMarkFavoritePost(projectFavoriteMark, options).then((request) => request(this.axios, this.basePath));
+    }
+
+    /**
+     * 
      * @summary Create new entity
      * @param {ProjectCreateRequest} [projectCreateRequest] New entity data
      * @param {*} [options] Override http request option.
@@ -3472,6 +4459,18 @@ export class ProjectsApi extends BaseAPI {
      */
     public fineProjectManagerApiProjectsPut(projectUpdateRequest?: ProjectUpdateRequest, options?: AxiosRequestConfig) {
         return ProjectsApiFp(this.configuration).fineProjectManagerApiProjectsPut(projectUpdateRequest, options).then((request) => request(this.axios, this.basePath));
+    }
+
+    /**
+     * 
+     * @summary Unmark as favorite. Expect optimistic UI, so it doesn\'t return any error with exception of bad id
+     * @param {ProjectFavoriteMark} [projectFavoriteMark] 
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof ProjectsApi
+     */
+    public fineProjectManagerApiProjectsUnmarkFavoritePost(projectFavoriteMark?: ProjectFavoriteMark, options?: AxiosRequestConfig) {
+        return ProjectsApiFp(this.configuration).fineProjectManagerApiProjectsUnmarkFavoritePost(projectFavoriteMark, options).then((request) => request(this.axios, this.basePath));
     }
 
     /**

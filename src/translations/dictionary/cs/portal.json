@@ -34,7 +34,12 @@
       "creatingInfo": "Vytvářím projekt",
       "creatingDone": "Projekt vytvořen",
       "attachmentsInfo": "Nahrávám přílohy",
-      "attachmentsDone": "Přílohy zpracovány"
+      "attachmentsDone": "Přílohy zpracovány",
+      "attachmentDone": "Příloha zpracována"
+    },
+    "edit":{
+      "attachmentRemoved": "Příloha odebrána",
+      "attachmentDownloaded": "Příloha stažena"
     }
   },
   "admin": {

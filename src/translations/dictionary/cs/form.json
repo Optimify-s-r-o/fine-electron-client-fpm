@@ -13,7 +13,8 @@
     "createProject": "Vytvořit projekt",
     "createCustomer": "Vytvořit zákazníka",
     "createUser": "Vytvořit uživatele",
-    "deleteJob": "Smazat úlohu"
+    "deleteJob": "Smazat úlohu",
+    "deleteFile": "Smazat soubor"
   },
   "validation": {
     "required": "Toto pole je povinné.",
@@ -57,5 +58,11 @@
     "jobDeleteHeader": "Smazání úlohy",
     "jobDeleteContent": "Opravdu si přejete smazat úlohu {{jobName}}?",
     "noJobs": "V tomto projektu nejsou žádné úlohy."
+  },
+  "modal": {
+    "files": {
+      "fileDeleteHeader": "Smazání souboru",
+      "fileDeleteContent": "Opravdu si přejete smazat soubor \"{{file}}\"?"
+    }
   }
 }

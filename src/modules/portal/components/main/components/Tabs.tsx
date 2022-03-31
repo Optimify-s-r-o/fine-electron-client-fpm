@@ -15,9 +15,11 @@ const SortableItem = SortableElement(
     const navigate = useNavigate();
     const { pathname } = useLocation();
 
+    const name = encodeURIComponent(value.name);
+
     const path = `${value.type === TabType.PROJECT ? RoutesPath.PROJECTS : RoutesPath.JOBS}/${
       value.id
-    }`;
+    }/${name}/general`;
 
     const handleNavigation = () => {
       navigate(path);

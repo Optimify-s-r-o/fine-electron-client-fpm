@@ -5,6 +5,8 @@ import * as S from '../../styled';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faHomeAlt } from '@fortawesome/pro-solid-svg-icons';
 import { JobDto } from '../../../../../../api/generated';
+import { ContextMenuTriggerArea } from 'react-context-menu-hooks';
+import { jobContextMenuBridge } from './contextMenuBridge';
 
 export const JobRow = ({ job }: { job: JobDto }) => {
   const itemRef = useRef(null);
@@ -35,11 +37,17 @@ export const JobRow = ({ job }: { job: JobDto }) => {
   };
 
   return (
-    <S.Item ref={itemRef} active={selectedJobId === job.id} key={job.id} onClick={handleSelection}>
-      <S.TitleWrapper>
-        <FontAwesomeIcon icon={faHomeAlt} />
-        <S.Title>{job.name}</S.Title>
-      </S.TitleWrapper>
-    </S.Item>
+    <ContextMenuTriggerArea bridge={jobContextMenuBridge} data={{ job }}>
+      <S.Item
+        ref={itemRef}
+        active={selectedJobId === job.id}
+        key={job.id}
+        onClick={handleSelection}>
+        <S.TitleWrapper>
+          <FontAwesomeIcon icon={faHomeAlt} />
+          <S.Title>{job.name}</S.Title>
+        </S.TitleWrapper>
+      </S.Item>
+    </ContextMenuTriggerArea>
   );
 };

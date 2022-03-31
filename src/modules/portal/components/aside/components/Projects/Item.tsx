@@ -6,6 +6,8 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faFolder } from '@fortawesome/pro-solid-svg-icons';
 import { faAngleRight } from '@fortawesome/pro-light-svg-icons';
 import { ProjectDto } from '../../../../../../api/generated';
+import { ContextMenuTriggerArea } from 'react-context-menu-hooks';
+import { projectContextMenuBridge } from './contextMenuBridge';
 
 export const ProjectRow = ({ project }: { project: ProjectDto }) => {
   const itemRef = useRef(null);
@@ -36,16 +38,18 @@ export const ProjectRow = ({ project }: { project: ProjectDto }) => {
   };
 
   return (
-    <S.Item
-      ref={itemRef}
-      onClick={handleSelection}
-      id={project.id}
-      active={selectedProjectId === project.id}>
-      <S.TitleWrapper>
-        <FontAwesomeIcon icon={faFolder} />
-        <S.Title>{project.name}</S.Title>
-      </S.TitleWrapper>
-      <FontAwesomeIcon icon={faAngleRight} />
-    </S.Item>
+    <ContextMenuTriggerArea bridge={projectContextMenuBridge} data={{ project }}>
+      <S.Item
+        ref={itemRef}
+        onClick={handleSelection}
+        id={project.id}
+        active={selectedProjectId === project.id}>
+        <S.TitleWrapper>
+          <FontAwesomeIcon icon={faFolder} />
+          <S.Title>{project.name}</S.Title>
+        </S.TitleWrapper>
+        <FontAwesomeIcon icon={faAngleRight} />
+      </S.Item>
+    </ContextMenuTriggerArea>
   );
 };

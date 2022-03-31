@@ -1,5 +1,6 @@
 import styled from 'styled-components';
 import { device } from './theme';
+import '../../node_modules/react-context-menu-hooks/src/ContextMenu.css';
 
 //FLEXBOX COMPONENTS
 export const Flex = styled.div`

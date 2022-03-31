@@ -1,6 +1,6 @@
 import { faChevronLeft, faChevronRight } from '@fortawesome/pro-light-svg-icons';
 import { IconButton } from 'components/Form/Button/IconButton';
-import { GapAlignCenter, SpaceBetween } from 'constants/globalStyles';
+import { SpaceBetween } from 'constants/globalStyles';
 import styled from 'styled-components';
 
 const Pagination = ({

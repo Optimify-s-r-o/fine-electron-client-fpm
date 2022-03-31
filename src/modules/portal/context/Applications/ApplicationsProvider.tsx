@@ -36,7 +36,7 @@ export const ApplicationsProvider = ( { children }: { children: JSX.Element; } )
 
     const res = applications.filter( e => e.code === applicationCode );
 
-    if ( res.length === 0 || !res[0].icon ) return null;
+    if ( res.length === 0 ) return null;
 
     return res[0];
   };

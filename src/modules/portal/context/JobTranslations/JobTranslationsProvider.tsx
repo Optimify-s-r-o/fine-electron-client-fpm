@@ -44,10 +44,12 @@ export const JobTranslationsProvider = ( { children }: { children: JSX.Element; 
     return type;
   };
 
-  const getJobIcon = ( type: string, language: string ) => {
+  const getJobIcon = ( type: string | null | undefined, language: string ) => {
+    if ( !type ) return undefined;
     const res = translations.filter( e => e.language === language && e.type === type );
     if ( res.length > 0 && res[0].icon ) return res[0].icon;
-    return null;
+
+    return undefined;
   };
 
   const getAttributeTranslation = ( jobType: string, attribute: JobAttributeDto, language: string ): string => {

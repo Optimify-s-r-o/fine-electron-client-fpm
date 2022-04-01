@@ -12,12 +12,15 @@ export const JobTranslationsProvider = ( { children }: { children: JSX.Element; 
 
   const [getTranslations, { loading: apiLoading }] = useApi<JobTranslationDtoPaginatedCollection>();
 
-  const [language, setLanguage] = useState<string>( '' );
+  const [language, setLanguage] = useState<string>( 'cs' );
   const [translations, setTranslations] = useState<JobTranslationDto[]>( [] );
   const [loading, setLoading] = useState<boolean>( false );
 
   useEffectAsync( async () => {
-    setLanguage( await window.API.invoke( 'ELECTRON_STORE_GET', { name: 'language' } ) );
+    const savedLanguage = await window.API.invoke( 'ELECTRON_STORE_GET', { name: 'language' } );
+
+    if ( savedLanguage ) savedLanguage( savedLanguage );
+    else setLanguage( 'cs' );
   }, [] );
 
   useEffectAsync( async () => {

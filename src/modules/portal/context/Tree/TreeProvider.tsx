@@ -67,10 +67,17 @@ export const TreeProvider = ({ children }: { children: JSX.Element }) => {
     }
   }, [isLogged, user, userLoading, selectedProjectId]);
 
-  const refetchProjects = async () => {
-    return await getProjects(() =>
-      API.ProjectsApi.fineProjectManagerApiProjectsGet(filter, sort, page, requestedPageSize)
+  const refetchProjects = async (favoriteOnly: boolean = false) => {
+    const res = await getProjects(() =>
+      API.ProjectsApi.fineProjectManagerApiProjectsGet(
+        favoriteOnly ? 'FavoriteOnly=true' + (filter.length > 0 ? '&' + filter : '') : filter,
+        sort,
+        page,
+        requestedPageSize
+      )
     );
+    setProjectsData(res);
+    return res;
   };
 
   const refetchJobs = async () => {

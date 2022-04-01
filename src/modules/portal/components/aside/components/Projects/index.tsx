@@ -12,6 +12,9 @@ import { useTranslation } from 'react-i18next';
 import { TabType, useTabContext } from '../../../../context/Tab/TabContext';
 import { useApi } from '../../../../../../utils/hooks/useApi';
 import API from '../../../../../../utils/api';
+import Filters from '../Filters';
+import { faStar as faStarOutline } from '@fortawesome/pro-light-svg-icons';
+import { faStar } from '@fortawesome/pro-solid-svg-icons';
 
 export const Projects = () => {
   const { t } = useTranslation(['portal']);
@@ -25,6 +28,7 @@ export const Projects = () => {
   const { projectTree, loadingProjectTree, selectProject, selectedProjectId, refetchProjects } =
     useTreeContext();
   const [page, setPage] = useState(1);
+  const [onlyFavorites, setOnlyFavorites] = useState(false);
 
   const handleDownPressed = () => {
     const data = projectTree.data;
@@ -77,11 +81,28 @@ export const Projects = () => {
 
     await deleteProject(() => API.ProjectsApi.fineProjectManagerApiProjectsIdDelete(project.id));
 
-    await refetchProjects();
+    await refetchProjects(onlyFavorites);
+  };
+
+  const toggleFavoritesFilter = () => {
+    setOnlyFavorites(!onlyFavorites);
+    refetchProjects(!onlyFavorites);
   };
 
   return (
     <S.Wrapper color={'rgb(255, 202, 108)'} ref={projectsRef} tabIndex={0}>
+      <Filters
+        items={[
+          {
+            iconOff: faStarOutline,
+            iconOn: faStar,
+            colorOff: '#696969',
+            colorOn: '#F47b20',
+            state: onlyFavorites,
+            onClick: toggleFavoritesFilter
+          }
+        ]}
+      />
       <S.Items>
         {loadingProjectTree
           ? 'loading'

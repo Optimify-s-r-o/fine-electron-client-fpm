@@ -40,6 +40,7 @@ const Pagination = ({
 export default Pagination;
 
 const Wrapper = styled.div`
+  margin-top: 8px;
   padding: 8px 16px;
 
   border-top: 1px solid ${(props) => props.theme.common.lightGray};

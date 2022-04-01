@@ -17,7 +17,7 @@ interface ITreeContextType {
   selectProject: (project: ProjectDto) => void;
   selectJob: (id: JobDto) => void;
   handleNewProject: (project: ProjectDto) => Promise<void>;
-  refetchProjects: () => Promise<ProjectDtoPaginatedCollection | undefined>;
+  refetchProjects: (favoriteOnly?: boolean) => Promise<ProjectDtoPaginatedCollection | undefined>;
   refetchJobs: () => Promise<ProjectJobsDto | undefined>;
   toggleProjectFavorite: (project: ProjectDto) => Promise<void>;
 }

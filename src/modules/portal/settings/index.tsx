@@ -15,12 +15,6 @@ export const Settings = () => {
       title={t('portal:settings.title')}
       navigation={[
         {
-          path: RoutesPath.SYSTEM,
-          active: !!matchPath(pathname, RoutesPath.SYSTEM),
-          text: t('portal:settings.tabs.system'),
-          icon: faDatabase
-        },
-        {
           path: RoutesPath.LOCAL_APPLICATIONS_SETTINGS,
           active: !!matchPath(pathname, RoutesPath.LOCAL_APPLICATIONS_SETTINGS),
           text: t('portal:settings.tabs.applicationsSettings'),

@@ -17,7 +17,6 @@ export const useShortcutWrapper = () => {
   useShortcuts('KeyP', handleKeyPress(RoutesPath.CREATE_PROJECT));
   useShortcuts('KeyE', handleKeyPress(RoutesPath.CREATE_USER));
   useShortcuts('KeyT', handleKeyPress(RoutesPath.LIST_OF_USERS));
-  useShortcuts('KeyJ', handleKeyPress(RoutesPath.SYSTEM));
   useShortcuts('KeyK', handleKeyPress(RoutesPath.LOCAL_APPLICATIONS_SETTINGS));
   useShortcuts('KeyU', handleKeyPress(RoutesPath.UPDATE));
   useShortcuts('KeyQ', handleKeyPress(RoutesPath.ADMIN_APPLICATIONS_SETTINGS));

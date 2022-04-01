@@ -31,9 +31,9 @@ export const Aside = () => {
             },
             {
               icon: faCog,
-              tooltip: t('portal:panel.system'),
+              tooltip: t('portal:panel.applicationsSettings'),
               isActive: false,
-              callback: () => navigate(RoutesPath.SYSTEM)
+              callback: () => navigate(RoutesPath.LOCAL_APPLICATIONS_SETTINGS)
             }
           ]}
         />

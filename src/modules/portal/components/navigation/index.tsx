@@ -71,12 +71,6 @@ export const Navigation = () => {
       menu: t('portal:menu.settings'),
       submenu: [
         {
-          path: RoutesPath.SYSTEM,
-          text: t('portal:menu.system'),
-          icon: faCog,
-          shortcut: 'Ctrl + J'
-        },
-        {
           path: RoutesPath.LOCAL_APPLICATIONS_SETTINGS,
           text: t('portal:menu.applications'),
           icon: faCog,

@@ -37,6 +37,12 @@ export const JobTranslationsProvider = ( { children }: { children: JSX.Element; 
     return type;
   };
 
+  const getJobIcon = ( type: string, language: string ) => {
+    const res = translations.filter( e => e.language === language && e.type === type );
+    if ( res.length > 0 && res[0].icon ) return res[0].icon;
+    return null;
+  };
+
   const getAttributeTranslation = ( jobType: string, attribute: JobAttributeDto, language: string ): string => {
     const missingTranslation = attribute.name ?? '';
 
@@ -62,6 +68,7 @@ export const JobTranslationsProvider = ( { children }: { children: JSX.Element; 
         jobTranslations: translations,
         getJobTranslationsByLanguage: getJobTranslationsByLanguage,
         getJobTranslation: getJobTranslation,
+        getJobIcon: getJobIcon,
         getAttributeTranslation: getAttributeTranslation,
         refetch: refetch
       }}>

@@ -7,6 +7,7 @@ export const JobTranslationsContext = createContext<{
   jobTranslations: JobTranslationDto[];
   getJobTranslationsByLanguage: ( language: string ) => JobTranslationDto[];
   getJobTranslation: ( type: string, language: string ) => string;
+  getJobIcon: ( type: string, language: string ) => string | null;
   getAttributeTranslation: ( jobType: string, attribute: JobAttributeDto, language: string ) => string;
   refetch: () => Promise<void>;
 }>( {
@@ -14,6 +15,7 @@ export const JobTranslationsContext = createContext<{
   jobTranslations: [],
   getJobTranslationsByLanguage: ( language: string ) => [],
   getJobTranslation: ( type: string, language: string ) => 'no valid context',
+  getJobIcon: ( type: string, language: string ) => null,
   getAttributeTranslation: ( jobType: string, attribute: JobAttributeDto, language: string ) => 'no valid context',
   refetch: () => new Promise<void>( ( e ) => 'no valid context' ),
 } );

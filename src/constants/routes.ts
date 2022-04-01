@@ -28,5 +28,6 @@ export enum RoutesPath {
   UPDATE = '/portal/settings/update',
 
   ADMIN = '/portal/admin',
-  ADMIN_APPLICATIONS_SETTINGS = '/portal/admin/applications-settings'
+  ADMIN_APPLICATIONS_SETTINGS = '/portal/admin/applications-settings',
+  ADMIN_JOBS_SETTINGS = '/portal/admin/jobs-settings'
 }

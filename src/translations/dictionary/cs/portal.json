@@ -17,6 +17,7 @@
     "search": "Hledat",
     "admin": "Administrátor",
     "adminSettings": "Správa aplikací",
+    "jobsSettings": "Správa úloh",
     "signOut": "Odhlásit se"
   },
   "panel": {
@@ -37,7 +38,7 @@
       "attachmentsDone": "Přílohy zpracovány",
       "attachmentDone": "Příloha zpracována"
     },
-    "edit":{
+    "edit": {
       "attachmentRemoved": "Příloha odebrána",
       "attachmentDownloaded": "Příloha stažena"
     }
@@ -45,7 +46,8 @@
   "admin": {
     "title": "Administrátorské rozhraní",
     "tabs": {
-      "applicationsSettings": "Správa aplikací"
+      "applicationsSettings": "Správa aplikací",
+      "jobsSettings": "Správa úloh"
     },
     "applications": {
       "creatingInfo": "Přidávám novou aplikaci",

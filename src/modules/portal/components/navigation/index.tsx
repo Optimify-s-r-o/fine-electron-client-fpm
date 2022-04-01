@@ -116,6 +116,12 @@ export const Navigation = () => {
               text: t('portal:menu.adminSettings'),
               icon: faCodeCompare,
               shortcut: 'Ctrl + Q'
+            },
+            {
+              path: RoutesPath.ADMIN_JOBS_SETTINGS,
+              text: t('portal:menu.jobsSettings'),
+              icon: faCodeCompare,
+              shortcut: 'Ctrl + TODO'
             }
           ]
         },

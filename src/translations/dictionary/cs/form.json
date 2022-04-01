@@ -57,6 +57,9 @@
     "applicationDelete": "Odebrat aplikaci.",
     "confirm": "Potvrdit",
     "jobName": "Název úlohy",
+    "jobCode": "Interní označení úlohy",
+    "jobAttributesCount": "Počet atributů",
+    "jobEdit": "Editovat úlohu",
     "jobDescription": "Popis",
     "jobType": "Typ",
     "jobApplication": "Aplikace",
@@ -70,7 +73,7 @@
       "fileDeleteHeader": "Smazání souboru",
       "fileDeleteContent": "Opravdu si přejete smazat soubor \"{{file}}\"?"
     },
-    "users":{
+    "users": {
       "deleteHeader": "Deaktivace uživatele",
       "deleteContent": "Opravdu si přejete deaktivovat uživatele \"{{email}}\"?"
     }

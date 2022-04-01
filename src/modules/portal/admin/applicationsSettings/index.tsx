@@ -1,5 +1,4 @@
 import { faFolder, faPencil, faPlus, faRefresh } from '@fortawesome/pro-light-svg-icons';
-import { faDatabase } from '@fortawesome/pro-solid-svg-icons';
 import { yupResolver } from '@hookform/resolvers/yup/dist/yup';
 import { Button } from 'components/Form/Button';
 import { CloseButton } from 'components/Form/Button/CloseButton';
@@ -26,6 +25,7 @@ import { ApplicationCreateRequest, ApplicationDto } from '../../../../api/genera
 import { MainWrapper } from '../../components/main/components/MainWrapper';
 import * as S from '../../components/main/styled';
 import { useApplicationContext } from '../../context/Applications/ApplicationsContext';
+import adminNav from '../adminNav';
 
 const IconField = ({
   url,
@@ -170,14 +170,7 @@ const ApplicationsSettings = () => {
     <MainWrapper
       icon={faFolder}
       title={t('portal:admin.title')}
-      navigation={[
-        {
-          path: RoutesPath.ADMIN_APPLICATIONS_SETTINGS,
-          active: true,
-          text: t('portal:admin.tabs.applicationsSettings'),
-          icon: faDatabase
-        }
-      ]}>
+      navigation={adminNav(t, RoutesPath.ADMIN_APPLICATIONS_SETTINGS)}>
       <S.MainFormContent onSubmit={handleSubmit(onSubmit)}>
         <S.ContentWrapper>
           <CardTable

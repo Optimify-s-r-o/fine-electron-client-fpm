@@ -8,6 +8,7 @@ import { Toast } from './components/Toast';
 import { RoutesPath } from './constants/routes';
 import { Wrapper } from './modules/auth/components/AuthWrapper/styled';
 import ApplicationsSettings from './modules/portal/admin/applicationsSettings';
+import JobsSettings from './modules/portal/admin/jobsSettings';
 import LocalApplicationsSettings from './modules/portal/settings/applications';
 
 const SignInLocal = lazy(() => import('modules/auth/signInLocal'));
@@ -49,6 +50,14 @@ export const Root = () => {
               element={
                 <ProtectedRoute>
                   <ApplicationsSettings />
+                </ProtectedRoute>
+              }
+            />
+            <Route
+              path="jobs-settings"
+              element={
+                <ProtectedRoute>
+                  <JobsSettings />
                 </ProtectedRoute>
               }
             />

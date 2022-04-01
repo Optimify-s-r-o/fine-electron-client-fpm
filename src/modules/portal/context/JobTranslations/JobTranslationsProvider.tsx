@@ -38,7 +38,8 @@ export const JobTranslationsProvider = ( { children }: { children: JSX.Element; 
     return translations.filter( e => e.language === language );
   };
 
-  const getJobTranslation = ( type: string, language: string ): string => {
+  const getJobTranslation = ( type: string | null | undefined, language: string ): string => {
+    if ( !type ) return '';
     const res = translations.filter( e => e.language === language && e.type === type );
     if ( res.length > 0 && res[0].translation ) return res[0].translation;
     return type;

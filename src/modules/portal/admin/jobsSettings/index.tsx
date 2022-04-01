@@ -1,4 +1,4 @@
-import { faFolder, faPlus } from '@fortawesome/pro-light-svg-icons';
+import { faFolder, faPlus, faRefresh } from '@fortawesome/pro-light-svg-icons';
 import { yupResolver } from '@hookform/resolvers/yup/dist/yup';
 import { Button } from 'components/Form/Button';
 import { PlainButton } from 'components/Form/Button/PlainButton';
@@ -6,19 +6,62 @@ import { TextInput } from 'components/Form/Input/Text/TextInput';
 import { CardTable } from 'components/Table/CardTable';
 import * as GS from 'constants/globalStyles';
 import { RoutesPath } from 'constants/routes';
+import Dropzone from 'react-dropzone';
 import { useForm } from 'react-hook-form';
 import { useTranslation } from 'react-i18next';
 import { toast } from 'react-toastify';
+import styled from 'styled-components';
 import API from 'utils/api';
 import { useApi } from 'utils/hooks/useApi';
 import useModal from 'utils/hooks/useModal';
 import * as Yup from 'yup';
 
 import { JobTranslationCreateRequest, JobTranslationDto } from '../../../../api/generated/api';
+import { uploadJobTranslationIconAsync } from '../../../../utils/file';
 import { MainWrapper } from '../../components/main/components/MainWrapper';
 import * as S from '../../components/main/styled';
 import { useJobTranslationsContext } from '../../context/JobTranslations/JobTranslationsContext';
 import adminNav from '../adminNav';
+
+const IconField = ( {
+  url,
+  record,
+  onFileChanged
+}: {
+  url?: string;
+  record: any;
+  onFileChanged: ( file: File | null, record: any ) => void;
+} ) => {
+  const { t } = useTranslation( ['form'] );
+
+  return (
+    <Dropzone
+      accept={'image/*'}
+      onDrop={( acceptedFiles: File[] ) => {
+        onFileChanged( acceptedFiles[0], record );
+      }}>
+      {( { getRootProps, getInputProps, isDragActive } ) => (
+        <>
+          <input {...getInputProps()} multiple={false} id="icon-input" tabIndex={-1} />
+          <DropLabel htmlFor="icon-input" {...getRootProps()} isDragActive={isDragActive}>
+            {url ? (
+              <GS.RowAlignCenter>
+                <Icon src={url} alt={record.name + ' icon'} />
+                <PlainButton loading={false} icon={faRefresh} type="button" level={3}>
+                  {t( 'form:table.iconChange' )}
+                </PlainButton>
+              </GS.RowAlignCenter>
+            ) : (
+              <PlainButton loading={false} icon={faPlus} type="button" level={3}>
+                {t( 'form:table.iconAdd' )}
+              </PlainButton>
+            )}
+          </DropLabel>
+        </>
+      )}
+    </Dropzone>
+  );
+};
 
 const JobsSettings = () => {
   const { t } = useTranslation( ['portal', 'form', 'common'] );
@@ -38,6 +81,18 @@ const JobsSettings = () => {
     ),
     shouldUnregister: true
   } );
+
+  const onFileChanged = async ( file: File | null, record: JobTranslationDto ) => {
+    if ( file !== null ) {
+      toast.info( t( 'portal:admin.applications.uploadingIcon' ) );
+      const success = await uploadJobTranslationIconAsync( record.id, file );
+
+      if ( success ) {
+        toast.success( t( 'portal:admin.applications.uploadIconSuccess' ) );
+        refetch();
+      }
+    }
+  };
 
   const onSubmit = async ( data: JobTranslationCreateRequest ) => {
     console.log( data );
@@ -85,7 +140,9 @@ const JobsSettings = () => {
               },
               {
                 title: t( 'form:table.icon' ),
-                render: ( t: string, _r: any ) => t,
+                render: ( url: string, r: any ) => (
+                  <IconField url={url} record={r} onFileChanged={onFileChanged} />
+                ),
                 dataIndex: 'icon'
               },
               {
@@ -157,3 +214,16 @@ const JobsSettings = () => {
 
 export default JobsSettings;
 
+const Icon = styled.img`
+  width: 28px;
+  height: 28px;
+
+  margin-right: 8px;
+`;
+
+const DropLabel = styled.label<{ isDragActive: boolean; }>`
+  display: inline-block;
+
+  border-radius: 3px;
+  outline: ${ ( props ) => ( props.isDragActive ? '2px dashed ' + props.theme.common.darker : 'none' ) };
+`;

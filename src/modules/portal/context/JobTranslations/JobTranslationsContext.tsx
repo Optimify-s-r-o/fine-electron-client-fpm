@@ -5,6 +5,8 @@ import { JobAttributeDto, JobTranslationDto } from '../../../../api/generated/ap
 export const JobTranslationsContext = createContext<{
   loading: boolean;
   jobTranslations: JobTranslationDto[];
+  language: string;
+  setLanguage: ( language: string ) => Promise<void>;
   getJobTranslationsByLanguage: ( language: string ) => JobTranslationDto[];
   getJobTranslation: ( type: string, language: string ) => string;
   getJobIcon: ( type: string, language: string ) => string | null;
@@ -13,6 +15,8 @@ export const JobTranslationsContext = createContext<{
 }>( {
   loading: false,
   jobTranslations: [],
+  language: 'no valid context',
+  setLanguage: ( language: string ) => new Promise<void>( ( e ) => 'no valid context' ),
   getJobTranslationsByLanguage: ( language: string ) => [],
   getJobTranslation: ( type: string, language: string ) => 'no valid context',
   getJobIcon: ( type: string, language: string ) => null,

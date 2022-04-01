@@ -12,9 +12,13 @@ export const JobTranslationsProvider = ( { children }: { children: JSX.Element; 
 
   const [getTranslations, { loading: apiLoading }] = useApi<JobTranslationDtoPaginatedCollection>();
 
+  const [language, setLanguage] = useState<string>( '' );
   const [translations, setTranslations] = useState<JobTranslationDto[]>( [] );
   const [loading, setLoading] = useState<boolean>( false );
 
+  useEffectAsync( async () => {
+    setLanguage( await window.API.invoke( 'ELECTRON_STORE_GET', { name: 'language' } ) );
+  }, [] );
 
   useEffectAsync( async () => {
     if ( isLogged ) {
@@ -61,6 +65,11 @@ export const JobTranslationsProvider = ( { children }: { children: JSX.Element; 
     setTranslations( res.data );
   };
 
+  const externalSetLanguage = async ( language: string ) => {
+    await window.API.invoke( 'ELECTRON_STORE_SET', { name: 'language', value: language } );
+    setLanguage( language );
+  };
+
   return (
     <JobTranslationsContext.Provider
       value={{
@@ -70,7 +79,9 @@ export const JobTranslationsProvider = ( { children }: { children: JSX.Element; 
         getJobTranslation: getJobTranslation,
         getJobIcon: getJobIcon,
         getAttributeTranslation: getAttributeTranslation,
-        refetch: refetch
+        refetch: refetch,
+        language: language,
+        setLanguage: externalSetLanguage
       }}>
       {children}
     </JobTranslationsContext.Provider>

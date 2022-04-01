@@ -755,49 +755,49 @@ export interface JobTranslationDto {
      * @type {string}
      * @memberof JobTranslationDto
      */
-    'createdBy'?: string;
+    'createdBy': string;
     /**
      * Owner of last edit id
      * @type {string}
      * @memberof JobTranslationDto
      */
-    'updatedBy'?: string;
+    'updatedBy': string;
     /**
      * Entity id
      * @type {string}
      * @memberof JobTranslationDto
      */
-    'id'?: string;
+    'id': string;
     /**
      * Date of creation
      * @type {string}
      * @memberof JobTranslationDto
      */
-    'createdAt'?: string;
+    'createdAt': string;
     /**
      * Date of last update
      * @type {string}
      * @memberof JobTranslationDto
      */
-    'updatedAt'?: string;
+    'updatedAt': string;
     /**
      * Type of job, act like primary key, should be unique across the world
      * @type {string}
      * @memberof JobTranslationDto
      */
-    'type'?: string;
+    'type': string;
     /**
      * Translation of name of this job
      * @type {string}
      * @memberof JobTranslationDto
      */
-    'translation'?: string | null;
+    'translation': string;
     /**
      * Language that this translation is part of (should be something like \'en-US\')
      * @type {string}
      * @memberof JobTranslationDto
      */
-    'language'?: string | null;
+    'language': string;
     /**
      * Suffix of icon
      * @type {string}
@@ -815,7 +815,7 @@ export interface JobTranslationDto {
      * @type {Array<JobAttributeTranslationDto>}
      * @memberof JobTranslationDto
      */
-    'attributes'?: Array<JobAttributeTranslationDto> | null;
+    'attributes': Array<JobAttributeTranslationDto>;
 }
 /**
  * Standard class used for paginated results

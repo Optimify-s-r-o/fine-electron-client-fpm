@@ -124,6 +124,13 @@ export const List = () => {
                       loading={false}
                       icon={faArrowRight}
                       btnStyle="primary"
+                      onClick={onViewUser(r)}
+                      type="button"
+                    />
+                    <IconButton
+                      loading={false}
+                      icon={faArrowRight}
+                      btnStyle="primary"
                       onClick={onViewUserByAdmin(r)}
                       type="button"
                     />

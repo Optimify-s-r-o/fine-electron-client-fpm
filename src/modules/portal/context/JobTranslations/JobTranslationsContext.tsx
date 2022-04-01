@@ -24,4 +24,4 @@ export const JobTranslationsContext = createContext<{
   refetch: () => new Promise<void>( ( e ) => 'no valid context' ),
 } );
 
-export const useExecutableApplicationContext = () => useContext( JobTranslationsContext );
+export const useJobTranslationsContext = () => useContext( JobTranslationsContext );

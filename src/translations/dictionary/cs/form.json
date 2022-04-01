@@ -6,7 +6,9 @@
     "projectName": "Název projektu",
     "projectDescription": "Popis projektu",
     "server": "Adresa serveru",
-    "roles": "Role"
+    "roles": "Role",
+    "oldPassword": "Staré heslo",
+    "newPassword": "Nové heslo"
   },
   "button": {
     "signIn": "Přihlásit se",

@@ -1,1 +1,7 @@
 export const APPLICATION_EXE_PATH = 'APPLICATIONEXEPATH-';
+
+export enum Roles {
+  USER = 'USER',
+  ADMIN = 'ADMIN',
+  EXTERNAL_OPERATOR = 'EXTERNAL_OPERATOR'
+}

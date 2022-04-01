@@ -9,94 +9,102 @@ import API from '../../../utils/api';
 import { AuthContext } from './AuthContext';
 
 // TODO token do local storage
-export const AuthProvider = ( { children }: { children: JSX.Element; } ) => {
-  const [token, setToken] = useState<string | null>( null );
-  const [user, setUser] = useState<UserDto | null>( null );
-  const [validityEnd, setValidityEnd] = useState<Date | undefined>( undefined );
-  const [isLoading, setIsLoading] = useState<boolean>( false );
-  const [isLogged, setIsLogged] = useState<boolean>( user !== null );
+export const AuthProvider = ({ children }: { children: JSX.Element }) => {
+  const [token, setToken] = useState<string | null>(null);
+  const [user, setUser] = useState<UserDto | null>(null);
+  const [isAdmin, setIsAdmin] = useState<boolean>(false);
+  const [validityEnd, setValidityEnd] = useState<Date | undefined>(undefined);
+  const [isLoading, setIsLoading] = useState<boolean>(false);
+  const [isLogged, setIsLogged] = useState<boolean>(user !== null);
 
   const [signIn, { loading: signInLoading }] = useApi<SignInResponse, SignInRequest>();
   const [fetchSelf, { loading: fetchLoading }] = useApi<UserDto>();
-  const [loading, setLoading] = useState<boolean>( signInLoading || fetchLoading );
+  const [loading, setLoading] = useState<boolean>(signInLoading || fetchLoading);
 
   const navigate = useNavigate();
 
-  useEffect( () => {
-    setLoading( signInLoading || fetchLoading );
-  }, [signInLoading, fetchLoading] );
+  useEffect(() => {
+    setLoading(signInLoading || fetchLoading);
+  }, [signInLoading, fetchLoading]);
 
   const IsSavedTokenValid = async () => {
-    const token = await window.API.keytarGetSecret( 'token' );
-    const email = await window.API.keytarGetSecret( 'email' );
-    const validityEnd = await window.API.keytarGetSecret( 'tokenValidity' );
+    const token = await window.API.keytarGetSecret('token');
+    const email = await window.API.keytarGetSecret('email');
+    const validityEnd = await window.API.keytarGetSecret('tokenValidity');
 
-    if ( token === null || email === null || validityEnd === null ) return false;
+    if (token === null || email === null || validityEnd === null) return false;
 
-    const validityEndDate = new Date( validityEnd );
+    const validityEndDate = new Date(validityEnd);
 
-    if ( validityEndDate <= new Date() ) return false;
+    if (validityEndDate <= new Date()) return false;
 
     try {
-
       config.apiKey = 'Bearer ' + token;
-      const result = await fetchSelf( () => API.UsersApi.fineProjectManagerApiUsersEmailGet( email ) );
+      const result = await fetchSelf(() => API.UsersApi.fineProjectManagerApiUsersEmailGet(email));
 
-      setToken( token );
-      setUser( result );
-      setValidityEnd( validityEndDate );
-      setIsLogged( true );
-      setIsLoading( false );
+      setToken(token);
+      saveUser(result);
+      setValidityEnd(validityEndDate);
+      setIsLogged(true);
+      setIsLoading(false);
 
       return true;
     } catch {
-      await window.API.keytarDeleteSecret( 'token' );
+      await window.API.keytarDeleteSecret('token');
       return false;
     }
   };
 
-  const SignIn = async ( username: string, password: string ) => {
-    setIsLoading( true );
+  const SignIn = async (username: string, password: string) => {
+    setIsLoading(true);
 
     try {
-      const result = await signIn( () =>
-        API.UsersApi.fineProjectManagerApiUsersSignInPost( {
+      const result = await signIn(() =>
+        API.UsersApi.fineProjectManagerApiUsersSignInPost({
           email: username,
           password: password
-        } )
+        })
       );
 
-      await window.API.keytarSetSecret( 'token', result.token );
-      await window.API.keytarSetSecret( 'tokenValidity', result.expiration );
+      await window.API.keytarSetSecret('token', result.token);
+      await window.API.keytarSetSecret('tokenValidity', result.expiration);
 
       config.apiKey = 'Bearer ' + result.token;
-      setToken( result.token as string );
-      setUser( result.user as UserDto );
-      setValidityEnd( new Date( result.expiration as string ) );
-      setIsLogged( true );
-      setIsLoading( false );
+      setToken(result.token as string);
+      saveUser(result.user as UserDto);
+      setValidityEnd(new Date(result.expiration as string));
+      setIsLogged(true);
+      setIsLoading(false);
 
       return true;
-    } catch ( e ) {
-      setIsLoading( false );
+    } catch (e) {
+      setIsLoading(false);
       return false;
+    }
+  };
+
+  const saveUser = (u: UserDto | null) => {
+    setUser(u);
+
+    if (u && u.userRoles.some((e) => e === 'ADMIN' || e === 'EXTERNAL_OPERATOR')) {
+      setIsAdmin(true);
     }
   };
 
   const SignOut = async () => {
-    setIsLoading( true );
+    setIsLoading(true);
 
     config.apiKey = '';
-    setToken( null );
-    setUser( null );
-    setValidityEnd( undefined );
-    await window.API.keytarDeleteSecret( 'token' );
-    await window.API.keytarDeleteSecret( 'tokenValidity' );
-    setIsLogged( false );
+    setToken(null);
+    saveUser(null);
+    setValidityEnd(undefined);
+    await window.API.keytarDeleteSecret('token');
+    await window.API.keytarDeleteSecret('tokenValidity');
+    setIsLogged(false);
 
-    setIsLoading( false );
+    setIsLoading(false);
 
-    navigate( RoutesPath.SIGN_IN );
+    navigate(RoutesPath.SIGN_IN);
   };
 
   return (
@@ -109,6 +117,7 @@ export const AuthProvider = ( { children }: { children: JSX.Element; } ) => {
         validityEnd: validityEnd,
         signIn: SignIn,
         signOut: SignOut,
+        isAdmin: isAdmin,
         loading: loading || isLoading
       }}>
       {children}

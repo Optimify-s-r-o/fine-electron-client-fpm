@@ -5,7 +5,8 @@
     "searchPlaceholder": "Hledat...",
     "projectName": "Název projektu",
     "projectDescription": "Popis projektu",
-    "server": "Adresa serveru"
+    "server": "Adresa serveru",
+    "roles": "Role"
   },
   "button": {
     "signIn": "Přihlásit se",
@@ -27,6 +28,9 @@
   },
   "errors": {
     "InvalidSignInException": "Chybně zadané heslo nebo e-mail."
+  },
+  "select": {
+    "placeholder": "Vyberte z nabídky"
   },
   "table": {
     "state": "Stav",

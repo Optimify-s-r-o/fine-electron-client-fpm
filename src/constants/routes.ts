@@ -20,6 +20,7 @@ export enum RoutesPath {
   LIST_OF_CUSTOMERS = '/portal/list-of-customers',
 
   CREATE_USER = '/portal/create-user',
+  EDIT_USER = '/portal/edit-user/:email',
   LIST_OF_USERS = '/portal/list-of-users',
 
   SETTINGS = '/portal/settings/',

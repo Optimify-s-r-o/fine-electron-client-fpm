@@ -2,18 +2,17 @@ import { useTranslation } from 'react-i18next';
 import { Control, FieldErrors, UseFormRegister } from 'react-hook-form';
 import * as GS from 'constants/globalStyles';
 import { TextInput } from 'components/Form/Input/Text/TextInput';
-import { UserCreateRequest } from 'api/generated';
-import { PasswordInput } from 'components/Form/Input/Password';
+import { AdminEditUserRequest } from 'api/generated';
 import { RolesSelect } from '../../../../../components/Form/Select/Roles';
 
-export const CreateUserForm = ({
+export const EditUserForm = ({
+  control,
   errors,
-  register,
-  control
+  register
 }: {
-  errors: FieldErrors<UserCreateRequest>;
-  register: UseFormRegister<UserCreateRequest>;
-  control: Control<UserCreateRequest>;
+  errors: FieldErrors<AdminEditUserRequest>;
+  register: UseFormRegister<AdminEditUserRequest>;
+  control: Control<AdminEditUserRequest>;
 }) => {
   const { t } = useTranslation(['auth', 'form', 'common']);
 
@@ -22,7 +21,7 @@ export const CreateUserForm = ({
       <GS.GridItem>
         <TextInput
           errors={errors}
-          name={'userName'}
+          name={'newEmail'}
           register={register}
           title={t('form:input.email')}
         />
@@ -31,12 +30,6 @@ export const CreateUserForm = ({
           name={'phoneNumber'}
           register={register}
           title={t('form:table.phone')}
-        />
-        <PasswordInput
-          errors={errors}
-          name={'password'}
-          register={register}
-          title={t('form:input.password')}
         />
         <RolesSelect control={control} errors={errors} />
       </GS.GridItem>

@@ -26,6 +26,7 @@ const EditJobAttachments = lazy(() => import('modules/portal/jobs/editJob/attach
 const ListOfCustomers = lazy(() => import('modules/portal/customers/listOfCustomers'));
 const CreateCustomer = lazy(() => import('modules/portal/customers/createCustomer'));
 const CreateUser = lazy(() => import('modules/portal/users/createUser'));
+const EditUser = lazy(() => import('modules/portal/users/editUser'));
 const ListOfUsers = lazy(() => import('modules/portal/users/listOfUsers'));
 const System = lazy(() => import('modules/portal/settings/system'));
 const Settings = lazy(() => import('modules/portal/settings'));
@@ -150,6 +151,14 @@ export const Root = () => {
             element={
               <ProtectedRoute>
                 <CreateUser />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path={RoutesPath.EDIT_USER}
+            element={
+              <ProtectedRoute>
+                <EditUser />
               </ProtectedRoute>
             }
           />

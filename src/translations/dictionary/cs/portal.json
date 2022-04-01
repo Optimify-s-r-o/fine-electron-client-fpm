@@ -9,6 +9,7 @@
     "listOfCustomers": "Seznam zákazníků",
     "users": "Uživatelé",
     "createUser": "Nový uživatel",
+    "editUser": "Editovat uživatele",
     "listOfUsers": "Seznam uživatelů",
     "settings": "Nastavení",
     "system": "Nastavení systému",
@@ -77,5 +78,10 @@
     "open": "Otevřít",
     "newTab": "Otevřít v novém tabu",
     "delete": "Smazat"
+  },
+  "roles": {
+    "user": "Uživatel",
+    "admin": "Admin",
+    "externalOperator": "Externí operátor"
   }
 }

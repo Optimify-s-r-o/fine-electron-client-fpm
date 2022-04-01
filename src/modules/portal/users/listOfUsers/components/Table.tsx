@@ -6,17 +6,24 @@ import { CardTable } from '../../../../../components/Table/CardTable';
 import { Input } from '../../../../../components/Form/Input/styled';
 import * as GS from '../../../../../constants/globalStyles';
 import { IconButton } from '../../../../../components/Form/Button/IconButton';
-import { faTrashCan } from '@fortawesome/pro-light-svg-icons';
+import { faArrowRight, faTrashCan } from '@fortawesome/pro-light-svg-icons';
 import { MouseEvent } from 'react';
 import { DeleteButton } from '../../../../../components/Form/Button/DeleteButton';
 import { toast } from 'react-toastify';
 import useModal from '../../../../../utils/hooks/useModal';
 import { useTranslation } from 'react-i18next';
+import { RoutesPath } from '../../../../../constants/routes';
+import { useNavigate } from 'react-router';
+import { useAuthContext } from '../../../../auth/context/AuthContext';
 
 export const List = () => {
   const modal = useModal();
+  const navigate = useNavigate();
 
   const { t } = useTranslation(['portal', 'form', 'toast']);
+
+  const { isAdmin } = useAuthContext();
+
   const [getUsers, { data, loading }] = useApi<UserDto[]>();
   const [deleteUser] = useApi<UserDto[]>();
 
@@ -52,6 +59,10 @@ export const List = () => {
     });
   };
 
+  const onViewUser = (user: UserDto) => (_e: MouseEvent<HTMLButtonElement>) => {
+    navigate(`${RoutesPath.PORTAL}/edit-user/${user.email}`);
+  };
+
   return (
     <CardTable
       columns={[
@@ -77,6 +88,15 @@ export const List = () => {
           dataIndex: 'id',
           render: (t, r: UserDto) => (
             <GS.FloatRight>
+              {isAdmin && (
+                <IconButton
+                  loading={false}
+                  icon={faArrowRight}
+                  btnStyle="primary"
+                  onClick={onViewUser(r)}
+                  type="button"
+                />
+              )}
               <IconButton loading={false} icon={faTrashCan} onClick={onDelete(r)} type="button" />
             </GS.FloatRight>
           )

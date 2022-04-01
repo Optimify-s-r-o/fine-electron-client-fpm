@@ -9,7 +9,7 @@ export const Wrapper = styled(SpaceBetween)`
   margin-bottom: 5px;
 `;
 
-export const Title = styled.div`
+export const Title = styled.label`
   font-size: 13px;
   color: #727272;
   padding-left: 1px;

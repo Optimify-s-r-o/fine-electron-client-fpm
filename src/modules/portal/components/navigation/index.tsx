@@ -16,7 +16,7 @@ import { Menu } from './types';
 
 export const Navigation = () => {
   const { t } = useTranslation(['portal']);
-  const { user, loading, isLogged, signOut } = useAuthContext();
+  const { user, loading, isLogged, signOut, isAdmin } = useAuthContext();
 
   const [menuItems, setMenuItems] = useState<Menu[]>([
     {
@@ -98,13 +98,7 @@ export const Navigation = () => {
   ]);
 
   useEffectAsync(() => {
-    if (
-      user &&
-      isLogged &&
-      !loading &&
-      user.userRoles.some((e) => e === 'ADMIN' || e === 'EXTERNAL_OPERATOR') &&
-      !menuItems.some((e) => e.id === 'admin')
-    ) {
+    if (user && isLogged && !loading && isAdmin && !menuItems.some((e) => e.id === 'admin')) {
       const newSettings = [
         ...menuItems.filter((e) => e.id !== 'signOut'),
         {

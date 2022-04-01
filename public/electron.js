@@ -1,10 +1,12 @@
 const path = require('path');
-const { app, BrowserWindow, ipcMain } = require('electron');
+const { app, BrowserWindow, ipcMain, dialog } = require('electron');
 const isDev = require('electron-is-dev');
 const { default: installExtension, REACT_DEVELOPER_TOOLS } = require('electron-devtools-installer');
 const Store = require('electron-store');
 const { autoUpdater } = require('electron-updater');
 const log = require('electron-log');
+
+let win;
 
 autoUpdater.logger = log;
 autoUpdater.logger.transports.file.level = 'info';
@@ -18,7 +20,7 @@ const schema = {
 const store = new Store({ schema });
 
 function createWindow() {
-  const win = new BrowserWindow({
+  win = new BrowserWindow({
     icon: __dirname + '/favicon.ico',
     minWidth: 900,
     minHeight: 1000,
@@ -98,6 +100,13 @@ ipcMain.handle('DOWNLOAD_UPDATE', async (event) => {
   } catch (e) {
     return false;
   }
+});
+
+ipcMain.handle('OPEN_DIALOG', async (event) => {
+  return await dialog.showOpenDialog(win, {
+    defaultPath: app.getPath('downloads'),
+    properties: ['openDirectory']
+  });
 });
 
 autoUpdater.on('update-downloaded', (info) => {

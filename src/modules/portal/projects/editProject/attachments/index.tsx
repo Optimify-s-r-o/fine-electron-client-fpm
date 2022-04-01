@@ -86,7 +86,13 @@ export const EditProjectAttachments = () => {
   };
 
   const onDownloadJob = (r: FileOperationResponse) => async (_e: MouseEvent<HTMLButtonElement>) => {
-    await downloadAsync(r.link);
+    const response = await window.API.invoke('OPEN_DIALOG');
+
+    if (!response) return;
+
+    const dir = response.filePaths[0];
+
+    await downloadAsync(r.link, `${dir}\\${r.fullName}`);
 
     toast.success(t('portal:projects.edit.attachmentDownloaded'));
   };

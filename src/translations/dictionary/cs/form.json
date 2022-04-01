@@ -72,7 +72,14 @@
     "jobAdded": "Přidáno",
     "jobDeleteHeader": "Smazání úlohy",
     "jobDeleteContent": "Opravdu si přejete smazat úlohu {{jobName}}?",
-    "noJobs": "V tomto projektu nejsou žádné úlohy."
+    "noJobs": "V tomto projektu nejsou žádné úlohy.",
+    "jobTranslationLanguage": "Jazyk (označení)",
+    "jobTranslationType": "Kód úlohy",
+    "jobTranslation": "Překlad názvu úlohy",
+    "jobTranslationAdd": "Přidat překlad",
+    "jobTranslationEdit": "Upravit překlad",
+    "noJobTranslations": "Prozatím nebyly vytvořeny žádné překlady",
+    "icon": "Ikona"
   },
   "modal": {
     "files": {

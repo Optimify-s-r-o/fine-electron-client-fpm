@@ -14,7 +14,7 @@ import { useApi } from 'utils/hooks/useApi';
 import useModal from 'utils/hooks/useModal';
 import * as Yup from 'yup';
 
-import { ApplicationDto, JobTranslationCreateRequest, JobTranslationDto } from '../../../../api/generated/api';
+import { JobTranslationCreateRequest, JobTranslationDto } from '../../../../api/generated/api';
 import { MainWrapper } from '../../components/main/components/MainWrapper';
 import * as S from '../../components/main/styled';
 import { useJobTranslationsContext } from '../../context/JobTranslations/JobTranslationsContext';
@@ -44,13 +44,13 @@ const JobsSettings = () => {
   };
 
   const createJobTranslationHandler = async ( request: JobTranslationCreateRequest ) => {
-    toast.info( t( 'portal:admin.applications.creatingInfo' ) );
+    toast.info( t( 'portal:admin.jobTranslations.creatingInfo' ) );
 
     try {
       await createJobTranslation( () =>
         API.JobTranslationsApi.fineProjectManagerApiJobtranslationsPost( request )
       );
-      toast.success( t( 'portal:admin.applications.creatingDone' ) );
+      toast.success( t( 'portal:admin.jobTranslations.creatingDone' ) );
 
       return true;
     } catch {
@@ -68,10 +68,9 @@ const JobsSettings = () => {
           <CardTable
             columns={[
               {
-                title: t( 'form:table.jobTranslationLanguage' ),
+                title: t( 'form:table.jobTranslation' ),
                 render: ( t: string, _r: any ) => t,
-                width: '300px',
-                dataIndex: 'language'
+                dataIndex: 'translation'
               },
               {
                 title: t( 'form:table.jobTranslationType' ),
@@ -80,9 +79,9 @@ const JobsSettings = () => {
                 dataIndex: 'type'
               },
               {
-                title: t( 'form:table.jobTranslation' ),
+                title: t( 'form:table.jobTranslationLanguage' ),
                 render: ( t: string, _r: any ) => t,
-                dataIndex: 'translation'
+                dataIndex: 'language'
               },
               {
                 title: t( 'form:table.icon' ),
@@ -91,10 +90,10 @@ const JobsSettings = () => {
               },
               {
                 title: '',
-                render: ( _t: undefined, r: ApplicationDto ) => (
+                render: ( _t: undefined, r: JobTranslationDto ) => (
                   <GS.FloatRight>
-                    <PlainButton loading={false} onClick={() => { }}>
-                      {t( 'form:table.jobEdit' )}
+                    <PlainButton loading={loading} onClick={() => { }}>
+                      {t( 'form:table.jobTranslationEdit' )}
                     </PlainButton>
                   </GS.FloatRight>
                 )
@@ -145,7 +144,7 @@ const JobsSettings = () => {
                       } )
                     } );
                   }}>
-                  {t( 'form:table.programAdd' )}
+                  {t( 'form:table.jobTranslationAdd' )}
                 </PlainButton>
               </GS.Center>
             }

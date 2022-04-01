@@ -3,16 +3,19 @@ import { useTreeContext } from 'modules/portal/context/Tree/TreeContext';
 import { TabType, useTabContext } from 'modules/portal/context/Tab/TabContext';
 import * as S from '../../styled';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faFolder } from '@fortawesome/pro-solid-svg-icons';
-import { faAngleRight } from '@fortawesome/pro-light-svg-icons';
-import { ProjectDto } from '../../../../../../api/generated';
+import { faFolder, faStar } from '@fortawesome/pro-solid-svg-icons';
+import { faAngleRight, faStar as faStarOutline } from '@fortawesome/pro-light-svg-icons';
+import { ProjectDto, ProjectFavoriteMark } from '../../../../../../api/generated';
 import { ContextMenuTriggerArea } from 'react-context-menu-hooks';
 import { projectContextMenuBridge } from './contextMenuBridge';
+import { useApi } from 'utils/hooks/useApi';
+import API from 'utils/api';
 
 export const ProjectRow = ({ project }: { project: ProjectDto }) => {
   const itemRef = useRef(null);
-  const { selectedProjectId, selectProject } = useTreeContext();
+  const { selectedProjectId, selectProject, toggleProjectFavorite } = useTreeContext();
   const { addTab } = useTabContext();
+  const [markFavorite] = useApi<void, ProjectFavoriteMark>();
 
   useEffect(() => {
     const handleDoubleClick = () => {
@@ -39,6 +42,23 @@ export const ProjectRow = ({ project }: { project: ProjectDto }) => {
     selectProject(project);
   };
 
+  const toggleFavorite = (e: MouseEvent<HTMLButtonElement>) => {
+    e.stopPropagation();
+    toggleProjectFavorite(project);
+
+    try {
+      markFavorite(() => {
+        // project.isFavorite is already toggled here
+        if (!project.isFavorite)
+          API.ProjectsApi.fineProjectManagerApiProjectsUnmarkFavoritePost({
+            projectId: project.id
+          });
+        else
+          API.ProjectsApi.fineProjectManagerApiProjectsMarkFavoritePost({ projectId: project.id });
+      });
+    } catch (e) {}
+  };
+
   return (
     <ContextMenuTriggerArea bridge={projectContextMenuBridge} data={{ project }}>
       <S.Item
@@ -50,6 +70,9 @@ export const ProjectRow = ({ project }: { project: ProjectDto }) => {
           <FontAwesomeIcon icon={faFolder} />
           <S.Title>{project.name}</S.Title>
         </S.TitleWrapper>
+        <S.AddFavorite checked={project.isFavorite} onClick={toggleFavorite}>
+          <FontAwesomeIcon icon={project.isFavorite ? faStar : faStarOutline} />
+        </S.AddFavorite>
         <FontAwesomeIcon icon={faAngleRight} />
       </S.Item>
     </ContextMenuTriggerArea>

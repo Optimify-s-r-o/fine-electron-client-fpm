@@ -119,6 +119,14 @@ export const TreeProvider = ({ children }: { children: JSX.Element }) => {
     selectProject(project);
   };
 
+  const toggleProjectFavorite = async (project: ProjectDto) => {
+    const newTree = { ...projectsData };
+    const projectIndex = newTree.data.findIndex((val: ProjectDto) => val.id === project.id);
+    newTree.data[projectIndex].isFavorite = !newTree.data[projectIndex].isFavorite;
+
+    setProjectsData(newTree);
+  };
+
   return (
     <TreeContext.Provider
       value={{
@@ -132,7 +140,8 @@ export const TreeProvider = ({ children }: { children: JSX.Element }) => {
         selectedJobId: selectedJobId,
         handleNewProject: handleNewProject,
         refetchProjects: refetchProjects,
-        refetchJobs: refetchJobs
+        refetchJobs: refetchJobs,
+        toggleProjectFavorite: toggleProjectFavorite
       }}>
       {children}
     </TreeContext.Provider>

@@ -44,7 +44,7 @@ export const JobTranslationsProvider = ( { children }: { children: JSX.Element; 
     if ( jobTranslations.length === 0 ) return missingTranslation;
 
     const jobTranslation = jobTranslations[0];
-    const res = jobTranslation.attributes?.filter( e => e.normalizedName == attribute.normalizedName );
+    const res = jobTranslation.attributes?.filter( e => e.normalizedName === attribute.normalizedName );
     if ( !res || res.length === 0 ) return missingTranslation;
 
     return res[0].translation ?? missingTranslation;

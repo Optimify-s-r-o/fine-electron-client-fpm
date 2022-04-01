@@ -71,6 +71,10 @@ export const List = () => {
     navigate(`${RoutesPath.PORTAL}/user-password/${user.email}`);
   };
 
+  const onPasswordChangeByAdmin = (user: UserDto) => (_e: MouseEvent<HTMLButtonElement>) => {
+    navigate(`${RoutesPath.PORTAL}/user-password-by-admin/${user.email}`);
+  };
+
   return (
     <CardTable
       columns={[
@@ -109,7 +113,7 @@ export const List = () => {
                     <IconButton
                       loading={false}
                       icon={faLock}
-                      onClick={onPasswordChange(r)}
+                      onClick={onPasswordChangeByAdmin(r)}
                       type="button"
                     />
                   </>

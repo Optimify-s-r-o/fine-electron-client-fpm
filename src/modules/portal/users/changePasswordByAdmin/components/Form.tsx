@@ -1,26 +1,27 @@
 import { useTranslation } from 'react-i18next';
 import { FieldErrors, UseFormRegister } from 'react-hook-form';
 import * as GS from 'constants/globalStyles';
-import { UserChangePasswordRequest } from 'api/generated';
+import { AdminChangePasswordRequest } from 'api/generated';
 import { PasswordInput } from '../../../../../components/Form/Input/Password';
+import { TextInput } from '../../../../../components/Form/Input/Text/TextInput';
 
 export const ChangeUserPasswordForm = ({
   errors,
   register
 }: {
-  errors: FieldErrors<UserChangePasswordRequest>;
-  register: UseFormRegister<UserChangePasswordRequest>;
+  errors: FieldErrors<AdminChangePasswordRequest>;
+  register: UseFormRegister<AdminChangePasswordRequest>;
 }) => {
   const { t } = useTranslation(['auth', 'form', 'common']);
 
   return (
     <GS.GridRow columns={2}>
       <GS.GridItem>
-        <PasswordInput
+        <TextInput
           errors={errors}
-          name={'oldPassword'}
+          name={'userEmail'}
           register={register}
-          title={t('form:input.oldPassword')}
+          title={t('form:input.email')}
         />
         <PasswordInput
           errors={errors}

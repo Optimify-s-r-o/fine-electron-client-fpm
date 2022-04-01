@@ -5,38 +5,50 @@ import { MainWrapper } from '../../components/main/components/MainWrapper';
 import * as S from '../../components/main/styled';
 import { faLock } from '@fortawesome/pro-duotone-svg-icons';
 import { useApi } from '../../../../utils/hooks/useApi';
-import { UserChangePasswordRequest, UserDto } from '../../../../api/generated';
+import { AdminChangePasswordRequest, UserDto } from '../../../../api/generated';
 import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup/dist/yup';
 import * as Yup from 'yup';
 import { toast } from 'react-toastify';
 import API from '../../../../utils/api';
 import { ChangeUserPasswordForm } from './components/Form';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import { RoutesPath } from '../../../../constants/routes';
+import { useEffect } from 'react';
 
 const ChangePassword = () => {
   const { t } = useTranslation(['portal', 'form', 'toast']);
+
+  const { email } = useParams<{ email: string }>();
+
   const navigate = useNavigate();
 
-  const [editUser] = useApi<UserDto, UserChangePasswordRequest>();
+  const [editUser] = useApi<UserDto, AdminChangePasswordRequest>();
 
   const {
     register,
     handleSubmit,
+    reset,
     formState: { errors, isSubmitting }
-  } = useForm<UserChangePasswordRequest>({
+  } = useForm<AdminChangePasswordRequest>({
     resolver: yupResolver(
       Yup.object().shape({
-        oldPassword: Yup.string().required(t('form:validation.required')),
+        userEmail: Yup.string().required(t('form:validation.required')),
         newPassword: Yup.string().required(t('form:validation.required'))
       })
     )
   });
 
-  const onSubmit = async (data: UserChangePasswordRequest) => {
+  useEffect(() => {
+    reset({
+      userEmail: email as string,
+      newPassword: ''
+    });
+  }, [reset, email]);
+
+  const onSubmit = async (data: AdminChangePasswordRequest) => {
     try {
-      await editUser(() => API.UsersApi.fineProjectManagerApiUsersPasswordPut(data));
+      await editUser(() => API.UsersApi.fineProjectManagerApiUsersAdminSetPasswordPut(data));
       navigate(RoutesPath.LIST_OF_USERS);
       toast.success(t('toast:common.passwordChangedSuccessfully'));
     } catch (e) {}

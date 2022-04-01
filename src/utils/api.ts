@@ -13,7 +13,8 @@ export const RestApi = {
   ProjectsApi: new API.ProjectsApi(config, undefined, axiosInstance),
   JobsApi: new API.JobsApi(config, undefined, axiosInstance),
   UsersApi: new API.UsersApi(config, undefined, axiosInstance),
-  ApplicationsApi: new API.ApplicationsApi(config, undefined, axiosInstance)
+  ApplicationsApi: new API.ApplicationsApi(config, undefined, axiosInstance),
+  JobTranslationsApi: new API.JobTranslationsApi(config, undefined, axiosInstance)
 };
 
 export default RestApi;

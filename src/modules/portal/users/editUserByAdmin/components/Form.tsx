@@ -2,7 +2,7 @@ import { useTranslation } from 'react-i18next';
 import { Control, FieldErrors, UseFormRegister } from 'react-hook-form';
 import * as GS from 'constants/globalStyles';
 import { TextInput } from 'components/Form/Input/Text/TextInput';
-import { EditUserRequest } from 'api/generated';
+import { AdminEditUserRequest } from 'api/generated';
 import { RolesSelect } from '../../../../../components/Form/Select/Roles';
 
 export const EditUserForm = ({
@@ -10,9 +10,9 @@ export const EditUserForm = ({
   errors,
   register
 }: {
-  errors: FieldErrors<EditUserRequest>;
-  register: UseFormRegister<EditUserRequest>;
-  control: Control<EditUserRequest>;
+  errors: FieldErrors<AdminEditUserRequest>;
+  register: UseFormRegister<AdminEditUserRequest>;
+  control: Control<AdminEditUserRequest>;
 }) => {
   const { t } = useTranslation(['auth', 'form', 'common']);
 

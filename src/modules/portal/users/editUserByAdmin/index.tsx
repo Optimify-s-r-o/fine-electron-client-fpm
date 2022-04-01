@@ -5,7 +5,7 @@ import { MainWrapper } from '../../components/main/components/MainWrapper';
 import * as S from '../../components/main/styled';
 import { faUser } from '@fortawesome/pro-duotone-svg-icons';
 import { useApi } from '../../../../utils/hooks/useApi';
-import { EditUserRequest, UserDto } from '../../../../api/generated';
+import { AdminEditUserRequest, UserDto } from '../../../../api/generated';
 import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup/dist/yup';
 import * as Yup from 'yup';
@@ -24,8 +24,8 @@ const EditUser = () => {
 
   const navigate = useNavigate();
 
-  const [editUser] = useApi<UserDto, EditUserRequest>();
-  const [getUser, { data }] = useApi<UserDto, EditUserRequest>();
+  const [editUser] = useApi<UserDto, AdminEditUserRequest>();
+  const [getUser, { data }] = useApi<UserDto, AdminEditUserRequest>();
 
   const {
     register,
@@ -33,10 +33,10 @@ const EditUser = () => {
     reset,
     control,
     formState: { errors, isSubmitting }
-  } = useForm<EditUserRequest>({
+  } = useForm<AdminEditUserRequest>({
     resolver: yupResolver(
       Yup.object().shape({
-        email: Yup.string().required(t('form:validation.required'))
+        newEmail: Yup.string().required(t('form:validation.required'))
       })
     )
   });
@@ -50,14 +50,16 @@ const EditUser = () => {
     if (!data) return;
 
     reset({
-      email: data?.email,
-      phoneNumber: data?.phoneNumber
+      oldEmail: data?.email,
+      newEmail: data?.email,
+      phoneNumber: data?.phoneNumber,
+      roles: data?.userRoles
     });
   }, [data, reset]);
 
-  const onSubmit = async (data: EditUserRequest) => {
+  const onSubmit = async (data: AdminEditUserRequest) => {
     try {
-      await editUser(() => API.UsersApi.fineProjectManagerApiUsersPut(data));
+      await editUser(() => API.UsersApi.fineProjectManagerApiUsersAdminUserEditPut(data));
       navigate(RoutesPath.LIST_OF_USERS);
       toast.success(t('toast:common.changesSavedSuccessfully'));
     } catch (e) {}

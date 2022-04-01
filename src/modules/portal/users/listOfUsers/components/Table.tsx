@@ -6,7 +6,7 @@ import { CardTable } from '../../../../../components/Table/CardTable';
 import { Input } from '../../../../../components/Form/Input/styled';
 import * as GS from '../../../../../constants/globalStyles';
 import { IconButton } from '../../../../../components/Form/Button/IconButton';
-import { faArrowRight, faTrashCan } from '@fortawesome/pro-light-svg-icons';
+import { faArrowRight, faLock, faTrashCan } from '@fortawesome/pro-light-svg-icons';
 import { MouseEvent } from 'react';
 import { DeleteButton } from '../../../../../components/Form/Button/DeleteButton';
 import { toast } from 'react-toastify';
@@ -22,7 +22,7 @@ export const List = () => {
 
   const { t } = useTranslation(['portal', 'form', 'toast']);
 
-  const { isAdmin } = useAuthContext();
+  const { isAdmin, user } = useAuthContext();
 
   const [getUsers, { data, loading }] = useApi<UserDto[]>();
   const [deleteUser] = useApi<UserDto[]>();
@@ -63,6 +63,18 @@ export const List = () => {
     navigate(`${RoutesPath.PORTAL}/edit-user/${user.email}`);
   };
 
+  const onViewUserByAdmin = (user: UserDto) => (_e: MouseEvent<HTMLButtonElement>) => {
+    navigate(`${RoutesPath.PORTAL}/edit-user-by-admin/${user.email}`);
+  };
+
+  const onPasswordChange = (user: UserDto) => (_e: MouseEvent<HTMLButtonElement>) => {
+    navigate(`${RoutesPath.PORTAL}/user-password/${user.email}`);
+  };
+
+  const onPasswordChangeByAdmin = (user: UserDto) => (_e: MouseEvent<HTMLButtonElement>) => {
+    navigate(`${RoutesPath.PORTAL}/user-password-by-admin/${user.email}`);
+  };
+
   return (
     <CardTable
       columns={[
@@ -88,16 +100,44 @@ export const List = () => {
           dataIndex: 'id',
           render: (t, r: UserDto) => (
             <GS.FloatRight>
-              {isAdmin && (
-                <IconButton
-                  loading={false}
-                  icon={faArrowRight}
-                  btnStyle="primary"
-                  onClick={onViewUser(r)}
-                  type="button"
-                />
-              )}
-              <IconButton loading={false} icon={faTrashCan} onClick={onDelete(r)} type="button" />
+              <GS.Gap>
+                {isAdmin && (
+                  <>
+                    <IconButton
+                      loading={false}
+                      icon={faArrowRight}
+                      btnStyle="primary"
+                      onClick={onViewUserByAdmin(r)}
+                      type="button"
+                    />
+                    <IconButton
+                      loading={false}
+                      icon={faLock}
+                      onClick={onPasswordChangeByAdmin(r)}
+                      type="button"
+                    />
+                  </>
+                )}
+                {user?.email === r.email && !isAdmin && (
+                  <>
+                    <IconButton
+                      loading={false}
+                      icon={faArrowRight}
+                      btnStyle="primary"
+                      onClick={onViewUserByAdmin(r)}
+                      type="button"
+                    />
+                    <IconButton
+                      loading={false}
+                      icon={faLock}
+                      onClick={onPasswordChange(r)}
+                      type="button"
+                    />
+                  </>
+                )}
+
+                <IconButton loading={false} icon={faTrashCan} onClick={onDelete(r)} type="button" />
+              </GS.Gap>
             </GS.FloatRight>
           )
         }

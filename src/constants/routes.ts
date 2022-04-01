@@ -21,6 +21,9 @@ export enum RoutesPath {
 
   CREATE_USER = '/portal/create-user',
   EDIT_USER = '/portal/edit-user/:email',
+  EDIT_USER_BY_ADMIN = '/portal/edit-user-by-admin/:email',
+  CHANGE_USER_PASSWORD = '/portal/user-password/:email',
+  CHANGE_USER_PASSWORD_BY_ADMIN = '/portal/user-password-by-admin/:email',
   LIST_OF_USERS = '/portal/list-of-users',
 
   SETTINGS = '/portal/settings/',

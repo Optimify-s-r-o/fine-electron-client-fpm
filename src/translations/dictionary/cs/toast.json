@@ -1,6 +1,10 @@
 {
   "users": {
     "deactivatedSuccessfully": "Uživatel byl úspěšně deaktivován",
-    "userCreatedSuccessfully": "Uživatel bys úspěšně vytvořen"
+    "userCreatedSuccessfully": "Uživatel bys úspěšně vytvořen",
+    "passwordChangedSuccessfully": "Heslo bylo úspěšně změněno"
+  },
+  "common": {
+    "changesSavedSuccessfully": "Změny byly úspěšně uloženy"
   }
 }

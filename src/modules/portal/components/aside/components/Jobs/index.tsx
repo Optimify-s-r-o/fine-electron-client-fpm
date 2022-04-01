@@ -76,7 +76,9 @@ export const Jobs = () => {
   return (
     <S.Wrapper color={'rgb(143, 113, 52)'} ref={jobsRef} tabIndex={0}>
       <S.Items>
-        {loadingJobTree ? 'loading' : jobTree.map((job: JobDto) => <JobRow job={job} />)}
+        {loadingJobTree
+          ? 'loading'
+          : jobTree.map((job: JobDto, key: number) => <JobRow key={key} job={job} />)}
       </S.Items>
       <ContextMenu bridge={jobContextMenuBridge}>
         <ContextMenu.Option onClick={handleOpen}>{t('portal:contextMenu.open')}</ContextMenu.Option>

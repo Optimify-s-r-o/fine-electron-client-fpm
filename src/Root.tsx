@@ -1,4 +1,5 @@
 import 'react-toastify/dist/ReactToastify.css';
+import 'react-toastify/dist/ReactToastify.css';
 
 import { lazy, Suspense } from 'react';
 import { Route, Routes } from 'react-router-dom';
@@ -31,7 +32,6 @@ const ChangeUserPassword = lazy(() => import('modules/portal/users/changePasswor
 const ChangeUserPasswordByAdmin = lazy(() => import('modules/portal/users/changePasswordByAdmin'));
 const EditUser = lazy(() => import('modules/portal/users/editUser'));
 const ListOfUsers = lazy(() => import('modules/portal/users/listOfUsers'));
-const System = lazy(() => import('modules/portal/settings/system'));
 const Settings = lazy(() => import('modules/portal/settings'));
 const Update = lazy(() => import('modules/portal/settings/update'));
 
@@ -204,14 +204,6 @@ export const Root = () => {
                 <Settings />
               </ProtectedRoute>
             }>
-            <Route
-              path={RoutesPath.SYSTEM}
-              element={
-                <ProtectedRoute>
-                  <System />
-                </ProtectedRoute>
-              }
-            />
             <Route
               path={RoutesPath.UPDATE}
               element={

@@ -35,6 +35,7 @@
     "placeholder": "Vyberte z nabídky"
   },
   "table": {
+    "execute": "Spustit",
     "state": "Stav",
     "active": "Aktivní",
     "inactive": "Neaktivní",

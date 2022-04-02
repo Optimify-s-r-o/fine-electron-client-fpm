@@ -1,4 +1,4 @@
-import { faCog, faDatabase } from '@fortawesome/pro-light-svg-icons';
+import { faCog, faCodeCompare } from '@fortawesome/pro-light-svg-icons';
 import { RoutesPath } from 'constants/routes';
 import { useTranslation } from 'react-i18next';
 import { useLocation } from 'react-router';
@@ -18,13 +18,13 @@ export const Settings = () => {
           path: RoutesPath.LOCAL_APPLICATIONS_SETTINGS,
           active: !!matchPath(pathname, RoutesPath.LOCAL_APPLICATIONS_SETTINGS),
           text: t('portal:settings.tabs.applicationsSettings'),
-          icon: faDatabase
+          icon: faCog
         },
         {
           path: RoutesPath.UPDATE,
           active: !!matchPath(pathname, RoutesPath.UPDATE),
           text: t('portal:settings.tabs.update'),
-          icon: faDatabase
+          icon: faCodeCompare
         }
       ]}>
       <Outlet />

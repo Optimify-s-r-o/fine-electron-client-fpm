@@ -4,8 +4,8 @@ import {
   faFolderPlus,
   faUserPlus,
   faUsers,
-  faRectangleHistory,
-  faRectangleVerticalHistory
+  faBarsProgress,
+  faBrowser
 } from '@fortawesome/pro-duotone-svg-icons';
 import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
@@ -104,13 +104,13 @@ export const Navigation = () => {
             {
               path: RoutesPath.ADMIN_APPLICATIONS_SETTINGS,
               text: t('portal:menu.adminSettings'),
-              icon: faRectangleHistory,
+              icon: faBrowser,
               shortcut: 'Ctrl + Q'
             },
             {
               path: RoutesPath.ADMIN_JOBS_SETTINGS,
               text: t('portal:menu.jobsSettings'),
-              icon: faRectangleVerticalHistory,
+              icon: faBarsProgress,
               shortcut: 'Ctrl + D'
             }
           ]

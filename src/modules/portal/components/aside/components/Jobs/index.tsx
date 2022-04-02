@@ -11,6 +11,7 @@ import { useTranslation } from 'react-i18next';
 import { TabType, useTabContext } from '../../../../context/Tab/TabContext';
 import API from '../../../../../../utils/api';
 import { useApi } from '../../../../../../utils/hooks/useApi';
+import { Skeleton } from '../Skeleton';
 
 //TODO MARA
 // Strankovani tady neexistuje, vsechny operace se provadi s lokalnimi daty1
@@ -76,9 +77,11 @@ export const Jobs = () => {
   return (
     <S.Wrapper color={'rgb(143, 113, 52)'} ref={jobsRef} tabIndex={0}>
       <S.Items>
-        {loadingJobTree
-          ? 'loading'
-          : jobTree.map((job: JobDto, key: number) => <JobRow key={key} job={job} />)}
+        {loadingJobTree ? (
+          <Skeleton />
+        ) : (
+          jobTree.map((job: JobDto, key: number) => <JobRow key={key} job={job} />)
+        )}
       </S.Items>
       <ContextMenu bridge={jobContextMenuBridge}>
         <ContextMenu.Option onClick={handleOpen}>{t('portal:contextMenu.open')}</ContextMenu.Option>

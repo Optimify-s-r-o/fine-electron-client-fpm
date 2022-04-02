@@ -7,15 +7,14 @@ export const Tree = () => {
   const { selectedProjectId } = useTreeContext();
   return (
     <>
-      <ResizablePanel direction="right" initialSize={150} minSize={150} maxSize={900}>
+      <ResizablePanel direction="right" initialSize={200} minSize={200} maxSize={900}>
         <Projects />
       </ResizablePanel>
-      {
-        selectedProjectId &&
-        <ResizablePanel direction="right" initialSize={150} minSize={150} maxSize={900}>
+      {selectedProjectId && (
+        <ResizablePanel direction="right" initialSize={200} minSize={200} maxSize={900}>
           <Jobs />
         </ResizablePanel>
-      }
+      )}
     </>
   );
 };

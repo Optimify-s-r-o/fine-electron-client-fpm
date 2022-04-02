@@ -36,6 +36,7 @@
     "lodash": "^4.17.21",
     "moment": "^2.29.1",
     "react": "^17.0.2",
+    "react-content-loader": "^6.2.0",
     "react-context-menu-hooks": "^0.3.0",
     "react-country-flag": "^3.0.2",
     "react-dom": "^17.0.2",

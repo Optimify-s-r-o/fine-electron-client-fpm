@@ -15,6 +15,7 @@ import API from '../../../../../../utils/api';
 import Filters from '../Filters';
 import { faStar as faStarOutline, faFilterSlash } from '@fortawesome/pro-light-svg-icons';
 import { faStar } from '@fortawesome/pro-solid-svg-icons';
+import { Skeleton } from '../Skeleton';
 
 export const Projects = () => {
   const { t } = useTranslation(['portal']);
@@ -122,11 +123,13 @@ export const Projects = () => {
         ]}
       />
       <S.Items>
-        {loadingProjectTree
-          ? 'loading'
-          : projectTree.data?.map((project: ProjectDto, key: number) => (
-              <ProjectRow project={project} key={key} />
-            ))}
+        {loadingProjectTree ? (
+          <Skeleton />
+        ) : (
+          projectTree.data?.map((project: ProjectDto, key: number) => (
+            <ProjectRow project={project} key={key} />
+          ))
+        )}
       </S.Items>
       <Pagination
         page={page}

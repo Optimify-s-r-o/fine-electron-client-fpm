@@ -1,29 +1,31 @@
 import { Row } from 'constants/globalStyles';
 import { Panel } from './components/Panel';
 import { Tree } from './components/Tree';
-import { faCog, faFolderPlus } from '@fortawesome/pro-duotone-svg-icons';
+import { faCog, faFolderPlus, faSearch } from '@fortawesome/pro-duotone-svg-icons';
 import { useTranslation } from 'react-i18next';
 import styled from 'styled-components';
 import { matchPath, useNavigate } from 'react-router-dom';
 import { RoutesPath } from 'constants/routes';
 import { useLocation } from 'react-router';
+import { useSpotlightContext } from '../../context/Spotlight/SpotlightContext';
 
 export const Aside = () => {
   const { t } = useTranslation(['portal']);
   const { pathname } = useLocation();
   const navigate = useNavigate();
+  const { showSpotlight } = useSpotlightContext();
 
   return (
     <aside>
       <RowWrapper>
         <Panel
           sections={[
-            /*    {
+            {
               icon: faSearch,
               tooltip: t('portal:panel.search'),
               isActive: false,
-              callback: () => {}
-            },*/
+              callback: () => showSpotlight()
+            },
             {
               icon: faFolderPlus,
               tooltip: t('portal:panel.createProject'),

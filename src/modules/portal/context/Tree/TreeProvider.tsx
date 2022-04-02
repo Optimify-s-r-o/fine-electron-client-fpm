@@ -23,6 +23,7 @@ export const TreeProvider = ({ children }: { children: JSX.Element }) => {
 
   const [selectedProjectId, setSelectedProjectId] = useState<string | null>(null);
   const [selectedJobId, setSelectedJobId] = useState<string | null>(null);
+  const [isFiltered, setIsFiltered] = useState<boolean>(false);
 
   //Ulozeni nastaveni stromu
   const requestedPageSize = 25;
@@ -49,6 +50,7 @@ export const TreeProvider = ({ children }: { children: JSX.Element }) => {
   useEffectAsync(async () => {
     if (isLogged && !userLoading) {
       const res = await refetchProjects();
+      setIsFiltered(false);
       setProjectsData(res);
     }
   }, [isLogged, user, userLoading]);
@@ -76,7 +78,16 @@ export const TreeProvider = ({ children }: { children: JSX.Element }) => {
         requestedPageSize
       )
     );
+    setIsFiltered(false);
     setProjectsData(res);
+    return res;
+  };
+
+  const queryProjects = async (query: string) => {
+    const res = await getProjects(() => API.ProjectsApi.fineProjectManagerApiProjectsGet(query));
+
+    setProjectsData(res);
+    setIsFiltered(true);
     return res;
   };
 
@@ -148,7 +159,9 @@ export const TreeProvider = ({ children }: { children: JSX.Element }) => {
         handleNewProject: handleNewProject,
         refetchProjects: refetchProjects,
         refetchJobs: refetchJobs,
-        toggleProjectFavorite: toggleProjectFavorite
+        queryProjects: queryProjects,
+        toggleProjectFavorite: toggleProjectFavorite,
+        isFiltered
       }}>
       {children}
     </TreeContext.Provider>

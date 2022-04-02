@@ -20,7 +20,8 @@
     "admin": "Administrátor",
     "adminSettings": "Správa aplikací",
     "jobsSettings": "Správa úloh",
-    "signOut": "Odhlásit se"
+    "signOut": "Odhlásit se",
+    "filters": "Filtry"
   },
   "panel": {
     "search": "Hledat (Ctrl + F)",

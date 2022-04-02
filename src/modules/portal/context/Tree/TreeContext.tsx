@@ -12,12 +12,14 @@ interface ITreeContextType {
   jobTree: JobDto[];
   loadingProjectTree: boolean;
   loadingJobTree: boolean;
+  isFiltered: boolean;
   selectedProjectId: string | null;
   selectedJobId: string | null;
   selectProject: (project: ProjectDto) => void;
   selectJob: (id: JobDto) => void;
   handleNewProject: (project: ProjectDto) => Promise<void>;
   refetchProjects: (favoriteOnly?: boolean) => Promise<ProjectDtoPaginatedCollection | undefined>;
+  queryProjects: (query: string) => Promise<ProjectDtoPaginatedCollection | undefined>;
   refetchJobs: () => Promise<ProjectJobsDto | undefined>;
   toggleProjectFavorite: (project: ProjectDto) => Promise<void>;
 }
@@ -38,6 +40,7 @@ export const TreeContext = createContext<ITreeContextType>({
   jobTree: [],
   loadingProjectTree: false,
   loadingJobTree: false,
+  isFiltered: false,
   selectedProjectId: null,
   selectedJobId: null,
   selectProject: () => console.log('No valid context'),
@@ -45,6 +48,7 @@ export const TreeContext = createContext<ITreeContextType>({
   handleNewProject: () => new Promise<void>((e) => 'No valid context'),
   refetchProjects: () => new Promise<ProjectDtoPaginatedCollection>((e) => 'No valid context'),
   refetchJobs: () => new Promise<ProjectJobsDto>((e) => 'No valid context'),
+  queryProjects: () => new Promise<ProjectDtoPaginatedCollection>((e) => 'No valid context'),
   toggleProjectFavorite: () => new Promise<void>((e) => 'No valid context')
 });
 

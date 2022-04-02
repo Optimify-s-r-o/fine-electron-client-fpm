@@ -6,6 +6,7 @@ import { Root } from 'Root';
 import { ExecutableApplicationsProvider } from './modules/portal/context/ExecutableApplications/ExecutableApplicationsProvider';
 import { ModalProvider } from 'utils/hooks/useModal';
 import { TabProvider } from './modules/portal/context/Tab/TabProvider';
+import { SpotlightProvider } from './modules/portal/context/Spotlight/SpotlightProvider';
 
 const App = () => {
   return (
@@ -13,9 +14,11 @@ const App = () => {
       <PortalContextProvider>
         <ExecutableApplicationsProvider>
           <ModalProvider>
-            <TabProvider>
-              <Root />
-            </TabProvider>
+            <SpotlightProvider>
+              <TabProvider>
+                <Root />
+              </TabProvider>
+            </SpotlightProvider>
           </ModalProvider>
         </ExecutableApplicationsProvider>
       </PortalContextProvider>

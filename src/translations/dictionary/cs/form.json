@@ -8,7 +8,8 @@
     "server": "Adresa serveru",
     "roles": "Role",
     "oldPassword": "Staré heslo",
-    "newPassword": "Nové heslo"
+    "newPassword": "Nové heslo",
+    "spotlight": "Rychlé vyhledávání"
   },
   "button": {
     "signIn": "Přihlásit se",

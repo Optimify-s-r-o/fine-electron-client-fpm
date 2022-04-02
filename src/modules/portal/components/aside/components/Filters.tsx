@@ -1,6 +1,7 @@
 import { IconDefinition } from '@fortawesome/pro-light-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import styled from 'styled-components';
+import { useTranslation } from 'react-i18next';
 
 const Filters = ({
   items
@@ -14,9 +15,11 @@ const Filters = ({
     onClick: () => void;
   }>;
 }) => {
+  const { t } = useTranslation(['portal']);
+
   return (
     <Wrapper>
-      Filtry:
+      {t('portal:menu.filters')}:
       {items.map((item, key) => (
         <Button
           key={key}

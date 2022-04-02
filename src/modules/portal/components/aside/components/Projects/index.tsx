@@ -13,7 +13,7 @@ import { TabType, useTabContext } from '../../../../context/Tab/TabContext';
 import { useApi } from '../../../../../../utils/hooks/useApi';
 import API from '../../../../../../utils/api';
 import Filters from '../Filters';
-import { faStar as faStarOutline } from '@fortawesome/pro-light-svg-icons';
+import { faStar as faStarOutline, faFilterSlash } from '@fortawesome/pro-light-svg-icons';
 import { faStar } from '@fortawesome/pro-solid-svg-icons';
 
 export const Projects = () => {
@@ -25,8 +25,14 @@ export const Projects = () => {
 
   const [deleteProject] = useApi<any>();
 
-  const { projectTree, loadingProjectTree, selectProject, selectedProjectId, refetchProjects } =
-    useTreeContext();
+  const {
+    projectTree,
+    loadingProjectTree,
+    selectProject,
+    selectedProjectId,
+    refetchProjects,
+    isFiltered
+  } = useTreeContext();
   const [page, setPage] = useState(1);
   const [onlyFavorites, setOnlyFavorites] = useState(false);
 
@@ -89,6 +95,10 @@ export const Projects = () => {
     refetchProjects(!onlyFavorites);
   };
 
+  const removeFilters = async () => {
+    await refetchProjects();
+  };
+
   return (
     <S.Wrapper color={'rgb(255, 202, 108)'} ref={projectsRef} tabIndex={0}>
       <Filters
@@ -100,6 +110,14 @@ export const Projects = () => {
             colorOn: '#F47b20',
             state: onlyFavorites,
             onClick: toggleFavoritesFilter
+          },
+          {
+            iconOff: faFilterSlash,
+            iconOn: faFilterSlash,
+            colorOff: '#696969',
+            colorOn: '#fff',
+            state: !isFiltered,
+            onClick: removeFilters
           }
         ]}
       />

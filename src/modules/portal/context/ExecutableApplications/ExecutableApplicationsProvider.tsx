@@ -32,10 +32,18 @@ export const ExecutableApplicationsProvider = ({ children }: { children: JSX.Ele
       }
 
       const { stdout, stderr } = await window.API.execFile(path, [
-        '-token',
-        token,
+        '-mode',
+        'fpm',
+        '-serverUrl',
+        'https://neco.cz',
+        '-e',
+        'createJob/updateJob',
         '-projectId',
-        'asdas-dasdas-das-dasdas'
+        'asdas-dasdas-das-dasdas',
+        '-jobId',
+        'jobIDafasdfsf',
+        '-token',
+        token
       ]);
 
       console.log('stdout:', stdout);

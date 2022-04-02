@@ -61,7 +61,7 @@ export const ProjectForm = ({
               </GS.KeyValueTable>
             </GS.GridItem>
           </GS.GridRow>
-          <GS.HR />
+
           <Jobs jobs={data?.jobs} />
         </>
       )}

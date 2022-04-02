@@ -4,7 +4,7 @@ import styled from 'styled-components';
 
 interface Modal {
   content: ReactNode;
-  footer: ReactNode;
+  footer?: ReactNode;
   title?: string;
   onSubmit?: FormEventHandler<HTMLFormElement>;
   onClose?: () => boolean;
@@ -39,7 +39,7 @@ export const ModalProvider = ({ children }: { children: ReactNode }) => {
         <CloseButton onClick={closeModal} />
       </ModalHeader>
       <ModalContent>{modal.content}</ModalContent>
-      <ModalFooter>{modal.footer}</ModalFooter>
+      {modal?.footer && <ModalFooter>{modal.footer}</ModalFooter>}
     </>
   );
 

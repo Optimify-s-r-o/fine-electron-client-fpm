@@ -84,5 +84,8 @@
     "user": "Uživatel",
     "admin": "Admin",
     "externalOperator": "Externí operátor"
+  },
+  "createJob":  {
+    "title": "Vyberte aplikaci, ve které si přejete úlohu vytvořit."
   }
 }

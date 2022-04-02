@@ -18,7 +18,8 @@
     "createUser": "Vytvořit uživatele",
     "deleteJob": "Smazat úlohu",
     "deleteFile": "Smazat soubor",
-    "deactivateUser": "Deaktivovat uživatele"
+    "deactivateUser": "Deaktivovat uživatele",
+    "addJob": "Přidat úlohu"
   },
   "validation": {
     "required": "Toto pole je povinné.",

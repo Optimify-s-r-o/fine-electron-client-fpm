@@ -102,10 +102,10 @@ ipcMain.handle('DOWNLOAD_UPDATE', async (event) => {
   }
 });
 
-ipcMain.handle('OPEN_DIALOG', async (event) => {
-  return await dialog.showOpenDialog(win, {
-    defaultPath: app.getPath('downloads'),
-    properties: ['openDirectory']
+ipcMain.handle('SAVE_DIALOG', async (event, arg) => {
+  return await dialog.showSaveDialog(win, {
+    defaultPath: `${app.getPath('downloads')}\\${arg.fullName}`,
+    buttonLabel: 'Save File'
   });
 });
 

@@ -4,7 +4,7 @@
   "homepage": "./",
   "productName": "Fine Project Manager",
   "description": "Fine Project Manager",
-  "version": "0.0.6",
+  "version": "0.0.7",
   "private": true,
   "dependencies": {
     "@fortawesome/fontawesome-svg-core": "^6.1.1",
@@ -85,7 +85,7 @@
   },
   "build": {
     "artifactName": "${productName}-Setup-${version}.${ext}",
-    "appId": "org.common.tpm",
+    "appId": "org.common.fpm",
     "copyright": "Copyright © 2018-2022 Optimify s.r.o.",
     "files": [
       "build/**/*",

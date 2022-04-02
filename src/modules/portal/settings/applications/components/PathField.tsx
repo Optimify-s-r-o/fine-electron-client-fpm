@@ -13,7 +13,7 @@ import { useExecutableApplicationContext } from '../../../context/ExecutableAppl
 export const PathField = ({ application }: { application: ApplicationDto }) => {
   const { t } = useTranslation(['form']);
   const { setApplicationExePath, getApplicationExePath } = useApplicationContext();
-  const { executeApplication } = useExecutableApplicationContext();
+  const { executeBareApplication } = useExecutableApplicationContext();
   const pathInputRef = useRef<HTMLInputElement | null>(null);
 
   const [path, setPath] = useState<null | string>(null);
@@ -40,7 +40,7 @@ export const PathField = ({ application }: { application: ApplicationDto }) => {
   };
 
   const executeSpecificApplication = async (_e: MouseEvent<HTMLButtonElement>) => {
-    await executeApplication('', application.code);
+    await executeBareApplication(application.code);
   };
 
   return (

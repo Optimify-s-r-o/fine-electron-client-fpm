@@ -20,6 +20,7 @@ export const useShortcutWrapper = () => {
   useShortcuts('KeyK', handleKeyPress(RoutesPath.LOCAL_APPLICATIONS_SETTINGS));
   useShortcuts('KeyU', handleKeyPress(RoutesPath.UPDATE));
   useShortcuts('KeyQ', handleKeyPress(RoutesPath.ADMIN_APPLICATIONS_SETTINGS));
+  useShortcuts('KeyD', handleKeyPress(RoutesPath.ADMIN_JOBS_SETTINGS));
   useShortcuts('KeyO', (_event) => signOut());
   useShortcuts('KeyF', (_event) => openQuickSearch());
 };

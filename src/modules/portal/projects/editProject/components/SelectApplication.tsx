@@ -6,13 +6,15 @@ import styled from 'styled-components';
 import { MouseEvent } from 'react';
 import { useExecutableApplicationContext } from '../../../context/ExecutableApplications/ExecutableApplicationsContext';
 
-export const SelectApplication = () => {
+export const SelectApplication = ({ projectId }: { projectId: string }) => {
   const { applications } = useApplicationContext();
-  const { executeApplication } = useExecutableApplicationContext();
+  const { createJob } = useExecutableApplicationContext();
 
   const openApplication =
     (application: ApplicationDto) => async (_e: MouseEvent<HTMLDivElement>) => {
-      await executeApplication('', application.code);
+      if (!projectId) return;
+
+      await createJob(projectId, application.code);
     };
 
   return (

@@ -26,23 +26,25 @@ import { useJobTranslationsContext } from '../../../context/JobTranslations/JobT
 import { PlainButton } from '../../../../../components/Form/Button/PlainButton';
 import { RowEnd } from 'constants/globalStyles';
 import { SelectApplication } from './SelectApplication';
+import { useParams } from 'react-router-dom';
 
 export const Jobs = ({ jobs }: { jobs?: JobDto[] }) => {
   const { t } = useTranslation(['portal', 'form', 'common', 'project']);
   const { language, getJobTranslation } = useJobTranslationsContext();
-
+  const { editId } = useParams();
   const modal = useModal();
   const navigate = useNavigate();
 
   const [deleteJob] = useApi<any>();
 
-  const { executeApplication } = useExecutableApplicationContext();
+  const { updateJob } = useExecutableApplicationContext();
   const { getApplicationByCode } = useApplicationContext();
+
   const onApplicationOpen =
     (job: JobDto, app: ApplicationDto | null) => async (_e: MouseEvent<HTMLButtonElement>) => {
       if (!app?.code) return;
 
-      await executeApplication(job.id, app.code);
+      await updateJob(job.id, app.code);
     };
 
   const onViewJob = (job: JobDto) => (_e: MouseEvent<HTMLButtonElement>) => {
@@ -75,9 +77,11 @@ export const Jobs = ({ jobs }: { jobs?: JobDto[] }) => {
   };
 
   const createJob = (e: MouseEvent<HTMLButtonElement>) => {
+    if (!editId) return;
+
     modal.showModal({
       title: t('portal:createJob.title'),
-      content: <SelectApplication />
+      content: <SelectApplication projectId={editId} />
     });
   };
   return (

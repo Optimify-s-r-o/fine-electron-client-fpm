@@ -2,6 +2,7 @@ import { ExecutableApplicationContext } from './ExecutableApplicationsContext';
 import { toast } from 'react-toastify';
 import { useTranslation } from 'react-i18next';
 import { APPLICATION_EXE_PATH } from '../../../../_types';
+import { config } from '../../../../utils/api';
 
 export const ExecutableApplicationsProvider = ({ children }: { children: JSX.Element }) => {
   const { t } = useTranslation(['portal']);
@@ -11,43 +12,43 @@ export const ExecutableApplicationsProvider = ({ children }: { children: JSX.Ele
       name: `${APPLICATION_EXE_PATH}${applicationCode}`
     });
 
-    if (!path) return false;
+    if (!path) return null;
 
-    return true;
+    return path;
   };
 
-  const executeApplication = async (jobId: string, applicationCode: string) => {
+  const createJob = async (projectId: string, applicationCode: string) => {
+    return await executeApplication(applicationCode, ['-e', 'createJob', '-projectId', projectId]);
+  };
+
+  const updateJob = async (jobId: string, applicationCode: string) => {
+    return await executeApplication(applicationCode, ['-e', 'updateJob', '-jobId', jobId]);
+  };
+
+  const executeBareApplication = async (applicationCode: string) => {
+    return await executeApplication(applicationCode, []);
+  };
+
+  const executeApplication = async (applicationCode: string, params: string[]) => {
     try {
       toast.info(t('portal:executeApplication.applicationStarting'));
 
-      const token = await window.API.keytarGetSecret('token');
-
-      const path = await window.API.invoke('ELECTRON_STORE_GET', {
-        name: `${APPLICATION_EXE_PATH}${applicationCode}`
-      });
+      const path = await isExecutable(applicationCode);
 
       if (!path) {
         toast.warn(t('portal:executeApplication.missingPath'));
         return;
       }
 
-      const { stdout, stderr } = await window.API.execFile(path, [
-        '-mode',
-        'fpm',
-        '-serverUrl',
-        'https://neco.cz',
-        '-e',
-        'createJob/updateJob',
-        '-projectId',
-        'asdas-dasdas-das-dasdas',
-        '-jobId',
-        'jobIDafasdfsf',
-        '-token',
-        token
-      ]);
+      const url = config.basePath;
 
-      console.log('stdout:', stdout);
-      console.log('stderr:', stderr);
+      const token = await window.API.keytarGetSecret('token');
+
+      const args = [...params, ...['-mode', 'fpm', '-serverUrl', url, '-token', token]];
+
+      console.log(args);
+
+      await window.API.execFile(path, args);
     } catch (e) {
       toast.error(t('portal:executeApplication.applicationFailed'));
     }
@@ -57,7 +58,9 @@ export const ExecutableApplicationsProvider = ({ children }: { children: JSX.Ele
     <ExecutableApplicationContext.Provider
       value={{
         loading: false,
-        executeApplication,
+        executeBareApplication,
+        createJob,
+        updateJob,
         isExecutable
       }}>
       {children}

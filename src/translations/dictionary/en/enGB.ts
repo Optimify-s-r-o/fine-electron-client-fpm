@@ -1095,7 +1095,7 @@ const dictionary: Lang = {
     downloaded: 'update successfully downloaded.',
     updating: 'Updating...',
     notification:
-      'This may take a while. When a new update is downloaded TRUSS Project Manager will automatically restart.',
+      'This may take a while. When a new update is downloaded Fine Project Manager will automatically restart.',
     upToDate: 'Your app is up to date.',
     error: 'Error',
     download: 'Download & Install now'

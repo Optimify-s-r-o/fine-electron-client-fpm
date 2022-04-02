@@ -4,7 +4,7 @@
   "homepage": "./",
   "productName": "Fine Project Manager",
   "description": "Fine Project Manager",
-  "version": "0.0.5",
+  "version": "0.0.6",
   "private": true,
   "dependencies": {
     "@fortawesome/fontawesome-svg-core": "^6.1.1",
@@ -132,9 +132,8 @@
     },
     "nsis": {
       "artifactName": "${productName}-Setup-${version}.${ext}",
-      "include": "resources/installer-prod.nsh",
       "warningsAsErrors": false,
-      "shortcutName": "Truss Project Manager",
+      "shortcutName": "Fine Project Manager",
       "oneClick": false,
       "perMachine": true,
       "allowElevation": true,

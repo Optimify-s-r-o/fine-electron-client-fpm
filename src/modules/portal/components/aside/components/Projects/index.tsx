@@ -107,7 +107,7 @@ export const Projects = () => {
             iconOff: faStarOutline,
             iconOn: faStar,
             colorOff: '#696969',
-            colorOn: '#F47b20',
+            colorOn: '#f1e230',
             state: onlyFavorites,
             onClick: toggleFavoritesFilter
           },

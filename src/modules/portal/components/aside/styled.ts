@@ -33,6 +33,8 @@ export const AddFavorite = styled.button<{ checked: boolean }>`
   opacity: ${(props) => (props.checked ? '1' : '0.75')};
 
   svg {
+    width: 14px;
+    margin-right: 3px;
     color: ${(props) => (props.checked ? props.theme.text.orange : props.theme.text.gray)};
   }
 

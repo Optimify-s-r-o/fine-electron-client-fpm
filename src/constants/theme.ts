@@ -81,7 +81,7 @@ export const lightTheme = {
     gray: '#696969',
     label: 'black',
     white: '#fff',
-    orange: '#F47b20'
+    orange: '#f1e230'
   },
   border: {
     default: '#eeeeee'

@@ -35,7 +35,6 @@ export const Jobs = ({ jobs }: { jobs?: JobDto[] }) => {
   const { selectJob } = useTreeContext();
   const { editId } = useParams();
   const modal = useModal();
-  const navigate = useNavigate();
 
   const [deleteJob] = useApi<any>();
 

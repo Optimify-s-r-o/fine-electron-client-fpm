@@ -12,10 +12,9 @@ import { IconButton } from 'components/Form/Button/IconButton';
 import { DateFormat } from 'components/Moment';
 import { CardTable } from 'components/Table/CardTable';
 import * as GS from 'constants/globalStyles';
-import { RoutesPath } from 'constants/routes';
+import { RowEnd } from 'constants/globalStyles';
 import { MouseEvent } from 'react';
 import { useTranslation } from 'react-i18next';
-import { useNavigate } from 'react-router';
 import API from 'utils/api';
 import { useApi } from 'utils/hooks/useApi';
 import useModal from 'utils/hooks/useModal';
@@ -24,7 +23,6 @@ import { useApplicationContext } from '../../../context/Applications/Application
 import { useExecutableApplicationContext } from '../../../context/ExecutableApplications/ExecutableApplicationsContext';
 import { useJobTranslationsContext } from '../../../context/JobTranslations/JobTranslationsContext';
 import { PlainButton } from '../../../../../components/Form/Button/PlainButton';
-import { RowEnd } from 'constants/globalStyles';
 import { SelectApplication } from './SelectApplication';
 import { useParams } from 'react-router-dom';
 import { useTreeContext } from '../../../context/Tree/TreeContext';
@@ -49,7 +47,7 @@ export const Jobs = ({ jobs }: { jobs?: JobDto[] }) => {
     };
 
   const onViewJob = (job: JobDto) => (_e: MouseEvent<HTMLButtonElement>) => {
-    selectJob( job );
+    selectJob(job);
   };
 
   const onDownloadJob = (job: JobDto) => (_e: MouseEvent<HTMLButtonElement>) => {

@@ -4,7 +4,7 @@ import { SortableContainer, SortableElement } from 'react-sortable-hoc';
 import { arrayMoveImmutable } from 'array-move';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faTimes } from '@fortawesome/pro-light-svg-icons';
-import { faFolder, faHomeAlt } from '@fortawesome/pro-solid-svg-icons';
+import { faFolder } from '@fortawesome/pro-solid-svg-icons';
 import { Tab, TabType, useTabContext } from '../../../context/Tab/TabContext';
 import { useNavigate } from 'react-router';
 import { RoutesPath } from '../../../../../constants/routes';

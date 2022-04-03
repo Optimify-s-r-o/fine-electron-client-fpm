@@ -69,7 +69,6 @@ export const TreeProvider = ( { children }: { children: JSX.Element; } ) => {
   }
 
   const setNameFilter = ( name: string ) => {
-    console.log( 'filter:' + name );
     setProjectTreeQuery( e => ( {
       ...e,
       name: name
@@ -153,6 +152,7 @@ export const TreeProvider = ( { children }: { children: JSX.Element; } ) => {
   }, [location] );
 
   const selectJob = ( job: JobDto ) => {
+    setSelectedProjectId( job.projectId );
     setSelectedJobId( job.id );
     navigate( `${ RoutesPath.JOBS }/${ job.id }/${ job.name }/general` );
   };

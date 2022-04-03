@@ -21,7 +21,8 @@
     "adminSettings": "Správa aplikací",
     "jobsSettings": "Správa úloh",
     "signOut": "Odhlásit se",
-    "filters": "Filtry"
+    "filters": "Filtry",
+    "sort": "Řazení"
   },
   "panel": {
     "search": "Hledat (Ctrl + F)",
@@ -79,7 +80,7 @@
     "admin": "Admin",
     "externalOperator": "Externí operátor"
   },
-  "createJob":  {
+  "createJob": {
     "title": "Vyberte aplikaci, ve které si přejete úlohu vytvořit."
   },
   "attachments": {

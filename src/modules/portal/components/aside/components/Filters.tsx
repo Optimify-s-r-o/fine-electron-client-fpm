@@ -38,14 +38,7 @@ export default Filters;
 
 const Wrapper = styled.div`
   display: flex;
-  gap: 8px;
-
-  margin-bottom: 8px;
-  padding: 8px 6px;
-
-  border-bottom: 1px solid ${(props) => props.theme.common.lightGray};
-  color: ${(props) => props.theme.text.gray};
-  font-size: 13px;
+  gap: 4px;
 `;
 
 const Button = styled.button<{ state: boolean; colorOff: string; colorOn: string }>`

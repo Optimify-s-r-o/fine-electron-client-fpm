@@ -1,11 +1,22 @@
-import { faFilterSlash, faStar as faStarOutline } from '@fortawesome/pro-light-svg-icons';
+import {
+  faArrowDown19,
+  faArrowDown91,
+  faArrowDownAZ,
+  faArrowDownZA,
+  faFilterSlash,
+  faStar as faStarOutline,
+  faUser
+} from '@fortawesome/pro-light-svg-icons';
 import { faStar } from '@fortawesome/pro-solid-svg-icons';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { ProjectDto } from 'api/generated';
 import _ from 'lodash';
 import { useTreeContext } from 'modules/portal/context/Tree/TreeContext';
+import { ProjectTreeSort } from 'modules/portal/context/Tree/types';
 import { useRef } from 'react';
 import { ContextMenu, useContextMenu } from 'react-context-menu-hooks';
 import { useTranslation } from 'react-i18next';
+import styled from 'styled-components';
 import { useKeyPress } from 'utils/keyHandler/useKeyPress';
 
 import API from '../../../../../../utils/api';
@@ -15,6 +26,7 @@ import * as S from '../../styled';
 import Filters from '../Filters';
 import Pagination from '../Pagination';
 import { Skeleton } from '../Skeleton';
+import Sort from '../Sort';
 import { projectContextMenuBridge } from './contextMenuBridge';
 import { ProjectRow } from './Item';
 
@@ -37,6 +49,7 @@ export const Projects = () => {
     setFavoritesOnlyFilter,
     filterQuery,
     resetFilters,
+    setSort,
     setPage
   } = useTreeContext();
 
@@ -98,28 +111,59 @@ export const Projects = () => {
     setFavoritesOnlyFilter(!filterQuery.favoriteOnly);
   };
 
+  const filterItems = [
+    {
+      iconOff: faStarOutline,
+      iconOn: faStar,
+      colorOff: '#696969',
+      colorOn: '#f1e230',
+      state: filterQuery.favoriteOnly ?? false,
+      onClick: toggleFavoritesFilter
+    }
+  ];
+
+  if (isFiltered) {
+    filterItems.push({
+      iconOff: faFilterSlash,
+      iconOn: faFilterSlash,
+      colorOff: '#696969',
+      colorOn: '#fff',
+      state: !isFiltered,
+      onClick: resetFilters
+    });
+  }
+
   return (
     <S.Wrapper color={'rgb(255, 202, 108)'} ref={projectsRef} tabIndex={0}>
-      <Filters
-        items={[
-          {
-            iconOff: faStarOutline,
-            iconOn: faStar,
-            colorOff: '#696969',
-            colorOn: '#f1e230',
-            state: filterQuery.favoriteOnly ?? false,
-            onClick: toggleFavoritesFilter
-          },
-          {
-            iconOff: faFilterSlash,
-            iconOn: faFilterSlash,
-            colorOff: '#696969',
-            colorOn: '#fff',
-            state: !isFiltered,
-            onClick: resetFilters
-          }
-        ]}
-      />
+      <TopWrapper>
+        <Filters items={filterItems} />
+        <Sort
+          items={[
+            {
+              label: <FontAwesomeIcon icon={faArrowDownAZ} />,
+              value: ProjectTreeSort.alphabeticalAsc
+            },
+            {
+              label: <FontAwesomeIcon icon={faArrowDownZA} />,
+              value: ProjectTreeSort.alphabeticalDesc
+            },
+            {
+              label: <FontAwesomeIcon icon={faArrowDown91} />,
+              value: ProjectTreeSort.modifyDateDesc
+            },
+            {
+              label: <FontAwesomeIcon icon={faArrowDown19} />,
+              value: ProjectTreeSort.modifyDateAsc
+            },
+            {
+              label: <FontAwesomeIcon icon={faUser} />,
+              value: ProjectTreeSort.myFirst
+            }
+          ]}
+          initialValue={ProjectTreeSort.alphabeticalAsc}
+          onSelect={setSort}
+        />
+      </TopWrapper>
       <S.Items>
         {loadingProjectTree ? (
           <Skeleton />
@@ -151,3 +195,15 @@ export const Projects = () => {
     </S.Wrapper>
   );
 };
+
+const TopWrapper = styled.div`
+  display: flex;
+  justify-content: space-between;
+
+  margin-bottom: 8px;
+  padding: 8px 6px;
+
+  border-bottom: 1px solid ${(props) => props.theme.common.lightGray};
+  color: ${(props) => props.theme.text.gray};
+  font-size: 13px;
+`;

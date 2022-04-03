@@ -1,12 +1,13 @@
-import { SpotlightContext } from './SpotlightContext';
-import React, { useState } from 'react';
-import styled from 'styled-components';
-import { useForm } from 'react-hook-form';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faSearch } from '@fortawesome/pro-solid-svg-icons';
-import { useTreeContext } from '../Tree/TreeContext';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import React, { useState } from 'react';
+import { useForm } from 'react-hook-form';
 import { useTranslation } from 'react-i18next';
+import styled from 'styled-components';
+
 import { useKeyPress } from '../../../../utils/keyHandler/useKeyPress';
+import { useTreeContext } from '../Tree/TreeContext';
+import { SpotlightContext } from './SpotlightContext';
 
 export type SpotlightInput = {
   spotlight: string;
@@ -16,15 +17,16 @@ export const SpotlightProvider = ({ children }: { children: JSX.Element }) => {
   const { t } = useTranslation(['form']);
 
   const [show, setShow] = useState<boolean>(false);
-  const { queryProjects } = useTreeContext();
+  const { setNameFilter } = useTreeContext();
 
   useKeyPress('Escape', (_event) => setShow(false), []);
 
   const onSubmit = async (data: SpotlightInput) => {
     setShow(false);
 
-    if (data?.spotlight) {
-      await queryProjects(`name=${data.spotlight}`);
+    if ( data?.spotlight ) {
+      console.log( 'dasdas' );
+      setNameFilter( data.spotlight );
     }
   };
 

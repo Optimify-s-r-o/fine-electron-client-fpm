@@ -1,21 +1,22 @@
-import { useTreeContext } from 'modules/portal/context/Tree/TreeContext';
-import { ContextMenu, useContextMenu } from 'react-context-menu-hooks';
-import * as S from '../../styled';
-import { ProjectRow } from './Item';
-import { ProjectDto } from 'api/generated';
-import Pagination from '../Pagination';
-import { useRef, useState } from 'react';
-import { projectContextMenuBridge } from './contextMenuBridge';
-import { useKeyPress } from 'utils/keyHandler/useKeyPress';
-import _ from 'lodash';
-import { useTranslation } from 'react-i18next';
-import { TabType, useTabContext } from '../../../../context/Tab/TabContext';
-import { useApi } from '../../../../../../utils/hooks/useApi';
-import API from '../../../../../../utils/api';
-import Filters from '../Filters';
-import { faStar as faStarOutline, faFilterSlash } from '@fortawesome/pro-light-svg-icons';
+import { faFilterSlash, faStar as faStarOutline } from '@fortawesome/pro-light-svg-icons';
 import { faStar } from '@fortawesome/pro-solid-svg-icons';
+import { ProjectDto } from 'api/generated';
+import _ from 'lodash';
+import { useTreeContext } from 'modules/portal/context/Tree/TreeContext';
+import { useRef, useState } from 'react';
+import { ContextMenu, useContextMenu } from 'react-context-menu-hooks';
+import { useTranslation } from 'react-i18next';
+import { useKeyPress } from 'utils/keyHandler/useKeyPress';
+
+import API from '../../../../../../utils/api';
+import { useApi } from '../../../../../../utils/hooks/useApi';
+import { TabType, useTabContext } from '../../../../context/Tab/TabContext';
+import * as S from '../../styled';
+import Filters from '../Filters';
+import Pagination from '../Pagination';
 import { Skeleton } from '../Skeleton';
+import { projectContextMenuBridge } from './contextMenuBridge';
+import { ProjectRow } from './Item';
 
 export const Projects = () => {
   const { t } = useTranslation(['portal']);
@@ -32,10 +33,12 @@ export const Projects = () => {
     selectProject,
     selectedProjectId,
     refetchProjects,
-    isFiltered
+    isFiltered,
+    setFavoritesOnlyFilter,
+    filterQuery,
+    resetFilters
   } = useTreeContext();
   const [page, setPage] = useState(1);
-  const [onlyFavorites, setOnlyFavorites] = useState(false);
 
   const handleDownPressed = () => {
     const data = projectTree.data;
@@ -88,16 +91,11 @@ export const Projects = () => {
 
     await deleteProject(() => API.ProjectsApi.fineProjectManagerApiProjectsIdDelete(project.id));
 
-    await refetchProjects(onlyFavorites);
+    await refetchProjects();
   };
 
   const toggleFavoritesFilter = () => {
-    setOnlyFavorites(!onlyFavorites);
-    refetchProjects(!onlyFavorites);
-  };
-
-  const removeFilters = async () => {
-    await refetchProjects();
+    setFavoritesOnlyFilter(!filterQuery.favoriteOnly);
   };
 
   return (
@@ -109,7 +107,7 @@ export const Projects = () => {
             iconOn: faStar,
             colorOff: '#696969',
             colorOn: '#f1e230',
-            state: onlyFavorites,
+            state: filterQuery.favoriteOnly ?? false,
             onClick: toggleFavoritesFilter
           },
           {
@@ -118,7 +116,7 @@ export const Projects = () => {
             colorOff: '#696969',
             colorOn: '#fff',
             state: !isFiltered,
-            onClick: removeFilters
+            onClick: resetFilters
           }
         ]}
       />

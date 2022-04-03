@@ -56,15 +56,15 @@ const JobEditGeneral = () => {
   useEffect(() => {
     if (!jobMainData) return;
 
-    reset({ name: jobMainData.name, description: jobMainData.description });
+    reset({ id: jobMainData.id, name: jobMainData.name, description: jobMainData.description });
   }, [jobMainData, reset]);
 
   const onSubmit = async (data: JobUpdateRequest) => {
     try {
-      await update(() => () => API.JobsApi.fineProjectManagerApiJobsPut(data));
-      toast.success(t('toast.job.savedSuccessfully', { name: data.name }));
+      await update(() => API.JobsApi.fineProjectManagerApiJobsPut(data));
+      toast.success(t('toast:job.savedSuccessfully', { name: data.name }));
     } catch (e) {
-      toast.error(t('toast.job.failedToSave', { name: data.name }));
+      toast.error(t('toast:job.failedToSave', { name: data.name }));
     }
   };
 

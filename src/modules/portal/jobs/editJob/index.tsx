@@ -43,6 +43,7 @@ const EditJob = () => {
       await updateJob(editId, app.code);
     }
   };
+
   const name = encodeURIComponent(jobName as string);
 
   const general = `${RoutesPath.JOBS}/${editId}/${name}/general`;

@@ -38,9 +38,9 @@ const EditProjectGeneral = () => {
   const onSubmit = async (data: ProjectUpdateRequest) => {
     try {
       await saveProject(() => API.ProjectsApi.fineProjectManagerApiProjectsPut(data));
-      toast.success(t('toast.project.savedSuccessfully', { name: data.name }));
+      toast.success(t('toast:project.savedSuccessfully', { name: data.name }));
     } catch (e) {
-      toast.error(t('toast.project.failedToSave', { name: data.name }));
+      toast.error(t('toast:project.failedToSave', { name: data.name }));
     }
   };
 

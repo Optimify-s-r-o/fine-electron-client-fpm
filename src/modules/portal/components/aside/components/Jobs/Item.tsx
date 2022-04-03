@@ -2,9 +2,10 @@ import { faHomeAlt } from '@fortawesome/pro-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { TabType, useTabContext } from 'modules/portal/context/Tab/TabContext';
 import { useTreeContext } from 'modules/portal/context/Tree/TreeContext';
-import { MouseEvent, useEffect, useRef } from 'react';
+import { MouseEvent, useEffect, useRef, useState } from 'react';
 import { ContextMenuTriggerArea } from 'react-context-menu-hooks';
 import styled from 'styled-components';
+import { useEffectAsync } from 'utils/useEffectAsync';
 
 import { JobDto } from '../../../../../../api/generated';
 import { useJobTranslationsContext } from '../../../../context/JobTranslations/JobTranslationsContext';
@@ -13,10 +14,19 @@ import { jobContextMenuBridge } from './contextMenuBridge';
 
 export const JobRow = ({ job }: { job: JobDto }) => {
   const itemRef = useRef(null);
-  const { selectedJobId, selectJob } = useTreeContext();
+  const { selectedJobId, selectJob, jobTree } = useTreeContext();
   const { addTab } = useTabContext();
-
+  
   const { getJobIcon, language, loading: iconLoading } = useJobTranslationsContext();
+
+  const [isSelected, setIsSelected] = useState<boolean>(selectedJobId === job.id);
+
+  useEffectAsync( () => {
+    if ( jobTree !== undefined ) {
+      console.log( `${ selectedJobId } --- ${ job.id }` );
+      setIsSelected( selectedJobId === job.id );
+    }
+  }, [selectedJobId, job, jobTree])
 
   useEffect(() => {
     const handleDoubleClick = () => {
@@ -47,7 +57,7 @@ export const JobRow = ({ job }: { job: JobDto }) => {
     <ContextMenuTriggerArea bridge={jobContextMenuBridge} data={{ job }}>
       <S.Item
         ref={itemRef}
-        active={selectedJobId === job.id}
+        active={isSelected}
         key={job.id}
         onClick={handleSelection}>
         <S.TitleWrapper>

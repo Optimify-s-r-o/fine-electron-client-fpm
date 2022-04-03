@@ -170,6 +170,7 @@ export const TreeProvider = ({ children }: { children: JSX.Element }) => {
 
   const selectJobIdOnly = async ( id: string ) => {
     const res = await getJobById( () => API.JobsApi.fineProjectManagerApiJobsIdGet( id ) );
+    setSelectedProjectId( res.projectId );
     selectJob( res );
   }
 

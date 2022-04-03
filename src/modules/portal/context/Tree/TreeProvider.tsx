@@ -83,7 +83,7 @@ export const TreeProvider = ({ children }: { children: JSX.Element }) => {
   };
 
   const setSort = (sort: ProjectTreeSort) => {
-    setProjectTreeSort(sort);
+    setProjectTreeSort( sort );
   };
 
   const setPage = (page: number) => {
@@ -116,7 +116,7 @@ export const TreeProvider = ({ children }: { children: JSX.Element }) => {
     const res = await getProjects(() =>
       API.ProjectsApi.fineProjectManagerApiProjectsGet(
         objectToQueryString(projectTreeQuery),
-        objectToQueryString(projectTreeSort),
+        ProjectTreeSort[projectTreeSort],
         requestedPage,
         requestedPageSize
       )

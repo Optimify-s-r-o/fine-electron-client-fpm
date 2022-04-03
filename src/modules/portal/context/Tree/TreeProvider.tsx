@@ -21,6 +21,9 @@ export const TreeProvider = ({ children }: { children: JSX.Element }) => {
   const [getProjects, { loading: projectsLoading }] = useApi<ProjectDtoPaginatedCollection>();
   const [getJobs, { loading: jobsLoading }] = useApi<ProjectJobsDto>();
 
+  const [getProjectById] = useApi<ProjectDto>();
+  const [getJobById] = useApi<JobDto>();
+
   const [jobsData, setJobsData] = useState<JobDto[]>([]);
 
   const [selectedProjectId, setSelectedProjectId] = useState<string | null>(null);
@@ -165,6 +168,16 @@ export const TreeProvider = ({ children }: { children: JSX.Element }) => {
     navigate(`${RoutesPath.JOBS}/${job.id}/general`);
   };
 
+  const selectJobIdOnly = async ( id: string ) => {
+    const res = await getJobById( () => API.JobsApi.fineProjectManagerApiJobsIdGet( id ) );
+    selectJob( res );
+  }
+
+  const selectProjectIdOnly = async ( id: string ) => {
+    const res = await getProjectById( () => API.ProjectsApi.fineProjectManagerApiProjectsIdGet( id ) );
+    selectProject( res );
+  }
+
   // Push project to current tree
   const handleNewProject = async (project: ProjectDto) => {
     const newTree = { ...projectsData };
@@ -206,7 +219,9 @@ export const TreeProvider = ({ children }: { children: JSX.Element }) => {
         filterQuery: projectTreeQuery,
         resetFilters: resetFilters,
         selectedJob: selectedJob,
-        selectedProject: selectedProject
+        selectedProject: selectedProject,
+        selectJobIdOnly: selectJobIdOnly,
+        selectProjectIdOnly: selectProjectIdOnly
       }}>
       {children}
     </TreeContext.Provider>

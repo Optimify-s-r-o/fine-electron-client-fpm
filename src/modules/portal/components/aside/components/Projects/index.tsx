@@ -3,7 +3,7 @@ import { faStar } from '@fortawesome/pro-solid-svg-icons';
 import { ProjectDto } from 'api/generated';
 import _ from 'lodash';
 import { useTreeContext } from 'modules/portal/context/Tree/TreeContext';
-import { useRef, useState } from 'react';
+import { useRef } from 'react';
 import { ContextMenu, useContextMenu } from 'react-context-menu-hooks';
 import { useTranslation } from 'react-i18next';
 import { useKeyPress } from 'utils/keyHandler/useKeyPress';

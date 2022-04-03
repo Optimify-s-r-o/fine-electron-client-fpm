@@ -27,10 +27,12 @@ import { PlainButton } from '../../../../../components/Form/Button/PlainButton';
 import { RowEnd } from 'constants/globalStyles';
 import { SelectApplication } from './SelectApplication';
 import { useParams } from 'react-router-dom';
+import { useTreeContext } from '../../../context/Tree/TreeContext';
 
 export const Jobs = ({ jobs }: { jobs?: JobDto[] }) => {
   const { t } = useTranslation(['portal', 'form', 'common', 'project']);
   const { language, getJobTranslation } = useJobTranslationsContext();
+  const { selectJob } = useTreeContext();
   const { editId } = useParams();
   const modal = useModal();
   const navigate = useNavigate();
@@ -48,7 +50,7 @@ export const Jobs = ({ jobs }: { jobs?: JobDto[] }) => {
     };
 
   const onViewJob = (job: JobDto) => (_e: MouseEvent<HTMLButtonElement>) => {
-    navigate(`${RoutesPath.JOBS}/${job.id}`);
+    selectJob( job );
   };
 
   const onDownloadJob = (job: JobDto) => (_e: MouseEvent<HTMLButtonElement>) => {

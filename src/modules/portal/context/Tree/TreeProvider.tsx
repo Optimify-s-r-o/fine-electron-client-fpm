@@ -26,6 +26,8 @@ export const TreeProvider = ( { children }: { children: JSX.Element; } ) => {
   const [selectedProjectId, setSelectedProjectId] = useState<string | null>( null );
   const [selectedJobId, setSelectedJobId] = useState<string | null>( null );
   const [isFiltered, setIsFiltered] = useState<boolean>( false );
+  const [selectedJob, setSelectedJob] = useState<JobDto | null>( null );
+  const [selectedProject, setSelectedProject] = useState<ProjectDto | null>( null );
 
   // Filter, sort and pagination settings
   const [requestedPageSize, setRequestedPageSize] = useState<number>( 50 );
@@ -69,7 +71,6 @@ export const TreeProvider = ( { children }: { children: JSX.Element; } ) => {
   }
 
   const setNameFilter = ( name: string ) => {
-    console.log( 'filter:' + name );
     setProjectTreeQuery( e => ( {
       ...e,
       name: name
@@ -131,6 +132,8 @@ export const TreeProvider = ( { children }: { children: JSX.Element; } ) => {
   const selectProject = ( project: ProjectDto ) => {
     setSelectedProjectId( project.id );
     setSelectedJobId( null );
+    setSelectedJob( null );
+    setSelectedProject( project );
     navigate( `${ RoutesPath.PROJECTS }/${ project.id }/${ project.name }/general` );
   };
 
@@ -153,7 +156,10 @@ export const TreeProvider = ( { children }: { children: JSX.Element; } ) => {
   }, [location] );
 
   const selectJob = ( job: JobDto ) => {
+    setSelectedProjectId( job.projectId );
     setSelectedJobId( job.id );
+    setSelectedProject( null );
+    setSelectedJob( job );
     navigate( `${ RoutesPath.JOBS }/${ job.id }/${ job.name }/general` );
   };
 
@@ -196,7 +202,9 @@ export const TreeProvider = ( { children }: { children: JSX.Element; } ) => {
         setPage: setPage,
         setRequestedPageSize: setRequestedPageSize,
         filterQuery: projectTreeQuery,
-        resetFilters: resetFilters
+        resetFilters: resetFilters,
+        selectedJob: selectedJob,
+        selectedProject: selectedProject
       }}>
       {children}
     </TreeContext.Provider>

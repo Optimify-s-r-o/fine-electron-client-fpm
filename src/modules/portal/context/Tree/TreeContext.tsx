@@ -23,7 +23,10 @@ interface ITreeContextType {
   refetchJobs: () => Promise<ProjectJobsDto | undefined>;
   toggleProjectFavorite: ( project: ProjectDto ) => Promise<void>;
   resetFilters: ( ) => void;
-  filterQuery: ProjectTreeQuery
+  filterQuery: ProjectTreeQuery;
+  selectedProject: ProjectDto | null;
+  selectedJob: JobDto | null;
+
 }
 
 export const TreeContext = createContext<ITreeContextType>({
@@ -57,7 +60,9 @@ export const TreeContext = createContext<ITreeContextType>({
   setPage: () => console.log('No valid context'),
   setRequestedPageSize: () => console.log( 'No valid context' ),
   resetFilters: () => console.log( 'No valid context' ),
-  filterQuery: {favoriteOnly: false, name: ''}
+  filterQuery: { favoriteOnly: false, name: '' },
+  selectedProject: null,
+  selectedJob: null
 });
 
 export const useTreeContext = () => useContext(TreeContext);

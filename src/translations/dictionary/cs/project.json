@@ -7,5 +7,15 @@
     "opening": "Otvírám projekt...",
     "aboutProject": "Informace o projektu",
     "jobCount": "Počet úloh"
+  },
+  "job": {
+    "attributeName": "Název",
+    "attributeValue": "Hodnota",
+    "type": "Typ",
+    "created": "Vytvořeno",
+    "updated": "Poslední editace",
+    "previews": "Náhledy",
+    "previewItemOf": "{{current}} ze {{total}}",
+    "run": "Spustit úlohu"
   }
 }

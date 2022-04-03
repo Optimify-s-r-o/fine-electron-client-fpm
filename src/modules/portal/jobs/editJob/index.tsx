@@ -2,12 +2,12 @@ import { faFolder } from '@fortawesome/pro-light-svg-icons';
 import { faDatabase } from '@fortawesome/pro-solid-svg-icons';
 import { RoutesPath } from 'constants/routes';
 import { useTranslation } from 'react-i18next';
-
 import { MainWrapper } from '../../components/main/components/MainWrapper';
 import { matchPath, Outlet, useLocation, useParams } from 'react-router-dom';
+import { Button } from 'components/Form/Button';
 
 const EditProject = () => {
-  const { t } = useTranslation(['portal', 'form', 'common']);
+  const { t } = useTranslation(['portal', 'project']);
   const { jobName, editId } = useParams();
   const { pathname } = useLocation();
 
@@ -20,6 +20,7 @@ const EditProject = () => {
     <MainWrapper
       icon={faFolder}
       title={jobName}
+      actionNode={<Button type="button">{t('project:job.run')}</Button>}
       navigation={[
         {
           path: general,

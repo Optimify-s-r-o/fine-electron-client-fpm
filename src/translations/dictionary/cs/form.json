@@ -5,6 +5,8 @@
     "searchPlaceholder": "Hledat...",
     "projectName": "Název projektu",
     "projectDescription": "Popis projektu",
+    "jobName": "Název úlohy",
+    "jobDescription": "Popis úlohy",
     "server": "Adresa serveru",
     "roles": "Role",
     "oldPassword": "Staré heslo",

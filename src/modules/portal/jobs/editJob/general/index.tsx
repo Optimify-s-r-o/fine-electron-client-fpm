@@ -6,60 +6,178 @@ import API from 'utils/api';
 import { useApi } from 'utils/hooks/useApi';
 import { useEffectAsync } from 'utils/useEffectAsync';
 import * as Yup from 'yup';
-
+import * as GS from 'constants/globalStyles';
 import { JobCreateRequest, JobDto } from '../../../../../api/generated';
 import { FileLinksResponse } from '../../../../../api/generated/api';
 import { Button } from '../../../../../components/Form/Button';
 import * as S from '../../../components/main/styled';
 import { useJobTranslationsContext } from '../../../context/JobTranslations/JobTranslationsContext';
+import { TextInput } from 'components/Form/Input/Text/TextInput';
+import { TextAreaInput } from 'components/Form/Input/Text/TextAreaInput';
+import AttributesTable from 'components/Table/AttributesTable';
+import { useEffect } from 'react';
+import { DateFormat } from 'components/Moment';
+import 'react-responsive-carousel/lib/styles/carousel.min.css'; // requires a loader
+import { Carousel } from 'react-responsive-carousel';
+import styled from 'styled-components';
 
 const JobEditGeneral = () => {
-  const { t } = useTranslation( ['form'] );
+  const { t } = useTranslation(['form', 'project']);
   const { language, getAttributeTranslation, getJobTranslation } = useJobTranslationsContext();
   const { editId } = useParams();
 
   const [getJobMain, { data: jobMainData, loading: jobMainDataLoading }] = useApi<JobDto>();
-  const [getJobPreviewLinks, { data: jobPreviewLinksData, loading: jobPreviewLinksLoading }] = useApi<FileLinksResponse>();
+  const [getJobPreviewLinks, { data: jobPreviewLinksData, loading: jobPreviewLinksLoading }] =
+    useApi<FileLinksResponse>();
 
-  useEffectAsync( async () => {
-    if ( editId ) {
-      await getJobMain( () => API.JobsApi.fineProjectManagerApiJobsIdGet( editId ) );
-      await getJobPreviewLinks( () => API.JobsApi.fineProjectManagerApiJobsIdPreviewsGet( editId ) );
+  useEffectAsync(async () => {
+    if (editId) {
+      await getJobMain(() => API.JobsApi.fineProjectManagerApiJobsIdGet(editId));
+      await getJobPreviewLinks(() => API.JobsApi.fineProjectManagerApiJobsIdPreviewsGet(editId));
     }
-  }, [editId] );
+  }, [editId]);
 
-  const { handleSubmit } = useForm<JobCreateRequest>( {
+  const {
+    handleSubmit,
+    register,
+    reset,
+    formState: { errors }
+  } = useForm<JobCreateRequest>({
     resolver: yupResolver(
-      Yup.object().shape( {
-        name: Yup.string().required( t( 'form:validation.required' ) )
-      } )
+      Yup.object().shape({
+        name: Yup.string().required(t('form:validation.required'))
+      })
     )
-  } );
+  });
 
-  const onSubmit = async ( data: JobCreateRequest ) => {
-    console.log( data );
+  useEffect(() => {
+    if (!jobMainData) return;
+
+    reset({ name: jobMainData.name, description: jobMainData.description });
+  }, [jobMainData, reset]);
+
+  const onSubmit = async (data: JobCreateRequest) => {
+    console.log(data);
   };
 
   return (
-    <S.MainFormContent onSubmit={handleSubmit( onSubmit )}>
+    <S.MainFormContent onSubmit={handleSubmit(onSubmit)}>
       <S.ContentWrapper>
-        {/* Cast 1: Umoznuje zmenit nazev ulohy a jeji popis (zpusobi refresh job stromu), obsahuje tlacitko pro spusteni v pripade, ze se jedna o spustitelnou vec (POZOR! na tohle jsem zapomnel v obrazku)*/}
-        {jobMainDataLoading ? 'loading' : `Nazev: ${ jobMainData?.name } Popis: ${ jobMainData?.description }  `}
-        {/* Cast 2: Tabulka obsahujici prelozeny seznam atributu*/}
-        {/* TODO komponenta na hezky vypis hodnot (co dostane jako argument attribtue a hezky ho vypise, to uz nedavam) */}
-        {jobMainDataLoading ? 'loading' : `${ jobMainData?.attributes?.map( e =>
-          `Nazev: ${ getAttributeTranslation( e.normalizedName as string, e, language ) } Hodnota: ${ e.value } ${ e.unit }  ` )
-          }`}
-        {/* Cast 3: obsahuje metadata ohledne ulohy*/}
-        {`Typ: ${ getJobTranslation( jobMainData?.type, language ) } Vytvoreno: ${ jobMainData?.createdAt } Posledni editace: ${ jobMainData?.updatedAt } `}
-        {/* Cast 4: komponenta na zpusov carouselu, obsahuje nahledy obrazku a POZOR!!!! pdf*/}
-        {`Preview linky: ${ jobPreviewLinksLoading ? 'loading' : jobPreviewLinksData?.files?.map( e => `${ e.link } ` ) }`}
+        <>
+          <GS.GridRow columns={2}>
+            <GS.GridItem>
+              <TextInput
+                errors={errors}
+                name={'name'}
+                register={register}
+                title={t('form:input.jobName')}
+              />
+              <TextAreaInput
+                name={'description'}
+                register={register}
+                title={t('form:input.jobDescription')}
+              />
+              <Button loading={jobMainDataLoading}>{t('form:button.save')}</Button>
+              <GS.HR />
+              {jobMainDataLoading ? (
+                'loading'
+              ) : (
+                <AttributesTable
+                  header={{
+                    title: t('project:job.attributeName'),
+                    value: t('project:job.attributeValue')
+                  }}
+                  attributes={
+                    jobMainData?.attributes?.map((e) => ({
+                      title: getAttributeTranslation(e.normalizedName as string, e, language),
+                      value: e.value + ' ' + e.unit
+                    })) ?? []
+                  }
+                />
+              )}
+            </GS.GridItem>
+            <GS.GridItem>
+              <AttributesTable
+                attributes={[
+                  {
+                    title: t('project:job.type'),
+                    value: getJobTranslation(jobMainData?.type, language)
+                  },
+                  {
+                    title: t('project:job.created'),
+                    value: <DateFormat date={jobMainData?.createdAt ?? ''} />
+                  },
+                  {
+                    title: t('project:job.updated'),
+                    value: <DateFormat date={jobMainData?.updatedAt ?? ''} />
+                  }
+                ]}
+              />
+              {jobPreviewLinksLoading ? (
+                'loading'
+              ) : (jobPreviewLinksData?.files ?? []).length > 0 ? (
+                <>
+                  <GS.HR />
+
+                  <GS.H2>{t('project:job.previews')}</GS.H2>
+                  <GS.Card noPadding>
+                    <PreviewWrapper>
+                      <Carousel
+                        infiniteLoop
+                        showThumbs={false}
+                        dynamicHeight
+                        statusFormatter={(current: number, total: number) => {
+                          return t('project:job.previewItemOf', { current, total });
+                        }}>
+                        {jobPreviewLinksData?.files?.map((e, key) => (
+                          <div key={key}>
+                            <img src={e.link} alt="asd" />
+                          </div>
+                        ))}
+                      </Carousel>
+                    </PreviewWrapper>
+                  </GS.Card>
+                </>
+              ) : (
+                ''
+              )}
+            </GS.GridItem>
+          </GS.GridRow>
+        </>
       </S.ContentWrapper>
-      <S.ButtonsWrapper>
-        <Button loading={false}>{t( 'form:button.save' )}</Button>
-      </S.ButtonsWrapper>
     </S.MainFormContent>
   );
 };
 
 export default JobEditGeneral;
+
+const PreviewWrapper = styled.div`
+  position: relative;
+
+  border-radius: 7px;
+
+  overflow: hidden;
+
+  .carousel.carousel-slider {
+    .control-dots {
+      .dot {
+        display: none;
+      }
+    }
+
+    .carousel-status {
+      margin: 0;
+      padding: 8px;
+
+      right: 30px;
+
+      font-size: 13px;
+    }
+
+    .control-arrow {
+      color: ${(props) => props.theme.colors.primary.default};
+
+      opacity: 0.9;
+    }
+  }
+`;

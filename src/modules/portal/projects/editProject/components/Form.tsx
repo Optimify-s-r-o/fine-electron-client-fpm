@@ -7,6 +7,7 @@ import { Jobs } from './Jobs';
 import { useTranslation } from 'react-i18next';
 import { FieldErrors, UseFormRegister } from 'react-hook-form';
 import { ProjectJobsDto, ProjectUpdateRequest } from 'api/generated';
+import AttributesTable from 'components/Table/AttributesTable';
 
 export const ProjectForm = ({
   data,
@@ -45,20 +46,18 @@ export const ProjectForm = ({
             </GS.GridItem>
             <GS.GridItem>
               <GS.H2>{t('project:main.aboutProject')}</GS.H2>
-              <GS.KeyValueTable>
-                <tbody>
-                  <tr>
-                    <td>{t('project:main.jobCount')}</td>
-                    <td>{data?.jobInformation?.openableCount}</td>
-                  </tr>
-                  {Object.entries(data?.jobInformation?.otherJobs ?? {}).map((e, key) => (
-                    <tr key={key}>
-                      <td>{e[0]}</td>
-                      <td>{e[1]}</td>
-                    </tr>
-                  ))}
-                </tbody>
-              </GS.KeyValueTable>
+              <AttributesTable
+                attributes={[
+                  {
+                    title: t('project:main.jobCount'),
+                    value: data?.jobInformation?.openableCount.toString()
+                  },
+                  ...Object.entries(data?.jobInformation?.otherJobs ?? {}).map((e, key) => ({
+                    title: e[0],
+                    value: e[1].toString()
+                  }))
+                ]}
+              />
             </GS.GridItem>
           </GS.GridRow>
 

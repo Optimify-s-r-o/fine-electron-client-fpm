@@ -27,7 +27,6 @@ const EditJob = () => {
   const { updateJob } = useExecutableApplicationContext();
   const { getApplicationByCode } = useApplicationContext();
 
-
   const handleOpenApplication = async () => {
     const app = getApplicationByCode(selectedJob?.application);
 
@@ -36,8 +35,8 @@ const EditJob = () => {
     }
   };
 
-  const general = `${RoutesPath.JOBS}/${selectedJob?.id}/${selectedJob?.name}/general`;
-  const attachments = `${RoutesPath.JOBS}/${selectedJob?.id}/${selectedJob?.name}/attachments`;
+  const general = `${RoutesPath.JOBS}/${selectedJob?.id}/general`;
+  const attachments = `${RoutesPath.JOBS}/${selectedJob?.id}/attachments`;
 
   return (
     <MainWrapper

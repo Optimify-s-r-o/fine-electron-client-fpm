@@ -19,9 +19,10 @@ const SortableItem = SortableElement(
     const { getJobIcon, language } = useJobTranslationsContext();
     const name = encodeURIComponent(value.name);
 
-    const path = `${value.type === TabType.PROJECT ? RoutesPath.PROJECTS : RoutesPath.JOBS}/${
-      value.id
-    }/${name}/general`;
+    const path =
+      value.type === TabType.JOB
+        ? `${RoutesPath.JOBS}/${value.id}/general`
+        : `${RoutesPath.PROJECTS}/${value.id}/${name}/general`;
 
     const handleNavigation = () => {
       navigate(path);

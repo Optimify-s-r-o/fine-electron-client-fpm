@@ -8,7 +8,7 @@ import { useEffectAsync } from 'utils/useEffectAsync';
 import * as Yup from 'yup';
 import * as GS from 'constants/globalStyles';
 import { JobDto, JobUpdateRequest } from '../../../../../api/generated';
-import { FileLinksResponse } from '../../../../../api/generated/api';
+import { FileLinksResponse, JobAttributeDto } from '../../../../../api/generated/api';
 import { Button } from '../../../../../components/Form/Button';
 import * as S from '../../../components/main/styled';
 import { useJobTranslationsContext } from '../../../context/JobTranslations/JobTranslationsContext';
@@ -20,15 +20,14 @@ import { DateFormat } from 'components/Moment';
 import 'react-responsive-carousel/lib/styles/carousel.min.css'; // requires a loader
 import { Carousel } from 'react-responsive-carousel';
 import styled from 'styled-components';
-import { useJob } from '../index';
 import { toast } from 'react-toastify';
+import { useTreeContext } from '../../../context/Tree/TreeContext';
 
 const JobEditGeneral = () => {
   const { t } = useTranslation(['form', 'toast', 'project']);
   const { language, getAttributeTranslation, getJobTranslation } = useJobTranslationsContext();
   const { editId } = useParams();
-  const { data: jobMainData, loading: jobMainDataLoading } = useJob();
-
+  const { selectedJob } = useTreeContext();
   const [update, { loading }] = useApi<JobUpdateRequest, JobDto>();
 
   const [getJobPreviewLinks, { data: jobPreviewLinksData, loading: jobPreviewLinksLoading }] =
@@ -51,13 +50,14 @@ const JobEditGeneral = () => {
         name: Yup.string().required(t('form:validation.required'))
       })
     )
-  });
+  } );
+  
 
   useEffect(() => {
-    if (!jobMainData) return;
+    if (!selectedJob || selectedJob.id !== editId) return;
 
-    reset({ id: jobMainData.id, name: jobMainData.name, description: jobMainData.description });
-  }, [jobMainData, reset]);
+    reset({ id: selectedJob.id, name: selectedJob.name, description: selectedJob.description });
+  }, [selectedJob, editId, reset]);
 
   const onSubmit = async (data: JobUpdateRequest) => {
     try {
@@ -85,9 +85,9 @@ const JobEditGeneral = () => {
                 register={register}
                 title={t('form:input.jobDescription')}
               />
-              <Button loading={jobMainDataLoading || loading}>{t('form:button.save')}</Button>
+              <Button loading={loading}>{t('form:button.save')}</Button>
               <GS.HR />
-              {jobMainDataLoading ? (
+              {selectedJob === null ? (
                 'loading'
               ) : (
                 <AttributesTable
@@ -95,12 +95,16 @@ const JobEditGeneral = () => {
                     title: t('project:job.attributeName'),
                     value: t('project:job.attributeValue')
                   }}
-                  attributes={
-                    jobMainData?.attributes?.map((e) => ({
-                      title: getAttributeTranslation(e.normalizedName as string, e, language),
-                      value: e.value + ' ' + e.unit
-                    })) ?? []
-                  }
+                    attributes={
+                      ( selectedJob?.attributes !== undefined && selectedJob?.attributes !== null )
+                        ? selectedJob.attributes.map( ( e: JobAttributeDto ) => 
+                      ({
+                        
+                        title: getAttributeTranslation( e.normalizedName as string, e, language ),
+                        value: e.value + ' ' + e.unit
+                        } ) )
+                        : []
+                    }
                 />
               )}
             </GS.GridItem>
@@ -109,15 +113,15 @@ const JobEditGeneral = () => {
                 attributes={[
                   {
                     title: t('project:job.type'),
-                    value: getJobTranslation(jobMainData?.type, language)
+                    value: getJobTranslation(selectedJob?.type, language)
                   },
                   {
                     title: t('project:job.created'),
-                    value: <DateFormat date={jobMainData?.createdAt ?? ''} />
+                    value: <DateFormat date={selectedJob?.createdAt ?? ''} />
                   },
                   {
                     title: t('project:job.updated'),
-                    value: <DateFormat date={jobMainData?.updatedAt ?? ''} />
+                    value: <DateFormat date={selectedJob?.updatedAt ?? ''} />
                   }
                 ]}
               />

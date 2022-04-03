@@ -13,8 +13,8 @@ export enum RoutesPath {
   EDIT_PROJECT_ATTACHMENTS = '/portal/projects/:editId/:projectName/attachments',
 
   JOBS = '/portal/jobs',
-  EDIT_JOB_GENERAL = '/portal/jobs/:editId/:jobName/general',
-  EDIT_JOB_ATTACHMENTS = '/portal/jobs/:editId/:jobName/attachments',
+  EDIT_JOB_GENERAL = '/portal/jobs/:editId/general',
+  EDIT_JOB_ATTACHMENTS = '/portal/jobs/:editId/attachments',
 
   CREATE_CUSTOMER = '/portal/create-customer',
   LIST_OF_CUSTOMERS = '/portal/list-of-customers',

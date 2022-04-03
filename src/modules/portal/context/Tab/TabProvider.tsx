@@ -16,7 +16,12 @@ export const TabProvider = ({ children }: { children: JSX.Element }) => {
   const addTab = async (tab: Tab) => {
     const store = await window.API.invoke('ELECTRON_STORE_GET', { name: 'tabs' });
 
-    if (!!store.find((e: Tab) => e.id === tab.id && e.type === tab.type)) return;
+    if (!store) {
+      await saveToStorage([tab]);
+      return;
+    }
+
+    if (!!store?.find((e: Tab) => e.id === tab.id && e.type === tab.type)) return;
 
     await saveToStorage([...store, tab]);
   };

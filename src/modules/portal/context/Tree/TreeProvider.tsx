@@ -13,7 +13,7 @@ import { TreeContext } from './TreeContext';
 import { ProjectTreeQuery, ProjectTreeSort } from './types';
 
 //TODO selected elementy do local storage
-export const TreeProvider = ( { children }: { children: JSX.Element; } ) => {
+export const TreeProvider = ({ children }: { children: JSX.Element }) => {
   const { user, isLogged, loading: userLoading } = useAuthContext();
   const navigate = useNavigate();
   const location = useLocation();
@@ -21,20 +21,27 @@ export const TreeProvider = ( { children }: { children: JSX.Element; } ) => {
   const [getProjects, { loading: projectsLoading }] = useApi<ProjectDtoPaginatedCollection>();
   const [getJobs, { loading: jobsLoading }] = useApi<ProjectJobsDto>();
 
-  const [jobsData, setJobsData] = useState<JobDto[]>( [] );
+  const [getProjectById] = useApi<ProjectDto>();
+  const [getJobById] = useApi<JobDto>();
 
-  const [selectedProjectId, setSelectedProjectId] = useState<string | null>( null );
-  const [selectedJobId, setSelectedJobId] = useState<string | null>( null );
-  const [isFiltered, setIsFiltered] = useState<boolean>( false );
+  const [jobsData, setJobsData] = useState<JobDto[]>([]);
+
+  const [selectedProjectId, setSelectedProjectId] = useState<string | null>(null);
+  const [selectedJobId, setSelectedJobId] = useState<string | null>(null);
+  const [isFiltered, setIsFiltered] = useState<boolean>(false);
+  const [selectedJob, setSelectedJob] = useState<JobDto | null>(null);
+  const [selectedProject, setSelectedProject] = useState<ProjectDto | null>(null);
 
   // Filter, sort and pagination settings
-  const [requestedPageSize, setRequestedPageSize] = useState<number>( 50 );
-  const [requestedPage, setRequestedPage] = useState<number>( 0 );
-  const [projectTreeQuery, setProjectTreeQuery] = useState<ProjectTreeQuery>( {
+  const [requestedPageSize, setRequestedPageSize] = useState<number>(50);
+  const [requestedPage, setRequestedPage] = useState<number>(0);
+  const [projectTreeQuery, setProjectTreeQuery] = useState<ProjectTreeQuery>({
     favoriteOnly: undefined,
     name: undefined
-  } );
-  const [projectTreeSort, setProjectTreeSort] = useState<ProjectTreeSort>(ProjectTreeSort.modifyDateAsc);
+  });
+  const [projectTreeSort, setProjectTreeSort] = useState<ProjectTreeSort>(
+    ProjectTreeSort.modifyDateAsc
+  );
 
   const emptyProjectTree: ProjectDtoPaginatedCollection = {
     data: [],
@@ -49,64 +56,64 @@ export const TreeProvider = ( { children }: { children: JSX.Element; } ) => {
     previousPageExists: false
   };
 
-  const [projectsData, setProjectsData] = useState<ProjectDtoPaginatedCollection>( emptyProjectTree );
+  const [projectsData, setProjectsData] = useState<ProjectDtoPaginatedCollection>(emptyProjectTree);
 
   // Refetch when state change
-  useEffectAsync( async () => {
+  useEffectAsync(async () => {
     await refetchProjects();
-  }, [projectTreeSort, projectTreeQuery, requestedPage])
+  }, [projectTreeSort, projectTreeQuery, requestedPage]);
 
   // Filters
   const resetFilters = () => {
-    setProjectTreeQuery( {favoriteOnly: false, name: ''} );
-  }
+    setProjectTreeQuery({ favoriteOnly: false, name: '' });
+  };
 
-  const setFavoriteOnlyFilter = ( favoriteOnly: boolean ) => {
-    setProjectTreeQuery( e => ( {
+  const setFavoriteOnlyFilter = (favoriteOnly: boolean) => {
+    setProjectTreeQuery((e) => ({
       ...e,
       favoriteOnly: favoriteOnly ? favoriteOnly : undefined
-    })  );
-  }
+    }));
+  };
 
-  const setNameFilter = ( name: string ) => {
-    setProjectTreeQuery( e => ( {
+  const setNameFilter = (name: string) => {
+    setProjectTreeQuery((e) => ({
       ...e,
       name: name
-    })  );
-  }
+    }));
+  };
 
-  const setSort = ( sort: ProjectTreeSort ) => {
-    setProjectTreeSort( sort );
-  }
+  const setSort = (sort: ProjectTreeSort) => {
+    setProjectTreeSort(sort);
+  };
 
-  const setPage = ( page: number ) => {
-    setRequestedPage( page );
-  }
+  const setPage = (page: number) => {
+    setRequestedPage(page);
+  };
 
   // Fetch project tree during portal startup
-  useEffectAsync( async () => {
-    if ( isLogged && !userLoading ) {
+  useEffectAsync(async () => {
+    if (isLogged && !userLoading) {
       const res = await refetchProjects();
-      setProjectsData( res );
+      setProjectsData(res);
     }
-  }, [isLogged, user, userLoading] );
+  }, [isLogged, user, userLoading]);
 
   // Fetch job tree if project is selected
   // Clear job selection if no project is selected
   // Clear job tree if no project is selected
-  useEffectAsync( async () => {
-    if ( isLogged && !userLoading && selectedProjectId ) {
-      setSelectedJobId( null );
+  useEffectAsync(async () => {
+    if (isLogged && !userLoading && selectedProjectId) {
+      setSelectedJobId(null);
       const res = await refetchJobs();
-      res?.jobs && setJobsData( res?.jobs );
+      res?.jobs && setJobsData(res?.jobs);
     } else {
-      setSelectedJobId( null );
-      setJobsData( [] );
+      setSelectedJobId(null);
+      setJobsData([]);
     }
-  }, [isLogged, user, userLoading, selectedProjectId] );
+  }, [isLogged, user, userLoading, selectedProjectId]);
 
   const refetchProjects = async () => {
-    const res = await getProjects( () =>
+    const res = await getProjects(() =>
       API.ProjectsApi.fineProjectManagerApiProjectsGet(
         objectToQueryString(projectTreeQuery),
         objectToQueryString(projectTreeSort),
@@ -114,64 +121,79 @@ export const TreeProvider = ( { children }: { children: JSX.Element; } ) => {
         requestedPageSize
       )
     );
-    setProjectsData( res );
-    setIsFiltered( projectTreeQuery.name !== '' && projectTreeQuery.name !== undefined);
+    setProjectsData(res);
+    setIsFiltered(projectTreeQuery.name !== '' && projectTreeQuery.name !== undefined);
     return res;
   };
 
   const refetchJobs = async () => {
-    if ( !selectedProjectId ) return;
+    if (!selectedProjectId) return;
 
-    return await getJobs( () =>
-      API.ProjectsApi.fineProjectManagerApiProjectsIdJobsGet( selectedProjectId )
+    return await getJobs(() =>
+      API.ProjectsApi.fineProjectManagerApiProjectsIdJobsGet(selectedProjectId)
     );
   };
 
-  const selectProject = ( project: ProjectDto ) => {
-    setSelectedProjectId( project.id );
-    setSelectedJobId( null );
-    navigate( `${ RoutesPath.PROJECTS }/${ project.id }/${ project.name }/general` );
+  const selectProject = (project: ProjectDto) => {
+    setSelectedProjectId(project.id);
+    setSelectedJobId(null);
+    setSelectedJob(null);
+    setSelectedProject(project);
+    navigate(`${RoutesPath.PROJECTS}/${project.id}/${project.name}/general`);
   };
 
   // Deselect project item if location changed outside project scope
-  useEffect( () => {
+  useEffect(() => {
     if (
-      ( !location.pathname.startsWith( RoutesPath.PROJECTS ) &&
-        !location.pathname.startsWith( RoutesPath.JOBS ) ) ||
+      (!location.pathname.startsWith(RoutesPath.PROJECTS) &&
+        !location.pathname.startsWith(RoutesPath.JOBS)) ||
       location.pathname === RoutesPath.CREATE_PROJECT
     ) {
-      setSelectedProjectId( null );
+      setSelectedProjectId(null);
     }
-  }, [location] );
+  }, [location]);
 
   // Deselect job item if location changed outside job scope
-  useEffect( () => {
-    if ( !location.pathname.startsWith( RoutesPath.JOBS ) ) {
-      setSelectedJobId( null );
+  useEffect(() => {
+    if (!location.pathname.startsWith(RoutesPath.JOBS)) {
+      setSelectedJobId(null);
     }
-  }, [location] );
+  }, [location]);
 
-  const selectJob = ( job: JobDto ) => {
-    setSelectedProjectId( job.projectId );
-    setSelectedJobId( job.id );
-    navigate( `${ RoutesPath.JOBS }/${ job.id }/${ job.name }/general` );
+  const selectJob = (job: JobDto) => {
+    setSelectedProjectId(job.projectId);
+    setSelectedJobId(job.id);
+    setSelectedProject(null);
+    setSelectedJob(job);
+    navigate(`${RoutesPath.JOBS}/${job.id}/general`);
   };
+
+  const selectJobIdOnly = async ( id: string ) => {
+    const res = await getJobById( () => API.JobsApi.fineProjectManagerApiJobsIdGet( id ) );
+    setSelectedProjectId( res.projectId );
+    selectJob( res );
+  }
+
+  const selectProjectIdOnly = async ( id: string ) => {
+    const res = await getProjectById( () => API.ProjectsApi.fineProjectManagerApiProjectsIdGet( id ) );
+    selectProject( res );
+  }
 
   // Push project to current tree
-  const handleNewProject = async ( project: ProjectDto ) => {
+  const handleNewProject = async (project: ProjectDto) => {
     const newTree = { ...projectsData };
-    newTree.data = [project, ...( newTree.data as ProjectDto[] )];
+    newTree.data = [project, ...(newTree.data as ProjectDto[])];
 
-    setProjectsData( newTree );
-    selectProject( project );
+    setProjectsData(newTree);
+    selectProject(project);
   };
 
-  const toggleProjectFavorite = async ( project: ProjectDto ) => {
+  const toggleProjectFavorite = async (project: ProjectDto) => {
     const newTree = { ...projectsData };
-    const projectIndex = newTree.data.findIndex( ( val: ProjectDto ) => val.id === project.id );
+    const projectIndex = newTree.data.findIndex((val: ProjectDto) => val.id === project.id);
     newTree.data[projectIndex].isFavorite = !newTree.data[projectIndex].isFavorite;
 
-    setProjectsData( newTree );
+    setProjectsData(newTree);
   };
 
   return (
@@ -196,7 +218,11 @@ export const TreeProvider = ( { children }: { children: JSX.Element; } ) => {
         setPage: setPage,
         setRequestedPageSize: setRequestedPageSize,
         filterQuery: projectTreeQuery,
-        resetFilters: resetFilters
+        resetFilters: resetFilters,
+        selectedJob: selectedJob,
+        selectedProject: selectedProject,
+        selectJobIdOnly: selectJobIdOnly,
+        selectProjectIdOnly: selectProjectIdOnly
       }}>
       {children}
     </TreeContext.Provider>

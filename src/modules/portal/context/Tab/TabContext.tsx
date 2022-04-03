@@ -9,6 +9,7 @@ export type Tab = {
   type: TabType;
   name: string;
   id: string;
+  jobType?: string | null;
 };
 
 export const TabContext = createContext<{

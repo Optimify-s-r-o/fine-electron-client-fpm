@@ -17,13 +17,18 @@ interface ITreeContextType {
   setPage: ( sort: number) => void;
   setRequestedPageSize: ( sort: number) => void;
   selectProject: (project: ProjectDto) => void;
-  selectJob: (id: JobDto) => void;
+  selectProjectIdOnly: (project: string) => Promise<void>;
+  selectJob: (job: JobDto) => void;
+  selectJobIdOnly: (id: string) => Promise<void>;
   handleNewProject: (project: ProjectDto) => Promise<void>;
   refetchProjects: () => Promise<ProjectDtoPaginatedCollection | undefined>;
   refetchJobs: () => Promise<ProjectJobsDto | undefined>;
   toggleProjectFavorite: ( project: ProjectDto ) => Promise<void>;
   resetFilters: ( ) => void;
-  filterQuery: ProjectTreeQuery
+  filterQuery: ProjectTreeQuery;
+  selectedProject: ProjectDto | null;
+  selectedJob: JobDto | null;
+
 }
 
 export const TreeContext = createContext<ITreeContextType>({
@@ -57,7 +62,11 @@ export const TreeContext = createContext<ITreeContextType>({
   setPage: () => console.log('No valid context'),
   setRequestedPageSize: () => console.log( 'No valid context' ),
   resetFilters: () => console.log( 'No valid context' ),
-  filterQuery: {favoriteOnly: false, name: ''}
+  filterQuery: { favoriteOnly: false, name: '' },
+  selectedProject: null,
+  selectedJob: null,
+  selectProjectIdOnly: () => new Promise<void>( ( e ) => 'No valid context' ),
+  selectJobIdOnly: () => new Promise<void>( ( e ) => 'No valid context' ),
 });
 
 export const useTreeContext = () => useContext(TreeContext);

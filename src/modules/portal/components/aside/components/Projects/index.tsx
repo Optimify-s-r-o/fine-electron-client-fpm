@@ -36,9 +36,9 @@ export const Projects = () => {
     isFiltered,
     setFavoritesOnlyFilter,
     filterQuery,
-    resetFilters
+    resetFilters,
+    setPage
   } = useTreeContext();
-  const [page, setPage] = useState(1);
 
   const handleDownPressed = () => {
     const data = projectTree.data;
@@ -130,13 +130,13 @@ export const Projects = () => {
         )}
       </S.Items>
       <Pagination
-        page={page}
-        pages={4}
+        page={projectTree.page + 1}
+        pages={projectTree.totalPages}
         onPrevious={() => {
-          setPage(page - 1);
+          setPage(projectTree.page - 1);
         }}
         onNext={() => {
-          setPage(page + 1);
+          setPage(projectTree.page + 1);
         }}
       />
       <ContextMenu bridge={projectContextMenuBridge}>

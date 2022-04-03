@@ -54,7 +54,7 @@ export const TreeProvider = ( { children }: { children: JSX.Element; } ) => {
   // Refetch when state change
   useEffectAsync( async () => {
     await refetchProjects();
-  }, [projectTreeSort, projectTreeQuery])
+  }, [projectTreeSort, projectTreeQuery, requestedPage])
 
   // Filters
   const resetFilters = () => {

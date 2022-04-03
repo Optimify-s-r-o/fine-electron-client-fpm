@@ -4,17 +4,19 @@ import { SortableContainer, SortableElement } from 'react-sortable-hoc';
 import { arrayMoveImmutable } from 'array-move';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faTimes } from '@fortawesome/pro-light-svg-icons';
-import { faFolder, faHomeAlt } from '@fortawesome/pro-solid-svg-icons';
+import { faFolder } from '@fortawesome/pro-solid-svg-icons';
 import { Tab, TabType, useTabContext } from '../../../context/Tab/TabContext';
 import { useNavigate } from 'react-router';
 import { RoutesPath } from '../../../../../constants/routes';
 import { matchPath, useLocation } from 'react-router-dom';
+import { useJobTranslationsContext } from '../../../context/JobTranslations/JobTranslationsContext';
 
 const SortableItem = SortableElement(
   ({ value, removeTab }: { value: Tab; removeTab: (tab: Tab) => void }) => {
     const navigate = useNavigate();
     const { pathname } = useLocation();
 
+    const { getJobIcon, language } = useJobTranslationsContext();
     const name = encodeURIComponent(value.name);
 
     const path = `${value.type === TabType.PROJECT ? RoutesPath.PROJECTS : RoutesPath.JOBS}/${
@@ -32,7 +34,10 @@ const SortableItem = SortableElement(
         active={!!matchPath(pathname, path) ? 1 : 0}
         type={value.type}>
         <TitleWrapper>
-          <FontAwesomeIcon icon={value.type === TabType.PROJECT ? faFolder : faHomeAlt} />
+          {value.type === TabType.PROJECT && <FontAwesomeIcon icon={faFolder} />}
+          {value.type === TabType.JOB && (
+            <Img src={getJobIcon(value.jobType, language)} alt={value.type + ' icon'} />
+          )}
           <Title>{value.name}</Title>
         </TitleWrapper>
         <Icon onClick={() => removeTab(value)}>
@@ -146,4 +151,9 @@ const Icon = styled.span`
     border-radius: 10px;
     background-color: #e3e3e3;
   }
+`;
+
+const Img = styled.img`
+  width: 15px;
+  height: 15px;
 `;

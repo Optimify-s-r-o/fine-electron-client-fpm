@@ -11,28 +11,27 @@ import { useJobTranslationsContext } from '../../../../context/JobTranslations/J
 import * as S from '../../styled';
 import { jobContextMenuBridge } from './contextMenuBridge';
 
-export const JobRow = ( { job }: { job: JobDto; } ) => {
-  const itemRef = useRef( null );
+export const JobRow = ({ job }: { job: JobDto }) => {
+  const itemRef = useRef(null);
   const { selectedJobId, selectJob } = useTreeContext();
   const { addTab } = useTabContext();
 
   const { getJobIcon, language, loading: iconLoading } = useJobTranslationsContext();
 
-  useEffect( () => {
+  useEffect(() => {
     const handleDoubleClick = () => {
-      selectJob( job );
-      addTab( { id: job.id, type: TabType.JOB, name: job.name } );
+      selectJob(job);
+      addTab({ id: job.id, type: TabType.JOB, name: job.name, jobType: job.type });
     };
 
     const item = itemRef?.current as any;
 
-    item?.addEventListener( 'dblclick', handleDoubleClick );
+    item?.addEventListener('dblclick', handleDoubleClick);
 
     return () => {
-      item?.removeEventListener( 'dblclick', handleDoubleClick );
+      item?.removeEventListener('dblclick', handleDoubleClick);
     };
-  }, [itemRef, addTab, job, selectJob] );
-
+  }, [itemRef, addTab, job, selectJob]);
 
   //TODO MARA
   // je potreba pridat strankovani - tam chybi i UI
@@ -40,8 +39,8 @@ export const JobRow = ( { job }: { job: JobDto; } ) => {
   // umoznit pohyb sipek
   // Pozor na to, ze muze byt dlouhy nazev, zkracujme ho aby se vesel na jeden radek
 
-  const handleSelection = ( _event: MouseEvent<HTMLDivElement> ) => {
-    selectJob( job );
+  const handleSelection = (_event: MouseEvent<HTMLDivElement>) => {
+    selectJob(job);
   };
 
   return (
@@ -52,12 +51,11 @@ export const JobRow = ( { job }: { job: JobDto; } ) => {
         key={job.id}
         onClick={handleSelection}>
         <S.TitleWrapper>
-          {
-            ( !iconLoading && getJobIcon( job.type, language ) ) ?
-              <Img src={getJobIcon( job.type, language )} alt={job.type + ' icon'} />
-              :
-              <FontAwesomeIcon icon={faHomeAlt} />
-          }
+          {!iconLoading && getJobIcon(job.type, language) ? (
+            <Img src={getJobIcon(job.type, language)} alt={job.type + ' icon'} />
+          ) : (
+            <FontAwesomeIcon icon={faHomeAlt} />
+          )}
 
           <S.Title>{job.name}</S.Title>
         </S.TitleWrapper>
@@ -67,6 +65,6 @@ export const JobRow = ( { job }: { job: JobDto; } ) => {
 };
 
 const Img = styled.img`
-  width: 20px;
-  height: 20px;
+  width: 15px;
+  height: 15px;
 `;

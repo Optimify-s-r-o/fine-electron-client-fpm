@@ -14,10 +14,17 @@ export const TabProvider = ({ children }: { children: JSX.Element }) => {
   }, []);
 
   const addTab = async (tab: Tab) => {
+    console.log(tab);
     const store = await window.API.invoke('ELECTRON_STORE_GET', { name: 'tabs' });
 
-    if (!!store.find((e: Tab) => e.id === tab.id && e.type === tab.type)) return;
-
+    if (!store) {
+      await saveToStorage([tab]);
+      return;
+    }
+    console.log(store?.find((e: Tab) => e.id === tab.id && e.type === tab.type));
+    console.log(!!store?.find((e: Tab) => e.id === tab.id && e.type === tab.type));
+    if (!!store?.find((e: Tab) => e.id === tab.id && e.type === tab.type)) return;
+    console.log([...store, tab]);
     await saveToStorage([...store, tab]);
   };
 

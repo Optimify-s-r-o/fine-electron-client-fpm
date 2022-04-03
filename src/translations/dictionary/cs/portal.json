@@ -65,9 +65,9 @@
     }
   },
   "executeApplication": {
-    "applicationStarting": "Aplikace se práve spouští.",
+    "applicationStarting": "Probíhá spouštění aplikace...",
     "missingPath": "Aplikace nemá nastavenou cestu ke spustitelnému programu. Cestu nastavte v sekci 'Nastavení - Cesty k programům'",
-    "applicationFailed": "Aplikace se nepovedlo spustit."
+    "applicationFailed": "Aplikaci se nepodařilo spustit. Zkontrolujte, že máte správně nastavnou cestu v sekci 'Nastavení - Cesty k programům'."
   },
   "contextMenu": {
     "open": "Otevřít",

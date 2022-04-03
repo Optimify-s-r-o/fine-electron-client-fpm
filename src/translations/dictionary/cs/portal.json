@@ -36,14 +36,7 @@
     },
     "create": {
       "creatingInfo": "Vytvářím projekt",
-      "creatingDone": "Projekt vytvořen",
-      "attachmentsInfo": "Nahrávám přílohy",
-      "attachmentsDone": "Přílohy zpracovány",
-      "attachmentDone": "Příloha zpracována"
-    },
-    "edit": {
-      "attachmentRemoved": "Příloha odebrána",
-      "attachmentDownloaded": "Příloha stažena"
+      "creatingDone": "Projekt vytvořen"
     }
   },
   "admin": {
@@ -88,5 +81,12 @@
   },
   "createJob":  {
     "title": "Vyberte aplikaci, ve které si přejete úlohu vytvořit."
+  },
+  "attachments": {
+    "attachmentRemoved": "Příloha odebrána",
+    "attachmentDownloaded": "Příloha stažena",
+    "attachmentsInfo": "Nahrávám přílohy",
+    "attachmentsDone": "Přílohy zpracovány",
+    "attachmentDone": "Příloha zpracována"
   }
 }

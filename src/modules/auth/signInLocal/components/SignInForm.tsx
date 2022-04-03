@@ -62,12 +62,6 @@ export const SinInForm = ({
           register={register}
           title={t('form:input.password')}
           errors={errors}
-          rightNode={
-            <Link
-              to={createRoute(RoutesPath.RESET_PASSWORD)}
-              title={t('auth:signIn.forgotPassword')}
-            />
-          }
           tabIndex={3}
         />
         <RowEnd>

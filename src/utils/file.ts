@@ -3,25 +3,25 @@ import axios, { AxiosResponse } from 'axios';
 import { FileOperationResponse } from '../api/generated';
 import API from './api';
 
-export const uploadJobTranslationIconAsync = async ( jobTranslationId: string, file: File ) => {
+export const uploadJobTranslationIconAsync = async (jobTranslationId: string, file: File) => {
   const response: AxiosResponse<FileOperationResponse> =
-    await API.JobTranslationsApi.fineProjectManagerApiJobtranslationsUploadIconPost( {
+    await API.JobTranslationsApi.fineProjectManagerApiJobtranslationsUploadIconPost({
       translationId: jobTranslationId,
-      suffix: file.name.substring( file.name.lastIndexOf( '.' ) )
-    } );
+      suffix: file.name.substring(file.name.lastIndexOf('.'))
+    });
 
-  if ( response.status === 200 ) {
+  if (response.status === 200) {
     const link = response.data.link;
 
-    if ( !link ) return;
+    if (!link) return;
 
-    const putResponse = await axios.put( link, file, {
+    const putResponse = await axios.put(link, file, {
       headers: {
         'Content-Type': file.type
       }
-    } );
+    });
 
-    if ( putResponse.status === 200 ) {
+    if (putResponse.status === 200) {
       return true;
     }
   }
@@ -29,25 +29,25 @@ export const uploadJobTranslationIconAsync = async ( jobTranslationId: string, f
   return false;
 };
 
-export const uploadApplicationIconAsync = async ( applicationId: string, file: File ) => {
+export const uploadApplicationIconAsync = async (applicationId: string, file: File) => {
   const response: AxiosResponse<FileOperationResponse> =
-    await API.ApplicationsApi.fineProjectManagerApiApplicationsUploadIconPost( {
+    await API.ApplicationsApi.fineProjectManagerApiApplicationsUploadIconPost({
       applicationId: applicationId,
-      suffix: file.name.substring( file.name.lastIndexOf( '.' ) )
-    } );
+      suffix: file.name.substring(file.name.lastIndexOf('.'))
+    });
 
-  if ( response.status === 200 ) {
+  if (response.status === 200) {
     const link = response.data.link;
 
-    if ( !link ) return;
+    if (!link) return;
 
-    const putResponse = await axios.put( link, file, {
+    const putResponse = await axios.put(link, file, {
       headers: {
         'Content-Type': file.type
       }
-    } );
+    });
 
-    if ( putResponse.status === 200 ) {
+    if (putResponse.status === 200) {
       return true;
     }
   }
@@ -55,38 +55,56 @@ export const uploadApplicationIconAsync = async ( applicationId: string, file: F
   return false;
 };
 
-export const uploadProjectAttachmentAsync = async ( projectId: string, file: File ) => {
+export const uploadJobsAttachmentAsync = async (jobId: string, file: File) => {
   const response: AxiosResponse<FileOperationResponse> =
-    await API.ProjectsApi.fineProjectManagerApiProjectsUploadAttachmentPost( {
-      projectId: projectId,
+    await API.JobsApi.fineProjectManagerApiJobsUploadAttachmentPost({
+      jobId: jobId,
       fileName: file.name
-    } );
+    });
 
   const link = response.data.link;
 
-  if ( !link ) return;
+  if (!link) return;
 
-  await axios.put( link, file, {
+  await axios.put(link, file, {
     headers: {
       'Content-Type': file.type
     }
-  } );
+  });
 };
 
-export const downloadAsync = async ( link: string, dir: string ) => {
+export const uploadProjectAttachmentAsync = async (projectId: string, file: File) => {
+  const response: AxiosResponse<FileOperationResponse> =
+    await API.ProjectsApi.fineProjectManagerApiProjectsUploadAttachmentPost({
+      projectId: projectId,
+      fileName: file.name
+    });
+
+  const link = response.data.link;
+
+  if (!link) return;
+
+  await axios.put(link, file, {
+    headers: {
+      'Content-Type': file.type
+    }
+  });
+};
+
+export const downloadAsync = async (link: string, dir: string) => {
   try {
-    const response = await fetch( link );
+    const response = await fetch(link);
 
     const blob = await response.blob();
 
-    await saveBlobToFile( blob, dir );
-  } catch ( e ) { }
+    await saveBlobToFile(blob, dir);
+  } catch (e) {}
 };
 
-const saveBlobToFile = async ( blob: Blob, path: string ) => {
+const saveBlobToFile = async (blob: Blob, path: string) => {
   const fs = window.API.fs;
 
-  const fileData = new Int8Array( await blob.arrayBuffer() );
+  const fileData = new Int8Array(await blob.arrayBuffer());
 
-  await fs.writeFileSync( path, fileData );
+  await fs.writeFileSync(path, fileData);
 };

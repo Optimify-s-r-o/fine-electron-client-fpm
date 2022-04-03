@@ -59,13 +59,13 @@ const CreateProject = () => {
 
       if (!data.files) return;
 
-      toast.info(t('portal:projects.create.attachmentsInfo'));
+      toast.info(t('portal:attachments.attachmentsInfo'));
 
       for (const file of data.files) {
         await uploadProjectAttachmentAsync(response.id, file);
       }
 
-      toast.success(t('portal:projects.create.attachmentsDone'));
+      toast.success(t('portal:attachments.attachmentsDone'));
 
       await handleNewProject(response);
     } catch (e) {}

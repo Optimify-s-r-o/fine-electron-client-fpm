@@ -23,7 +23,6 @@ export const JobRow = ({ job }: { job: JobDto }) => {
 
   useEffectAsync( () => {
     if ( jobTree !== undefined ) {
-      console.log( `${ selectedJobId } --- ${ job.id }` );
       setIsSelected( selectedJobId === job.id );
     }
   }, [selectedJobId, job, jobTree])

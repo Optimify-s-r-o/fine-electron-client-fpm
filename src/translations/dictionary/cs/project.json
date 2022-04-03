@@ -3,7 +3,7 @@
   "main": {
     "opening": "Otvírám projekt...",
     "aboutProject": "Informace o projektu",
-    "jobCount": "Počet úloh"
+    "jobCount": "Počet spustitelných úloh"
   },
   "job": {
     "attributeName": "Název",

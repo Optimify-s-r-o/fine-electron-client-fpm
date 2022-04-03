@@ -6,5 +6,13 @@
   },
   "common": {
     "changesSavedSuccessfully": "Změny byly úspěšně uloženy"
+  },
+  "project": {
+    "savedSuccessfully": "Projekt \"{{name}}\" byl úspěšně uložen.",
+    "failedToSave": "Projekt \"{{name}}\" nebylo možné uložit."
+  },
+  "job": {
+    "savedSuccessfully": "Úloha \"{{name}}\" byla úspěšně uložen.",
+    "failedToSave": "Úlohu \"{{name}}\" nebylo možné uložit."
   }
 }

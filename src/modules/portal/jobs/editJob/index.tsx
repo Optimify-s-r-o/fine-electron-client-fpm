@@ -3,14 +3,46 @@ import { faDatabase } from '@fortawesome/pro-solid-svg-icons';
 import { RoutesPath } from 'constants/routes';
 import { useTranslation } from 'react-i18next';
 import { MainWrapper } from '../../components/main/components/MainWrapper';
-import { matchPath, Outlet, useLocation, useParams } from 'react-router-dom';
+import { matchPath, Outlet, useLocation, useOutletContext, useParams } from 'react-router-dom';
 import { Button } from 'components/Form/Button';
+import { useApi } from '../../../../utils/hooks/useApi';
+import { JobDto } from '../../../../api/generated';
+import { useEffectAsync } from '../../../../utils/useEffectAsync';
+import API from '../../../../utils/api';
+import { useExecutableApplicationContext } from '../../context/ExecutableApplications/ExecutableApplicationsContext';
+import { useApplicationContext } from '../../context/Applications/ApplicationsContext';
 
-const EditProject = () => {
+type JobContextType = { loading: boolean; data?: JobDto | null | undefined };
+
+export const useJob = () => {
+  return useOutletContext<JobContextType>();
+};
+
+const EditJob = () => {
   const { t } = useTranslation(['portal', 'project']);
   const { jobName, editId } = useParams();
   const { pathname } = useLocation();
 
+  const [getJobMain, { data, loading }] = useApi<JobDto>();
+
+  const { updateJob } = useExecutableApplicationContext();
+  const { getApplicationByCode } = useApplicationContext();
+
+  useEffectAsync(async () => {
+    if (editId) {
+      await getJobMain(() => API.JobsApi.fineProjectManagerApiJobsIdGet(editId));
+    }
+  }, [editId]);
+
+  const handleOpenApplication = async () => {
+    const app = getApplicationByCode(data?.application);
+
+    const jobId = editId;
+
+    if (jobId && app) {
+      await updateJob(editId, app.code);
+    }
+  };
   const name = encodeURIComponent(jobName as string);
 
   const general = `${RoutesPath.JOBS}/${editId}/${name}/general`;
@@ -20,7 +52,11 @@ const EditProject = () => {
     <MainWrapper
       icon={faFolder}
       title={jobName}
-      actionNode={<Button type="button">{t('project:job.run')}</Button>}
+      actionNode={
+        <Button type="button" onClick={handleOpenApplication}>
+          {t('project:job.run')}
+        </Button>
+      }
       navigation={[
         {
           path: general,
@@ -35,9 +71,9 @@ const EditProject = () => {
           icon: faDatabase
         }
       ]}>
-      <Outlet />
+      <Outlet context={{ data, loading }} />
     </MainWrapper>
   );
 };
 
-export default EditProject;
+export default EditJob;

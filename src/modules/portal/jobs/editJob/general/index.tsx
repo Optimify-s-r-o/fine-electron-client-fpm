@@ -7,7 +7,7 @@ import { useApi } from 'utils/hooks/useApi';
 import { useEffectAsync } from 'utils/useEffectAsync';
 import * as Yup from 'yup';
 import * as GS from 'constants/globalStyles';
-import { JobCreateRequest, JobDto } from '../../../../../api/generated';
+import { JobDto, JobUpdateRequest } from '../../../../../api/generated';
 import { FileLinksResponse } from '../../../../../api/generated/api';
 import { Button } from '../../../../../components/Form/Button';
 import * as S from '../../../components/main/styled';
@@ -20,19 +20,22 @@ import { DateFormat } from 'components/Moment';
 import 'react-responsive-carousel/lib/styles/carousel.min.css'; // requires a loader
 import { Carousel } from 'react-responsive-carousel';
 import styled from 'styled-components';
+import { useJob } from '../index';
+import { toast } from 'react-toastify';
 
 const JobEditGeneral = () => {
-  const { t } = useTranslation(['form', 'project']);
+  const { t } = useTranslation(['form', 'toast', 'project']);
   const { language, getAttributeTranslation, getJobTranslation } = useJobTranslationsContext();
   const { editId } = useParams();
+  const { data: jobMainData, loading: jobMainDataLoading } = useJob();
 
-  const [getJobMain, { data: jobMainData, loading: jobMainDataLoading }] = useApi<JobDto>();
+  const [update, { loading }] = useApi<JobUpdateRequest, JobDto>();
+
   const [getJobPreviewLinks, { data: jobPreviewLinksData, loading: jobPreviewLinksLoading }] =
     useApi<FileLinksResponse>();
 
   useEffectAsync(async () => {
     if (editId) {
-      await getJobMain(() => API.JobsApi.fineProjectManagerApiJobsIdGet(editId));
       await getJobPreviewLinks(() => API.JobsApi.fineProjectManagerApiJobsIdPreviewsGet(editId));
     }
   }, [editId]);
@@ -42,7 +45,7 @@ const JobEditGeneral = () => {
     register,
     reset,
     formState: { errors }
-  } = useForm<JobCreateRequest>({
+  } = useForm<JobUpdateRequest>({
     resolver: yupResolver(
       Yup.object().shape({
         name: Yup.string().required(t('form:validation.required'))
@@ -56,8 +59,13 @@ const JobEditGeneral = () => {
     reset({ name: jobMainData.name, description: jobMainData.description });
   }, [jobMainData, reset]);
 
-  const onSubmit = async (data: JobCreateRequest) => {
-    console.log(data);
+  const onSubmit = async (data: JobUpdateRequest) => {
+    try {
+      await update(() => () => API.JobsApi.fineProjectManagerApiJobsPut(data));
+      toast.success(t('toast.job.savedSuccessfully', { name: data.name }));
+    } catch (e) {
+      toast.error(t('toast.job.failedToSave', { name: data.name }));
+    }
   };
 
   return (
@@ -77,7 +85,7 @@ const JobEditGeneral = () => {
                 register={register}
                 title={t('form:input.jobDescription')}
               />
-              <Button loading={jobMainDataLoading}>{t('form:button.save')}</Button>
+              <Button loading={jobMainDataLoading || loading}>{t('form:button.save')}</Button>
               <GS.HR />
               {jobMainDataLoading ? (
                 'loading'

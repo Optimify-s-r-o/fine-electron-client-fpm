@@ -16,7 +16,7 @@ import { ProjectForm } from '../components/Form';
 
 const EditProjectGeneral = () => {
   const { editId } = useParams();
-  const { t } = useTranslation(['portal', 'form', 'common', 'project']);
+  const { t } = useTranslation(['portal', 'form', 'toast', 'project']);
 
   const [getProjectMain, { data: project, loading }] = useApi<ProjectDto>();
   const [getProjectJobs, { data }] = useApi<ProjectJobsDto>();
@@ -38,9 +38,9 @@ const EditProjectGeneral = () => {
   const onSubmit = async (data: ProjectUpdateRequest) => {
     try {
       await saveProject(() => API.ProjectsApi.fineProjectManagerApiProjectsPut(data));
-      toast.success(t('project:notifications.savedSuccessfully', { name: data.name }));
+      toast.success(t('toast.project.savedSuccessfully', { name: data.name }));
     } catch (e) {
-      toast.error(t('project:notifications.failedToSave', { name: data.name }));
+      toast.error(t('toast.project.failedToSave', { name: data.name }));
     }
   };
 

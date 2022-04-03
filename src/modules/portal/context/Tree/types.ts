@@ -8,4 +8,5 @@ export enum ProjectTreeSort {
     alphabeticalDesc,
     modifyDateAsc,
     modifyDateDesc,
+    myFirst
 }

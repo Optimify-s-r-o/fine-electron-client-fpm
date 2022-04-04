@@ -15,13 +15,16 @@ import { useJobTranslationsContext } from '../../../context/JobTranslations/JobT
 import { TextInput } from 'components/Form/Input/Text/TextInput';
 import { TextAreaInput } from 'components/Form/Input/Text/TextAreaInput';
 import AttributesTable from 'components/Table/AttributesTable';
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { DateFormat } from 'components/Moment';
 import 'react-responsive-carousel/lib/styles/carousel.min.css'; // requires a loader
 import { Carousel } from 'react-responsive-carousel';
 import styled from 'styled-components';
 import { toast } from 'react-toastify';
 import { useTreeContext } from '../../../context/Tree/TreeContext';
+import AspectRatio from 'components/AspectRatio';
+import { IconButton } from 'components/Form/Button/IconButton';
+import { faArrowLeft, faArrowRight } from '@fortawesome/pro-light-svg-icons';
 
 const JobEditGeneral = () => {
   const { t } = useTranslation(['form', 'toast', 'project']);
@@ -32,11 +35,13 @@ const JobEditGeneral = () => {
 
   const [getJobPreviewLinks, { data: jobPreviewLinksData, loading: jobPreviewLinksLoading }] =
     useApi<FileLinksResponse>();
+  const [currentPreviewItem, setCurrentPreviewItem] = useState(0);
 
   useEffectAsync(async () => {
     if (editId) {
       await getJobPreviewLinks(() => API.JobsApi.fineProjectManagerApiJobsIdPreviewsGet(editId));
     }
+    setCurrentPreviewItem(0);
   }, [editId]);
 
   const {
@@ -50,8 +55,7 @@ const JobEditGeneral = () => {
         name: Yup.string().required(t('form:validation.required'))
       })
     )
-  } );
-  
+  });
 
   useEffect(() => {
     if (!selectedJob || selectedJob.id !== editId) return;
@@ -95,16 +99,14 @@ const JobEditGeneral = () => {
                     title: t('project:job.attributeName'),
                     value: t('project:job.attributeValue')
                   }}
-                    attributes={
-                      ( selectedJob?.attributes !== undefined && selectedJob?.attributes !== null )
-                        ? selectedJob.attributes.map( ( e: JobAttributeDto ) => 
-                      ({
-                        
-                        title: getAttributeTranslation( e.normalizedName as string, e, language ),
-                        value: e.value + ' ' + e.unit
-                        } ) )
-                        : []
-                    }
+                  attributes={
+                    selectedJob?.attributes !== undefined && selectedJob?.attributes !== null
+                      ? selectedJob.attributes.map((e: JobAttributeDto) => ({
+                          title: getAttributeTranslation(e.normalizedName as string, e, language),
+                          value: e.value + ' ' + e.unit
+                        }))
+                      : []
+                  }
                 />
               )}
             </GS.GridItem>
@@ -132,21 +134,55 @@ const JobEditGeneral = () => {
                   <GS.HR />
 
                   <GS.H2>{t('project:job.previews')}</GS.H2>
+                  <ControlsWrapper>
+                    <IconButton
+                      loading={false}
+                      icon={faArrowLeft}
+                      type="button"
+                      disabled={currentPreviewItem === 0}
+                      onClick={() => {
+                        setCurrentPreviewItem(currentPreviewItem - 1);
+                      }}
+                    />
+                    {t('project:job.previewItemOf', {
+                      current: currentPreviewItem + 1,
+                      total: jobPreviewLinksData?.files?.length ?? 0
+                    })}
+                    <IconButton
+                      loading={false}
+                      icon={faArrowRight}
+                      type="button"
+                      disabled={currentPreviewItem + 2 > (jobPreviewLinksData?.files?.length ?? 0)}
+                      onClick={() => {
+                        setCurrentPreviewItem(currentPreviewItem + 1);
+                      }}
+                    />
+                  </ControlsWrapper>
                   <GS.Card noPadding>
                     <PreviewWrapper>
-                      <Carousel
-                        infiniteLoop
-                        showThumbs={false}
-                        dynamicHeight
-                        statusFormatter={(current: number, total: number) => {
-                          return t('project:job.previewItemOf', { current, total });
-                        }}>
-                        {jobPreviewLinksData?.files?.map((e, key) => (
-                          <div key={key}>
-                            <img src={e.link} alt="asd" />
-                          </div>
-                        ))}
-                      </Carousel>
+                      <AspectRatio ratio={0.75}>
+                        <Carousel
+                          infiniteLoop
+                          showThumbs={false}
+                          showArrows={false}
+                          showStatus={false}
+                          selectedItem={currentPreviewItem}>
+                          {jobPreviewLinksData?.files?.map((e, key) => (
+                            <AspectRatio ratio={0.75}>
+                              <div
+                                key={key}
+                                style={{
+                                  backgroundImage: `url(${e.link})`,
+                                  backgroundSize: 'contain',
+                                  backgroundPosition: 'center',
+                                  backgroundRepeat: 'no-repeat',
+                                  width: '100%',
+                                  height: '100%'
+                                }}></div>
+                            </AspectRatio>
+                          ))}
+                        </Carousel>
+                      </AspectRatio>
                     </PreviewWrapper>
                   </GS.Card>
                 </>
@@ -162,6 +198,15 @@ const JobEditGeneral = () => {
 };
 
 export default JobEditGeneral;
+
+const ControlsWrapper = styled(GS.Center)`
+  gap: 8px;
+
+  margin-bottom: 8px;
+
+  color: #727277;
+  font-size: 13px;
+`;
 
 const PreviewWrapper = styled.div`
   position: relative;

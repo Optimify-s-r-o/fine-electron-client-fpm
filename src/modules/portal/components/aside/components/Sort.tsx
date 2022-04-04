@@ -1,6 +1,6 @@
 import styled from 'styled-components';
 import { useTranslation } from 'react-i18next';
-import { ReactNode, useEffect, useRef, useState } from 'react';
+import { ReactNode, useState } from 'react';
 import { SortSelect } from 'components/Form/Select/SortSelect';
 
 const Sort = <T extends unknown>({

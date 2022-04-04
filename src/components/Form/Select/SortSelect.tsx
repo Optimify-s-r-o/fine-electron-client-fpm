@@ -55,6 +55,7 @@ export const SortSelect = <T extends unknown>({
 
 const SelectContainer = styled.div`
   position: relative;
+  z-index: 99;
 
   svg {
     width: 17px;

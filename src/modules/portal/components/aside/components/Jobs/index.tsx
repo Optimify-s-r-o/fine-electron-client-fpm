@@ -60,7 +60,7 @@ export const Jobs = () => {
     if (!job) return;
 
     selectJob(job);
-    addTab({ id: job.id, type: TabType.JOB, name: job.name });
+    addTab({ id: job.id, type: TabType.JOB, name: job.name, jobType: job.type });
   };
 
   const handleDelete = async (e: any) => {

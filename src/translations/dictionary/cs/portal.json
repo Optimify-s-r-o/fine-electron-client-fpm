@@ -14,7 +14,7 @@
     "listOfUsers": "Seznam uživatelů",
     "settings": "Nastavení",
     "system": "Nastavení systému",
-    "applications": "Programy",
+    "applications": "Cesty k programům",
     "update": "Aktualizace",
     "search": "Hledat",
     "admin": "Administrátor",
@@ -27,6 +27,7 @@
   "panel": {
     "search": "Hledat (Ctrl + F)",
     "system": "Nastavení systému (Ctrl + J)",
+    "applicationsSettings": "Cesty k programům (Ctrl + K)",
     "createProject": "Nový projekt (Ctrl + P)"
   },
   "projects": {

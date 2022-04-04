@@ -1,5 +1,4 @@
 {
-
   "main": {
     "opening": "Otvírám projekt...",
     "aboutProject": "Informace o projektu",
@@ -12,7 +11,7 @@
     "created": "Vytvořeno",
     "updated": "Poslední editace",
     "previews": "Náhledy",
-    "previewItemOf": "{{current}} ze {{total}}",
+    "previewItemOf": "{{current}} / {{total}}",
     "run": "Spustit úlohu"
   }
 }

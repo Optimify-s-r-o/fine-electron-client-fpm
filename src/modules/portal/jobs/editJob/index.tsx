@@ -3,7 +3,7 @@ import { faDatabase } from '@fortawesome/pro-solid-svg-icons';
 import { RoutesPath } from 'constants/routes';
 import { useTranslation } from 'react-i18next';
 import { MainWrapper } from '../../components/main/components/MainWrapper';
-import { matchPath, Outlet, useLocation, useOutletContext, useParams } from 'react-router-dom';
+import { matchPath, Outlet, useLocation, useOutletContext } from 'react-router-dom';
 import { Button } from 'components/Form/Button';
 import { JobDto } from '../../../../api/generated';
 import { useExecutableApplicationContext } from '../../context/ExecutableApplications/ExecutableApplicationsContext';

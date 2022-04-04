@@ -15,13 +15,13 @@ import API from 'utils/api';
 import { useApi } from 'utils/hooks/useApi';
 import useModal from 'utils/hooks/useModal';
 import * as Yup from 'yup';
-
 import { JobTranslationCreateRequest, JobTranslationDto } from '../../../../api/generated/api';
 import { uploadJobTranslationIconAsync } from '../../../../utils/file';
 import { MainWrapper } from '../../components/main/components/MainWrapper';
 import * as S from '../../components/main/styled';
 import { useJobTranslationsContext } from '../../context/JobTranslations/JobTranslationsContext';
 import adminNav from '../adminNav';
+import editModal from './editModal';
 
 const IconField = ({
   url,
@@ -119,6 +119,8 @@ const JobsSettings = () => {
     }
   };
 
+  const onEdit = () => {};
+
   return (
     <MainWrapper
       icon={faFolder}
@@ -155,8 +157,13 @@ const JobsSettings = () => {
                 title: '',
                 render: (_t: undefined, r: JobTranslationDto) => (
                   <GS.FloatRight>
-                    <PlainButton loading={loading} onClick={() => {}}>
-                      {t('form:table.jobTranslationEdit')}
+                    <PlainButton
+                      loading={loading}
+                      type="button"
+                      onClick={() => {
+                        modal.showModal(editModal(register, handleSubmit(onEdit), t));
+                      }}>
+                      {t('form:table.jobEdit')}
                     </PlainButton>
                   </GS.FloatRight>
                 )

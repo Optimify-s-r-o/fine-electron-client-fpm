@@ -92,10 +92,12 @@ ipcMain.handle('CHECK_FOR_UPDATE', async (event) => {
 });
 
 ipcMain.handle('DOWNLOAD_UPDATE', async (event) => {
+  log.info('DU1');
   if (isDev) return true;
-
+  log.info('DU2');
   try {
     await autoUpdater.downloadUpdate();
+    log.info('DU2');
     return true;
   } catch (e) {
     return false;
@@ -110,5 +112,6 @@ ipcMain.handle('SAVE_DIALOG', async (event, arg) => {
 });
 
 autoUpdater.on('update-downloaded', (info) => {
+  log.info('update downloaded');
   autoUpdater.quitAndInstall();
 });

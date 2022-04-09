@@ -52,7 +52,8 @@ const Update = () => {
           <GS.GridItem fill={1}>
             <div>current: {version}</div>
             <div>latest: {latest}</div>
-            <button onClick={updateApp}>DOWNLOAD UPDATE {latest}</button>
+            {updatingState === State.PENDING && <div>checking...</div>}
+            {version !== latest && <button onClick={updateApp}>DOWNLOAD UPDATE {latest}</button>}
           </GS.GridItem>
         </GS.GridRow>
       </S.ContentWrapper>

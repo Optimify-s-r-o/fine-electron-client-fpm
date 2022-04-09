@@ -9,6 +9,8 @@ import { JobDto } from '../../../../api/generated';
 import { useExecutableApplicationContext } from '../../context/ExecutableApplications/ExecutableApplicationsContext';
 import { useApplicationContext } from '../../context/Applications/ApplicationsContext';
 import { useTreeContext } from '../../context/Tree/TreeContext';
+import ProgressModal from 'components/Progress/ProgressModal';
+import { ProgressStatus } from 'utils/hooks/useProgress';
 
 type JobContextType = { loading: boolean; data?: JobDto | null | undefined };
 
@@ -40,9 +42,39 @@ const EditJob = () => {
       icon={faFolder}
       title={selectedJob?.name}
       actionNode={
-        <Button type="button" onClick={handleOpenApplication}>
-          {t('project:job.run')}
-        </Button>
+        selectedJob?.isOpenable ? (
+          <Button type="button" onClick={handleOpenApplication}>
+            {t('project:job.run')}
+          </Button>
+        ) : (
+          <ProgressModal
+            triggerText="Test progress modal"
+            titleText="Testing progress modal"
+            run={async (addItem, setItemStatus, finish) => {
+              let i = 0;
+              const add = (text: string) => {
+                const y = addItem(text);
+                setTimeout(() => {
+                  setItemStatus(y, ProgressStatus.Success);
+                }, 1234);
+              };
+
+              addItem('Lorem ipsum dolor sit amet', ProgressStatus.Waiting);
+              add('Test ' + i);
+              i++;
+              const interval = setInterval(() => {
+                add('Test ' + i);
+                i++;
+                if (i > 10) {
+                  clearInterval(interval);
+                  setItemStatus(0, ProgressStatus.Fail);
+                  finish();
+                }
+              }, 1234);
+              return;
+            }}
+          />
+        )
       }
       navigation={[
         {

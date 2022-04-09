@@ -4,7 +4,7 @@
   "homepage": "./",
   "productName": "Fine Project Manager",
   "description": "Fine Project Manager",
-  "version": "0.0.14",
+  "version": "0.0.15",
   "private": true,
   "dependencies": {
     "@fortawesome/fontawesome-svg-core": "^6.1.1",

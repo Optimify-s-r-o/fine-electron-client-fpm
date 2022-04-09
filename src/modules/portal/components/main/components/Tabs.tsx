@@ -23,7 +23,7 @@ const SortableItem = SortableElement(
       <SortableTab
         className="sortable-item"
         onClick={() => handleNavigation()}
-        active={selectedJobId === value.id || selectedProjectId === value.id ? 1 : 0}
+        active={selectedJobId === value.id || (selectedProjectId === value.id && !selectedJobId ) ? 1 : 0}
         type={value.type}>
         <TitleWrapper>
           {value.type === TabType.PROJECT && <FontAwesomeIcon icon={faFolder} />}

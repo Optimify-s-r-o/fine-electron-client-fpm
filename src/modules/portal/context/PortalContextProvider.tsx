@@ -1,8 +1,12 @@
 import { useAuthContext } from 'modules/auth/context/AuthContext';
+import { ModalProvider } from 'utils/hooks/useModal';
 
 import { ApplicationsProvider } from './Applications/ApplicationsProvider';
 import { JobTranslationsProvider } from './JobTranslations/JobTranslationsProvider';
 import { TreeProvider } from './Tree/TreeProvider';
+import { SpotlightProvider } from './Spotlight/SpotlightProvider';
+import { TabProvider } from './Tab/TabProvider';
+import { ExecutableApplicationsProvider } from './ExecutableApplications/ExecutableApplicationsProvider';
 
 export const PortalContextProvider = ( { children }: { children: JSX.Element; } ) => {
   const { isLogged } = useAuthContext();
@@ -10,7 +14,15 @@ export const PortalContextProvider = ( { children }: { children: JSX.Element; } 
     <JobTranslationsProvider>
       <ApplicationsProvider>
         <TreeProvider>
-          {children}
+          <ExecutableApplicationsProvider>
+            <ModalProvider>
+              <SpotlightProvider>
+                <TabProvider>
+                  {children}
+                </TabProvider>
+              </SpotlightProvider>
+            </ModalProvider>
+          </ExecutableApplicationsProvider>
         </TreeProvider>
       </ApplicationsProvider >
     </JobTranslationsProvider>

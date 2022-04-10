@@ -10,5 +10,5 @@
   "upToDate": "Vaše aplikace je aktuální.",
   "error": "Nastala chyba",
   "downloadVersion": "Stáhnout a nainstalovat verzi v{{version}}",
-  "progress": "Staženo {{percent}}% ({{transferred}}/{{total}})"
+  "progress": "Staženo {{percent}}%"
 }

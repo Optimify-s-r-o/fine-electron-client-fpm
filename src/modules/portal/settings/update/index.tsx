@@ -52,8 +52,6 @@ const Update = () => {
     await window.API.invoke('DOWNLOAD_UPDATE');
   };
 
-  console.log(progressObject);
-
   return (
     <S.MainContent>
       <S.ContentWrapper>
@@ -84,13 +82,13 @@ const Update = () => {
                   {updatingState === State.UPDATING && (
                     <GS.Column>
                       <Notification>{t('settings:notification')}</Notification>
-                      <Progress>
-                        {t('settings:progress', {
-                          percent: progressObject?.percent,
-                          transferred: progressObject?.transferred,
-                          total: progressObject?.total
-                        })}
-                      </Progress>
+                      {progressObject?.percent && (
+                        <Progress>
+                          {t('settings:progress', {
+                            percent: Math.round(progressObject?.percent)
+                          })}
+                        </Progress>
+                      )}
                     </GS.Column>
                   )}
                 </ButtonWrapper>

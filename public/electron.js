@@ -1,4 +1,5 @@
-const path = require('path');
+const path = require( 'path' );
+const fs = require( 'fs' );
 const { app, BrowserWindow, ipcMain, dialog } = require('electron');
 const isDev = require('electron-is-dev');
 const { default: installExtension, REACT_DEVELOPER_TOOLS } = require('electron-devtools-installer');
@@ -102,6 +103,22 @@ ipcMain.handle('SAVE_DIALOG', async (event, arg) => {
     defaultPath: `${app.getPath('downloads')}\\${arg.fullName}`,
     buttonLabel: 'Save File'
   });
+} );
+
+ipcMain.handle('GET_TEMP_DIRECTORY', async (event, arg) => {
+  return app.getPath( 'temp' );
+});
+
+ipcMain.handle( 'WRITE_FILE', async ( event, { directory, file, content, coding }) => {
+  try
+  {
+    console.log(`Directory: '${directory}' File:'${file}'`)
+    fs.mkdirSync(directory, {recursive: true});
+    fs.writeFileSync( `${directory}\\${file}`, content, coding );
+    return true;
+  } catch(e) {
+    throw e;
+  }
 });
 
 autoUpdater.on('update-downloaded', (info) => {

@@ -63,27 +63,22 @@ ipcMain.handle('MAXIMIZE_WINDOW', async (event, ...args) => {
 });
 
 ipcMain.handle('ELECTRON_STORE_GET', async (event, arg) => {
-  console.log(arg.name);
   return store.get(arg.name);
 });
 
 ipcMain.handle('ELECTRON_STORE_SET', async (event, arg) => {
-  console.log(arg);
   store.set(arg.name, arg.value);
 });
 
 ipcMain.handle('CHECK_FOR_UPDATE', async (event) => {
   autoUpdater.autoDownload = false;
 
-  if (isDev) return { version: '1.1.1' };
+  if (isDev) return { version: '0.0.16' };
 
   try {
     const result = await autoUpdater.checkForUpdates();
-    log.info(result);
 
     const { updateInfo } = result;
-
-    log.info(updateInfo);
 
     return updateInfo;
   } catch (e) {
@@ -91,13 +86,11 @@ ipcMain.handle('CHECK_FOR_UPDATE', async (event) => {
   }
 });
 
-ipcMain.handle('DOWNLOAD_UPDATE', async (event) => {
-  log.info('DU1');
+ipcMain.handle('DOWNLOAD_UPDATE', async (_event) => {
   if (isDev) return true;
-  log.info('DU2');
+
   try {
     await autoUpdater.downloadUpdate();
-    log.info('DU2');
     return true;
   } catch (e) {
     return false;

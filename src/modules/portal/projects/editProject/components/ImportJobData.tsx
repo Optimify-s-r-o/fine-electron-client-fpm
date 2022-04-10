@@ -1,42 +1,36 @@
-import { ChangeEvent, useRef } from 'react';
-import {
-    faFileArrowUp
-  } from '@fortawesome/pro-light-svg-icons';
-import { PlainButton } from 'components/Form/Button/PlainButton';
+import { faFileArrowUp } from '@fortawesome/pro-light-svg-icons';
 import { useTranslation } from 'react-i18next';
 import { ProjectDto } from 'api/generated';
-  
+import ProgressModalFiles, {
+  ProgressRunFunctionWithFiles
+} from 'components/Progress/ProgressModalFiles';
+import { ProgressStatus } from 'utils/hooks/useProgress';
 
-export const ImportJobData = ({project}: {project?: ProjectDto | null}) => {
-    const fileInputRef = useRef<HTMLInputElement | null>(null);
-    const { t } = useTranslation( ['portal', 'form', 'common', 'project'] );
-    
-      const handleImport = (files: FileList) => {
-        if (files.length === 0) return;
-        // TODO Tady bych potreboval zobrazit modal a zacit zpracovavat ty soubory
-      };
+export const ImportJobData = ({ project }: { project?: ProjectDto | null }) => {
+  const { t } = useTranslation(['portal', 'form', 'common', 'project']);
 
-    return (
-        <label htmlFor="import-data">
-            <PlainButton loading={false} icon={faFileArrowUp} type="button" onClick={( e ) => {
-                e.preventDefault();
-                fileInputRef.current?.click();
-            }}
-            >
-                {t( 'form:button.importData' )}
-            </PlainButton>
-            <input
-                ref={fileInputRef}
-                id="import-data"
-                type="file"
-                multiple
-                style={{ display: 'none' }}
-                autoComplete={'off'}
-                tabIndex={-1}
-                onChange={( e: ChangeEvent<HTMLInputElement> ) => {
-                    if ( e.target.files ) handleImport(e.target.files);
-                }}
-            />
-            </label>
-    );
-}
+  const handleImport: ProgressRunFunctionWithFiles = (
+    files: File[] | null,
+    addItem,
+    setItemStatus,
+    finish
+  ) => {
+    if (!files || files.length === 0) return;
+    // TODO Tady bych potreboval zobrazit modal a zacit zpracovavat ty soubory
+    console.log(files);
+    const file1 = addItem('Processing first file');
+    setTimeout(() => {
+      setItemStatus(file1, ProgressStatus.Success);
+      finish();
+    }, 2500);
+  };
+
+  return (
+    <ProgressModalFiles
+      triggerText={t('form:button.importData')}
+      triggerIcon={faFileArrowUp}
+      titleText={t('form:button.importData')}
+      run={handleImport}
+    />
+  );
+};

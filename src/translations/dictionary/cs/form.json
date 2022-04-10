@@ -22,7 +22,9 @@
     "deleteJob": "Smazat úlohu",
     "deleteFile": "Smazat soubor",
     "deactivateUser": "Deaktivovat uživatele",
-    "addJob": "Přidat úlohu"
+    "addJob": "Vytvořit úlohu",
+    "importJob": "Importovat spustitelnou úlohu",
+    "importData": "Import dat"
   },
   "validation": {
     "required": "Toto pole je povinné.",

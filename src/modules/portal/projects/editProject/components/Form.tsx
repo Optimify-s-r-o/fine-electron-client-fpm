@@ -64,7 +64,7 @@ export const ProjectForm = ({
             </GS.GridItem>
           </GS.GridRow>
 
-          <Jobs jobs={data?.jobs} />
+          <Jobs project={data} />
         </>
       )}
     </S.ContentWrapper>

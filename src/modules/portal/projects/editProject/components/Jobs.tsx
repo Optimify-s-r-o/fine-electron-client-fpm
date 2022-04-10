@@ -3,9 +3,10 @@ import {
   faArrowUpRightFromSquare,
   faDownload,
   faPlus,
-  faTrashCan
+  faTrashCan,
+  faFileArrowUp
 } from '@fortawesome/pro-light-svg-icons';
-import { ApplicationDto, JobDto } from 'api/generated';
+import { ApplicationDto, JobDto, ProjectJobsDto } from 'api/generated';
 import ApplicationIcon from 'components/ApplicationIcon';
 import { DeleteButton } from 'components/Form/Button/DeleteButton';
 import { IconButton } from 'components/Form/Button/IconButton';
@@ -18,7 +19,6 @@ import { useTranslation } from 'react-i18next';
 import API from 'utils/api';
 import { useApi } from 'utils/hooks/useApi';
 import useModal from 'utils/hooks/useModal';
-
 import { useApplicationContext } from '../../../context/Applications/ApplicationsContext';
 import { useExecutableApplicationContext } from '../../../context/ExecutableApplications/ExecutableApplicationsContext';
 import { useJobTranslationsContext } from '../../../context/JobTranslations/JobTranslationsContext';
@@ -27,18 +27,22 @@ import { SelectApplication } from './SelectApplication';
 import { useParams } from 'react-router-dom';
 import { useTreeContext } from '../../../context/Tree/TreeContext';
 import { downloadJob } from 'utils/jobs/downloadJob';
+import { ImportJobData } from './ImportJobData';
 
-export const Jobs = ({ jobs }: { jobs?: JobDto[] }) => {
+export const Jobs = ({ project }: { project?: ProjectJobsDto | null }) => {
   const { t } = useTranslation(['portal', 'form', 'common', 'project']);
   const { language, getJobTranslation } = useJobTranslationsContext();
   const { selectJob } = useTreeContext();
   const { editId } = useParams();
   const modal = useModal();
+  
 
   const [deleteJob] = useApi<any>();
 
   const { updateJob } = useExecutableApplicationContext();
   const { getApplicationByCode } = useApplicationContext();
+
+
 
   const onApplicationOpen =
     (job: JobDto, app: ApplicationDto | null) => async (_e: MouseEvent<HTMLButtonElement>) => {
@@ -49,10 +53,6 @@ export const Jobs = ({ jobs }: { jobs?: JobDto[] }) => {
 
   const onViewJob = (job: JobDto) => (_e: MouseEvent<HTMLButtonElement>) => {
     selectJob(job);
-  };
-
-  const onDownloadJob = (job: JobDto) => async (_e: MouseEvent<HTMLButtonElement>) => {
-    downloadJob( job.id );
   };
 
   const deleteProjectJob = (id: string) => async (_e: MouseEvent<HTMLButtonElement>) => {
@@ -84,10 +84,12 @@ export const Jobs = ({ jobs }: { jobs?: JobDto[] }) => {
       content: <SelectApplication projectId={editId} />
     });
   };
+
   return (
     <>
       <GS.HR />
       <RowEnd>
+        <ImportJobData project={project} />
         <PlainButton loading={false} icon={faPlus} type="button" onClick={createJob}>
           {t('form:button.addJob')}
         </PlainButton>
@@ -167,7 +169,7 @@ export const Jobs = ({ jobs }: { jobs?: JobDto[] }) => {
                 )
               }
             ]}
-            dataSource={jobs}
+            dataSource={project?.jobs}
             emptyTableText={t('form:table.noJobs')}
           />
         </GS.GridItem>

@@ -76,7 +76,10 @@ const Update = () => {
               {updatingState === State.NEW_VERSION_TO_DOWNLOAD ||
               updatingState === State.UPDATING ? (
                 <ButtonWrapper>
-                  <Button loading={updatingState === State.UPDATING} onClick={updateApp}>
+                  <Button
+                    disabled={updatingState === State.UPDATING}
+                    loading={updatingState === State.UPDATING}
+                    onClick={updateApp}>
                     {t('settings:downloadVersion', { version: latest })}
                   </Button>
                   {updatingState === State.UPDATING && (

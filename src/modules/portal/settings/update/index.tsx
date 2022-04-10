@@ -1,5 +1,4 @@
 import * as GS from 'constants/globalStyles';
-import { Row } from 'constants/globalStyles';
 import * as S from '../../components/main/styled';
 import { MouseEvent, useState } from 'react';
 import { useEffectAsync } from '../../../../utils/useEffectAsync';
@@ -22,11 +21,16 @@ const Update = () => {
 
   const [version, setVersion] = useState(null);
   const [latest, setLatest] = useState(null);
+  const [progressObject, setProgressObject] = useState<any>(null);
   const [updatingState, setUpdatingState] = useState(State.CHECKING);
 
   useEffectAsync(async () => {
     const appVersion = await window.API.invoke('APP_VERSION');
     setVersion(appVersion);
+
+    await window.API.on('UPDATER_DOWNLOAD_PROGRESS', (event: any, message: any) => {
+      setProgressObject(message);
+    });
   }, []);
 
   useEffectAsync(async () => {
@@ -47,6 +51,8 @@ const Update = () => {
     setUpdatingState(State.UPDATING);
     await window.API.invoke('DOWNLOAD_UPDATE');
   };
+
+  console.log(progressObject);
 
   return (
     <S.MainContent>
@@ -75,7 +81,18 @@ const Update = () => {
                   <Button loading={updatingState === State.UPDATING} onClick={updateApp}>
                     {t('settings:downloadVersion', { version: latest })}
                   </Button>
-                  {updatingState === State.UPDATING && <Label>{t('settings:notification')}</Label>}
+                  {updatingState === State.UPDATING && (
+                    <GS.Column>
+                      <Notification>{t('settings:notification')}</Notification>
+                      <Progress>
+                        {t('settings:progress', {
+                          percent: progressObject?.percent,
+                          transferred: progressObject?.transferred,
+                          total: progressObject?.total
+                        })}
+                      </Progress>
+                    </GS.Column>
+                  )}
                 </ButtonWrapper>
               ) : updatingState === State.UP_TO_DATE ? (
                 <Status status={updatingState}>
@@ -95,7 +112,7 @@ const Update = () => {
 
 export default Update;
 
-const Status = styled(Row)<{ status: State }>`
+const Status = styled(GS.Row)<{ status: State }>`
   align-items: center;
 
   padding-top: 3px;
@@ -117,7 +134,7 @@ const Status = styled(Row)<{ status: State }>`
   }
 `;
 
-const Text = styled(Row)`
+const Text = styled(GS.Row)`
   margin: 5px 0;
 `;
 
@@ -129,6 +146,14 @@ const Label = styled.span`
   margin-right: 7px;
 `;
 
-const ButtonWrapper = styled.div`
+const ButtonWrapper = styled(GS.Column)`
+  margin-top: 7px;
+`;
+
+const Notification = styled.div`
+  margin-top: 10px;
+`;
+
+const Progress = styled.div`
   margin-top: 7px;
 `;

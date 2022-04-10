@@ -9,5 +9,6 @@
   "notification": "Tato akce může chvíli trvat. Po stažení nové aktualizace se Fine Project Manager automaticky restartuje.",
   "upToDate": "Vaše aplikace je aktuální.",
   "error": "Nastala chyba",
-  "downloadVersion": "Stáhnout a nainstalovat verzi v{{version}}"
+  "downloadVersion": "Stáhnout a nainstalovat verzi v{{version}}",
+  "progress": "Staženo {{percent}}% ({{transferred}}/{{total}})"
 }

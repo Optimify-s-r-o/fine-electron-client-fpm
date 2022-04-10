@@ -108,3 +108,7 @@ autoUpdater.on('update-downloaded', (info) => {
   log.info('update downloaded');
   autoUpdater.quitAndInstall();
 });
+
+autoUpdater.on('download-progress', (progressObj) => {
+  win.webContents.send('UPDATER_DOWNLOAD_PROGRESS', progressObj);
+});

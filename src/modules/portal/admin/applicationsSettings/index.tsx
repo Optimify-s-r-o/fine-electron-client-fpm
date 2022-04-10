@@ -21,7 +21,7 @@ import { useApi } from 'utils/hooks/useApi';
 import useModal from 'utils/hooks/useModal';
 import * as Yup from 'yup';
 
-import { ApplicationCreateRequest, ApplicationDto, ApplicationUpdateRequest } from '../../../../api/generated/api';
+import { ApplicationCreateRequest, ApplicationDto } from '../../../../api/generated/api';
 import { MainWrapper } from '../../components/main/components/MainWrapper';
 import * as S from '../../components/main/styled';
 import { useApplicationContext } from '../../context/Applications/ApplicationsContext';
@@ -88,8 +88,7 @@ const ApplicationsSettings = () => {
       })
     ),
     shouldUnregister: true
-  } );
-  
+  });
 
   const onFileChanged = async (file: File | null, record: ApplicationDto) => {
     if (file !== null) {

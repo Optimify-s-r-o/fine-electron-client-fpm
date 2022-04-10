@@ -8,6 +8,7 @@ export const Button = ({
   fullWidth = false,
   level = 2,
   loading = false,
+  disabled = false,
   children,
   type = 'submit',
   withMargin = false,
@@ -18,6 +19,7 @@ export const Button = ({
   level?: ButtonLevel;
   children: ReactNode;
   type?: 'button' | 'submit';
+  disabled?: boolean;
   withMargin?: boolean;
   onClick?: MouseEventHandler<HTMLButtonElement>;
 }) => {
@@ -25,6 +27,7 @@ export const Button = ({
     <ButtonElement
       type={type}
       fullWidth={fullWidth}
+      disabled={disabled}
       level={level}
       withMargin={withMargin}
       onClick={onClick}>

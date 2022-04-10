@@ -26,6 +26,7 @@ import { PlainButton } from '../../../../../components/Form/Button/PlainButton';
 import { SelectApplication } from './SelectApplication';
 import { useParams } from 'react-router-dom';
 import { useTreeContext } from '../../../context/Tree/TreeContext';
+import { downloadJob } from 'utils/jobs/downloadJob';
 
 export const Jobs = ({ jobs }: { jobs?: JobDto[] }) => {
   const { t } = useTranslation(['portal', 'form', 'common', 'project']);
@@ -50,8 +51,8 @@ export const Jobs = ({ jobs }: { jobs?: JobDto[] }) => {
     selectJob(job);
   };
 
-  const onDownloadJob = (job: JobDto) => (_e: MouseEvent<HTMLButtonElement>) => {
-    // TODO karel
+  const onDownloadJob = (job: JobDto) => async (_e: MouseEvent<HTMLButtonElement>) => {
+    downloadJob( job.id );
   };
 
   const deleteProjectJob = (id: string) => async (_e: MouseEvent<HTMLButtonElement>) => {
@@ -148,11 +149,12 @@ export const Jobs = ({ jobs }: { jobs?: JobDto[] }) => {
                         onClick={onViewJob(record)}
                         type="button"
                       />
-                      <IconButton
+                        <IconButton
                         loading={false}
                         icon={faDownload}
-                        onClick={onDownloadJob(record)}
+                        onClick={downloadJob( record.id )}
                         type="button"
+                        disabled={!record.isOpenable}
                       />
                       <IconButton
                         loading={false}

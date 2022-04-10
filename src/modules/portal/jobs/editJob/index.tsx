@@ -1,4 +1,4 @@
-import { faFolder } from '@fortawesome/pro-light-svg-icons';
+import { faDownload, faFolder } from '@fortawesome/pro-light-svg-icons';
 import { faDatabase } from '@fortawesome/pro-solid-svg-icons';
 import { RoutesPath } from 'constants/routes';
 import { useTranslation } from 'react-i18next';
@@ -11,6 +11,8 @@ import { useApplicationContext } from '../../context/Applications/ApplicationsCo
 import { useTreeContext } from '../../context/Tree/TreeContext';
 import ProgressModal from 'components/Progress/ProgressModal';
 import { ProgressStatus } from 'utils/hooks/useProgress';
+import { IconButton } from 'components/Form/Button/IconButton';
+import { downloadJob } from 'utils/jobs/downloadJob';
 
 type JobContextType = { loading: boolean; data?: JobDto | null | undefined };
 
@@ -34,6 +36,7 @@ const EditJob = () => {
     }
   };
 
+  
   const general = `${RoutesPath.JOBS}/${selectedJob?.id}/general`;
   const attachments = `${RoutesPath.JOBS}/${selectedJob?.id}/attachments`;
 
@@ -43,9 +46,18 @@ const EditJob = () => {
       title={selectedJob?.name}
       actionNode={
         selectedJob?.isOpenable ? (
-          <Button type="button" onClick={handleOpenApplication}>
-            {t('project:job.run')}
-          </Button>
+          <>
+            <IconButton
+                          loading={false}
+                          icon={faDownload}
+                          onClick={downloadJob( selectedJob?.id )}
+                          type="button"
+                          disabled={!selectedJob.isOpenable}
+            />
+            <Button type="button" onClick={handleOpenApplication}>
+              {t('project:job.run')}
+            </Button>
+          </>
         ) : (
           <ProgressModal
             triggerText="Test progress modal"

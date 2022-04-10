@@ -16,7 +16,7 @@ export const ImportJobData = ({ project }: { project?: ProjectDto | null }) => {
       try {
           const entityToWrite: JobCreateRequest = {
               type: "",
-              name: inputFile.name.substring( inputFile.name.lastIndexOf( '.' ) ),
+              name: inputFile.name.substring( 0, inputFile.name.lastIndexOf( '.' ) ),
               description: "",
               projectId: project?.id as string,
               application: "",
@@ -24,23 +24,42 @@ export const ImportJobData = ({ project }: { project?: ProjectDto | null }) => {
               attributes: []
           };
 
+          const directory = response + `\\TPM\\${ new Date().getTime() }`;
+          const file = 'output.json';
+
           await window.API.invoke( 'WRITE_FILE', {
-              directory: response + `\\${ new Date().getTime() }`,
-              file: 'output.json',
+              directory: directory,
+              file: file,
               content: JSON.stringify( entityToWrite ),
               coding: 'utf-8'
           }
           );
           
-          return true;
+          return {
+              success: true,
+              directory: directory,
+              file: file
+          };
           
       } catch ( e ) {
           console.log( e );
-          return false;
+          return {
+              success: false
+          };
       }
       
       
-}
+    }
+    
+    const openFileInfoExe = async (path: string, output: string, outputDir: string) => {
+        const args = ['-path', path, '-output', output, '-outputDir', outputDir];
+        const exe = await window.API.invoke( 'GET_FPM_FILE_INFO_EXE_PATH' );
+
+      console.log(`Exe: '${exe}' Args: '${args}'`);
+
+        const res = await window.API.execFile( exe, args );
+        return res;
+    }
     
     const handleImport: ProgressRunFunctionWithFiles = async (
         files: File[] | null,
@@ -58,16 +77,23 @@ export const ImportJobData = ({ project }: { project?: ProjectDto | null }) => {
         // Do actual work
         for ( let i = 0; i < files.length; i++ ) {
             setItemStatus( i, ProgressStatus.Running );
-            await createFileToWrite( files[i] );
-            setItemStatus( i, ProgressStatus.Success );
+            
+            const fileRes = await createFileToWrite( files[i] );
+            
+            if ( fileRes.success ) {
+            } else {
+                setItemStatus( i, ProgressStatus.Fail );
+                continue;
+            }
+
+            const res = await openFileInfoExe(files[i].name, fileRes?.file as string, fileRes?.directory as string);
+
+            console.log( res );
+
+            setItemStatus( i, res.exitCode === 0 ? ProgressStatus.Success : ProgressStatus.Fail );
         }
 
-      
-        const file1 = addItem( 'Processing first file' );
-        setTimeout( () => {
-            setItemStatus( file1, ProgressStatus.Success );
-            finish();
-        }, 2500 );
+        finish();
     }
 
   return (

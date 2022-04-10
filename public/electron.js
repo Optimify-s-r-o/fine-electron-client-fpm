@@ -119,6 +119,10 @@ ipcMain.handle( 'WRITE_FILE', async ( event, { directory, file, content, coding 
   } catch(e) {
     throw e;
   }
+} );
+
+ipcMain.handle('GET_FPM_FILE_INFO_EXE_PATH', async (event, arg) => {
+  return `${app.getAppPath()}\\FPMFileInfo.exe`;
 });
 
 autoUpdater.on('update-downloaded', (info) => {

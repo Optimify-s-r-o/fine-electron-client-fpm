@@ -1,0 +1,14 @@
+{
+  "installedVersion": "Nainstalovaná verze:",
+  "latestVersion": "Nejnovější verze:",
+  "latestVersionIsInstalled": "Váš ",
+  "checkingForUpdates": "Probíhá kontrola aktualizací...",
+  "newVersionFound": "Nalezena nová verze:",
+  "downloaded": "Aktualizace úspěšně stažena.",
+  "updating": "Aktualizuji...",
+  "notification": "Tato akce může chvíli trvat. Po stažení nové aktualizace se Fine Project Manager automaticky restartuje.",
+  "upToDate": "Vaše aplikace je aktuální.",
+  "error": "Nastala chyba",
+  "downloadVersion": "Stáhnout a nainstalovat verzi v{{version}}",
+  "progress": "Staženo {{percent}}%"
+}

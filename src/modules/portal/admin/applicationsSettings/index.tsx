@@ -21,7 +21,7 @@ import { useApi } from 'utils/hooks/useApi';
 import useModal from 'utils/hooks/useModal';
 import * as Yup from 'yup';
 
-import { ApplicationCreateRequest, ApplicationDto } from '../../../../api/generated/api';
+import { ApplicationCreateRequest, ApplicationDto, ApplicationUpdateRequest } from '../../../../api/generated/api';
 import { MainWrapper } from '../../components/main/components/MainWrapper';
 import * as S from '../../components/main/styled';
 import { useApplicationContext } from '../../context/Applications/ApplicationsContext';
@@ -88,7 +88,8 @@ const ApplicationsSettings = () => {
       })
     ),
     shouldUnregister: true
-  });
+  } );
+  
 
   const onFileChanged = async (file: File | null, record: ApplicationDto) => {
     if (file !== null) {
@@ -132,7 +133,7 @@ const ApplicationsSettings = () => {
     }
   };
 
-  const titleRender = (text: string, _r: any) => (
+  const codeRender = (text: string, _r: ApplicationDto) => (
     <Row>
       <Title>{text}</Title>
       <MarginLeft>
@@ -143,7 +144,7 @@ const ApplicationsSettings = () => {
           type="button"
           onClick={() => {
             modal.showModal({
-              title: t('form:table.programRename'),
+              title: t('form:table.programChange'),
               content: (
                 <>
                   <TextInput register={register} name="name" title={t('form:table.programName')} />
@@ -151,7 +152,7 @@ const ApplicationsSettings = () => {
               ),
               footer: (
                 <>
-                  <Button loading={false}>{t('form:table.programRename')}</Button>
+                  <Button loading={false}>{t('form:table.programChange')}</Button>
                 </>
               ),
               onSubmit: handleSubmit(() => {
@@ -160,7 +161,7 @@ const ApplicationsSettings = () => {
               })
             });
           }}>
-          {t('form:table.rename')}
+          {t('form:table.edit')}
         </PlainButton>
       </MarginLeft>
     </Row>
@@ -177,13 +178,13 @@ const ApplicationsSettings = () => {
             columns={[
               {
                 title: t('form:table.programName'),
-                render: titleRender,
+                render: (t: string, _r: any) => t,
                 width: '300px',
                 dataIndex: 'name'
               },
               {
                 title: t('form:table.programCode'),
-                render: (t: string, _r: any) => t,
+                render: codeRender,
                 dataIndex: 'code'
               },
               {

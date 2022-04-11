@@ -13,6 +13,7 @@ import ProgressModal from 'components/Progress/ProgressModal';
 import { ProgressStatus } from 'utils/hooks/useProgress';
 import { IconButton } from 'components/Form/Button/IconButton';
 import { downloadJob } from 'utils/jobs/downloadJob';
+import { Gap } from 'constants/globalStyles';
 
 type JobContextType = { loading: boolean; data?: JobDto | null | undefined };
 
@@ -36,7 +37,6 @@ const EditJob = () => {
     }
   };
 
-  
   const general = `${RoutesPath.JOBS}/${selectedJob?.id}/general`;
   const attachments = `${RoutesPath.JOBS}/${selectedJob?.id}/attachments`;
 
@@ -46,18 +46,18 @@ const EditJob = () => {
       title={selectedJob?.name}
       actionNode={
         selectedJob?.isOpenable ? (
-          <>
+          <Gap>
             <IconButton
-                          loading={false}
-                          icon={faDownload}
-                          onClick={downloadJob( selectedJob?.id )}
-                          type="button"
-                          disabled={!selectedJob.isOpenable}
+              loading={false}
+              icon={faDownload}
+              onClick={downloadJob(selectedJob?.id)}
+              type="button"
+              disabled={!selectedJob.isOpenable}
             />
             <Button type="button" onClick={handleOpenApplication}>
               {t('project:job.run')}
             </Button>
-          </>
+          </Gap>
         ) : (
           <ProgressModal
             triggerText="Test progress modal"

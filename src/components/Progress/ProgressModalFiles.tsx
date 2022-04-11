@@ -65,6 +65,7 @@ const ProgressModalFiles = ({
                 </Wrapper>
               ),
               onClose: () => {
+                if (fileInputRef.current) fileInputRef.current.value = '';
                 return finished.current;
               }
             });

@@ -86,7 +86,7 @@ export const ImportJobData = ({ project }: { project?: ProjectDto | null }) => {
                 continue;
             }
 
-            const res = await openFileInfoExe(files[i].name, fileRes?.file as string, fileRes?.directory as string);
+            const res = await openFileInfoExe((files[i] as any).path, fileRes?.file as string, fileRes?.directory as string);
 
             console.log( res );
 

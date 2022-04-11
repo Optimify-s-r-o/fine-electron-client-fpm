@@ -28,46 +28,42 @@ export const ProjectForm = ({
   const { getJobTranslation, language } = useJobTranslationsContext();
   return (
     <S.ContentWrapper>
-      {loading ? (
-        ''
-      ) : (
-        <>
-          <GS.GridRow columns={2}>
-            <GS.GridItem>
-              <TextInput
-                errors={errors}
-                name={'name'}
-                register={register}
-                title={t('form:input.projectName')}
-              />
-              <TextAreaInput
-                name={'description'}
-                register={register}
-                title={t('form:input.projectDescription')}
-              />
-              <Button loading={saving}>{t('form:button.save')}</Button>
-            </GS.GridItem>
-            <GS.GridItem>
-              <AttributesTable
-                header={{ title: t('project:main.aboutProject') }}
-                alignWithInput
-                attributes={[
-                  {
-                    title: t('project:main.jobCount'),
-                    value: data?.jobInformation?.openableCount.toString()
-                  },
-                  ...Object.entries(data?.jobInformation?.otherJobs ?? {}).map((e, key) => ({
-                    title: getJobTranslation(e[0], language),
-                    value: e[1].toString()
-                  }))
-                ]}
-              />
-            </GS.GridItem>
-          </GS.GridRow>
+      <>
+        <GS.GridRow columns={2}>
+          <GS.GridItem>
+            <TextInput
+              errors={errors}
+              name={'name'}
+              register={register}
+              title={t('form:input.projectName')}
+            />
+            <TextAreaInput
+              name={'description'}
+              register={register}
+              title={t('form:input.projectDescription')}
+            />
+            <Button loading={saving}>{t('form:button.save')}</Button>
+          </GS.GridItem>
+          <GS.GridItem>
+            <AttributesTable
+              header={{ title: t('project:main.aboutProject') }}
+              alignWithInput
+              attributes={[
+                {
+                  title: t('project:main.jobCount'),
+                  value: data?.jobInformation?.openableCount.toString()
+                },
+                ...Object.entries(data?.jobInformation?.otherJobs ?? {}).map((e, key) => ({
+                  title: getJobTranslation(e[0], language),
+                  value: e[1].toString()
+                }))
+              ]}
+            />
+          </GS.GridItem>
+        </GS.GridRow>
 
-          <Jobs project={data} />
-        </>
-      )}
+        <Jobs project={data} />
+      </>
     </S.ContentWrapper>
   );
 };

@@ -25,6 +25,7 @@ import { useTreeContext } from '../../../context/Tree/TreeContext';
 import AspectRatio from 'components/AspectRatio';
 import { IconButton } from 'components/Form/Button/IconButton';
 import { faArrowLeft, faArrowRight } from '@fortawesome/pro-light-svg-icons';
+import { Loader } from 'components/Form/Button/Loader';
 
 const JobEditGeneral = () => {
   const { t } = useTranslation(['form', 'toast', 'project']);
@@ -111,30 +112,19 @@ const JobEditGeneral = () => {
               )}
             </GS.GridItem>
             <GS.GridItem>
-              <AttributesTable
-                attributes={[
-                  {
-                    title: t('project:job.type'),
-                    value: getJobTranslation(selectedJob?.type, language)
-                  },
-                  {
-                    title: t('project:job.created'),
-                    value: <DateFormat date={selectedJob?.createdAt ?? ''} />
-                  },
-                  {
-                    title: t('project:job.updated'),
-                    value: <DateFormat date={selectedJob?.updatedAt ?? ''} />
-                  }
-                ]}
-              />
               {jobPreviewLinksLoading ? (
-                'loading'
-              ) : (jobPreviewLinksData?.files ?? []).length > 0 ? (
                 <>
-                  <GS.HR />
-
-                  <GS.H2>{t('project:job.previews')}</GS.H2>
-                  <ControlsWrapper>
+                  <GS.CardHeader>{t('project:job.previews')}</GS.CardHeader>
+                  <GS.Card noPadding>
+                    <PreviewWrapper>
+                      <AspectRatio ratio={0.75}>
+                        <GS.CenterFullHeight>
+                          <Loader size={64} color={'#727272'} />
+                        </GS.CenterFullHeight>
+                      </AspectRatio>
+                    </PreviewWrapper>
+                  </GS.Card>
+                  <ControlsWrapper isPreview>
                     <IconButton
                       loading={false}
                       icon={faArrowLeft}
@@ -144,10 +134,12 @@ const JobEditGeneral = () => {
                         setCurrentPreviewItem(currentPreviewItem - 1);
                       }}
                     />
-                    {t('project:job.previewItemOf', {
-                      current: currentPreviewItem + 1,
-                      total: jobPreviewLinksData?.files?.length ?? 0
-                    })}
+                    <span>
+                      {t('project:job.previewItemOf', {
+                        current: '1',
+                        total: '2'
+                      })}
+                    </span>
                     <IconButton
                       loading={false}
                       icon={faArrowRight}
@@ -158,6 +150,12 @@ const JobEditGeneral = () => {
                       }}
                     />
                   </ControlsWrapper>
+
+                  <GS.HR />
+                </>
+              ) : (jobPreviewLinksData?.files ?? []).length > 0 ? (
+                <>
+                  <GS.CardHeader>{t('project:job.previews')}</GS.CardHeader>
                   <GS.Card noPadding>
                     <PreviewWrapper>
                       <AspectRatio ratio={0.75}>
@@ -185,10 +183,56 @@ const JobEditGeneral = () => {
                       </AspectRatio>
                     </PreviewWrapper>
                   </GS.Card>
+                  <ControlsWrapper>
+                    <IconButton
+                      loading={false}
+                      icon={faArrowLeft}
+                      type="button"
+                      disabled={currentPreviewItem === 0}
+                      onClick={() => {
+                        setCurrentPreviewItem(currentPreviewItem - 1);
+                      }}
+                    />
+                    {t('project:job.previewItemOf', {
+                      current: currentPreviewItem + 1,
+                      total: jobPreviewLinksData?.files?.length ?? 0
+                    })}
+                    <IconButton
+                      loading={false}
+                      icon={faArrowRight}
+                      type="button"
+                      disabled={currentPreviewItem + 2 > (jobPreviewLinksData?.files?.length ?? 0)}
+                      onClick={() => {
+                        setCurrentPreviewItem(currentPreviewItem + 1);
+                      }}
+                    />
+                  </ControlsWrapper>
+
+                  <GS.HR />
                 </>
               ) : (
                 ''
               )}
+              <AttributesTable
+                header={{ title: t('project:job.meta') }}
+                alignWithInput={
+                  (jobPreviewLinksData?.files ?? []).length === 0 && !jobPreviewLinksLoading
+                }
+                attributes={[
+                  {
+                    title: t('project:job.type'),
+                    value: getJobTranslation(selectedJob?.type, language)
+                  },
+                  {
+                    title: t('project:job.created'),
+                    value: <DateFormat date={selectedJob?.createdAt ?? ''} />
+                  },
+                  {
+                    title: t('project:job.updated'),
+                    value: <DateFormat date={selectedJob?.updatedAt ?? ''} />
+                  }
+                ]}
+              />
             </GS.GridItem>
           </GS.GridRow>
         </>
@@ -199,13 +243,15 @@ const JobEditGeneral = () => {
 
 export default JobEditGeneral;
 
-const ControlsWrapper = styled(GS.Center)`
+const ControlsWrapper = styled(GS.Center)<{ isPreview?: boolean }>`
   gap: 8px;
 
-  margin-bottom: 8px;
+  margin-top: 17px;
 
   color: #727277;
   font-size: 13px;
+
+  opacity: ${(props) => (props.isPreview ? '0' : '1')};
 `;
 
 const PreviewWrapper = styled.div`

@@ -65,6 +65,17 @@ export const Center = styled(Flex)`
   justify-content: center;
 `;
 
+export const CenterFullHeight = styled(Center)`
+  height: 100%;
+`;
+
+export const CardHeader = styled.div`
+  margin-bottom: 5px;
+
+  color: #727272;
+  font-size: 13px;
+`;
+
 export const Card = styled.div<{
   fullSize?: boolean;
   topMargin?: boolean;

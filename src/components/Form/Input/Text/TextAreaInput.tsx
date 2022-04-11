@@ -30,8 +30,7 @@ export const TextAreaInput = ({
         {...register(name)}
         disabled={isDisabled}
         tabIndex={tabIndex}
-        rows={8}
-      ></S.TextArea>
+        rows={9}></S.TextArea>
       <ErrorMessage name={name} errors={errors} />
     </S.Column>
   );

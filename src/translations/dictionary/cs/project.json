@@ -12,6 +12,7 @@
     "updated": "Poslední editace",
     "previews": "Náhledy",
     "previewItemOf": "{{current}} / {{total}}",
-    "run": "Spustit úlohu"
+    "run": "Spustit úlohu",
+    "meta": "Informace"
   }
 }

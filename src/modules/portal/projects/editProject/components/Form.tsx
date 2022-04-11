@@ -24,7 +24,7 @@ export const ProjectForm = ({
   errors: FieldErrors<ProjectUpdateRequest>;
   saving: boolean;
 }) => {
-  const { t } = useTranslation( ['portal', 'form', 'common', 'project'] );
+  const { t } = useTranslation(['portal', 'form', 'common', 'project']);
   const { getJobTranslation, language } = useJobTranslationsContext();
   return (
     <S.ContentWrapper>
@@ -48,8 +48,9 @@ export const ProjectForm = ({
               <Button loading={saving}>{t('form:button.save')}</Button>
             </GS.GridItem>
             <GS.GridItem>
-              <GS.H2>{t('project:main.aboutProject')}</GS.H2>
               <AttributesTable
+                header={{ title: t('project:main.aboutProject') }}
+                alignWithInput
                 attributes={[
                   {
                     title: t('project:main.jobCount'),

@@ -10,11 +10,13 @@ export enum ProgressStatus {
 export type ProgressRunFunction = (
   addItem: (
     name: string,
-    initialStatus?: ProgressStatus.Waiting | ProgressStatus.Running
+    initialStatus?: ProgressStatus.Waiting | ProgressStatus.Running,
+    statusText?: string
   ) => number,
   setItemStatus: (
     index: number,
-    status: ProgressStatus.Running | ProgressStatus.Success | ProgressStatus.Fail
+    status: ProgressStatus.Running | ProgressStatus.Success | ProgressStatus.Fail,
+    statusText?: string
   ) => void,
   finish: () => void
 ) => void;
@@ -22,6 +24,7 @@ export type ProgressRunFunction = (
 export interface ProgressItem {
   name: string;
   status: ProgressStatus;
+  statusText: string;
   started: Date | null;
   ended: Date | null;
 }
@@ -32,12 +35,14 @@ const useProgress = () => {
 
   const addItem = (
     name: string,
-    initialStatus: ProgressStatus.Waiting | ProgressStatus.Running = ProgressStatus.Running
+    initialStatus: ProgressStatus.Waiting | ProgressStatus.Running = ProgressStatus.Running,
+    statusText: string = ''
   ) => {
     const index =
       items.current.push({
         name,
         status: initialStatus,
+        statusText: '',
         started: initialStatus === ProgressStatus.Running ? new Date() : null,
         ended: null
       }) - 1;
@@ -46,9 +51,11 @@ const useProgress = () => {
 
   const setItemStatus = (
     index: number,
-    status: ProgressStatus.Running | ProgressStatus.Success | ProgressStatus.Fail
+    status: ProgressStatus.Running | ProgressStatus.Success | ProgressStatus.Fail,
+    statusText: string = ''
   ) => {
     items.current[index].status = status;
+    items.current[index].statusText = statusText;
     if (status === ProgressStatus.Running) items.current[index].started = new Date();
     else {
       if (items.current[index].started === null) items.current[index].started = new Date();

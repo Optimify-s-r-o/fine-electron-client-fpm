@@ -47,6 +47,7 @@ const Progress = ({ run }: { run: ProgressRunFunction }) => {
                 ) : (
                   <FontAwesomeIcon icon={faCirclePause} />
                 )}
+                {item.statusText.length > 0 && <span>{item.statusText}</span>}
               </Status>
               <Name>{item.name}</Name>
               <ItemTime>
@@ -116,14 +117,25 @@ const Item = styled.div`
 `;
 
 const Status = styled.div<{ status: ProgressStatus }>`
-  height: 19px;
-
-  padding-top: 3px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
 
   svg {
     width: 19px;
     height: 19px;
 
+    padding-top: 2px;
+  }
+
+  span {
+    padding-top: 3px;
+
+    font-size: 13px;
+  }
+
+  svg,
+  span {
     color: ${(props) =>
       props.status === ProgressStatus.Waiting
         ? props.theme.common.darkGray

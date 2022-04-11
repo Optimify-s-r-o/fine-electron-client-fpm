@@ -8,6 +8,7 @@ import cs_portal from './dictionary/cs/portal.json';
 import cs_project from './dictionary/cs/project.json';
 import cs_toast from './dictionary/cs/toast.json';
 import cs_settings from './dictionary/cs/settings.json';
+import cs_job from './dictionary/cs/job.json';
 
 const resources = {
   cs: {
@@ -17,7 +18,8 @@ const resources = {
     portal: cs_portal,
     project: cs_project,
     toast: cs_toast,
-    settings: cs_settings
+    settings: cs_settings,
+    job: cs_job
   },
   en: {
     auth: cs_auth,
@@ -25,7 +27,8 @@ const resources = {
     form: cs_form,
     portal: cs_portal,
     project: cs_project,
-    settings: cs_settings
+    settings: cs_settings,
+    job: cs_job
   }
 };
 

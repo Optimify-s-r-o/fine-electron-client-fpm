@@ -1,0 +1,10 @@
+{
+    "import": {
+      "jobSuccess": "Úspěch",
+      "jobFailExeOpen": "Nelze spustit TPM File Info.exe",
+      "jobFailOther": "Chyba importu",
+      "jobRunning": "Probíhá import...",
+      "jobWaiting": "Ve frontě",
+      "jobFailPreparation": "Zápis dočasného souboru se nezdařil"
+    }
+  }

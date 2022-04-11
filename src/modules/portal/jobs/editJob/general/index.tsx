@@ -1,31 +1,33 @@
+import 'react-responsive-carousel/lib/styles/carousel.min.css';
+
+import { faArrowLeft, faArrowRight } from '@fortawesome/pro-light-svg-icons';
 import { yupResolver } from '@hookform/resolvers/yup/dist/yup';
+import AspectRatio from 'components/AspectRatio';
+import { IconButton } from 'components/Form/Button/IconButton';
+import { Loader } from 'components/Form/Button/Loader';
+import { TextAreaInput } from 'components/Form/Input/Text/TextAreaInput';
+import { TextInput } from 'components/Form/Input/Text/TextInput';
+import { DateFormat } from 'components/Moment';
+import AttributesTable from 'components/Table/AttributesTable';
+import * as GS from 'constants/globalStyles';
+import { useEffect, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { useTranslation } from 'react-i18next';
+import { Carousel } from 'react-responsive-carousel';
 import { useParams } from 'react-router-dom';
+import { toast } from 'react-toastify';
+import styled from 'styled-components';
 import API from 'utils/api';
 import { useApi } from 'utils/hooks/useApi';
 import { useEffectAsync } from 'utils/useEffectAsync';
 import * as Yup from 'yup';
-import * as GS from 'constants/globalStyles';
+
 import { JobDto, JobUpdateRequest } from '../../../../../api/generated';
 import { FileLinksResponse, JobAttributeDto } from '../../../../../api/generated/api';
 import { Button } from '../../../../../components/Form/Button';
 import * as S from '../../../components/main/styled';
 import { useJobTranslationsContext } from '../../../context/JobTranslations/JobTranslationsContext';
-import { TextInput } from 'components/Form/Input/Text/TextInput';
-import { TextAreaInput } from 'components/Form/Input/Text/TextAreaInput';
-import AttributesTable from 'components/Table/AttributesTable';
-import { useEffect, useState } from 'react';
-import { DateFormat } from 'components/Moment';
-import 'react-responsive-carousel/lib/styles/carousel.min.css'; // requires a loader
-import { Carousel } from 'react-responsive-carousel';
-import styled from 'styled-components';
-import { toast } from 'react-toastify';
 import { useTreeContext } from '../../../context/Tree/TreeContext';
-import AspectRatio from 'components/AspectRatio';
-import { IconButton } from 'components/Form/Button/IconButton';
-import { faArrowLeft, faArrowRight } from '@fortawesome/pro-light-svg-icons';
-import { Loader } from 'components/Form/Button/Loader';
 
 const JobEditGeneral = () => {
   const { t } = useTranslation(['form', 'toast', 'project']);
@@ -165,10 +167,10 @@ const JobEditGeneral = () => {
                           showArrows={false}
                           showStatus={false}
                           selectedItem={currentPreviewItem}>
-                          {jobPreviewLinksData?.files?.map((e, key) => (
+                          {jobPreviewLinksData?.files?.map((e) => (
                             <AspectRatio ratio={0.75}>
                               <div
-                                key={key}
+                                key={e.key}
                                 style={{
                                   backgroundImage: `url(${e.link})`,
                                   backgroundSize: 'contain',

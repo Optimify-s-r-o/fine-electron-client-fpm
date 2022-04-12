@@ -4,7 +4,11 @@ import API from 'utils/api';
 import { useApi } from 'utils/hooks/useApi';
 import { useEffectAsync } from 'utils/useEffectAsync';
 
-import { ApplicationDto, ApplicationDtoPaginatedCollection } from '../../../../api/generated/api';
+import {
+  ApplicationDto,
+  ApplicationDtoPaginatedCollection,
+  ApplicationUpdateRequest
+} from '../../../../api/generated/api';
 import { ApplicationContext } from './ApplicationsContext';
 import { APPLICATION_EXE_PATH } from '../../../../_types';
 
@@ -14,6 +18,11 @@ export const ApplicationsProvider = ({ children }: { children: JSX.Element }) =>
 
   const [getApplications, { loading: applicationLoading }] =
     useApi<ApplicationDtoPaginatedCollection>();
+
+  const [updateApplication, { loading: updateLoading }] = useApi<
+    ApplicationDto,
+    ApplicationUpdateRequest
+  >();
 
   useEffectAsync(async () => {
     if (isLogged && !userLoading) {
@@ -61,6 +70,13 @@ export const ApplicationsProvider = ({ children }: { children: JSX.Element }) =>
     });
   };
 
+  const setApplicationExtensions = async (updatedApplication: ApplicationDto) => {
+    await updateApplication(() =>
+      API.ApplicationsApi.fineProjectManagerApiApplicationsPut(updatedApplication)
+    );
+    await refetch();
+  };
+
   return (
     <ApplicationContext.Provider
       value={{
@@ -69,7 +85,9 @@ export const ApplicationsProvider = ({ children }: { children: JSX.Element }) =>
         refetch: refetch,
         getApplicationByCode: getApplicationByCode,
         getApplicationExePath: getApplicationExePath,
-        setApplicationExePath: setApplicationExePath
+        setApplicationExePath: setApplicationExePath,
+        setApplicationExtensions: setApplicationExtensions,
+        updateLoading
       }}>
       {children}
     </ApplicationContext.Provider>

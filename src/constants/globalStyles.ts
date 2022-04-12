@@ -69,6 +69,13 @@ export const CenterFullHeight = styled(Center)`
   height: 100%;
 `;
 
+export const FormFieldHelp = styled.p`
+  margin: 8px 0 0;
+
+  color: #727272;
+  font-size: 13px;
+`;
+
 export const CardHeader = styled.div`
   margin-bottom: 5px;
 

@@ -3,12 +3,12 @@ import { yupResolver } from '@hookform/resolvers/yup/dist/yup';
 import { Button } from 'components/Form/Button';
 import { CloseButton } from 'components/Form/Button/CloseButton';
 import { DeleteButton } from 'components/Form/Button/DeleteButton';
+import { IconButton } from 'components/Form/Button/IconButton';
 import { PlainButton } from 'components/Form/Button/PlainButton';
 import { Input } from 'components/Form/Input/styled';
 import { TextInput } from 'components/Form/Input/Text/TextInput';
 import { CardTable } from 'components/Table/CardTable';
 import * as GS from 'constants/globalStyles';
-import { Row } from 'constants/globalStyles';
 import { RoutesPath } from 'constants/routes';
 import Dropzone from 'react-dropzone';
 import { useForm } from 'react-hook-form';
@@ -26,6 +26,8 @@ import { MainWrapper } from '../../components/main/components/MainWrapper';
 import * as S from '../../components/main/styled';
 import { useApplicationContext } from '../../context/Applications/ApplicationsContext';
 import adminNav from '../adminNav';
+import CreateModal from './Modal/CreateModal';
+import ExtensionModal from './Modal/ExtensionModal';
 
 const IconField = ({
   url,
@@ -70,10 +72,6 @@ const IconField = ({
 const ApplicationsSettings = () => {
   const { t } = useTranslation(['portal', 'form', 'common']);
   const { applications, loading, refetch } = useApplicationContext();
-  const [createApplication, { loading: createLoading }] = useApi<
-    ApplicationCreateRequest,
-    ApplicationDto
-  >();
   const [deleteApplication, { loading: deleteLoading }] = useApi();
   const modal = useModal();
 
@@ -102,21 +100,6 @@ const ApplicationsSettings = () => {
     }
   };
 
-  const createApplicationHandler = async (request: ApplicationCreateRequest) => {
-    toast.info(t('portal:admin.applications.creatingInfo'));
-
-    try {
-      await createApplication(() =>
-        API.ApplicationsApi.fineProjectManagerApiApplicationsPost(request)
-      );
-      toast.success(t('portal:admin.applications.creatingDone'));
-
-      return true;
-    } catch {
-      return false;
-    }
-  };
-
   const deleteApplicationHandler = async (id: string) => {
     toast.info(t('portal:admin.applications.deletingInfo'));
 
@@ -133,12 +116,11 @@ const ApplicationsSettings = () => {
   };
 
   const codeRender = (text: string, _r: ApplicationDto) => (
-    <Row>
-      <Title>{text}</Title>
-      <MarginLeft>
-        <PlainButton
+    <GS.Row>
+      <EditButtonWrapper>
+        <IconButton
           loading={false}
-          level={3}
+          btnStyle="plain"
           icon={faPencil}
           type="button"
           onClick={() => {
@@ -159,12 +141,29 @@ const ApplicationsSettings = () => {
                 modal.closeModal();
               })
             });
-          }}>
-          {t('form:table.edit')}
-        </PlainButton>
-      </MarginLeft>
-    </Row>
+          }}
+        />
+      </EditButtonWrapper>
+      <Title>{text}</Title>
+    </GS.Row>
   );
+
+  const extensionsRender = (extensions: Array<string>, application: ApplicationDto) => {
+    return (
+      <GS.Row>
+        <EditButtonWrapper>
+          <ExtensionModal extensions={extensions} application={application} />
+        </EditButtonWrapper>
+        <Title>
+          {extensions.length === 0 ? (
+            <NotSet>{t('form:table.programExtensionsNotSet')}</NotSet>
+          ) : (
+            extensions.join(', ')
+          )}
+        </Title>
+      </GS.Row>
+    );
+  };
 
   return (
     <MainWrapper
@@ -185,6 +184,11 @@ const ApplicationsSettings = () => {
                 title: t('form:table.programCode'),
                 render: codeRender,
                 dataIndex: 'code'
+              },
+              {
+                title: t('form:table.programExtension'),
+                render: extensionsRender,
+                dataIndex: 'extensions'
               },
               {
                 title: t('form:table.programIcon'),
@@ -234,43 +238,7 @@ const ApplicationsSettings = () => {
             emptyTableText={loading ? t('form:table.loading') : t('form:table.noPrograms')}
             extraRow={
               <GS.Center>
-                <PlainButton
-                  loading={false}
-                  icon={faPlus}
-                  type="button"
-                  onClick={() => {
-                    modal.showModal({
-                      title: t('form:table.programAdd'),
-                      content: (
-                        <>
-                          <TextInput
-                            register={register}
-                            name="name"
-                            title={t('form:table.programName')}
-                          />
-                          <TextInput
-                            register={register}
-                            name="code"
-                            title={t('form:table.programCode')}
-                          />
-                        </>
-                      ),
-                      footer: (
-                        <>
-                          <Button loading={createLoading}>{t('form:table.programAdd')}</Button>
-                        </>
-                      ),
-                      onSubmit: handleSubmit(async (request: ApplicationCreateRequest) => {
-                        const success = await createApplicationHandler(request);
-                        if (success) {
-                          await refetch();
-                          modal.closeModal();
-                        }
-                      })
-                    });
-                  }}>
-                  {t('form:table.programAdd')}
-                </PlainButton>
+                <CreateModal />
               </GS.Center>
             }
           />
@@ -296,10 +264,17 @@ const DropLabel = styled.label<{ isDragActive: boolean }>`
   outline: ${(props) => (props.isDragActive ? '2px dashed ' + props.theme.common.darker : 'none')};
 `;
 
-const MarginLeft = styled.span`
-  margin-left: 16px;
+const EditButtonWrapper = styled.div`
+  float: right;
+
+  margin-right: 16px;
 `;
 
 const Title = styled.div`
-  min-width: 130px;
+  display: flex;
+  align-items: center;
+`;
+
+const NotSet = styled.span`
+  color: #727272;
 `;

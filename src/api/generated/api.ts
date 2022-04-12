@@ -63,7 +63,7 @@ export interface AdminEditUserRequest {
      * @type {string}
      * @memberof AdminEditUserRequest
      */
-    'phoneNumber': string;
+    'phoneNumber'?: string | null;
     /**
      * List of roles
      * @type {Array<string>}
@@ -89,6 +89,12 @@ export interface ApplicationCreateRequest {
      * @memberof ApplicationCreateRequest
      */
     'code': string;
+    /**
+     * All extensions supported by this application
+     * @type {Array<string>}
+     * @memberof ApplicationCreateRequest
+     */
+    'extensions': Array<string>;
 }
 /**
  * Public application model
@@ -138,6 +144,12 @@ export interface ApplicationDto {
      * @memberof ApplicationDto
      */
     'applicationIconSuffix'?: string | null;
+    /**
+     * All extensions supported by this application
+     * @type {Array<string>}
+     * @memberof ApplicationDto
+     */
+    'extensions': Array<string>;
 }
 /**
  * Standard class used for paginated results
@@ -230,6 +242,12 @@ export interface ApplicationUpdateRequest {
      * @memberof ApplicationUpdateRequest
      */
     'code': string;
+    /**
+     * All extensions supported by this application
+     * @type {Array<string>}
+     * @memberof ApplicationUpdateRequest
+     */
+    'extensions': Array<string>;
 }
 /**
  * 
@@ -1410,13 +1428,13 @@ export interface UserCreateRequest {
      * @type {string}
      * @memberof UserCreateRequest
      */
-    'email': string;
+    'email'?: string | null;
     /**
      * User phone number
      * @type {string}
      * @memberof UserCreateRequest
      */
-    'phoneNumber': string;
+    'phoneNumber'?: string | null;
     /**
      * User password. Must be at least 8 chars long
      * @type {string}

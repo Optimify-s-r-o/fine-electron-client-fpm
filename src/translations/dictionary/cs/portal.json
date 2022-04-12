@@ -50,6 +50,7 @@
     "applications": {
       "creatingInfo": "Přidávám novou aplikaci",
       "creatingDone": "Aplikace přidána úspěšně! Doporučujeme nyní restartovat program.",
+      "creatingFailed": "Aplikaci se nepodařilo přidat! Zkontrolujte, zda jsou všechna pole správně vyplněna.",
       "deletingInfo": "Probíhá odebrání aplikace",
       "deletingDone": "Aplikace úspěšně odebrána! Doporučujeme restartovat program.",
       "deleteConfirmationTextPart1": "Opravdu chcete odebrat nastavení aplikace ",

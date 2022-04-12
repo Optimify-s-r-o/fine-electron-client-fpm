@@ -38,7 +38,8 @@
     "InvalidSignInException": "Chybně zadané heslo nebo e-mail."
   },
   "select": {
-    "placeholder": "Vyberte z nabídky"
+    "placeholder": "Vyberte z nabídky",
+    "extensionsHelp": "Napište příponu včetně tečky a potvrďte zmáčknutím Enter."
   },
   "table": {
     "execute": "Spustit",
@@ -57,6 +58,8 @@
     "dropFiles": "Přetáhněte zde soubory, které chcete vložit.",
     "programName": "Název programu",
     "programCode": "Interní kód programu",
+    "programExtension": "Podporované přípony souborů",
+    "programExtensionsNotSet": "- přípony nenastaveny -",
     "programPath": "Cesta ke spustitelnému souboru",
     "programPathAdd": "Přidat cestu",
     "programPathChange": "Změnit cestu",
@@ -97,6 +100,9 @@
     "users": {
       "deleteHeader": "Deaktivace uživatele",
       "deleteContent": "Opravdu si přejete deaktivovat uživatele \"{{email}}\"?"
+    },
+    "extensions": {
+      "extensionsHeader": "Úprava podporovaných přípon"
     }
   }
 }

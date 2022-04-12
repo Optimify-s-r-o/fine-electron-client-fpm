@@ -14,5 +14,9 @@
   "job": {
     "savedSuccessfully": "Úloha \"{{name}}\" byla úspěšně uložen.",
     "failedToSave": "Úlohu \"{{name}}\" nebylo možné uložit."
+  },
+  "application": {
+    "extensionsUpdated": "Podporované přípony byly úspěšně uloženy.",
+    "failedToSave": "Podporované přípony nebylo možné uložit."
   }
 }

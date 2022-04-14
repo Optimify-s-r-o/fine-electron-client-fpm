@@ -16,7 +16,6 @@
     "failedToSave": "Úlohu \"{{name}}\" nebylo možné uložit."
   },
   "application": {
-    "extensionsUpdated": "Podporované přípony byly úspěšně uloženy.",
-    "failedToSave": "Podporované přípony nebylo možné uložit."
+    "updated": "Změny aplikace byly uloženy."
   }
 }

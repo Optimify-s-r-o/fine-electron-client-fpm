@@ -92,6 +92,7 @@ export const ExtensionsSelect = ({
     switch (event.key) {
       case 'Enter':
       case 'Tab':
+      case ' ':
         event.preventDefault();
         if (!inputValue || !validate(inputValue)) return;
         setInputValue('');

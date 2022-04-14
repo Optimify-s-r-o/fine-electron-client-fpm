@@ -9,7 +9,7 @@ interface IApplicationsContextType {
   getApplicationByCode: (applicationCode: string | null | undefined) => ApplicationDto | null;
   setApplicationExePath: (exePath: string, applicationCode: string) => Promise<void>;
   getApplicationExePath: (applicationCode: string) => Promise<string | null>;
-  setApplicationExtensions: (updatedApplication: ApplicationDto) => Promise<void>;
+  updateApplication: (updatedApplication: ApplicationDto) => Promise<void>;
   updateLoading: boolean;
 }
 
@@ -20,7 +20,7 @@ export const ApplicationContext = createContext<IApplicationsContextType>({
   refetch: () => new Promise<void>((e) => 'no valid context'),
   setApplicationExePath: () => new Promise<void>((e) => 'no valid context'),
   getApplicationExePath: () => new Promise<string>((e) => 'no valid context'),
-  setApplicationExtensions: () => new Promise<void>((e) => 'no valid context'),
+  updateApplication: () => new Promise<void>((e) => 'no valid context'),
   updateLoading: false
 });
 

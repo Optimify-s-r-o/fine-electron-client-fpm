@@ -3,8 +3,7 @@ import {
   faArrowUpRightFromSquare,
   faDownload,
   faPlus,
-  faTrashCan,
-  faFileArrowUp
+  faTrashCan
 } from '@fortawesome/pro-light-svg-icons';
 import { ApplicationDto, JobDto, ProjectJobsDto } from 'api/generated';
 import ApplicationIcon from 'components/ApplicationIcon';
@@ -35,14 +34,11 @@ export const Jobs = ({ project }: { project?: ProjectJobsDto | null }) => {
   const { selectJob } = useTreeContext();
   const { editId } = useParams();
   const modal = useModal();
-  
 
   const [deleteJob] = useApi<any>();
 
   const { updateJob } = useExecutableApplicationContext();
   const { getApplicationByCode } = useApplicationContext();
-
-
 
   const onApplicationOpen =
     (job: JobDto, app: ApplicationDto | null) => async (_e: MouseEvent<HTMLButtonElement>) => {
@@ -151,10 +147,10 @@ export const Jobs = ({ project }: { project?: ProjectJobsDto | null }) => {
                         onClick={onViewJob(record)}
                         type="button"
                       />
-                        <IconButton
+                      <IconButton
                         loading={false}
                         icon={faDownload}
-                        onClick={downloadJob( record.id )}
+                        onClick={downloadJob(record.id)}
                         type="button"
                         disabled={!record.isOpenable}
                       />

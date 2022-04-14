@@ -53,8 +53,8 @@
       "creatingFailed": "Aplikaci se nepodařilo přidat! Zkontrolujte, zda jsou všechna pole správně vyplněna.",
       "deletingInfo": "Probíhá odebrání aplikace",
       "deletingDone": "Aplikace úspěšně odebrána! Doporučujeme restartovat program.",
-      "deleteConfirmationTextPart1": "Opravdu chcete odebrat nastavení aplikace ",
-      "deleteConfirmationTextPart2": " Tato akce znemožní program používat všem uživatelům v systému.",
+      "deleteConfirmationTextPart1": "Opravdu chcete odebrat nastavení aplikace {{name}}?",
+      "deleteConfirmationTextPart2": "Tato akce znemožní program používat všem uživatelům v systému.",
       "uploadingIcon": "Nahrávám ikonu",
       "uploadIconSuccess": "Ikona nahrána úspěšně!"
     }

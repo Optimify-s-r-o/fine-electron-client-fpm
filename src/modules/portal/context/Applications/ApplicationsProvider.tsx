@@ -70,7 +70,7 @@ export const ApplicationsProvider = ({ children }: { children: JSX.Element }) =>
     });
   };
 
-  const setApplicationExtensions = async (updatedApplication: ApplicationDto) => {
+  const updateApplicationCall = async (updatedApplication: ApplicationDto) => {
     await updateApplication(() =>
       API.ApplicationsApi.fineProjectManagerApiApplicationsPut(updatedApplication)
     );
@@ -86,7 +86,7 @@ export const ApplicationsProvider = ({ children }: { children: JSX.Element }) =>
         getApplicationByCode: getApplicationByCode,
         getApplicationExePath: getApplicationExePath,
         setApplicationExePath: setApplicationExePath,
-        setApplicationExtensions: setApplicationExtensions,
+        updateApplication: updateApplicationCall,
         updateLoading
       }}>
       {children}

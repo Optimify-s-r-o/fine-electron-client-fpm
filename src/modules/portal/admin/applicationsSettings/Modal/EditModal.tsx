@@ -1,6 +1,6 @@
 import { faPencil } from '@fortawesome/pro-light-svg-icons';
 import { ApplicationDto } from 'api/generated';
-import { IconButton } from 'components/Form/Button/IconButton';
+import { PlainButton } from 'components/Form/Button/PlainButton';
 import { ExtensionsSelect } from 'components/Form/Select/ExtensionsSelect';
 import { useApplicationContext } from 'modules/portal/context/Applications/ApplicationsContext';
 import { useForm } from 'react-hook-form';
@@ -10,19 +10,15 @@ import * as GS from 'constants/globalStyles';
 import { Button } from 'components/Form/Button';
 import { useEffect } from 'react';
 import { toast } from 'react-toastify';
+import { TextInput } from 'components/Form/Input/Text/TextInput';
 
-const ExtensionModal = ({
-  extensions,
-  application
-}: {
-  extensions: Array<string>;
-  application: ApplicationDto;
-}) => {
-  const { setApplicationExtensions, updateLoading, loading } = useApplicationContext();
+const EditModal = ({ application }: { application: ApplicationDto }) => {
+  const { updateApplication, updateLoading, loading } = useApplicationContext();
   const modal = useModal();
   const { t } = useTranslation(['form', 'toast']);
   const {
     control,
+    register,
     handleSubmit,
     getValues,
     reset,
@@ -32,13 +28,12 @@ const ExtensionModal = ({
   });
 
   useEffect(() => {
-    reset({ extensions });
-  }, [extensions, reset]);
+    reset({ extensions: application.extensions, name: application.name });
+  }, [application, reset]);
 
   return (
-    <IconButton
+    <PlainButton
       loading={false}
-      btnStyle="plain"
       icon={faPencil}
       type="button"
       onClick={() => {
@@ -46,6 +41,8 @@ const ExtensionModal = ({
           title: t('form:modal.extensions.extensionsHeader'),
           content: (
             <>
+              <TextInput register={register} name="name" title={t('form:table.programName')} />
+              <GS.HR />
               <ExtensionsSelect
                 title={t('form:table.programExtension')}
                 control={control}
@@ -57,21 +54,25 @@ const ExtensionModal = ({
           ),
           footer: (
             <GS.RowEnd>
-              <Button loading={updateLoading || loading}>{t('form:button.save')}</Button>
+              <Button loading={updateLoading || loading}>{t('form:table.programChange')}</Button>
             </GS.RowEnd>
           ),
           onSubmit: handleSubmit(async () => {
-            const newExtensions = getValues().extensions;
-            const newApplication = { ...application, extensions: newExtensions };
+            const newApplication = {
+              ...application,
+              name: getValues().name,
+              extensions: getValues().extensions
+            };
 
-            await setApplicationExtensions(newApplication);
+            await updateApplication(newApplication);
             modal.closeModal();
-            toast.success(t('toast:application.extensionsUpdated'));
+            toast.success(t('toast:application.updated'));
           })
         });
-      }}
-    />
+      }}>
+      {t('form:table.edit')}
+    </PlainButton>
   );
 };
 
-export default ExtensionModal;
+export default EditModal;

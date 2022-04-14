@@ -203,3 +203,7 @@ export const Gap = styled(Row)`
 export const GapAlignCenter = styled(RowAlignCenter)`
   gap: 8px;
 `;
+
+export const GapVertical = styled(Column)`
+  gap: 16px;
+`;

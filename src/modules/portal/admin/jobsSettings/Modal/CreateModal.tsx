@@ -10,48 +10,39 @@ import { useTranslation } from 'react-i18next';
 import styled from 'styled-components';
 import useModal from 'utils/hooks/useModal';
 import { toast } from 'react-toastify';
-import { useEffect } from 'react';
 import { CloseButton } from 'components/Form/Button/CloseButton';
 import { useJobTranslationsContext } from 'modules/portal/context/JobTranslations/JobTranslationsContext';
 import { faPlus } from '@fortawesome/pro-light-svg-icons';
 
-const EditModalContent = ({ jobTranslation }: { jobTranslation: JobTranslationDto }) => {
+const CreateModalContent = () => {
   const { t } = useTranslation(['form', 'toast']);
   const modal = useModal();
 
-  const { edit, editLoading } = useJobTranslationsContext();
+  const { create, createLoading } = useJobTranslationsContext();
 
   const {
     control,
     register,
     handleSubmit,
     getValues,
-    reset,
     formState: { errors }
   } = useForm<JobTranslationDto>({
     resolver: yupResolver(
       Yup.object().shape({
         type: Yup.string().required(t('form:validation.required')),
-        translation: Yup.string().required(t('form:validation.required'))
+        translation: Yup.string().required(t('form:validation.required')),
+        language: Yup.string().required(t('form:validation.required'))
       })
     ),
     shouldUnregister: true
   });
   const { fields, append, remove } = useFieldArray({ control, name: 'attributes' });
 
-  useEffect(() => {
-    reset(jobTranslation);
-  }, [jobTranslation, reset]);
-
   const onSubmit = async () => {
     const values = getValues();
 
     try {
-      await edit({
-        ...values,
-        id: jobTranslation.id,
-        language: jobTranslation.language
-      });
+      await create(values);
 
       toast.success(t('toast:job.savedSuccessfully', { name: values.translation }));
       modal.closeModal();
@@ -72,6 +63,15 @@ const EditModalContent = ({ jobTranslation }: { jobTranslation: JobTranslationDt
         <TextInput
           title={t('form:table.jobCode')}
           name="type"
+          register={register}
+          errors={errors}
+        />
+        <div></div>
+      </Row>
+      <Row>
+        <TextInput
+          title={t('form:table.jobTranslationLanguage')}
+          name="language"
           register={register}
           errors={errors}
         />
@@ -117,32 +117,33 @@ const EditModalContent = ({ jobTranslation }: { jobTranslation: JobTranslationDt
       <HR />
 
       <FloatRight>
-        <Button loading={editLoading}>{t('form:button.save')}</Button>
+        <Button loading={createLoading}>{t('form:button.save')}</Button>
       </FloatRight>
     </form>
   );
 };
 
-const EditModal = ({ jobTranslation }: { jobTranslation: JobTranslationDto }) => {
+const CreateModal = () => {
   const { t } = useTranslation(['form']);
   const modal = useModal();
 
   return (
     <PlainButton
       loading={false}
+      icon={faPlus}
       type="button"
       onClick={() => {
         modal.showModal({
-          title: t('form:table.jobEdit'),
-          content: <EditModalContent jobTranslation={jobTranslation} />
+          title: t('form:table.jobTranslationAdd'),
+          content: <CreateModalContent />
         });
       }}>
-      {t('form:table.jobEdit')}
+      {t('form:table.jobTranslationAdd')}
     </PlainButton>
   );
 };
 
-export default EditModal;
+export default CreateModal;
 
 const Row = styled(Gap)`
   > *:not(:last-child) {

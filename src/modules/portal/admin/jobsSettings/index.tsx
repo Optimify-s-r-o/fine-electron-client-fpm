@@ -21,7 +21,7 @@ import { MainWrapper } from '../../components/main/components/MainWrapper';
 import * as S from '../../components/main/styled';
 import { useJobTranslationsContext } from '../../context/JobTranslations/JobTranslationsContext';
 import adminNav from '../adminNav';
-import editModal from './editModal';
+import EditModal from './Modal/EditModal';
 
 const IconField = ({
   url,
@@ -119,8 +119,6 @@ const JobsSettings = () => {
     }
   };
 
-  const onEdit = () => {};
-
   return (
     <MainWrapper
       icon={faFolder}
@@ -157,14 +155,7 @@ const JobsSettings = () => {
                 title: '',
                 render: (_t: undefined, r: JobTranslationDto) => (
                   <GS.FloatRight>
-                    <PlainButton
-                      loading={loading}
-                      type="button"
-                      onClick={() => {
-                        modal.showModal(editModal(register, handleSubmit(onEdit), t));
-                      }}>
-                      {t('form:table.jobEdit')}
-                    </PlainButton>
+                    <EditModal jobTranslation={r} />
                   </GS.FloatRight>
                 )
               }

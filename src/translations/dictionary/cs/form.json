@@ -24,7 +24,8 @@
     "deactivateUser": "Deaktivovat uživatele",
     "addJob": "Vytvořit úlohu",
     "importJob": "Importovat spustitelnou úlohu",
-    "importData": "Import dat"
+    "importData": "Import dat",
+    "addTranslation": "Přidat překlad"
   },
   "validation": {
     "required": "Toto pole je povinné.",
@@ -104,6 +105,10 @@
     },
     "extensions": {
       "extensionsHeader": "Úprava podporovaných přípon"
+    },
+    "translations": {
+      "normalizedName": "Normalizované jméno",
+      "translation": "Překlad"
     }
   }
 }

@@ -12,7 +12,7 @@
     "failedToSave": "Projekt \"{{name}}\" nebylo možné uložit."
   },
   "job": {
-    "savedSuccessfully": "Úloha \"{{name}}\" byla úspěšně uložen.",
+    "savedSuccessfully": "Úloha \"{{name}}\" byla úspěšně uložena.",
     "failedToSave": "Úlohu \"{{name}}\" nebylo možné uložit."
   },
   "application": {

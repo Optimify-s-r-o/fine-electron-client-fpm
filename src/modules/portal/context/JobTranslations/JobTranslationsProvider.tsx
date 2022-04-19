@@ -25,6 +25,7 @@ export const JobTranslationsProvider = ({ children }: { children: JSX.Element })
     JobTranslationDto,
     JobTranslationUpdateRequest
   >();
+  const [deleteTranslation, { loading: deleteLoading }] = useApi<void, string>();
 
   const [language, setLanguage] = useState<string>('cs');
   const [translations, setTranslations] = useState<JobTranslationDto[]>([]);
@@ -120,6 +121,16 @@ export const JobTranslationsProvider = ({ children }: { children: JSX.Element })
     return res;
   };
 
+  const deleteId = async (id: string) => {
+    const res = await deleteTranslation(() =>
+      API.JobTranslationsApi.fineProjectManagerApiJobtranslationsIdDelete(id)
+    );
+
+    await refetch();
+
+    return res;
+  };
+
   return (
     <JobTranslationsContext.Provider
       value={{
@@ -135,7 +146,9 @@ export const JobTranslationsProvider = ({ children }: { children: JSX.Element })
         create,
         createLoading,
         edit,
-        editLoading
+        editLoading,
+        delete: deleteId,
+        deleteLoading
       }}>
       {children}
     </JobTranslationsContext.Provider>

@@ -13,7 +13,7 @@ import { toast } from 'react-toastify';
 import { useEffect } from 'react';
 import { CloseButton } from 'components/Form/Button/CloseButton';
 import { useJobTranslationsContext } from 'modules/portal/context/JobTranslations/JobTranslationsContext';
-import { faPlus } from '@fortawesome/pro-light-svg-icons';
+import { faPencil, faPlus } from '@fortawesome/pro-light-svg-icons';
 
 const EditModalContent = ({ jobTranslation }: { jobTranslation: JobTranslationDto }) => {
   const { t } = useTranslation(['form', 'toast']);
@@ -130,6 +130,7 @@ const EditModal = ({ jobTranslation }: { jobTranslation: JobTranslationDto }) =>
   return (
     <PlainButton
       loading={false}
+      icon={faPencil}
       type="button"
       onClick={() => {
         modal.showModal({

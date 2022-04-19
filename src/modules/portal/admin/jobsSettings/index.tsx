@@ -14,6 +14,7 @@ import * as S from '../../components/main/styled';
 import { useJobTranslationsContext } from '../../context/JobTranslations/JobTranslationsContext';
 import adminNav from '../adminNav';
 import CreateModal from './Modal/CreateModal';
+import DeleteModal from './Modal/DeleteModal';
 import EditModal from './Modal/EditModal';
 
 const IconField = ({
@@ -107,7 +108,10 @@ const JobsSettings = () => {
               title: '',
               render: (_t: undefined, r: JobTranslationDto) => (
                 <GS.FloatRight>
-                  <EditModal jobTranslation={r} />
+                  <GS.Gap>
+                    <EditModal jobTranslation={r} />
+                    <DeleteModal jobTranslation={r} />
+                  </GS.Gap>
                 </GS.FloatRight>
               )
             }

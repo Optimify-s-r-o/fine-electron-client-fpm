@@ -24,6 +24,8 @@ export const JobTranslationsContext = createContext<{
   createLoading: boolean;
   edit: (jobTranslation: JobTranslationUpdateRequest) => Promise<JobTranslationDto>;
   editLoading: boolean;
+  delete: (jobTranslationId: string) => Promise<void>;
+  deleteLoading: boolean;
 }>({
   loading: false,
   jobTranslations: [],
@@ -38,7 +40,9 @@ export const JobTranslationsContext = createContext<{
   create: () => new Promise<void>((e) => 'no valid context'),
   createLoading: false,
   edit: () => new Promise<JobTranslationDto>((e) => 'no valid context'),
-  editLoading: false
+  editLoading: false,
+  delete: () => new Promise<void>((e) => 'no valid context'),
+  deleteLoading: false
 });
 
 export const useJobTranslationsContext = () => useContext(JobTranslationsContext);

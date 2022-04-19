@@ -17,5 +17,9 @@
   },
   "application": {
     "updated": "Změny aplikace byly uloženy."
+  },
+  "jobTranslation": {
+    "deletedSuccessfully": "Úloha \"{{name}}\" byla úspěšně smazána.",
+    "failedToDelete": "Úlohu \"{{name}}\" nebylo možné smazat."
   }
 }

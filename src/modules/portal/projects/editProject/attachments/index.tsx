@@ -1,14 +1,14 @@
 import { FileLinksResponse, FileOperationResponse } from 'api/generated';
-import { useTranslation } from 'react-i18next';
-import { useApi } from 'utils/hooks/useApi';
-import { useEffectAsync } from 'utils/useEffectAsync';
-import API from 'utils/api';
-import { useParams } from 'react-router-dom';
-import { MouseEvent } from 'react';
-import { downloadAsync, uploadProjectAttachmentAsync } from 'utils/file';
-import { toast } from 'react-toastify';
-import useModal from 'utils/hooks/useModal';
 import { EditAttachments } from 'components/Attachments';
+import { MouseEvent, useState } from 'react';
+import { useTranslation } from 'react-i18next';
+import { useParams } from 'react-router-dom';
+import { toast } from 'react-toastify';
+import API from 'utils/api';
+import { downloadAsync, uploadProjectAttachmentAsync } from 'utils/file';
+import { useApi } from 'utils/hooks/useApi';
+import useModal from 'utils/hooks/useModal';
+import { useEffectAsync } from 'utils/useEffectAsync';
 
 export const EditProjectAttachments = () => {
   const modal = useModal();
@@ -18,10 +18,15 @@ export const EditProjectAttachments = () => {
 
   const [getFiles, { data, loading }] = useApi<FileLinksResponse>();
   const [deleteAttachment] = useApi<FileLinksResponse>();
+  const [dataToShow, setDataToShow] = useState<FileOperationResponse[]>([]);
 
   useEffectAsync(async () => {
     await refetch();
-  }, [editId]);
+  }, [editId] );
+  
+  useEffectAsync( async () => {
+    setDataToShow( data?.files ? data.files : [] );
+  }, [data] );
 
   const refetch = async () => {
     if (editId) {
@@ -91,6 +96,11 @@ export const EditProjectAttachments = () => {
     toast.success(t('portal:attachments.attachmentDownloaded'));
   };
 
+  const onSearch = ( event: React.ChangeEvent<HTMLInputElement> ) => {
+    const query = event.target.value.toUpperCase();
+    setDataToShow( data?.files ? data.files.filter( e => e.fullName.toUpperCase().includes( query ) ) : [] );
+  };
+
   return (
     <EditAttachments
       addFiles={addFiles}
@@ -98,7 +108,8 @@ export const EditProjectAttachments = () => {
       deleteFile={deleteFile}
       onDownloadJob={onDownloadJob}
       loading={loading}
-      data={data}
+      data={dataToShow}
+      onSearch={onSearch}
     />
   );
 };

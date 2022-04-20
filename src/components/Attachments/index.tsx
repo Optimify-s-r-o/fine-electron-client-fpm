@@ -1,14 +1,14 @@
-import * as S from 'modules/portal/components/main/styled';
-import { CardTable } from 'components/Table/CardTable';
-import { FileLinksResponse, FileOperationResponse } from 'api/generated';
-import { useTranslation } from 'react-i18next';
-import { Input } from 'components/Form/Input/styled';
-import * as GS from 'constants/globalStyles';
-import { PlainButton } from 'components/Form/Button/PlainButton';
 import { faDownload, faPlus, faTrashCan } from '@fortawesome/pro-light-svg-icons';
-import { ChangeEvent, MouseEvent, useRef } from 'react';
-import { IconButton } from 'components/Form/Button/IconButton';
+import { FileOperationResponse } from 'api/generated';
 import { DeleteButton } from 'components/Form/Button/DeleteButton';
+import { IconButton } from 'components/Form/Button/IconButton';
+import { PlainButton } from 'components/Form/Button/PlainButton';
+import { Input } from 'components/Form/Input/styled';
+import { CardTable } from 'components/Table/CardTable';
+import * as GS from 'constants/globalStyles';
+import * as S from 'modules/portal/components/main/styled';
+import { ChangeEvent, MouseEvent, useRef } from 'react';
+import { useTranslation } from 'react-i18next';
 import useModal from 'utils/hooks/useModal';
 
 export const EditAttachments = ({
@@ -17,14 +17,16 @@ export const EditAttachments = ({
   data,
   deleteFile,
   loading,
-  onDownloadJob
+  onDownloadJob,
+  onSearch
 }: {
   addFiles: (files: File[]) => void;
   addFile: (file: File) => void;
-  data: FileLinksResponse | null | undefined;
+  data: FileOperationResponse[] | null | undefined;
   deleteFile: (key: string) => (_e: MouseEvent<HTMLButtonElement>) => void;
   loading: boolean;
   onDownloadJob: (r: FileOperationResponse) => (_e: MouseEvent<HTMLButtonElement>) => void;
+  onSearch: ( event: React.ChangeEvent<HTMLInputElement> ) => void;
 }) => {
   const { t } = useTranslation(['portal', 'form', 'common']);
 
@@ -61,7 +63,7 @@ export const EditAttachments = ({
               dataIndex: 'extension'
             },
             {
-              title: <Input placeholder={t('form:input.searchPlaceholder')} />,
+              title: <Input placeholder={t('form:input.searchPlaceholder')} onChange={onSearch} />,
               dataIndex: 'id',
               render: (t, r: FileOperationResponse) => (
                 <GS.FloatRight>
@@ -81,7 +83,7 @@ export const EditAttachments = ({
               )
             }
           ]}
-          dataSource={data?.files}
+          dataSource={data}
           onFilesDrop={addFiles}
           extraRow={
             <GS.Center>

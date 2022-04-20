@@ -9,7 +9,12 @@
   },
   "project": {
     "savedSuccessfully": "Projekt \"{{name}}\" byl úspěšně uložen.",
-    "failedToSave": "Projekt \"{{name}}\" nebylo možné uložit."
+    "failedToSave": "Projekt \"{{name}}\" nebylo možné uložit.",
+    "jobImport": {
+      "success": "Úloha \"{{jobName}}\" byla úspěšně naimportována do projektu \"{{projectName}}\".",
+      "appNotExecutable": "Aplikaci \"{{appName}}\" nelze spustit. Zkontrolujte, zda máte správně nastavenou cestu.",
+      "badExtension": "Aplikace \"{{appName}}\" nepodporuje příponu \"{{extension}}\". Povoleny jsou pouze přípony \"{{allowedExtensions}}\"."
+    }
   },
   "job": {
     "savedSuccessfully": "Úloha \"{{name}}\" byla úspěšně uložena.",

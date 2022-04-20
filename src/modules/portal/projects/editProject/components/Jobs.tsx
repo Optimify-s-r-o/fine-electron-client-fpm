@@ -27,6 +27,7 @@ import { useParams } from 'react-router-dom';
 import { useTreeContext } from '../../../context/Tree/TreeContext';
 import { downloadJob } from 'utils/jobs/downloadJob';
 import { ImportJobData } from './ImportJobData';
+import ImportJob from './ImportJob';
 
 export const Jobs = ({ project }: { project?: ProjectJobsDto | null }) => {
   const { t } = useTranslation(['portal', 'form', 'common', 'project']);
@@ -86,6 +87,7 @@ export const Jobs = ({ project }: { project?: ProjectJobsDto | null }) => {
       <GS.HR />
       <RowEnd>
         <ImportJobData project={project} />
+        <ImportJob project={project} />
         <PlainButton loading={false} icon={faPlus} type="button" onClick={createJob}>
           {t('form:button.addJob')}
         </PlainButton>

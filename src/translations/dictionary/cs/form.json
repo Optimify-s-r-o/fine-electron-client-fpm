@@ -22,8 +22,8 @@
     "deleteJob": "Smazat úlohu",
     "deleteFile": "Smazat soubor",
     "deactivateUser": "Deaktivovat uživatele",
-    "addJob": "Vytvořit úlohu",
-    "importJob": "Importovat úlohu",
+    "addJob": "Spustit úlohu",
+    "importJob": "Přidat úlohu",
     "importData": "Import dat",
     "addTranslation": "Přidat překlad"
   },

@@ -11,7 +11,8 @@
     "savedSuccessfully": "Projekt \"{{name}}\" byl úspěšně uložen.",
     "failedToSave": "Projekt \"{{name}}\" nebylo možné uložit.",
     "jobImport": {
-      "success": "Úloha \"{{jobName}}\" byla úspěšně naimportována do projektu \"{{projectName}}\".",
+      "success": "Aplikace \"{{appName}}\" byla úspěšně spuštěna.",
+      "failed": "Aplikaci \"{{appName}}\" se nepodařilo spustit.",
       "appNotExecutable": "Aplikaci \"{{appName}}\" nelze spustit. Zkontrolujte, zda máte správně nastavenou cestu.",
       "badExtension": "Aplikace \"{{appName}}\" nepodporuje příponu \"{{extension}}\". Povoleny jsou pouze přípony \"{{allowedExtensions}}\"."
     }

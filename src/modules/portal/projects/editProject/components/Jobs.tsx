@@ -78,7 +78,7 @@ export const Jobs = ({ project }: { project?: ProjectJobsDto | null }) => {
 
     modal.showModal({
       title: t('portal:createJob.title'),
-      content: <SelectApplication projectId={editId} />
+      content: <SelectApplication projectId={editId} /> // TODO replace with ApplicationSelector
     });
   };
 

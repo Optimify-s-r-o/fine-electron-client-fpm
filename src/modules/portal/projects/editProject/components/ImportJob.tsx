@@ -2,6 +2,7 @@ import { faFileImport } from '@fortawesome/pro-light-svg-icons';
 import { ApplicationDto, ProjectJobsDto } from 'api/generated';
 import ApplicationSelector from 'components/ApplicationSelector';
 import { PlainButton } from 'components/Form/Button/PlainButton';
+import { useAuthContext } from 'modules/auth/context/AuthContext';
 import { useExecutableApplicationContext } from 'modules/portal/context/ExecutableApplications/ExecutableApplicationsContext';
 import { ChangeEvent, useRef } from 'react';
 import { useTranslation } from 'react-i18next';
@@ -14,6 +15,7 @@ const ImportJob = ({ project }: { project?: ProjectJobsDto | null }) => {
   const inputRef = useRef<HTMLInputElement | null>(null);
   const appRef = useRef<ApplicationDto | null>(null);
   const { isExecutable } = useExecutableApplicationContext();
+  const { token } = useAuthContext();
 
   const onAppClick = (app: ApplicationDto) => {
     appRef.current = app;
@@ -25,7 +27,7 @@ const ImportJob = ({ project }: { project?: ProjectJobsDto | null }) => {
     }
   };
 
-  const onFileSelected = async (e: ChangeEvent<HTMLInputElement>) => {
+  const onFileSelected = (e: ChangeEvent<HTMLInputElement>) => {
     if (e.target.files?.length === 1) {
       const file = e.target.files.item(0) as any;
       const extension = '.' + file.path.split('.').pop();
@@ -43,20 +45,27 @@ const ImportJob = ({ project }: { project?: ProjectJobsDto | null }) => {
           '-path',
           file.path,
           '-token',
-          'TODO' // TODO token
+          token
         ];
         const exe = isExecutable(appRef.current?.code ?? '');
 
         if (exe) {
-          const res = await window.API.execFile(exe, args);
-          // TODO result handling
-          toast.success(
-            t('toast:project.jobImport.success', {
-              jobName: 'TODO', // res.something
-              projectName: project?.name
-            })
-          );
-          modal.closeModal();
+          try {
+            window.API.execFile(exe, args);
+            // TODO result handling
+            toast.success(
+              t('toast:project.jobImport.success', {
+                appName: appRef.current?.name
+              })
+            );
+            modal.closeModal();
+          } catch {
+            toast.error(
+              t('toast:project.jobImport.failed', {
+                appName: appRef.current?.name
+              })
+            );
+          }
         } else {
           toast.error(
             t('toast:project.jobImport.appNotExecutable', {

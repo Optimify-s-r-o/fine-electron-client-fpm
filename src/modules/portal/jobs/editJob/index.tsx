@@ -1,19 +1,18 @@
 import { faDownload, faFolder } from '@fortawesome/pro-light-svg-icons';
 import { faDatabase } from '@fortawesome/pro-solid-svg-icons';
+import { Button } from 'components/Form/Button';
+import { IconButton } from 'components/Form/Button/IconButton';
+import { Gap } from 'constants/globalStyles';
 import { RoutesPath } from 'constants/routes';
 import { useTranslation } from 'react-i18next';
-import { MainWrapper } from '../../components/main/components/MainWrapper';
 import { matchPath, Outlet, useLocation, useOutletContext } from 'react-router-dom';
-import { Button } from 'components/Form/Button';
-import { JobDto } from '../../../../api/generated';
-import { useExecutableApplicationContext } from '../../context/ExecutableApplications/ExecutableApplicationsContext';
-import { useApplicationContext } from '../../context/Applications/ApplicationsContext';
-import { useTreeContext } from '../../context/Tree/TreeContext';
-import ProgressModal from 'components/Progress/ProgressModal';
-import { ProgressStatus } from 'utils/hooks/useProgress';
-import { IconButton } from 'components/Form/Button/IconButton';
 import { downloadJob } from 'utils/jobs/downloadJob';
-import { Gap } from 'constants/globalStyles';
+
+import { JobDto } from '../../../../api/generated';
+import { MainWrapper } from '../../components/main/components/MainWrapper';
+import { useApplicationContext } from '../../context/Applications/ApplicationsContext';
+import { useExecutableApplicationContext } from '../../context/ExecutableApplications/ExecutableApplicationsContext';
+import { useTreeContext } from '../../context/Tree/TreeContext';
 
 type JobContextType = { loading: boolean; data?: JobDto | null | undefined };
 
@@ -45,7 +44,7 @@ const EditJob = () => {
       icon={faFolder}
       title={selectedJob?.name}
       actionNode={
-        selectedJob?.isOpenable ? (
+        selectedJob?.isOpenable && (
           <Gap>
             <IconButton
               loading={false}
@@ -58,34 +57,6 @@ const EditJob = () => {
               {t('project:job.run')}
             </Button>
           </Gap>
-        ) : (
-          <ProgressModal
-            triggerText="Test progress modal"
-            titleText="Testing progress modal"
-            run={async (addItem, setItemStatus, finish) => {
-              let i = 0;
-              const add = (text: string) => {
-                const y = addItem(text);
-                setTimeout(() => {
-                  setItemStatus(y, ProgressStatus.Success);
-                }, 1234);
-              };
-
-              addItem('Lorem ipsum dolor sit amet', ProgressStatus.Waiting);
-              add('Test ' + i);
-              i++;
-              const interval = setInterval(() => {
-                add('Test ' + i);
-                i++;
-                if (i > 10) {
-                  clearInterval(interval);
-                  setItemStatus(0, ProgressStatus.Fail);
-                  finish();
-                }
-              }, 1234);
-              return;
-            }}
-          />
         )
       }
       navigation={[

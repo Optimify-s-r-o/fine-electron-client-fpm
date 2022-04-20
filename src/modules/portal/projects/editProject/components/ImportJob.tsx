@@ -3,10 +3,13 @@ import { ApplicationDto, ProjectJobsDto } from 'api/generated';
 import ApplicationSelector from 'components/ApplicationSelector';
 import { PlainButton } from 'components/Form/Button/PlainButton';
 import { useAuthContext } from 'modules/auth/context/AuthContext';
-import { useExecutableApplicationContext } from 'modules/portal/context/ExecutableApplications/ExecutableApplicationsContext';
+import {
+  useExecutableApplicationContext,
+} from 'modules/portal/context/ExecutableApplications/ExecutableApplicationsContext';
 import { ChangeEvent, useRef } from 'react';
 import { useTranslation } from 'react-i18next';
 import { toast } from 'react-toastify';
+import { config } from 'utils/api';
 import useModal from 'utils/hooks/useModal';
 
 const ImportJob = ({ project }: { project?: ProjectJobsDto | null }) => {
@@ -37,7 +40,7 @@ const ImportJob = ({ project }: { project?: ProjectJobsDto | null }) => {
           '-mode',
           'fpm',
           '-serverUrl',
-          'https://trussapi.fine.cz', // TODO?
+          config.basePath, // TODO?
           '-e',
           'importJob',
           '-projectId',
@@ -51,8 +54,9 @@ const ImportJob = ({ project }: { project?: ProjectJobsDto | null }) => {
 
         if (exe) {
           try {
-            window.API.execFile(exe, args);
-            // TODO result handling
+            console.log( JSON.stringify( exe ) + '////' + JSON.stringify( args ) );
+            window.API.execFile( exe, args );
+            
             toast.success(
               t('toast:project.jobImport.success', {
                 appName: appRef.current?.name

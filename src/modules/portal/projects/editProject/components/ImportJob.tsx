@@ -10,7 +10,7 @@ import useModal from 'utils/hooks/useModal';
 
 const ImportJob = ({ project }: { project?: ProjectJobsDto | null }) => {
   const modal = useModal();
-  const { t } = useTranslation(['modal', 'portal']);
+  const { t } = useTranslation(['modal', 'form']);
   const inputRef = useRef<HTMLInputElement | null>(null);
   const appRef = useRef<ApplicationDto | null>(null);
   const { isExecutable } = useExecutableApplicationContext();
@@ -82,7 +82,7 @@ const ImportJob = ({ project }: { project?: ProjectJobsDto | null }) => {
       type="button"
       onClick={() => {
         modal.showModal({
-          title: 'Vyberte aplikaci pro import úlohy',
+          title: t('form:modal.jobImport'),
           content: (
             <>
               <input
@@ -102,7 +102,7 @@ const ImportJob = ({ project }: { project?: ProjectJobsDto | null }) => {
           }
         });
       }}>
-      Import úlohy
+      {t('form:button.importJob')}
     </PlainButton>
   );
 };

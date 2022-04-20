@@ -23,7 +23,7 @@
     "deleteFile": "Smazat soubor",
     "deactivateUser": "Deaktivovat uživatele",
     "addJob": "Vytvořit úlohu",
-    "importJob": "Importovat spustitelnou úlohu",
+    "importJob": "Importovat úlohu",
     "importData": "Import dat",
     "addTranslation": "Přidat překlad"
   },
@@ -109,6 +109,7 @@
     "translations": {
       "normalizedName": "Normalizované jméno",
       "translation": "Překlad"
-    }
+    },
+    "jobImport": "Vyberte aplikaci pro import úlohy"
   }
 }

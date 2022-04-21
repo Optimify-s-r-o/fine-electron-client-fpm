@@ -1,8 +1,9 @@
-import { ExecutableApplicationContext } from './ExecutableApplicationsContext';
-import { toast } from 'react-toastify';
 import { useTranslation } from 'react-i18next';
+import { toast } from 'react-toastify';
+
 import { APPLICATION_EXE_PATH } from '../../../../_types';
 import { config } from '../../../../utils/api';
+import { ExecutableApplicationContext } from './ExecutableApplicationsContext';
 
 export const ExecutableApplicationsProvider = ({ children }: { children: JSX.Element }) => {
   const { t } = useTranslation(['portal']);
@@ -24,6 +25,10 @@ export const ExecutableApplicationsProvider = ({ children }: { children: JSX.Ele
   const updateJob = async (jobId: string, applicationCode: string) => {
     return await executeApplication(applicationCode, ['-e', 'updateJob', '-jobId', jobId]);
   };
+
+  const importJob = async ( projectId: string, path: string, applicationCode: string ) => {
+    return await executeApplication(applicationCode, ['-e', 'importJob', '-projectId', projectId, '-path', path]);
+  }
 
   const executeBareApplication = async (applicationCode: string) => {
     return await executeApplication(applicationCode, []);
@@ -61,6 +66,7 @@ export const ExecutableApplicationsProvider = ({ children }: { children: JSX.Ele
         executeBareApplication,
         createJob,
         updateJob,
+        importJob,
         isExecutable
       }}>
       {children}

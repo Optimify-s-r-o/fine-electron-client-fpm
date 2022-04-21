@@ -2,14 +2,12 @@ import { faFileImport } from '@fortawesome/pro-light-svg-icons';
 import { ApplicationDto, ProjectJobsDto } from 'api/generated';
 import ApplicationSelector from 'components/ApplicationSelector';
 import { PlainButton } from 'components/Form/Button/PlainButton';
-import { useAuthContext } from 'modules/auth/context/AuthContext';
 import {
   useExecutableApplicationContext,
 } from 'modules/portal/context/ExecutableApplications/ExecutableApplicationsContext';
 import { ChangeEvent, useRef } from 'react';
 import { useTranslation } from 'react-i18next';
 import { toast } from 'react-toastify';
-import { config } from 'utils/api';
 import useModal from 'utils/hooks/useModal';
 
 const ImportJob = ({ project }: { project?: ProjectJobsDto | null }) => {
@@ -17,8 +15,7 @@ const ImportJob = ({ project }: { project?: ProjectJobsDto | null }) => {
   const { t } = useTranslation(['modal', 'form']);
   const inputRef = useRef<HTMLInputElement | null>(null);
   const appRef = useRef<ApplicationDto | null>(null);
-  const { isExecutable } = useExecutableApplicationContext();
-  const { token } = useAuthContext();
+  const { isExecutable, importJob } = useExecutableApplicationContext();
 
   const onAppClick = (app: ApplicationDto) => {
     appRef.current = app;
@@ -30,32 +27,17 @@ const ImportJob = ({ project }: { project?: ProjectJobsDto | null }) => {
     }
   };
 
-  const onFileSelected = (e: ChangeEvent<HTMLInputElement>) => {
+  const onFileSelected = async (e: ChangeEvent<HTMLInputElement>) => {
     if (e.target.files?.length === 1) {
       const file = e.target.files.item(0) as any;
       const extension = '.' + file.path.split('.').pop();
 
       if (inputRef.current?.accept?.includes(extension)) {
-        const args = [
-          '-mode',
-          'fpm',
-          '-serverUrl',
-          config.basePath, // TODO?
-          '-e',
-          'importJob',
-          '-projectId',
-          project?.id,
-          '-path',
-          file.path,
-          '-token',
-          token
-        ];
-        const exe = isExecutable(appRef.current?.code ?? '');
+        const executable = await isExecutable(appRef.current?.code ?? '');
 
-        if (exe) {
+        if (executable && project) {
           try {
-            console.log( JSON.stringify( exe ) + '////' + JSON.stringify( args ) );
-            window.API.execFile( exe, args );
+            await importJob( project.id, file.path as string, appRef.current?.code as string );
             
             toast.success(
               t('toast:project.jobImport.success', {

@@ -79,24 +79,32 @@ export const ImportJobData = ({ project }: { project?: ProjectDto | null }) => {
         // Do actual work
         for ( let i = 0; i < files.length; i++ ) {
             // Create file to write
-            setItemStatus( i, ProgressStatus.Running, t('job:import.jobRunning') );
+            setItemStatus( i, ProgressStatus.Running, t( 'job:import.jobRunning' ) );
             
             const fileRes = await createFileToWrite( files[i] );
             
             if ( fileRes.success ) {
             } else {
-                setItemStatus( i, ProgressStatus.Fail, t('job:import.jobFailPreparation') );
+                setItemStatus( i, ProgressStatus.Fail, t( 'job:import.jobFailPreparation' ) );
                 continue;
             }
 
             // Handle File Info exe
-            const res = await openFileInfoExe((files[i] as any).path, fileRes?.file as string, fileRes?.directory as string);
+            let exitCode = -1 ;
+            try {
+                const res = await openFileInfoExe( ( files[i] as any ).path, fileRes?.file as string, fileRes?.directory as string );
 
-            console.log( res );
-            const statusText = res.exitCode === 0 ? t('job:import.jobReadingOutputProgress') : res.exitCode === null ? t('job:import.jobFailExeOpen') : t('job:import.jobFailOther')
-            setItemStatus( i, res.exitCode === 0 ? ProgressStatus.Running : ProgressStatus.Fail, statusText );
+                exitCode = res.exitCode;
 
-            if ( res.exitCode !== 0 ) {
+                const statusText = exitCode === 0 ? t('job:import.jobReadingOutputProgress') : res.exitCode === null ? t('job:import.jobFailExeOpen') : t('job:import.jobFailOther')
+                setItemStatus( i,  ProgressStatus.Fail, statusText );
+
+            } catch ( error ) {
+                console.log( error );
+                setItemStatus( i,  ProgressStatus.Fail, t('job:import.jobFailExeOpen') );
+            }
+            
+            if ( exitCode !== 0 ) {
                 continue;
             }
 
